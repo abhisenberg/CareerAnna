@@ -17,74 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cc54e865-3d95-4561-8b20-316735238a6e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/ExploreNotSIActivity_2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/InstructorsListAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_facebook_round_corner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_google_round_corners.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_student.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_explore_not_si2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/CartPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/CartPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/FilterOfCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/FilterOfCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/InstructorProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/InstructorProfileActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/MyCourses.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/MyCourses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/NewCourseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/NewCourseActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/ParticularArticleActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/ParticularArticleActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/ParticularCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/ParticularCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/PurchaseCourseDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/PurchaseCourseDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/ExpandableList_Adapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/ExpandableList_Adapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/FreeCourseAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/FreeCourseAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/MyCoursesAdapterNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/MyCoursesAdapterNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/TrendingVideosAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/TrendingVideosAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/UserFragmentsAdapters/UserCoursesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/UserFragmentsAdapters/UserCoursesAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/OrderedCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/OrderedCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/data/Topic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/ArticlesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/ArticlesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/CategoryFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/CategoryFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/ExploreNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/ExploreNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/MyCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/dashboard_fragements/MyCoursesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/profile_fragements/TutorialFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/profile_fragements/TutorialFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserCertificatesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserCertificatesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserCoursesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserSuggestedFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/fragement/user_myprofile_fragments/UserSuggestedFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/helper/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/helper/Api.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/ExploreNotSIActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/ExploreNotSIActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/MyProfile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/MyProfile_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/MyProfile_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/button_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/button_signin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_facebook_square.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_facebook_square.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_cart_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_cart_page.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_instructor_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_instructor_profile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_couses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_couses.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up_3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_category.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_category.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_certificate.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_certificate.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_course.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_course.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_tutorial.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_tutorial.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_certificates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_certificates.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_courses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_courses.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_suggested.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_user_suggested.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/header.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/header.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_instructor_details.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_instructor_details.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_my_course_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_my_course_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_user_courses_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_user_courses_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/items_videos_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/items_videos_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_group_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_group_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/pdf_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/pdf_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/my_courses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/my_courses.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
-    </list>
+    <list default="true" id="cc54e865-3d95-4561-8b20-316735238a6e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,8 +74,6 @@
               <caret line="386" column="58" selection-start-line="386" selection-start-column="58" selection-end-line="386" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7047#12887#0" expanded="true" />
-                <element signature="e#12886#12887#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -4013,41 +3944,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="careeranna" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="careeranna" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -4094,6 +3990,19 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CareerAnnaApk" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4278,37 +4187,37 @@
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1368" height="780" extended-state="6" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="13" />
-      <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Logcat" order="11" weight="0.329582" />
-      <window_info id="Capture Tool" order="6" />
-      <window_info id="Designer" order="2" />
-      <window_info anchor="bottom" id="Statistic" order="10" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.33601287" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" weight="0.32930514" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Android Profiler" order="13" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="7" />
+      <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="right" id="Preview" order="8" weight="0.32930514" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.329582" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.58842444" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.58842444" />
+      <window_info anchor="bottom" id="Logcat" order="11" weight="0.329582" />
       <window_info id="Captures" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32854986" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329582" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Designer" order="2" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32854986" />
+      <window_info anchor="bottom" id="Statistic" order="10" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.33601287" />
       <window_info anchor="right" id="Gradle" order="5" weight="0.32930514" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" weight="0.32930514" />
       <window_info anchor="right" id="Theme Preview" order="6" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Preview" order="8" weight="0.32930514" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329582" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -4326,10 +4235,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="537">
           <caret line="297" lean-forward="true" selection-start-line="297" selection-end-line="297" />
-          <folding>
-            <element signature="e#3129#3507#0" expanded="true" />
-            <element signature="e#3506#3507#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4372,12 +4277,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="537">
           <caret line="183" lean-forward="true" selection-start-line="183" selection-end-line="183" />
-          <folding>
-            <element signature="e#4052#6618#0" expanded="true" />
-            <element signature="e#6617#6618#0" expanded="true" />
-            <element signature="e#6892#7230#0" expanded="true" />
-            <element signature="e#7229#7230#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4405,10 +4304,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
           <caret line="153" column="64" lean-forward="true" selection-start-line="153" selection-start-column="64" selection-end-line="153" selection-end-column="64" />
-          <folding>
-            <element signature="e#5185#5186#0" expanded="true" />
-            <element signature="e#5234#5235#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4423,9 +4318,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4433,9 +4325,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
           <caret line="46" column="42" lean-forward="true" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
-          <folding>
-            <element signature="e#11061#11077#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4633,9 +4522,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="916">
           <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
-          <folding>
-            <element signature="e#342#364#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4674,26 +4560,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/MyProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="172" column="1" selection-start-line="172" selection-start-column="1" selection-end-line="172" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="123" column="1" lean-forward="true" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/user/MyProfile.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -4736,27 +4604,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="389" selection-start-line="389" selection-end-line="389" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3417#3741#0" expanded="true" />
-            <element signature="e#3740#3741#0" expanded="true" />
-            <element signature="e#3781#4101#0" expanded="true" />
-            <element signature="e#4100#4101#0" expanded="true" />
-            <element signature="e#4602#5867#0" expanded="true" />
-            <element signature="e#5866#5867#0" expanded="true" />
-            <element signature="e#5885#6106#0" expanded="true" />
-            <element signature="e#6105#6106#0" expanded="true" />
-            <element signature="e#7305#10046#0" expanded="true" />
-            <element signature="e#10045#10046#0" expanded="true" />
-            <element signature="e#10064#10283#0" expanded="true" />
-            <element signature="e#10282#10283#0" expanded="true" />
-            <element signature="e#12122#12409#0" expanded="true" />
-            <element signature="e#12408#12409#0" expanded="true" />
-            <element signature="e#13276#14060#0" expanded="true" />
-            <element signature="e#14059#14060#0" expanded="true" />
-            <element signature="e#14078#14297#0" expanded="true" />
-            <element signature="e#14296#14297#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4767,30 +4614,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="87" column="50" selection-start-line="87" selection-start-column="50" selection-end-line="87" selection-end-column="50" />
-          <folding>
-            <element signature="e#2041#2081#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="89" selection-start-line="89" selection-end-line="89" />
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/careeranna/careeranna/adapter/UserFragmentsAdapters/UserCoursesAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="86" column="45" selection-start-line="86" selection-start-column="45" selection-end-line="86" selection-end-column="45" />
-          <folding>
-            <element signature="e#3136#3137#0" expanded="true" />
-            <element signature="e#3176#3177#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4798,9 +4638,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4824,8 +4661,6 @@
           <caret line="386" column="58" selection-start-line="386" selection-start-column="58" selection-end-line="386" selection-end-column="58" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7047#12887#0" expanded="true" />
-            <element signature="e#12886#12887#0" expanded="true" />
           </folding>
         </state>
       </provider>
