@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.ui_fragments.signIn_buttons">
+
+    <RelativeLayout
+        android:layout_marginBottom="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/signin_with_email"
+            android:textColor="@color/register_screen_fields_color"
+            android:text="Sign in with username/email"
+            android:textSize="12sp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/login_screen_buttons_margin"
+            android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+            android:layout_height="35dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/button_create_account"
+            />
+
+        <Button
+            android:id="@+id/signUp"
+            android:textColor="@color/register_screen_fields_color"
+            android:textSize="12sp"
+            android:layout_below="@id/signin_with_email"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:text="Create an account"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/login_screen_buttons_margin"
+            android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+            android:layout_height="35dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/button_create_account"
+            />
+
+        <TextView
+            android:id="@+id/forgot"
+            android:textColor="@color/register_screen_fields_color"
+            android:text="Forgot password?"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</FrameLayout>

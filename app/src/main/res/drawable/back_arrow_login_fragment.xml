@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/ic_chevron_left_black_24dp"/>
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:height="50dp"
+                android:width="50dp" />
+            <stroke
+                android:color="@color/register_screen_fields_color"
+                />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/intro_slide_image"
+        android:src="@drawable/careeranna_logo"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:hint="Title"
+        android:gravity="center"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:id="@+id/intro_slide_title"
+        android:textColor="@color/intro_title"
+        android:layout_above="@id/intro_slide_image"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:hint="Description"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:fontFamily="casual"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/intro_slide_desc"
+        android:layout_below="@id/intro_slide_image"
+        android:textColor="@color/intro_desc"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_google_plus"
+        android:backgroundTint="#DC4E41"
+        android:id="@+id/fab_google"
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible"
+        android:layout_marginRight="86dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_facebook_circular_logo"
+        android:backgroundTint="#3f44dc"
+        android:id="@+id/fab_facebook"
+        android:visibility="invisible"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="86dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_linkedin"
+        android:visibility="invisible"
+        android:backgroundTint="#007AB9"
+        android:id="@+id/fab_twitter"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="67dp"
+        android:layout_marginBottom="55dp" />
+</FrameLayout>

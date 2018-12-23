@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="standard_12">12dp</dimen>
+    <dimen name="standard_23">23dp</dimen>
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_100">100dp</dimen>
+    <dimen name="standard_145">145dp</dimen>
+    <dimen name="login_screen_buttons_margin">30dp</dimen>
+    <dimen name="badge_count_textsize">12sp</dimen>
+    <dimen name="signin_icon_google_fb">45dp</dimen>
+</resources>

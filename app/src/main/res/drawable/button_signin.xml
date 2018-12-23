@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_pressed="true" >
+        <shape android:shape="rectangle"  >
+            <corners android:radius="4dip" />
+            <stroke android:width="1dip"
+                android:color="@color/sign_in_button_color_pressed" />
+            <solid android:color="@color/sign_in_button_color_pressed" />
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape android:shape="rectangle"  >
+            <corners android:radius="4dip" />
+            <stroke android:width="1dip" android:color="@color/sign_in_button_color" />
+            <solid android:color="@color/sign_in_button_color"/>
+        </shape>
+    </item>
+    <item >
+        <shape android:shape="rectangle"  >
+            <corners android:radius="4dip" />
+            <stroke android:width="1dip" android:color="@color/sign_in_button_color" />
+            <solid android:color="@color/sign_in_button_color"/>
+        </shape>
+    </item>
+</selector>
+
+    <!--46c235-->
+    <!--1fa40c-->

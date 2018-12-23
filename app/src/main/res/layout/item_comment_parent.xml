@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="2dp"
+    android:elevation="5dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/ic_person_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/image"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:layout_toRightOf="@id/image"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/comment"
+            />
+
+        <TextView
+            android:layout_below="@id/comment"
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:layout_toRightOf="@id/image"
+            android:textSize="14sp"
+            android:id="@+id/name"
+            android:textColor="#686060"
+            android:layout_marginLeft="20dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/coment_linear"
+            android:layout_toRightOf="@id/image"
+            android:layout_below="@id/name"
+            android:layout_marginBottom="20dp"
+            >
+
+            <Button
+                android:background="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="3"
+                android:text="reply"
+                android:id="@+id/reply"
+                android:textStyle="bold"
+                android:textColor="@color/dark_blue"
+                android:textSize="12sp"
+                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/no_of_comments"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="3 comments"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:id="@+id/child_rv"
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/coment_linear"
+            />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

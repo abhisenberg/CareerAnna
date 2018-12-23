@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.profile_fragements.TutorialFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<VideoView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:id="@+id/videoView"-->
+        <!--android:layout_below="@id/unitText"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--/>-->
+        <com.longtailvideo.jwplayer.JWPlayerView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            >
+        </com.longtailvideo.jwplayer.JWPlayerView>
+
+
+        <ExpandableListView
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/videoView"
+            android:id="@+id/expandableunit" />
+
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/snackbar_3"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/register_screen_background_color"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/signUp_progressCircle_3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <ImageView
+        android:id="@+id/iv_ca_logo"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/careeranna_logo_black"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp" />
+
+    <!--<com.shobhitpuri.custombuttons.GoogleSignInButton-->
+    <!--android:id="@+id/bt_google_sign_in_button"-->
+    <!--android:layout_above="@id/fb_login_button_2"-->
+    <!--android:textAlignment="center"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_marginLeft="30dp"-->
+    <!--android:layout_marginRight="30dp"-->
+    <!--android:layout_marginTop="60dp"-->
+    <!--android:text="Login with Google"-->
+    <!--&gt;-->
+    <!--</com.shobhitpuri.custombuttons.GoogleSignInButton>-->
+
+    <!--<com.facebook.login.widget.LoginButton-->
+    <!--android:id="@+id/fb_login_button_2"-->
+    <!--android:layout_above="@id/Middle"-->
+    <!--android:layout_marginBottom="25dp"-->
+    <!--android:paddingBottom="10dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingTop="13dp"-->
+    <!--android:layout_marginLeft="33dp"-->
+    <!--android:layout_marginRight="33dp"-->
+    <!--android:layout_marginTop="12dp"-->
+    <!--/>-->
+
+    <!--<View-->
+    <!--android:id="@+id/Middle"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_height="1px"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:background="@android:color/white"-->
+    <!--/>-->
+
+    <TextView
+        android:text="Continue with"
+        android:layout_above="@+id/bt_googleAndFb"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/register_screen_fields_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/bt_googleAndFb"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_above="@id/Middle"
+        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="50dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login_button_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/bt_facebook_login"
+                android:background="@drawable/ic_facebook_round_corner"
+                android:layout_width="@dimen/signin_icon_google_fb"
+                android:layout_height="@dimen/signin_icon_google_fb" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/bt_google_sign_in_button_3"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </com.google.android.gms.common.SignInButton>
+
+            <Button
+                android:id="@+id/bt_google_login"
+                android:background="@drawable/ic_google_round_corners"
+                android:layout_width="@dimen/signin_icon_google_fb"
+                android:layout_height="@dimen/signin_icon_google_fb" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/register_screen_fields_color"
+        android:textStyle="bold"
+        android:text="OR"
+        android:layout_centerInParent="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/Middle"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/line"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/view_centerCircle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/circle_signin_middle"
+            android:layout_height="35dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/line"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fragment_btAndFields"-->
+    <!--android:layout_below="@id/Middle"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--</FrameLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/username_pw_fields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Middle"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="37dp">
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:id="@+id/useremailL"-->
+        <!--android:textColorHint="@color/register_screen_fields_color"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:background="@drawable/edittext_boxstyle_modified_states"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<android.support.design.widget.TextInputEditText-->
+        <!--app:backgroundTint="@color/register_screen_fields_color"-->
+        <!--android:textColorHint="@color/cb_dark_grey"-->
+        <!--android:textColor="@color/register_screen_fields_color"-->
+        <!--android:textColorHighlight="@color/register_screen_fields_color"-->
+        <!--android:padding="5dp"-->
+        <!--android:background="@null"-->
+        <!--android:textSize="16sp"-->
+        <!--android:inputType="text"-->
+        <!--android:hint="Username/Email"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp" />-->
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:id="@+id/userpasswordL"-->
+        <!--android:textColorHint="@color/register_screen_fields_color"-->
+        <!--android:layout_below="@id/useremailL"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/edittext_boxstyle_modified_states"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<android.support.design.widget.TextInputEditText-->
+        <!--app:backgroundTint="@color/register_screen_fields_color"-->
+        <!--android:textColorHint="@color/cb_dark_grey"-->
+        <!--android:textColor="@color/register_screen_fields_color"-->
+        <!--android:textColorHighlight="@color/register_screen_fields_color"-->
+        <!--android:padding="5dp"-->
+        <!--android:background="@null"-->
+        <!--android:textSize="16sp"-->
+        <!--android:inputType="textPassword"-->
+        <!--android:hint="Password"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp" />-->
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/login_screen_buttons_margin"
+            android:background="@drawable/edittext_boxstyle_modified_states"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_pw"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/et_email"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/login_screen_buttons_margin"
+            android:background="@drawable/edittext_boxstyle_modified_states"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/signInAccount_3"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/et_pw"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="@dimen/login_screen_buttons_margin"
+            android:background="@drawable/button_signin"
+            android:text="Sign in"
+            android:textColor="#FFF"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/tv_forgot_password_3"
+        android:text="Forgot password?"
+        android:layout_below="@id/username_pw_fields"
+        android:textColor="@color/dark_gray"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp" />
+
+    <Button
+        android:id="@+id/bt_create_account_3"
+        android:layout_marginRight="@dimen/login_screen_buttons_margin"
+        android:layout_marginLeft="@dimen/login_screen_buttons_margin"
+        android:textStyle="bold"
+        android:textColor="@color/dark_gray"
+        android:layout_gravity="center"
+        android:textSize="14sp"
+        android:text="Create an account"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        />
+
+</RelativeLayout>

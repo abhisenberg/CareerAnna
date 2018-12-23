@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+     <RelativeLayout
+         android:padding="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/colorPrimary">
+
+         <TextView
+             android:id="@+id/email"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:textColor="@color/white"
+             android:text="career@gmail.com"
+             />
+
+         <TextView
+             android:id="@+id/price"
+             android:drawableLeft="@drawable/ic_rupee_indian_white"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="@color/white"
+             android:layout_marginRight="10dp"
+             android:text="999"
+             android:layout_toLeftOf="@id/cancel"
+             />
+
+         <ImageView
+             android:id="@+id/cancel"
+             android:src="@drawable/ic_cancel_black_24dp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             />
+
+     </RelativeLayout>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:textColor="@color/colorPrimaryDark"
+            android:inputType="text"
+            android:hint="Enter Full Name"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="9" >
+
+
+            <EditText
+                android:inputType="phone"
+                android:id="@+id/mobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:backgroundTint="@color/colorPrimary"
+                android:shadowColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Enter Phone No"
+                />
+
+            <EditText
+                android:id="@+id/city"
+                android:inputType="text"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="Enter City"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Payment Optioins"
+                android:layout_gravity="center"
+                />
+
+
+            <Button
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="Pay By Debit/Credit Card"
+                android:id="@+id/debit"
+                android:textColor="@color/white"
+                />
+
+
+            <Button
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="Net Banking"
+                android:id="@+id/net"
+                android:textColor="@color/white"
+                />
+
+            <Button
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="Pay With Paytm"
+                android:id="@+id/paytm"
+                android:textColor="@color/white"
+                />
+
+            <Button
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:gravity="left"
+                android:padding="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="30dp"
+                android:text="Pay With PayU Biz"
+                android:id="@+id/payu"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

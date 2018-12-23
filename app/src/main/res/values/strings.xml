@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">CarerrAnna</string>
+    <string name="facebook_app_id">341622293308668</string>
+    <string name="fb_login_protocol_scheme">fb341622293308668</string>
+    <string-array name="how_did">
+        <item>How did you come to know about us ?</item>
+        <item>Facebook</item>
+        <item>Referred by Friend</item>
+        <item>Google Search</item>
+        <item>Quora</item>
+        <item>Direct</item>
+        <item>Mail</item>
+    </string-array>
+    <string name="Rs">\u20B9</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="desc"><u>Description</u></string>
+    <string name="ccourses"><u>Current Course</u></string>
+    <string name="mycourses"><u>My Courses</u></string>
+    <string name="courses"><u>Top Courses</u></string>
+    <string name="categories"><u>Categories</u></string>
+    <string name="terms">By signing up you agree to our <u>Terms and Conditions </u>.</string>
+    <string name="create"><u>Create an account</u>.</string>
+    <string name="signup">Create an account? <u>Sign Up</u>.</string>
+    <string name="tnc">Terms and Conditions</string>
+    <string name="cert_date">Date of completion</string>
+    <string name="cert_download">Download Certificate</string>
+
+    <string name="intro_slide1_title">Maximize your potential</string>
+    <string name="intro_slide1_desc">Score high in competitive exams with us</string>
+    <string name="intro_slide2_title">Master the contemporary skills</string>
+    <string name="intro_slide2_desc">Our courses are created by industy leaders</string>
+    <string name="intro_slide3_title">Get hired by dream companies</string>
+    <string name="intro_slide3_desc">Stand out from all the applicants</string>
+
+    <string name="signout">Sign out</string>
+    <string name="signin">Sign In</string>
+    <string name="free_vid">Free Videos</string>
+    <string name="trending_vid">Trending Videos</string>
+    <string name="top_vid">Top Courses</string>
+
+    <string name="sample_article_content">The little brown fox jumped over the lazy dog.
+            The little brown fox jumped over the lazy dog. The little brown fox jumped over the lazy dog.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="courses1"><u>Courses</u></string>
+    <string name="or">------------ OR ------------</string>
+    <string name="enter_username_or_email">Enter Username or Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="mba_in_india">MBA</string>
+</resources>

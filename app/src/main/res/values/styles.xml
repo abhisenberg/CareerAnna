@@ -1,0 +1,34 @@
+<resources xmlns:app="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarSize">40dp</item>
+        <item name="actionBarSize">40dp</item>
+        <item name="android:fontFamily">@font/robotoregular</item>
+
+    </style>
+
+    <style name="custom_dialog" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">Loadind…</item>
+        <item name="DialogSpotColor">@android:color/holo_orange_dark</item>
+        <item name="DialogSpotCount">4</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/my_spinner_text_color</item>
+    </style>
+
+    <style name="EditTextTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/register_screen_fields_color</item>
+        <item name="android:textSize">14sp</item>
+
+        <item name="android:colorControlActivated">@color/register_screen_fields_color</item>
+        <item name="android:colorControlNormal">@color/register_screen_fields_color</item>
+    </style>
+
+</resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterOfCategory">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Paid"
+        android:text="Price"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Paid"
+        android:layout_marginTop="5dp"
+        android:id="@+id/linear"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/free"
+            android:textSize="12sp"
+            android:background="@drawable/border"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="40dp"
+            android:text="Free"
+            />
+        <Button
+            android:id="@+id/paid"
+            android:textSize="12sp"
+            android:background="@drawable/border"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="40dp"
+            android:text="Paid"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category"
+        android:text="By SubCategory"
+        android:layout_below="@id/linear"
+        android:textStyle="bold"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/category"
+        android:id="@+id/subCategory"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/linear1"
+        />
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:textColor="@color/white"
+            android:background="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="40dp"
+            android:text="Cancel"
+            android:id="@+id/cancel"
+            android:textSize="12sp"
+            android:layout_marginRight="5dp"
+            />
+        <Button
+            android:textSize="12sp"
+            android:id="@+id/apply"
+            android:textColor="@color/white"
+            android:background="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="40dp"
+            android:text="Apply"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

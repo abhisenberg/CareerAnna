@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.profile_fragements.NotesFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Notes From Below "
+        android:textColor="@color/colorPrimary"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/weekText"
+        />
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="20dp"
+            android:id="@+id/pdf_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/weekText"
+            android:layout_marginBottom="20dp"
+            />
+    </RelativeLayout>
+</FrameLayout>

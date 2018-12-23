@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="My Courses"
+        android:id="@+id/navigation_myCourses"
+        android:icon="@drawable/ic_interview"
+        />
+
+    <item
+        android:title="Suggested"
+        android:id="@+id/navigation_suggested"
+        android:icon="@drawable/ic_plus"
+        />
+
+    <item
+        android:title="Certtificates"
+        android:id="@+id/navigation_certificates"
+        android:icon="@drawable/ic_certificate"
+        />
+
+</menu>

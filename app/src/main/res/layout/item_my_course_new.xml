@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="vertical" >
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:id="@+id/image"
+                android:src="@drawable/helper_overlay"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Course Name"
+                android:id="@+id/name"
+                android:textColor="@color/cb_dark_grey"
+                android:textStyle="bold"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent">
+
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="20"
+                        android:layout_centerInParent="true"
+                        android:progressDrawable="@drawable/circular_red"
+                        android:secondaryProgress="100"
+                        android:elevation="10dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv"
+                        android:background="@drawable/circle"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="25%"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:paddingRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_marginTop="5dp"
+                        android:padding="2dp"
+                        android:textSize="10sp"
+                        android:layout_width="match_parent"
+                        android:background="@color/red"
+                        android:textColor="@color/white"
+                        android:text="Continue"
+                        android:id="@+id/continu"
+                        android:layout_height="35dp"
+                        />
+
+                    <Button
+                        android:layout_marginTop="5dp"
+                        android:padding="2dp"
+                        android:layout_width="match_parent"
+                        android:textSize="10sp"
+                        android:background="@color/dark_blue"
+                        android:textColor="@color/white"
+                        android:text="Review Now"
+                        android:layout_height="35dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--
+            <RelativeLayout
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/star1"
+                        android:src="@drawable/ic_star_black_24dp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/star2"
+                        android:layout_toRightOf="@id/star1"
+                        android:src="@drawable/ic_star_black_24dp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/star3"
+                        android:layout_toRightOf="@id/star2"
+                        android:src="@drawable/ic_star_black_24dp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/star4"
+                        android:layout_toRightOf="@id/star3"
+                        android:src="@drawable/ic_star_half_black_24dp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/star5"
+                        android:layout_toRightOf="@id/star4"
+                        android:src="@drawable/ic_star_border_black_24dp"/>
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/cb_dark_grey"
+                        android:gravity="center"
+                        android:layout_below="@id/star5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5 (50)"
+                        />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+-->
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_width="200dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="0 out of 2 chapter learned"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

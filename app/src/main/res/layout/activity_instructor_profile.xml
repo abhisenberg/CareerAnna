@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rvp_instructors"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:rvp_singlePageFling="true"
+    app:rvp_triggerOffset="0.6"
+    android:clipToPadding="false"
+    tools:context=".InstructorProfileActivity">
+
+</com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager>

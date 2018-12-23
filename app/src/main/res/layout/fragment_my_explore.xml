@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.dashboard_fragements.ExploreFragement">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/categories"
+            android:id="@+id/categoriesText"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_marginLeft="10dp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/categoriesText"
+            android:id="@+id/categories">
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/courses"
+            android:id="@+id/top_courses"
+            android:layout_marginTop="10dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_below="@+id/categories"
+            android:layout_marginLeft="10dp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/top_courses"
+            android:id="@+id/top_coursesT">
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Examp Prep"
+            android:id="@+id/exam_prep"
+            android:layout_marginTop="10dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_below="@+id/top_coursesT"
+            android:layout_marginLeft="10dp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/exam_prep"
+            android:id="@+id/exam_prep_rv">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.careeranna.careeranna">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="JW_LICENSE_KEY"
+            android:value="PBqloWZ7+cg1wh3h3P0dnaBB2Lgrqn/GgQUsBG6Rb+bq/TiW" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".user.SignUp"
+            android:label="Sign In" />
+        <activity
+            android:name=".MyCourses"
+            android:label="MyCourses" />
+        <activity
+            android:name=".user.Register"
+            android:label="Create An Account" />
+        <activity
+            android:name=".PurchaseCourses"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity android:name=".CategoriesSection" />
+        <activity
+            android:name=".ParticularCourse"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity android:name=".user.ExploreNotSIActivity" />
+        <activity android:name=".Pdf" />
+        <activity
+            android:name=".ParticularArticleActivity"
+            android:label="Article" />
+        <activity
+            android:name=".ExamPrepActivity"
+            android:label="Examp Prep" />
+        <activity
+            android:name=".MyExamPrepActivity"
+            android:label="My Exam Prep" />
+        <activity android:name=".Payment" />
+        <activity android:name=".PasswordReset" />
+        <activity
+            android:name=".CartPage"
+            android:label="My Cart" />
+        <activity android:name=".PurchaseCourseDetail" />
+        <activity android:name=".PaytmPayment" />
+        <activity android:name=".ExampPrepParticular" />
+        <activity android:name=".DashBoard" />
+        <activity
+            android:name=".FilterOfCategory"
+            android:label="Filter Course" />
+        <activity
+            android:name=".SortByCourse"
+            android:label="Sort Course" />
+        <activity android:name=".InstructorProfileActivity" />
+
+        <activity android:name=".InstructorsListActivity" />
+        <activity android:name=".user.MyProfile_2"></activity>
+
+        <activity
+            android:name=".VideoWithComment"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity android:name=".NewCourseActivity"></activity>
+
+        <activity android:name=".ExploreNotSIActivity_2"></activity>
+    </application>
+
+</manifest>

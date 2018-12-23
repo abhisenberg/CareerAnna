@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.dashboard_fragements.ExamPrepFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Exam Prep Courses"
+            android:layout_marginTop="10dp"
+            android:id="@+id/examp_courses"
+            android:textColor="@color/colorPrimary"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/examp_courses"
+            android:id="@+id/examprep_courses">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+</FrameLayout>

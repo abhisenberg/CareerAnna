@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+        <item android:id="@+id/tutorial" android:title="Tutorial" android:checked="true" android:icon="@drawable/ic_event_note_black_24dp"/>
+        <item android:id="@+id/notes" android:title="Notes" android:checked="false" android:icon="@drawable/ic_assignment_black_24dp"/>
+        <item android:id="@+id/test" android:title="Test" android:checked="false" android:icon="@drawable/ic_border_color_black_24dp"/>
+        <item android:id="@+id/goBackHome" android:title="Home" android:icon="@drawable/ic_home_black_24dp" android:checked="false" />
+        <item android:id="@+id/signout" android:title="SignOut" android:checked="false" android:icon="@drawable/ic_input_black_24dp"/>
+    </group>
+</menu>

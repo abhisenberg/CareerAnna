@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "818754991008",
+    "firebase_url": "https://carerranna.firebaseio.com",
+    "project_id": "carerranna",
+    "storage_bucket": "carerranna.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818754991008:android:3b6d37d1af841713",
+        "android_client_info": {
+          "package_name": "com.careeranna.careeranna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818754991008-726eimcqkg81htrutvrtk117261trtto.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.careeranna.careeranna",
+            "certificate_hash": "4b9835718f6ef24ddfed9e06abc35dd3a323f2fe"
+          }
+        },
+        {
+          "client_id": "818754991008-93r45lm5oa5d0gb54ihsd1ftppd6m60s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDycD_5j-LNyPFOn04TSYWLnlmcfJqZQS8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818754991008-93r45lm5oa5d0gb54ihsd1ftppd6m60s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

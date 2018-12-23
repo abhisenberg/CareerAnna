@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/ic_person_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/image"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:text="comment"
+            android:layout_toRightOf="@id/image"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/comment"
+            />
+
+        <TextView
+            android:layout_below="@id/comment"
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:layout_toRightOf="@id/image"
+            android:textSize="14sp"
+            android:id="@+id/name"
+            android:textColor="#686060"
+            android:layout_marginLeft="20dp"
+            />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

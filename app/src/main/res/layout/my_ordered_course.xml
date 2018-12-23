@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="9dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="10"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/course_image"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/course_name"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Course Name"
+                />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/star1"
+                    android:src="@drawable/ic_star_black_24dp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/star2"
+                    android:layout_toRightOf="@id/star1"
+                    android:src="@drawable/ic_star_black_24dp"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/star3"
+                    android:layout_toRightOf="@id/star2"
+                    android:src="@drawable/ic_star_black_24dp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/star4"
+                    android:layout_toRightOf="@id/star3"
+                    android:src="@drawable/ic_star_black_24dp"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/star5"
+                    android:layout_toRightOf="@id/star4"
+                    android:src="@drawable/ic_star_border_black_24dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/star5"
+                    android:text="5(100)"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:drawableLeft="@drawable/ic_rupee_indian_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:id="@+id/course_price"
+                android:text="99" />
+
+            <ImageView
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_waste_bin"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
