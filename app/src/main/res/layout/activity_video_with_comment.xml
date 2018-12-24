@@ -11,7 +11,6 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
 
@@ -31,12 +30,13 @@
         />
 
 
-    <TextView
+    <Button
+        android:background="@android:color/transparent"
         android:layout_below="@+id/videoView"
         android:id="@+id/up"
         android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:text="20"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"
@@ -45,12 +45,13 @@
         android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
         />
 
-    <TextView
+    <Button
         android:layout_below="@+id/videoView"
         android:id="@+id/thumbdown"
+        android:background="@android:color/transparent"
         android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:text=" 0"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"
@@ -71,7 +72,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:src="@drawable/ic_person_color"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
+            android:id="@+id/image"
             android:layout_weight="2"
             android:layout_marginTop="5dp"
             />
@@ -79,6 +81,8 @@
         <EditText
             android:id="@+id/addComment"
             android:textSize="14sp"
+            android:inputType="text"
+            android:maxLines="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
@@ -88,6 +92,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/cancel"
         android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
@@ -109,7 +114,7 @@
         android:layout_alignParentRight="true"
         android:drawableRight="@drawable/ic_send_white_24dp"
         android:padding="10dp"
-        android:background="@color/dark_blue"
+        android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:id="@+id/reply"
         />

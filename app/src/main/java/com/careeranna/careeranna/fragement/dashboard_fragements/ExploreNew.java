@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.VideoWithComment;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
@@ -67,6 +68,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(this.freecourse, getApplicationContext());
 
         freeCorse.setAdapter(freeCourseAdapter1);
+
+        freeCourseAdapter1.setOnItemClicklistener(this);
 
         initalizeVideos();
 
@@ -148,6 +151,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
                                         videos.getString("totalViews"),"",
                                         videos.getString("heading")));
+                                freeVideos.get(i).setType("Latest");
                             }
 
                         } catch (JSONException e) {
@@ -157,6 +161,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                         TrendingVideosAdapter trendingVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
 
                         recyclerView1.setAdapter(trendingVideosAdapter);
+
+                        trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
 
                         progressDialog.dismiss();
 
@@ -185,6 +191,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
                                                         videos.getString("totalViews"),"",
                                                         videos.getString("heading")));
+                                                trendingvVideos.get(i).setType("Trending");
                                             }
 
                                         } catch (JSONException e) {
@@ -225,8 +232,23 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
 
     @Override
-    public void onItemClick1(int position) {
+    public void onItemClick1(String type, int position) {
 
-        startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("course", trendingvVideos.get(position)));
+        if(type.equals("Free")) {
+            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
+        }
+        if(type.equals("Paid")) {
+            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+        }
+    }
+
+    @Override
+    public void onItemClick1(int position, String type) {
+        if(type.equals("Trending")) {
+            startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
+        }
+        if(type.equals("Latest")) {
+            startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
+        }
     }
 }

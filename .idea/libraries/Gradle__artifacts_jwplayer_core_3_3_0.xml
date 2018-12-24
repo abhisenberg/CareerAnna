@@ -1,16 +1,16 @@
 <component name="libraryTable">
   <library name="Gradle: artifacts:jwplayer-core-3.3.0">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/libs/exoplayer-hls.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/libs/exoplayer-smoothstreaming.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/libs/exoplayer-ui.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/libs/exoplayer-core.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/c07f801a89db4b370c80fa28190b7e88/jars/libs/exoplayer-dash.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/libs/exoplayer-ui.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/libs/exoplayer-dash.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/libs/exoplayer-smoothstreaming.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/libs/exoplayer-hls.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jwplayer-core-3.3.0.aar/2b09a6bd91b36b29eb9f294cefc7d025/jars/libs/exoplayer-core.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

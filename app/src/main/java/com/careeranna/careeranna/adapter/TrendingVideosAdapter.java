@@ -43,7 +43,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
     }
 
     public interface OnItemClickListener {
-        void onItemClick1(int position);
+        void onItemClick1(int position, String type);
     }
 
     public void setOnItemClicklistener(OnItemClickListener listener) {
@@ -77,7 +77,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
                     if(mListener != null) {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick1(position);
+                            mListener.onItemClick1(position, freeVideos.get(position).getType());
                         }
                     }
                 }

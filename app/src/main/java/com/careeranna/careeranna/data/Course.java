@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
-    private String id, name, imageUrl, category_id, price, desc, demo_url;
+    private String id, name, imageUrl, category_id, price, desc, demo_url, type;
 
     public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url) {
         this.id = id;
@@ -14,6 +14,15 @@ public class Course implements Serializable {
         this.price = price;
         this.desc = desc;
         this.demo_url = demo_url;
+        this.type = "Paid";
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

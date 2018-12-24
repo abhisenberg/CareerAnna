@@ -11,20 +11,35 @@
         android:layout_height="wrap_content">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:src="@drawable/ic_person_color"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <RelativeLayout
             android:layout_marginTop="5dp"
-            android:id="@+id/image"
-            />
+            android:layout_width="50dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/rel"
+            android:background="@drawable/cirlce_2"
+            android:layout_height="50dp">
+
+            <TextView
+                android:src="@drawable/ic_person_color"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="A"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:id="@+id/image"
+                />
+
+        </RelativeLayout>
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_marginRight="2dp"
             android:layout_height="wrap_content"
             android:text="comment"
-            android:layout_toRightOf="@id/image"
+            android:layout_toRightOf="@id/rel"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_marginLeft="20dp"
@@ -37,7 +52,7 @@
             android:layout_marginRight="2dp"
             android:layout_height="wrap_content"
             android:text="name"
-            android:layout_toRightOf="@id/image"
+            android:layout_toRightOf="@id/rel"
             android:textSize="14sp"
             android:id="@+id/name"
             android:textColor="#686060"

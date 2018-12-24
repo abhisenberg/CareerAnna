@@ -94,7 +94,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     ExamPrepFragment myExamPrepFragment;
     CategoryFragment categoryFragment;
 
-
     FragmentManager fragmentManager;
 
     ArrayList<Banner> mBanners;
@@ -587,7 +586,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         int id = menuItem.getItemId();
 
-
         String cart = Paper.book().read("cart");
 
         if(cart != null && !cart.isEmpty()) {
@@ -768,6 +766,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         names = new ArrayList<>();
         urls = new ArrayList<>();
         ids = new ArrayList<>();
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -995,6 +994,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("discount")
                                         , "",
                                         Category.getString("video_url").replace("\\", "")));
+                                courses.get(i).setType("Paid");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1049,6 +1049,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("eid"),
                                         Category.getString("discount")
                                         , "meta_description",""));
+                                freecourse.get(i).setType("Free");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

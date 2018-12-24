@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CareerAnnaApk.iml" filepath="$PROJECT_DIR$/CareerAnnaApk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CareerAnna.iml" filepath="$PROJECT_DIR$/CareerAnna.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jwplayer-common-3.3.0/jwplayer-common-3.3.0.iml" filepath="$PROJECT_DIR$/jwplayer-common-3.3.0/jwplayer-common-3.3.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/jwplayer-core-3.3.0/jwplayer-core-3.3.0.iml" filepath="$PROJECT_DIR$/jwplayer-core-3.3.0/jwplayer-core-3.3.0.iml" />

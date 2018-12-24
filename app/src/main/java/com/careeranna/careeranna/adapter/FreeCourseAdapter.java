@@ -3,6 +3,7 @@ package com.careeranna.careeranna.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
 
 
     public interface OnItemClickListener {
-        void onItemClick1(int position);
+        void onItemClick1(String type, int position);
     }
 
     public void setOnItemClicklistener(OnItemClickListener listener) {
@@ -79,7 +80,8 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
                     if(mListener != null) {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick1(position);
+                            Log.i("type", freeVideos.get(position).getType());
+                            mListener.onItemClick1(freeVideos.get(position).getType(), position);
                         }
                     }
                 }

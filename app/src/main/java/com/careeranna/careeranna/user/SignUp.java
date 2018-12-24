@@ -38,6 +38,7 @@ import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.ui_fragments.signIn_buttons;
 import com.careeranna.careeranna.helper.ForgetDialog;
+import com.careeranna.careeranna.helper.InternetDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -245,20 +246,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                     Log.d(TAG, "Google signin clicked ");
 
                     if(!amIConnect()) {
-                        builder = new AlertDialog.Builder(SignUp.this);
-                        builder.setTitle("No Internet Connection");
-                        builder.setIcon(R.mipmap.ic_launcher);
-                        builder.setCancelable(false);
-                        builder.setMessage("Please Connect To The Internet")
-                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        alert.dismiss();
-                                    }
-                                });
-                        alert = builder.create();
-                        alert.show();
 
+                        InternetDialog internetDialog = new InternetDialog();
+                        internetDialog.showDialog(this, "none");
                     } else {
                         signIn();
                     }

@@ -11,14 +11,6 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
-<<<<<<< HEAD
-
-                        <option name="values">
-                          <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_suggested" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/good.svg" />
-
                         <option name="children">
                           <map>
                             <entry key="clipartAsset">
@@ -38,19 +30,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="0780c9" />
-                            <entry key="height" value="12" />
-                            <entry key="outputName" value="ic_thumbs_up_hand_symbol" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/thumbs-up-hand-symbol.svg" />
-                            <entry key="width" value="12" />
-
-=======
-                        <option name="values">
-                          <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_google_round_corners" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/social-google-plus-square-button.svg" />
->>>>>>> 746336e97d9b8b21ebcf8423cd7bbf4d8b3627ab
+                            <entry key="outputName" value="ic_repeat" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/repeat.svg" />
                           </map>
                         </option>
                       </PersistentState>

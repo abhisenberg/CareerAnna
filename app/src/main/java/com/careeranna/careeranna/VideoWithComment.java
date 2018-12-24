@@ -16,10 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
 import com.careeranna.careeranna.adapter.CommentAdapter;
 import com.careeranna.careeranna.data.Comment;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.data.User;
+import com.google.gson.Gson;
 import com.longtailvideo.jwplayer.JWPlayerView;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
@@ -30,6 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 
 public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener {
 
@@ -45,7 +51,13 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     EditText comment_tv;
 
-    Button addComment;
+    User user;
+
+    String mUsername, profile_pic_url, mEmail;
+
+    Button addComment, cancel;
+
+    CircleImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +71,21 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
         addComment = findViewById(R.id.reply);
 
+        Paper.init(this);
+
+        String cache = Paper.book().read("user");
+        if(cache != null && !cache.isEmpty()) {
+            user =  new Gson().fromJson(cache, User.class);
+
+            profile_pic_url = user.getUser_photo().replace("\\", "");
+            mUsername = user.getUser_username();
+            mEmail = user.getUser_email();
+        }
+
+        image = findViewById(R.id.image);
+
+        Glide.with(this).load(profile_pic_url).into(image);
+
         final ArrayList<Comment> comments1 = new ArrayList<>();
         comments1.add(new Comment());
         comments1.add(new Comment());
@@ -68,11 +95,19 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
         comments.add(new Comment());
 
+        cancel = findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comment_tv.setText("");
+            }
+        });
 
         playerView = findViewById(R.id.videoView);
         new KeepScreenOnHandler(playerView, this.getWindow());
 
-        freeVideos = (FreeVideos) getIntent().getSerializableExtra("course");
+        freeVideos = (FreeVideos) getIntent().getSerializableExtra("videos");
 
         recyclerView = findViewById(R.id.comments);
 

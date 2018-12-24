@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
@@ -33,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
         CommentChildAdapter commentAdapter = new CommentChildAdapter(comments.get(i).getComments(), context);
 
@@ -45,6 +46,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.name.setText(comments.get(i).getName());
 
         viewHolder.body.setText(comments.get(i).getComment_body());
+
+        String name = "C";
+
+        if(comments.get(i).getName() != null){
+            name = comments.get(i).getName().substring(0,1).toUpperCase();
+        }
+
+        viewHolder.image.setText(name);
+
+        viewHolder.replyCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.editText.setText("");
+            }
+        });
 
         viewHolder.recyclerView.setAdapter(commentAdapter);
     }
@@ -63,7 +79,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         RecyclerView recyclerView;
 
-        Button reply;
+        Button reply, reply_child, replyCancel;
+
+        TextView image;
+
+        EditText editText;
 
         TextView comments_tv, name, body;
 
@@ -72,9 +92,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             recyclerView = itemView.findViewById(R.id.child_rv);
 
+            reply_child = itemView.findViewById(R.id.reply_parent);
+
             reply = itemView.findViewById(R.id.reply);
 
+            editText = itemView.findViewById(R.id.child_tv);
+            replyCancel = itemView.findViewById(R.id.reply_cancel1);
+
             name =  itemView.findViewById(R.id.name);
+            image = itemView.findViewById(R.id.image);
 
             body = itemView.findViewById(R.id.comment);
 
@@ -85,9 +111,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 public void onClick(View v) {
 
                     if(recyclerView.getVisibility() == View.GONE) {
-
+                        editText.setVisibility(View.VISIBLE);
+                        reply_child.setVisibility(View.VISIBLE);
+                        replyCancel.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
                     } else {
+                        editText.setVisibility(View.GONE);
+                        reply_child.setVisibility(View.GONE);
+                        replyCancel.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                     }
                 }

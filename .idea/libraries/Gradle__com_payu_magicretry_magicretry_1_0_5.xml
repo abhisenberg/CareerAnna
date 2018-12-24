@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.payu.magicretry:magicretry-1.0.5">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/magicretry-1.0.5.aar/f358c4806083280d7436821dea95127b/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/magicretry-1.0.5.aar/f358c4806083280d7436821dea95127b/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/magicretry-1.0.5.aar/1a99f28829eb80182009aa17001d4715/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/magicretry-1.0.5.aar/1a99f28829eb80182009aa17001d4715/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

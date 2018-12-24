@@ -317,33 +317,6 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         }
     }
 
-    @Override
-    public void onItemClick1(int position) {
-
-        if(ids1.size() > 0) {
-            for(String id: ids1) {
-                if(id.equals(tempCourse.get(position).getId())) {
-
-                    builder = new android.app.AlertDialog.Builder(getContext());
-                    builder.setTitle("Already Purchased");
-                    builder.setIcon(R.mipmap.ic_launcher);
-                    builder.setCancelable(false);
-                    builder.setMessage("You Have Already Pruchase This Course")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    alert.dismiss();
-                                }
-                            });
-                    alert = builder.create();
-                    alert.show();
-                    return;
-                }
-            }
-        }
-        startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
-    }
-
     public void myCourse() {
 
         ids1 = new ArrayList<>();
@@ -384,6 +357,34 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         );
 
         requestQueue1.add(stringRequest1);
+    }
+
+    @Override
+    public void onItemClick1(String type, int position) {
+
+        if(ids1.size() > 0) {
+            for(String id: ids1) {
+                if(id.equals(tempCourse.get(position).getId())) {
+
+                    builder = new android.app.AlertDialog.Builder(getContext());
+                    builder.setTitle("Already Purchased");
+                    builder.setIcon(R.mipmap.ic_launcher);
+                    builder.setCancelable(false);
+                    builder.setMessage("You Have Already Pruchase This Course")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alert.dismiss();
+                                }
+                            });
+                    alert = builder.create();
+                    alert.show();
+                    return;
+                }
+            }
+        }
+        startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
+
     }
 }
 

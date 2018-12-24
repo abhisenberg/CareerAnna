@@ -106,7 +106,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
         Paper.init(this);
 
-        name = findViewById(R.id.course_name);
         progressBar = findViewById(R.id.progress_bar_course);
         price = findViewById(R.id.course_price);
         playerView =  findViewById(R.id.playerView);
@@ -114,8 +113,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         addTocart = findViewById(R.id.btn_cart);
 
         Intent intent = getIntent();
-
-        name.setVisibility(View.GONE);
 
         course = (Course) intent.getSerializableExtra("Course");
 
@@ -377,7 +374,8 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             If "course" is not null, it is video based course.
              */
             uri = Uri.parse(course.getDemo_url());
-            price.setText(course.getPrice());
+            if(course.getPrice().equals("null"))
+            price.setText("Free");
             getSupportActionBar().setTitle(course.getName());
         }
 
