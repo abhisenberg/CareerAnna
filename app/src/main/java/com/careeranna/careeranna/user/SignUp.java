@@ -73,12 +73,16 @@ import io.paperdb.Paper;
 public class SignUp extends AppCompatActivity implements View.OnClickListener, ForgetDialog.ForgetPasswordClickListener {
 
 
-    public static final String TAG = "SignUp Activity";
+    public static final String TAG = "SignUpActivity";
     private final static int RC_SIGN_IN = 2;
 
 
 //    TextInputLayout et_usermail,
 //            et_userpassword;
+
+    boolean showDimmer;
+
+    FrameLayout frame_dimmer;
 
     EditText et_usermail, et_userpassword;
 
@@ -99,7 +103,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
     LoginButton fbLoginButton;
 
-    ProgressBar progressBar;
+//    ProgressBar progressBar;
 
     AlertDialog.Builder builder;
 
@@ -139,6 +143,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         Paper.init(this);
 
+        showDimmer = false;
+
+        frame_dimmer = findViewById(R.id.signin_dimmer);
+
         relativeLayout = findViewById(R.id.snackbar_3);
 
         bt_fb_login = findViewById(R.id.bt_facebook_login);
@@ -147,7 +155,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         googleSigninButton = findViewById(R.id.bt_google_sign_in_button_3);
 
-        progressBar = findViewById(R.id.signUp_progressCircle_3);
+//        progressBar = findViewById(R.id.signUp_progressCircle_3);
 
         tv_forgotPw = findViewById(R.id.tv_forgot_password_3);
 
@@ -177,8 +185,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         tv_forgotPw.setOnClickListener(this);
 
         //Hide the circuler progress bar and only show when needed
-        progressBar.bringToFront();
-        progressBar.setVisibility(View.GONE);
+        //INVISIBLING 2
+        Log.d(TAG, "invi 2");
+        frame_dimmer.setVisibility(View.INVISIBLE);
+//        progressBar.bringToFront();
+//        progressBar.setVisibility(View.GONE);
 
         //Show the signIn_Buttons fragment at the starting, not the signIn_Fields fragment
 //        isFieldsFragmentShowing = false;
@@ -206,7 +217,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
                 snackbar = Snackbar.make(relativeLayout, "Please Wait...", Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
-                progressBar.setVisibility(View.VISIBLE);
+                //VISIBLING 1
+                Log.d(TAG, "visi 1");
+                frame_dimmer.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
 
                 Log.d("facebook", "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -256,7 +270,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
             case R.id.bt_facebook_login:
                 Log.d(TAG, "Facebook signin clicked ");
-                progressBar.setVisibility(View.VISIBLE);
+//                VISIBLING 2
+                Log.d(TAG, "visi 2");
+                frame_dimmer.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 fbLoginButton.performClick();
                 break;
 
@@ -286,7 +303,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
     private void signIn() {
         snackbar = Snackbar.make(relativeLayout, "Please Wait...", Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
-        progressBar.setVisibility(View.VISIBLE);
+//        VISIBLING 3
+        Log.d(TAG, "visi 3");
+        frame_dimmer.setVisibility(View.VISIBLE);
+        showDimmer = true;
+//        progressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -300,6 +321,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.d(TAG, "Stopping dimmer");
+            showDimmer = false;
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -349,7 +372,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.INVISIBLE);
+//                        INVISIBLING 3
+                        Log.d(TAG, "invi 3");
+                        frame_dimmer.setVisibility(View.INVISIBLE);
+//                        progressBar.setVisibility(View.INVISIBLE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("facebook", "signInWithCredential:success");
@@ -380,9 +406,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             final String useremail = userAccount.getEmail().toString();
             final String userPhoto = userAccount.getPhotoUrl().toString();
 
-            progressBar.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
-
             StringRequest stringRequest = new StringRequest(Request.Method.POST,
                     "https://careeranna.com/api/google_login.php", new Response.Listener<String>() {
                 @Override
@@ -408,14 +431,19 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                             snackbar = Snackbar.make(relativeLayout, response.toString(), Snackbar.LENGTH_SHORT);
                             snackbar.show();
                         }
-                    progressBar.setVisibility(View.INVISIBLE);
+                        /*
+                        DIMMER VISIBILITY
+                         */
+//                        frame_dimmer.setVisibility(View.INVISIBLE);
+//                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     snackbar = Snackbar.make(relativeLayout, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
                     snackbar.show();
-                    progressBar.setVisibility(View.INVISIBLE);
+//                    frame_dimmer.setVisibility(View.INVISIBLE);
+//                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }) {
                 @Override
@@ -507,14 +535,18 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                     snackbar = Snackbar.make(relativeLayout,response.toString(), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                frame_dimmer.setVisibility(View.INVISIBLE);
+//                progressBar.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 snackbar = Snackbar.make(relativeLayout, "Something ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
-                progressBar.setVisibility(View.INVISIBLE);
+//                INVISIBLING 4
+                Log.d(TAG, "invi 4");
+                frame_dimmer.setVisibility(View.INVISIBLE);
+//                progressBar.setVisibility(View.INVISIBLE);
             }
         }) {
             @Override
@@ -532,7 +564,15 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
     @Override
     protected void onResume() {
-        progressBar.setVisibility(View.INVISIBLE);
+//        progressBar.setVisibility(View.INVISIBLE);
+        //INVISIBLING 1
+        Log.d(TAG, "invi 1, showing dimmer = "+showDimmer);
+//        frame_dimmer.setVisibility(View.VISIBLE);
+        if(showDimmer)
+            frame_dimmer.setVisibility(View.VISIBLE);
+        else
+            frame_dimmer.setVisibility(View.INVISIBLE);
+
         super.onResume();
     }
 

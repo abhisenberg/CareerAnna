@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-//        startActivity(new Intent(this, MyProfile_2.class));
+//        startActivity(new Intent(this, SignUp.class));
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {

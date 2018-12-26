@@ -1,8 +1,10 @@
 package com.careeranna.careeranna;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -31,11 +34,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
+import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.OrderedList;
+import com.careeranna.careeranna.data.Topic;
+import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
+import com.careeranna.careeranna.dummy_data.CourseDummyData;
 import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,6 +54,10 @@ import com.payu.india.CallBackHandler.OnetapCallback;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +66,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener{
 
@@ -78,6 +91,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     Course course;
 
+    ProgressDialog progressDialog;
 
     android.app.AlertDialog.Builder builder;
 
@@ -99,13 +113,18 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     User user;
 
+    ExpandableList_Adapter listAdapter;
+
+    ExpandableListView expandableListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchase_course_detail);
+        setContentView(R.layout.activity_purchase_course_detail_2);
 
         Paper.init(this);
 
+        expandableListView = findViewById(R.id.purchaseCourse_expandableUnit);
         progressBar = findViewById(R.id.progress_bar_course);
         price = findViewById(R.id.course_price);
         playerView =  findViewById(R.id.playerView);
@@ -117,13 +136,16 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         course = (Course) intent.getSerializableExtra("Course");
 
         if(course == null) {
-
+            /*
+            DON'T FETCH UNITS HERE BECAUSE THIS IS EXAM_PREP COURSE
+             */
             examPrep = (ExamPrep) intent.getSerializableExtra("Examp");
-            description.append("\n"+removeTags(examPrep.getDesc()).replace("-", "\n"));
+//            description.append("\n"+removeTags(examPrep.getDesc()).replace("-", "\n"));
 
         } else {
-
-            description.append("\n"+removeTags(course.getDesc()).replace("-", "\n"));
+            Log.d(TAG, "Course id =  "+course.getId());
+            fetchUnit();
+//            description.append("\n"+removeTags(course.getDesc()).replace("-", "\n"));
         }
 
         playerView.addOnFullscreenListener(this);
@@ -247,7 +269,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         super.onResume();
     }
 
-
     @Override
     public void onBackPressed() {
         if(playerView.getFullscreen())
@@ -317,10 +338,9 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     private void buyCourseInside() {
-
         progressBar.setVisibility(View.VISIBLE);
         RequestQueue requestQueue =Volley.newRequestQueue(PurchaseCourseDetail.this);
-        String url = "https://careeranna.com/api/addProduct.php";
+        String url = "https://careeranna.com/api/addProduct.php?";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -383,6 +403,78 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 .file(uri.toString())
                 .build();
         playerView.load(playlistItem);
+    }
+
+    private void fetchUnit() {
+//        String id = course.getId();
+//
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Loading Videos .. ");
+//        progressDialog.show();
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
+////        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id=228";
+//        Log.i("urlInsidePurchaseCourse", url);
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+//                url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+                String response = "";
+                       ArrayList<String> course = new ArrayList<>();
+                        try {
+                            Log.i("pdf", response);
+                            response = CourseDummyData.dummyData;
+                            JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("content");
+                                for(int i=0;i<jsonArray.length();i++) {
+                                    course.add((String)jsonArray.get(i));
+                                }
+                                Log.d(TAG, "DummyUnits = "+course.size());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        /*
+                        addCourseUnit call
+                        pass the course
+                         */
+                        addCourseUnits(course);
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(TAG, "onErrorResponse: "+error.networkResponse);
+//                Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//            }
+//        });
+//        requestQueue.add(stringRequest);
+    }
+
+    public void addCourseUnits(ArrayList<String> course) {
+        Log.d(TAG, "DummyUnits = "+course.size());
+        Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
+        Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
+
+        ArrayList<Unit> mUnits = new ArrayList<>();
+
+        for (String unitsname : course) {
+            char c = unitsname.charAt(0);
+            if(!Character.isDigit(c)) {
+                if(c != '$') {
+                    Unit unit = new Unit(unitsname, check);
+                    mUnits.add(unit);
+                } else {
+                    String array[] = unitsname.split(",");
+                    mUnits.get(mUnits.size() -1).topics.add(new Topic(array[0].substring(1), array[1]));
+                }
+            }
+
+            listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits);
+            expandableListView.setAdapter(listAdapter);
+        }
     }
 }
 
