@@ -571,16 +571,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         handler.removeCallbacks(runnable);
     }
 
-    public void signOut(View view) {
-
-        mAuth = FirebaseAuth.getInstance();
-        if(mAuth != null) {
-            mAuth.signOut();
-            LoginManager.getInstance().logOut();
-        }
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-    }
+//    public void signOut(View view) {
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        if(mAuth != null) {
+//            mAuth.signOut();
+//            LoginManager.getInstance().logOut();
+//        }
+//        startActivity(new Intent(this, MainActivity.class));
+//        finish();
+//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

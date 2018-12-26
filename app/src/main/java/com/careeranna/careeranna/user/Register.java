@@ -6,13 +6,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,8 +37,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
             phoneLayout,
             userNameLayout;
 
-    Spinner spinner;
-    String email, username, countryCode, phoneNumber, city, password, howtoKnow;
+    Spinner spinner_how_know;
+//    Spinner spinner_state_selector;
+    String email, username, countryCode, phoneNumber, state ,city, password, howtoKnow;
     ProgressDialog progressDialog;
     Button signUp;
     RelativeLayout relativeLayout;
@@ -60,10 +62,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         passwordLayout = findViewById(R.id.userpasswordTv1);
         ciytLayout= findViewById(R.id.usercityTv1);
         userNameLayout = findViewById(R.id.usernameTv1);
-        spinner = findViewById(R.id.how_spinner);
+        spinner_how_know = findViewById(R.id.how_spinner);
+//        spinner_state_selector = findViewById(R.id.state_selector_spinner);
         signUp = findViewById(R.id.signUpBtn);
 
-        spinner.setOnItemSelectedListener(this);
+        spinner_how_know.setOnItemSelectedListener(this);
+//        spinner_state_selector.setOnItemSelectedListener(this);
         signUp.setOnClickListener(this);
     }
 
@@ -77,7 +81,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                         !validateUserCityTv() |
                         !validateUserNameTv() |
                         !validateUserNmberTv() |
-                        !validateUserPasswordTv()) {
+                        !validateUserPasswordTv()
+//                        !validateState()
+                        ) {
                     return;
                 } else {
                     progressDialog = new ProgressDialog(this);
@@ -91,8 +97,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                     username = userNameLayout.getEditText().getText().toString();
                     city = ciytLayout.getEditText().getText().toString();
                     password = passwordLayout.getEditText().getText().toString();
-                    howtoKnow = spinner.getSelectedItem().toString();
+                    howtoKnow = spinner_how_know.getSelectedItem().toString();
                     phoneNumber = countryCode+phoneLayout.getEditText().getText().toString();
+//                    state = spinner_state_selector.getSelectedItem().toString();
+
+                    /*
+                    TODO: Send user_state to the database
+                     */
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,
                             "https://careeranna.com/api/signUp.php", new Response.Listener<String>() {
@@ -231,14 +242,24 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
             return true;
         }
     }
+    
+//    private boolean validateState(){
+//        int pos = spinner_state_selector.getSelectedItemPosition();
+//        if(pos == 0){
+//            Toast.makeText(this, "Please select your state from the menu!", Toast.LENGTH_SHORT).show();
+//            return false;
+//        } else
+//            return true;
+//    }
 
     /*
-    This function is necessary to set the color of the options in the spinner of
+    This function is necessary to set the color of the options in the spinner_how_know of
     "How did you come to know about us?"
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ((TextView)adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.register_screen_fields_color));
+        ((TextView)adapterView.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
     }
 
     @Override
