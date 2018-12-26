@@ -342,7 +342,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 params.put("user", user.getUser_id());
                 if(course != null ) {
                     params.put("product", course.getId());
-                    params.put("category", course.getCategory_id());
+                    params.put("category","15");
                     params.put("name", course.getName());
                     params.put("image", course.getImageUrl());
                 } else {

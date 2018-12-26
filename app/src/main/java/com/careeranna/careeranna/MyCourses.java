@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -121,16 +122,19 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     User user;
 
+    CartFragment cartFragment;
     ArrayList<Category> categories;
     ArrayList<Course> courses, freecourse;
     ArrayList<ExamPrep> examPreps;
     ArrayList<Article> mArticles;
 
+    FrameLayout frameLayout;
+
     private long backPressed;
 
     NavigationView navigationView;
 
-    ArrayList<String> names, urls, ids;
+    ArrayList<String> names, urls, ids, category_ids;
 
     ListView listView;
 
@@ -169,6 +173,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
+    private int menuToChoose = R.menu.add_cart;
 
     public void setCount(Context context, String count) {
         MenuItem menuItem = menu.findItem(R.id.notification_1);
@@ -189,24 +194,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         icon.mutate();
         icon.setDrawableByLayerId(R.id.ic_noti_count, badge);
 
-        MenuItem menuItem1 = menu.findItem(R.id.add_to_cart);
-
-        LayerDrawable icon1 = (LayerDrawable) menuItem1.getIcon();
-
-        CountDrawable badge1;
-
-        // Reuse drawable if possible
-        Drawable reuse1 = icon1.findDrawableByLayerId(R.id.ic_group_count);
-        if (reuse1 != null && reuse1 instanceof CountDrawable) {
-            badge1 = (CountDrawable) reuse1;
-        } else {
-            badge1 = new CountDrawable(context);
-        }
-
-        badge1.setCount(count);
-        icon1.mutate();
-        icon1.setDrawableByLayerId(R.id.ic_group_count, badge1);
-
     }
 
     @Override
@@ -220,6 +207,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         navigationView = findViewById(R.id.nav_view);
         viewPager = findViewById(R.id.viewPager);
         linearLayout = findViewById(R.id.sliderDots);
+        frameLayout = findViewById(R.id.pager);
 
         Paper.init(this);
 
@@ -273,10 +261,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     } else {
                         setCount(MyCourses.this, "0");
                     }
+
                     drawerLayout.closeDrawer(GravityCompat.START);
 
                     return;
                 }
+
+                frameLayout.setVisibility(View.VISIBLE);
+
+                menuToChoose = R.menu.add_cart;
+                invalidateOptionsMenu();
 
                 switch (position) {
                     case 0:
@@ -395,6 +389,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         myExamPrepFragment = new ExamPrepFragment();
         exploreNew = new ExploreNew();
         categoryFragment = new CategoryFragment();
+        cartFragment = new CartFragment();
 
         names = new ArrayList<>();
         urls = new ArrayList<>();
@@ -455,7 +450,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add_cart, menu);
+        getMenuInflater().inflate(menuToChoose, menu);
         return true;
     }
 
@@ -562,7 +557,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         if(id == R.id.add_to_cart) {
 
-            startActivity(new Intent(this, CartPage.class));
+            menuToChoose = R.menu.notification;
+            invalidateOptionsMenu();
+
+            frameLayout.setVisibility(View.GONE);
+            getSupportActionBar().setTitle("My Cart");
+
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).commit();
         }
 
         if(mToggle.onOptionsItemSelected(item)) {
@@ -791,7 +793,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         names = new ArrayList<>();
         urls = new ArrayList<>();
         ids = new ArrayList<>();
-
+        category_ids = new ArrayList<>();
 
         progressDialog = new ProgressDialog(this);
 
@@ -812,6 +814,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             JSONArray coursesArray = new JSONArray(response);
                             for(int i=0;i<coursesArray.length();i++) {
                                 JSONObject Category = coursesArray.getJSONObject(i);
+                                category_ids.add(Category.getString("category_id"));
                                 ids.add(Category.getString("product_id"));
                                 names.add(Category.getString("product_name"));
                                 urls.add(Category.getString("product_image").replace("\\",""));
@@ -820,7 +823,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
-                        myCoursesFragement.add(names, urls, ids);
+                        myCoursesFragement.add(names, urls, ids, category_ids);
                     }
                 },
                 new Response.ErrorListener() {

@@ -31,6 +31,7 @@ import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.user.ExploreNotSIActivity;
+import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,8 +51,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     TrendingVideosAdapter freeVideosAdapter;
 
-    RecyclerView trending, recyclerView1, freeCorse, paidCourse;
-
+    RecyclerViewPager trending, recyclerView1, freeCorse, paidCourse;;
+    
     public static int position = 0, position_latest = 0;
 
     public static int position_free = 0, position_paid = 0;
@@ -95,6 +96,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         trending = view.findViewById(R.id.trending_rv);
 
         recyclerView1 = view.findViewById(R.id.latest_rv);
+
+        freeCorse = view.findViewById(R.id.free_course_rv);
+
+        paidCourse = view.findViewById(R.id.paid_courses_rv);
+
 
         arrow_t_l = view.findViewById(R.id.arrow_t_l);
         arrow_t_r = view.findViewById(R.id.arrow_t_r);
@@ -152,6 +158,182 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             }
         });
 
+        recyclerView1.setFlingFactor(0.1f);
+        recyclerView1.fling(1, 1);
+        recyclerView1.setVerticalFadingEdgeEnabled(true);
+
+        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                int childCount = recyclerView1.getChildCount();
+                int width = recyclerView1.getChildAt(0).getWidth();
+                int padding = (recyclerView1.getWidth() - width) / 2;
+//                mCountText.setText("Count: " + childCount);
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    ;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                        v.setScaleX(1 - rate * 0.1f);
+
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                        v.setScaleX(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
+        freeCorse.setFlingFactor(0.1f);
+        freeCorse.fling(1, 1);
+        freeCorse.setVerticalFadingEdgeEnabled(true);
+
+        freeCorse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                int childCount = freeCorse.getChildCount();
+                int width = freeCorse.getChildAt(0).getWidth();
+                int padding = (freeCorse.getWidth() - width) / 2;
+//                mCountText.setText("Count: " + childCount);
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    ;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                        v.setScaleX(1 - rate * 0.1f);
+
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                        v.setScaleX(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
+        paidCourse.setFlingFactor(0.1f);
+        paidCourse.fling(1, 1);
+        paidCourse.setVerticalFadingEdgeEnabled(true);
+
+        paidCourse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                int childCount = paidCourse.getChildCount();
+                int width = paidCourse.getChildAt(0).getWidth();
+                int padding = (paidCourse.getWidth() - width) / 2;
+//                mCountText.setText("Count: " + childCount);
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    ;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                        v.setScaleX(1 - rate * 0.1f);
+
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                        v.setScaleX(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
+        trending.setFlingFactor(0.1f);
+        trending.fling(1, 1);
+        trending.setVerticalFadingEdgeEnabled(true);
+
+        trending.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                int childCount = trending.getChildCount();
+                int width = trending.getChildAt(0).getWidth();
+                int padding = (trending.getWidth() - width) / 2;
+//                mCountText.setText("Count: " + childCount);
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    ;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                        v.setScaleX(1 - rate * 0.1f);
+
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                        v.setScaleX(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
 
         arrow_f_r.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,10 +378,6 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 paidCourse.smoothScrollToPosition(position_paid);
             }
         });
-
-        freeCorse = view.findViewById(R.id.free_course_rv);
-
-        paidCourse = view.findViewById(R.id.paid_courses_rv);
 
         return view;
     }
