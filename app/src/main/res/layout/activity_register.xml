@@ -11,7 +11,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="30dp"
         app:counterEnabled="true"
         app:counterMaxLength="30"
         app:hintTextAppearance="@color/register_screen_fields_color"
@@ -35,7 +35,7 @@
             android:drawableEnd="@drawable/ic_person_blue_24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Username"
+            android:hint="Enter Name"
             />
     </android.support.design.widget.TextInputLayout>
 
@@ -151,6 +151,8 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
+
+
     <android.support.design.widget.TextInputLayout
         app:hintTextAppearance="@color/register_screen_fields_color"
         app:boxStrokeColor="@color/register_screen_fields_color"
@@ -177,12 +179,50 @@
             android:drawableEnd="@drawable/ic_location_on_red_24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="City"
+            android:hint="Enter city"
             />
     </android.support.design.widget.TextInputLayout>
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/state_selector"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_below="@id/user_fullPhone"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<Spinner-->
+            <!--android:id="@+id/state_selector_spinner"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="9"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:entries="@array/india_states"-->
+            <!--/>-->
+
+        <!--<ImageView-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/ic_location_map"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_below="@id/state_selector"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="@drawable/line"-->
+        <!--/>-->
+
+    <!--TODO: Add "State" field in v2-->
+
     <Spinner
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
@@ -197,7 +237,7 @@
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Sign Up As A Student"
+        android:text="Register"
         android:layout_marginLeft="20dp"
         android:background="@drawable/button_signin"
         android:layout_marginRight="20dp"
