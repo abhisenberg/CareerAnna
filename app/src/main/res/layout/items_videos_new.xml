@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
-    app:cardCornerRadius="8dp"
-    android:layout_height="230dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="4dp"
+    android:layout_height="250dp"
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_weight="6">
 
 
             <ImageView
@@ -67,12 +67,29 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:text="Title"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+
+
+        <TextView
+            android:id="@+id/instructor"
+            android:layout_marginBottom="3dp"
+            android:textColor="#aba4a4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="By CareerAnna"
+            android:textSize="12sp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
             />
 
         <TextView
             android:id="@+id/views"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/black"
+            android:layout_marginBottom="3dp"
+            android:textColor="#7e7171"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -80,44 +97,54 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_remove_red_eye_black_24dp"
+            android:drawableLeft="@drawable/ic_remove_red_eye_black_20dp"
             />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star1"
-                android:src="@drawable/ic_star_black_24dp" />
+                android:src="@drawable/ic_star_colour_full" />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star2"
                 android:layout_toRightOf="@id/star1"
-                android:src="@drawable/ic_star_black_24dp"/>
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star3"
                 android:layout_toRightOf="@id/star2"
-                android:src="@drawable/ic_star_black_24dp" />
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star4"
                 android:layout_toRightOf="@id/star3"
-                android:src="@drawable/ic_star_half_black_24dp"/>
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star5"
                 android:layout_toRightOf="@id/star4"
-                android:src="@drawable/ic_star_border_black_24dp"/>
+                android:src="@drawable/ic_star_colour"
+                />
 
             <TextView
                 android:layout_toRightOf="@id/star5"
@@ -126,8 +153,8 @@
                 android:textSize="14sp"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/ratings"
-                android:text="( 100 Ratings)"
-                android:textColor="@color/black"
+                android:text="4.00 ( 4,000 Ratings)"
+                android:textColor="#7e7171"
                 />
         </RelativeLayout>
 
@@ -137,6 +164,7 @@
             android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
             android:layout_weight="1"
             android:text="Cat, XCat"
             android:layout_marginLeft="10dp"
