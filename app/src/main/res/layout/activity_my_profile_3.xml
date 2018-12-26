@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/mProfile_3_appBarLayout"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/temporary_instructor_button"
+                android:id="@+id/temporary_instructor_button_3"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="5dp"
@@ -27,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_profileImage"
+                    android:id="@+id/iv_profileImage_3"
                     android:layout_marginTop="5dp"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
@@ -35,7 +36,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_profileName"
+                    android:id="@+id/tv_profileName_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -47,7 +48,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_profileMail"
+                    android:id="@+id/tv_profileMail_3"
                     android:text="test@example.com"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -59,7 +60,9 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/mProfile_3_appBarLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:paddingBottom="3dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -69,13 +72,13 @@
             android:layout_height="match_parent">
 
             <ProgressBar
-                android:id="@+id/my_profile_2_progress_bar"
+                android:id="@+id/my_profile_3_progress_bar"
                 android:layout_centerInParent="true"
                 android:layout_width="75dp"
                 android:layout_height="75dp" />
 
             <FrameLayout
-                android:id="@+id/myProfile_fragment"
+                android:id="@+id/myProfile_fragment_3"
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -86,13 +89,27 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/myProfile_bottom_navigation_2"
-        app:itemBackground="@drawable/botton_navigationbar_item_bg"
+        android:id="@+id/myProfile_bottom_navigation_3"
+        android:layout_alignParentBottom="true"
         app:menu="@menu/myprofile_navigation"
+        app:itemBackground="@drawable/botton_navigationbar_item_bg"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="55dp">
-
     </android.support.design.widget.BottomNavigationView>
 
-</android.support.design.widget.CoordinatorLayout>
+    <Button
+        android:id="@+id/bt_userp_profile_signout_3"
+        android:layout_above="@id/myProfile_bottom_navigation_3"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/button_signout"
+        android:text="@string/signout"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginBottom="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
+
+</RelativeLayout>

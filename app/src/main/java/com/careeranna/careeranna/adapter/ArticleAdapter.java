@@ -64,10 +64,26 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         } else {
             articleViewHolder.articleContent.setText(mArticles.get(i).getContent(), true);
         }
-        articleViewHolder.articleAuthor.setText(mArticles.get(i).getAuthor());
+
+        Glide.with(mContext)
+                .load(mArticles.get(i).getImage_url())
+                .into(articleViewHolder.articleImage);
+
+        String authorName = mArticles.get(i).getAuthor();
+        articleViewHolder.articleAuthor.setText(authorName);
         articleViewHolder.articleCreated.setText(mArticles.get(i).getCreated_at().substring(0, 10));
-        articleViewHolder.articleAuthor.setText(mArticles.get(i).getAuthor());
-        Glide.with(mContext).load(mArticles.get(i).getImage_url()).into(articleViewHolder.articleImage);
+
+        int authorImagePath;
+        if(authorName.startsWith("Sri")){
+            authorImagePath = R.drawable.author_pic_2;
+        } else if(authorName.startsWith("Sai")){
+            authorImagePath = R.drawable.author_pic_1;
+        } else
+            authorImagePath = R.drawable.ic_person_color;
+
+        Glide.with(mContext)
+                .load(authorImagePath)
+                .into(articleViewHolder.authorImage);
 
         Log.d(TAG, "Image url is "+mArticles.get(i).getImage_url());
     }
@@ -88,7 +104,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView articleTitle, articleAuthor;
         RelativeTimeTextView articleCreated;
         TextViewEx articleContent;
-        ImageView articleImage;
+        ImageView articleImage, authorImage;
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
@@ -98,6 +114,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             articleAuthor = itemView.findViewById(R.id.article_author_name);
             articleCreated = itemView.findViewById(R.id.article_created_date);
             articleContent = itemView.findViewById(R.id.article_content);
+            authorImage = itemView.findViewById(R.id.article_author_image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

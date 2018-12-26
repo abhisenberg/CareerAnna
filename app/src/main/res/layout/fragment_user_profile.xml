@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="7dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/bt_userProf_myCourses"
+        app:cardElevation="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center"
+            android:padding="7dp"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textColor="@color/colorPrimary"
+            android:text="My Courses"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        app:cardElevation="2dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="@dimen/userProf_options_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_userProf_changeNotiPref"
+                android:textColor="@color/userProf_options_textColor"
+                android:text="@string/user_profile_notif_pref"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_userProf_Support"
+                android:textColor="@color/userProf_options_textColor"
+                android:text="@string/user_profile_support"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/userProf_options_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_userProf_appReferralCode"
+                android:textColor="@color/userProf_options_textColor"
+                android:text="@string/user_profile_app_ref_code"
+                android:layout_marginTop="@dimen/userProf_options_margin"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_userProf_tnc"
+                android:textColor="@color/userProf_options_textColor"
+                android:text="@string/tnc"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/userProf_options_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<Button-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:background="@drawable/button_signout"-->
+            <!--android:text="@string/signout"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="12sp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="7dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="35dp" />-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/bt_userp_profile_signout"-->
+    <!--android:layout_marginRight="15dp"-->
+    <!--android:layout_marginLeft="15dp"-->
+    <!--android:background="@drawable/button_signout"-->
+    <!--android:text="@string/signout"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="12sp"-->
+    <!--android:layout_marginBottom="7dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="35dp" />-->
+
+</LinearLayout>

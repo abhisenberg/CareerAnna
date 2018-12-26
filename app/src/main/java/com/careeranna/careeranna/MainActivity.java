@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.user.ExploreNotSIActivity;
+import com.careeranna.careeranna.user.MyProfile_2;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
+//        startActivity(new Intent(this, MyProfile_2.class));
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {

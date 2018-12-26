@@ -25,5 +25,5 @@
     <color name="sign_in_button_color_pressed">#004ba0</color>
 
     <color name="dark_gray">#8d8d8d</color>
-
+    <color name="userProf_options_textColor">#000</color>
 </resources>

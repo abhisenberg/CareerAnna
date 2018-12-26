@@ -26,13 +26,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.InstructorsListActivity;
+import com.careeranna.careeranna.MainActivity;
+import com.careeranna.careeranna.MyCourses;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.Instructor;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCertificatesFragment;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCoursesFragment;
+import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserMyProfileFragment;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserSuggestedFragment;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -45,36 +50,41 @@ import java.util.Map;
 
 import io.paperdb.Paper;
 
-public class MyProfile_2 extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MyProfile_2 extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static final String TAG = "MyProfile_2";
 
     User user;
+    FirebaseAuth mAuth;
     Fragment fragment;
+    Button bt_signOut;              //Make the signout button visible only when showing the UserProfile fragment
     RequestQueue requestQueue;
     ProgressBar progressBar;
     BottomNavigationView bottomNavigationView;
 
     ImageView user_image;
-    TextView user_name;
+    TextView user_name, user_email;
 
     ArrayList<CourseWithLessData> coursesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile_2);
+        setContentView(R.layout.activity_my_profile_3);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
 
-        user_image = findViewById(R.id.iv_profileImage);
-        user_name = findViewById(R.id.tv_profileName);
-        progressBar = findViewById(R.id.my_profile_2_progress_bar);
-        bottomNavigationView = findViewById(R.id.myProfile_bottom_navigation_2);
+        bt_signOut = findViewById(R.id.bt_userp_profile_signout_3);
+        user_image = findViewById(R.id.iv_profileImage_3);
+        user_name = findViewById(R.id.tv_profileName_3);
+        user_email = findViewById(R.id.tv_profileMail_3);
+        progressBar = findViewById(R.id.my_profile_3_progress_bar);
+        bottomNavigationView = findViewById(R.id.myProfile_bottom_navigation_3);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setItemIconTintList(null);
+        bt_signOut.setOnClickListener(this);
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()){
@@ -84,14 +94,21 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                     .with(this)
                     .load(user.getUser_photo())
                     .into(user_image);
+            user_email.setText(user.getUser_email());
         }
 
         requestQueue = Volley.newRequestQueue(this);
 
         /*
+        Currently there is no use of the progress bar so hide it, enable it if in future versions there
+        is some use for it.
+         */
+        progressBar.setVisibility(View.INVISIBLE);
+
+        /*
         Show myCourses first at this MyProfile screen
          */
-        loadUserCoursesFragment();
+        loadUserProfileFragment();
 
     }
 
@@ -101,22 +118,31 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
         loadFragment(fragment);
     }
 
+    public void loadUserProfileFragment(){
+        fragment = new UserMyProfileFragment();
+        loadFragment(fragment);
+        bt_signOut.setVisibility(View.VISIBLE);         //Make the signout button visible only when showing the UserProfile fragment
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         switch (menuItem.getItemId()){
             case R.id.navigation_myCourses:
-                loadUserCoursesFragment();
+//                loadUserCoursesFragment();
+                loadUserProfileFragment();
                 return true;
 
             case R.id.navigation_certificates:
                 fragment = new UserCertificatesFragment();
                 loadFragment(fragment);
+                bt_signOut.setVisibility(View.INVISIBLE);
                 return true;
 
             case R.id.navigation_suggested:
                 fragment = new UserSuggestedFragment();
                 loadFragment(fragment);
+                bt_signOut.setVisibility(View.INVISIBLE);
                 return true;
         }
         return false;
@@ -125,10 +151,10 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
     private void loadFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.myProfile_fragment, fragment);
+        transaction.replace(R.id.myProfile_fragment_3, fragment);
         transaction.commit();
-        if(!(fragment instanceof UserCoursesFragment))
-            progressBar.setVisibility(View.INVISIBLE);
+//        if(!(fragment instanceof UserCoursesFragment))
+//            progressBar.setVisibility(View.INVISIBLE);
     }
 
     public void fetchUserCourses(){
@@ -155,7 +181,7 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                             if(fragment instanceof UserCoursesFragment)
                                 ((UserCoursesFragment)fragment).setCourses(coursesList);
 
-                            progressBar.setVisibility(View.INVISIBLE);
+//                            progressBar.setVisibility(View.INVISIBLE);
                         } catch (JSONException e) {
 
                             e.printStackTrace();
@@ -166,7 +192,7 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "CourseFetchError: "+error.networkResponse);
-                        progressBar.setVisibility(View.INVISIBLE);
+//                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(MyProfile_2.this, "Network error occured!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -195,4 +221,23 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
          */
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bt_userp_profile_signout_3:
+                signOut();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    public void signOut(){
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth != null) {
+            mAuth.signOut();
+            LoginManager.getInstance().logOut();
+        }
+        Paper.delete("user");
+    }
 }

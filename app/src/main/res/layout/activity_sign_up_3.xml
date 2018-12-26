@@ -18,7 +18,7 @@
     <ImageView
         android:id="@+id/iv_ca_logo"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/careeranna_logo_black"
+        android:src="@drawable/careeranna_logo_big"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_width="250dp"
@@ -65,7 +65,7 @@
     <TextView
         android:text="Continue with"
         android:layout_above="@+id/bt_googleAndFb"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/register_screen_fields_color"
         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_above="@id/Middle"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:layout_centerHorizontal="true"
         android:layout_height="50dp">
 
@@ -138,7 +138,7 @@
         android:orientation="horizontal"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="40dp">
+        android:layout_height="43dp">
 
         <View
             android:layout_width="0dp"
@@ -176,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/Middle"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp">
+        android:layout_marginTop="30dp">
 
         <!--<android.support.design.widget.TextInputLayout-->
         <!--android:id="@+id/useremailL"-->
@@ -265,7 +265,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/login_screen_buttons_margin"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/login_screen_buttons_margin"
             android:background="@drawable/button_signin"
             android:text="Sign in"
@@ -299,7 +299,7 @@
         android:layout_height="35dp"
         style="?android:attr/borderlessButtonStyle"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         />
 
 </RelativeLayout>
