@@ -6,13 +6,36 @@
     android:id="@+id/nav_view1"
     android:background="#f2ecec"
     android:layout_height="160dp">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="75dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/navImage"
+
+    <RelativeLayout
         android:layout_gravity="center"
-        android:src="@drawable/sign_in"
-        android:layout_height="75dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/navImage"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/circle_2"
+            />
+
+        <!--This layout is required to display initial alphabet of name-->
+        <!--if no image is provided from the database.-->
+
+        <TextView
+            android:id="@+id/nav_username_initial"
+            android:text="A"
+            android:textSize="65sp"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
     <TextView
         android:layout_gravity="center"
         android:layout_width="wrap_content"

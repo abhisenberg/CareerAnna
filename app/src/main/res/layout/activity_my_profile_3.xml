@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/mProfile_3_appBarLayout"
@@ -27,13 +29,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_profileImage_3"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:src="@drawable/ic_launcher_background"
-                    />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_profileImage_3"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:src="@drawable/circle_2"
+                        />
+
+                    <TextView
+                        android:id="@+id/user_profile_3_username_initial"
+                        android:text="A"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/white"
+                        android:textSize="60sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_profileName_3"
@@ -62,10 +80,11 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_below="@id/mProfile_3_appBarLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingBottom="3dp"
         android:layout_marginTop="10dp"
+        android:layout_above="@id/bt_userp_profile_signout_3"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -105,7 +124,6 @@
         android:layout_marginLeft="15dp"
         android:background="@drawable/button_signout"
         android:text="@string/signout"
-        android:layout_marginTop="20dp"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_marginBottom="7dp"

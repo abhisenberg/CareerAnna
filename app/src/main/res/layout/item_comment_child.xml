@@ -15,7 +15,7 @@
             android:layout_width="30dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/rel"
-            android:background="@drawable/cirlce_2"
+            android:background="@drawable/circle_2"
             android:layout_height="30dp">
 
             <TextView

@@ -15,14 +15,14 @@
         android:layout_centerHorizontal="true"
         />
 
-    <ImageView
-        android:id="@+id/iv_ca_logo"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/careeranna_logo_big"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_width="250dp"
-        android:layout_height="60dp" />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_ca_logo"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:src="@drawable/careeranna_logo_transparent"-->
+        <!--android:layout_marginTop="35dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="55dp" />-->
 
     <!--<com.shobhitpuri.custombuttons.GoogleSignInButton-->
     <!--android:id="@+id/bt_google_sign_in_button"-->
@@ -63,6 +63,7 @@
     <!--/>-->
 
     <TextView
+        android:id="@+id/signin_3_continueWith"
         android:text="Continue with"
         android:layout_above="@+id/bt_googleAndFb"
         android:layout_marginBottom="20dp"
@@ -70,6 +71,22 @@
         android:textColor="@color/register_screen_fields_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:foregroundGravity="center"
+        android:layout_above="@id/signin_3_continueWith"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_ca_logo"
+            android:padding="5dp"
+            android:src="@drawable/careeranna_logo_transparent"
+            android:layout_gravity="center"
+            android:layout_width="250dp"
+            android:layout_height="65dp" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/bt_googleAndFb"

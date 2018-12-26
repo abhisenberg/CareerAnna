@@ -1,9 +1,12 @@
 package com.careeranna.careeranna.fragement.user_myprofile_fragments;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -13,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.careeranna.careeranna.MyCourses;
 import com.careeranna.careeranna.R;
 
 /**
@@ -24,8 +29,11 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
     public static final String TAG = "UserMyProfileFrag";
 //    Button bt_signout;
 
+    TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_tnc;
+    CardView cv_myCourses;
+
     public UserMyProfileFragment() {
-        // Required empty public constructor
+        // Required empty public constructors
     }
 
 
@@ -33,47 +41,52 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-//        bt_signout = view.findViewById(R.id.bt_userp_profile_signout);
-//        bt_signout.setOnClickListener(this);
-        /*
-            Fetch the height of the device
-         */
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels; //This is in pixels, we have to convert this into DPs
+        tv_changeNotiPref = view.findViewById(R.id.tv_userProf_changeNotiPref);
+        tv_referralCode = view.findViewById(R.id.tv_userProf_appReferralCode);
+        tv_support = view.findViewById(R.id.tv_userProf_Support);
+        tv_tnc = view.findViewById(R.id.tv_userProf_tnc);
+        cv_myCourses = view.findViewById(R.id.bt_userProf_myCourses);
 
-        int heightInDP = height / getContext().getResources().getDisplayMetrics().densityDpi;
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        int left_margin = getMarginsInDP(15);
-        int right_margin = getMarginsInDP(15);
-        int bottom_margin = getMarginsInDP(5);
-        int top_margin = getMarginsInDP(heightInDP+getMarginsInDP(45));
-        params.setMargins(left_margin, top_margin, right_margin, bottom_margin);
-//        bt_signout.setLayoutParams(params);
-
-        Log.d(TAG, "height = "+heightInDP);
-        Log.d(TAG, "marginTop = "+top_margin);
+        tv_changeNotiPref.setOnClickListener(this);
+        tv_referralCode.setOnClickListener(this);
+        tv_support.setOnClickListener(this);
+        tv_tnc.setOnClickListener(this);
+        cv_myCourses.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onClick(View view) {
+        String url;
+        switch (view.getId()){
+            case R.id.tv_userProf_appReferralCode:
+                Toast.makeText(getContext(), "Referral codes coming soon!", Toast.LENGTH_SHORT).show();
+                break;
 
+            case R.id.tv_userProf_changeNotiPref:
+                Toast.makeText(getContext(), "Notification preferences coming soon!", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.tv_userProf_Support:
+                url = "https://www.careeranna.com/contact";
+                openLink(url);
+                break;
+
+            case R.id.tv_userProf_tnc:
+                url = "https://www.careeranna.com/terms-of-service";
+                openLink(url);
+                break;
+
+            case R.id.bt_userProf_myCourses:
+                startActivity(new Intent(getContext(), MyCourses.class));
+                break;
+        }
     }
 
-    private int getMarginsInDP(int val){
-        Resources resources = getActivity().getResources();
-        int valInDP = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                val,
-                resources.getDisplayMetrics()
-        );
-        return valInDP;
+    private void openLink(String url){
+        Intent openLink = new Intent(Intent.ACTION_VIEW);
+        openLink.setData(Uri.parse(url));
+        startActivity(openLink);
     }
 }

@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,12 +24,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.careeranna.careeranna.InstructorsListActivity;
 import com.careeranna.careeranna.MainActivity;
-import com.careeranna.careeranna.MyCourses;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.CourseWithLessData;
-import com.careeranna.careeranna.data.Instructor;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCertificatesFragment;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCoursesFragment;
@@ -73,7 +69,7 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
         setContentView(R.layout.activity_my_profile_3);
 
         if(getSupportActionBar() != null){
-            getSupportActionBar().hide();
+            getSupportActionBar().setTitle("Account");
         }
 
         bt_signOut = findViewById(R.id.bt_userp_profile_signout_3);
@@ -90,11 +86,20 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
         if(cache != null && !cache.isEmpty()){
             user = new Gson().fromJson(cache, User.class);
             user_name.setText(user.getUser_username());
-            Glide
-                    .with(this)
-                    .load(user.getUser_photo())
-                    .into(user_image);
             user_email.setText(user.getUser_email());
+            /*
+        If there is no image url provided, then write the initial letter of the username
+         */
+            TextView initialAlphabet = findViewById(R.id.user_profile_3_username_initial);
+            if(!user.getUser_photo().isEmpty()){
+                initialAlphabet.setVisibility(View.INVISIBLE);
+                Glide.with(this).load(user.getUser_photo()).into(user_image);
+            }
+            else
+            {
+                initialAlphabet.setVisibility(View.VISIBLE);
+                initialAlphabet.setText(user.getUser_username().substring(0,1));
+            }
         }
 
         requestQueue = Volley.newRequestQueue(this);

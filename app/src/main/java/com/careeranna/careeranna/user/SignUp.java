@@ -204,7 +204,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                snackbar = Snackbar.make(relativeLayout, "Sign In Please Wait", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(relativeLayout, "Please Wait...", Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -284,13 +284,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
     }
 
     private void signIn() {
-
-        snackbar = Snackbar.make(relativeLayout, "Sign In Please Wait", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(relativeLayout, "Please Wait...", Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
         progressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     @Override

@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dots[x] = new TextView(this);
             dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
             dots[x].setTextSize(40);
-            dots[x].setTextColor(getResources().getColor(R.color.intro_dot_dark));
+            dots[x].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
             Log.d(TAG, "addDots: "+x);
             dotsLayout.addView(dots[x]);
         }
 
-        dots[i].setTextColor(getResources().getColor(R.color.intro_dot_light));
+        dots[i].setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

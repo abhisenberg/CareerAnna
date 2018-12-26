@@ -7,8 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -548,7 +550,20 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         username = headerView.findViewById(R.id.navUsername);
         useremail = headerView.findViewById(R.id.navUseremail);
 
-        Glide.with(this).load(profile_pic_url).into(profile);
+        /*
+        If there is no image url provided, then write the initial letter of the username
+         */
+        TextView initialAlphabet = findViewById(R.id.nav_username_initial);
+        if(!profile_pic_url.isEmpty()){
+            Glide.with(this).load(profile_pic_url).into(profile);
+            initialAlphabet.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            initialAlphabet.setVisibility(View.VISIBLE);
+            initialAlphabet.setText(mUsername.substring(0,1));
+        }
+
         username.setText(mUsername);
         useremail.setText(mEmail);
 
