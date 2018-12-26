@@ -609,7 +609,7 @@ public class NewCourseActivity extends AppCompatActivity implements NavigationVi
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
-                        myCoursesFragement.add(names, urls, ids);
+                        myCoursesFragement.add(names, urls, ids, ids);
                     }
                 },
                 new Response.ErrorListener() {

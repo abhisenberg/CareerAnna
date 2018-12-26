@@ -18,72 +18,97 @@
             android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:id="@+id/image"
             android:src="@drawable/intro_pic_1"
             />
 
         <TextView
+            android:id="@+id/name"
             android:textColor="@color/black"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/name"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:text="Course Name"
+            android:textStyle="bold"
+            android:textSize="16sp"
             />
 
         <TextView
-            android:textColor="@color/black"
+            android:id="@+id/instructor"
+            android:textColor="#aba4a4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="By CareerAnna"
+            android:textSize="12sp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/views"
+            android:layout_marginBottom="5dp"
+            android:textColor="#7e7171"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:id="@+id/instructor"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_profile"
+            android:text="100 Learners"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:text=" By CareerAnna"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_people_black_24dp"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star1"
-                android:src="@drawable/ic_star_black_24dp" />
+                android:src="@drawable/ic_star_colour_full" />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star2"
                 android:layout_toRightOf="@id/star1"
-                android:src="@drawable/ic_star_black_24dp"/>
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star3"
                 android:layout_toRightOf="@id/star2"
-                android:src="@drawable/ic_star_black_24dp" />
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star4"
                 android:layout_toRightOf="@id/star3"
-                android:src="@drawable/ic_star_half_black_24dp"/>
+                android:src="@drawable/ic_star_colour_full"
+                />
             <ImageView
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/star5"
                 android:layout_toRightOf="@id/star4"
-                android:src="@drawable/ic_star_border_black_24dp"/>
+                android:src="@drawable/ic_star_colour"
+                />
 
             <TextView
                 android:layout_toRightOf="@id/star5"
@@ -92,23 +117,11 @@
                 android:textSize="14sp"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/ratings"
-                android:text="( 100 Ratings)"
-                android:textColor="@color/black"
+                android:text="4.00 ( 4,000 Ratings)"
+                android:textColor="#7e7171"
                 />
         </RelativeLayout>
 
-
-        <TextView
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Leaners Count 100"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_people_black_24dp"
-            />
 
     </LinearLayout>
 

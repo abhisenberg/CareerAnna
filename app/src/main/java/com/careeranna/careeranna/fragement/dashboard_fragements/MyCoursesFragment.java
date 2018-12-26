@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.Exams;
 import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
@@ -44,7 +45,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     CardView cardView;
 
     private ArrayList<String> names;
-    private ArrayList<String> urls, ids;
+    private ArrayList<String> urls, ids, category_ids;
 
     private String[] imageUrls = new String[] {
             "https://4.bp.blogspot.com/-qf3t5bKLvUE/WfwT-s2IHmI/AAAAAAAABJE/RTy60uoIDCoVYzaRd4GtxCeXrj1zAwVAQCLcBGAs/s1600/Machine-Learning.png",
@@ -58,11 +59,12 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         // Required empty public constructor
     }
 
-    public void add(ArrayList<String> names, ArrayList<String> urls, ArrayList<String> ids) {
+    public void add(ArrayList<String> names, ArrayList<String> urls, ArrayList<String> ids,ArrayList<String> course_ids) {
 
         this.names = names;
         this.urls = urls;
         this.ids =ids;
+        this.category_ids = course_ids;
 
         if(ids.size() == 0) {
             cardView.setVisibility(View.VISIBLE);
@@ -178,10 +180,19 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     @Override
     public void onItemClick(int position) {
 
-        Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
-        intent.putExtra("course_name", names.get(position));
-        intent.putExtra("course_ids", ids.get(position));
-        intent.putExtra("course_image", urls.get(position));
-        getContext().startActivity(intent);
+        if(category_ids.get(position).equals("15")) {
+            Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
+            intent.putExtra("course_name", names.get(position));
+            intent.putExtra("course_ids", ids.get(position));
+            intent.putExtra("course_image", urls.get(position));
+            getContext().startActivity(intent);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), Exams.class);
+            intent.putExtra("course_name", names.get(position));
+            intent.putExtra("course_ids", ids.get(position));
+            intent.putExtra("course_image", urls.get(position));
+            getContext().startActivity(intent);
+
+        }
     }
 }
