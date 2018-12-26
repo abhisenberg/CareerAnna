@@ -36,6 +36,14 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
 
         viewHolder.name.setText(comments.get(i).getName());
         viewHolder.comment.setText(comments.get(i).getComment_body());
+        String name = "C";
+
+        if(comments.get(i).getName() != null){
+            name = comments.get(i).getName().substring(0,1).toUpperCase();
+        }
+
+        viewHolder.image.setText(name);
+
     }
 
     @Override
@@ -45,7 +53,7 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, comment;
+        TextView name, comment, image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,6 +61,7 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
             name = itemView.findViewById(R.id.name);
             comment = itemView.findViewById(R.id.comment);
 
+            image  = itemView.findViewById(R.id.image);
         }
     }
 }

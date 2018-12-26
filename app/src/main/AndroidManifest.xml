@@ -64,7 +64,8 @@
         <activity android:name=".Pdf" />
         <activity
             android:name=".ParticularArticleActivity"
-            android:label="Article" />
+            android:label="Article"
+            />
         <activity
             android:name=".ExamPrepActivity"
             android:label="Examp Prep" />

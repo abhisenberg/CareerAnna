@@ -3,6 +3,7 @@ package com.careeranna.careeranna.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,26 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
 
         Glide.with(mContext).load(freeVideos.get(i).getThumbnail()).into(viewHolder.imageView);
         viewHolder.title.setText(freeVideos.get(i).getTitle());
-        viewHolder.views.setText(freeVideos.get(i).getTotal_view());
+        viewHolder.views.setText(freeVideos.get(i).getTotal_view()+" views");
+        Log.i("length", freeVideos.get(i).getDuration().length()+"");
+        if(freeVideos.get(i).getDuration().length() == 4) {
+            viewHolder.duration.setText(freeVideos.get(i).getDuration()+"0");
+        } else if(freeVideos.get(i).getDuration().length() == 3) {
+            viewHolder.duration.setText(freeVideos.get(i).getDuration()+"00");
+        } else if(freeVideos.get(i).getDuration().length() == 2) {
+            viewHolder.duration.setText(freeVideos.get(i).getDuration()+".00");
+        } else  if(freeVideos.get(i).getDuration().length() == 1) {
+            viewHolder.duration.setText("0"+freeVideos.get(i).getDuration()+".00");
+        } else{
+            viewHolder.duration.setText(freeVideos.get(i).getDuration());
+        }
+        if(freeVideos.get(i).getTags() != null) {
+            if (!freeVideos.get(i).getTags().equals("null")) {
+                viewHolder.tags.setText(freeVideos.get(i).getTags());
+            } else {
+                viewHolder.tags.setText("Cat");
+            }
+        }
     }
 
     @Override
@@ -43,7 +63,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
     }
 
     public interface OnItemClickListener {
-        void onItemClick1(int position);
+        void onItemClick1(int position, String type);
     }
 
     public void setOnItemClicklistener(OnItemClickListener listener) {
@@ -61,15 +81,17 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
-        TextView title, rating, views;
+        TextView title, rating, views, duration, tags;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            duration = itemView.findViewById(R.id.duration);
             imageView = itemView.findViewById(R.id.image);
 
             title = itemView.findViewById(R.id.title);
             rating = itemView.findViewById(R.id.ratings);
             views = itemView.findViewById(R.id.views);
+            tags = itemView.findViewById(R.id.tags);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,7 +99,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
                     if(mListener != null) {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick1(position);
+                            mListener.onItemClick1(position, freeVideos.get(position).getType());
                         }
                     }
                 }

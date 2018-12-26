@@ -57,6 +57,10 @@ public class ParticularArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_particular_article);
 
+        if(getSupportActionBar().isShowing()){
+            getSupportActionBar().hide();
+        }
+
         fab = findViewById(R.id.fab_menu);
         fab_google = findViewById(R.id.fab_google);
         fab_facebook = findViewById(R.id.fab_facebook);
@@ -75,8 +79,8 @@ public class ParticularArticleActivity extends AppCompatActivity {
         webview = findViewById(R.id.webview);
 
         webSettings = webview.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
+        webSettings.setJavaScriptEnabled(true);
 
         Snackbar.make(relativeLayout, "Loading Content", Snackbar.LENGTH_SHORT).show();
 
@@ -95,6 +99,10 @@ public class ParticularArticleActivity extends AppCompatActivity {
         articleCreated.setText(article.getCreated_at().substring(0, 10));
         articleCategory.setText("Category : " + article.getCategory());
 
+        if(article.getAuthor().length()>10) {
+            article.setAuthor(article.getAuthor().substring(0, 10)+"...");
+        }
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/particularArticle.php?id="+article.getId();
         StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
@@ -105,7 +113,9 @@ public class ParticularArticleActivity extends AppCompatActivity {
                         response = response.replace("<img ", "<img class=\"img-thumbnail\" ");
                         String html = "<html>" +
                                 "<head>" +
-                                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">" +
+                                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n" +
+                                "<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>" +
+                                "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.6.3/css/all.css\" integrity=\"sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/\" crossorigin=\"anonymous\">" +
                                 "<style>" +
                                 "img {" +
                                 "width:300;" +
@@ -113,7 +123,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
                                 "" +
                                 "}" +
                                 "body {\n" +
-                                "    font-family: \"Times New Roman\", Times, serif;\n" +
+                                "    font-family: Roboto; " +
                                 "}" +
                                 "h1,h2,h3,h4,h5,h6{" +
                                 "font-size: 1em;" +
@@ -129,14 +139,17 @@ public class ParticularArticleActivity extends AppCompatActivity {
                                 "  text-align: left;" +
                                 "  padding: 8px;" +
                                 "}" +
+                                ".container{" +
+                                " width:310px;" +
+                                "}" +
                                 "</style>" +
                                 "</head>" +
                                 "<body>" +
                                 "<div class=\"container\">" +
-                                "<h2><strong>"+article.getName()+"</strong></h2><hr/>" +
-                                "<img class=\"img-thumbnail\" src=" + article.getImage_url() + " width=300 height=300>"+
-                                "<h5>"+article.getAuthor()+"  <br />" +
-                                ""+article.getCreated_at()+"</h5>"+response+
+                                "<h2 style=\"margin-top:20px;\">"+article.getName()+"</h2><hr/>" +
+                                "<div class=\"row\"><span class=\"col col-sm-6 col-md-6\"><i class=\"fas fa-user-circle\"></i> "+article.getAuthor()+"</span><span class=\"col col-sm-6 col-md-6\">" +
+                                "<i class=\"fas fa-calendar-alt\"></i> "+article.getCreated_at().substring(0,10)+"</span></div>"+
+                                "<img style=\"margin-top:20px;\" class=\"img-thumbnail\" src=" + article.getImage_url() + " width=300 height=300><br/>"+response+
                                 "</div>" +
                                 "</html>";
                         webview.loadData(html, "text/html", null);
@@ -146,6 +159,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }
         );

@@ -2,7 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Add To Cart"
+    <item
+        android:title="Notification"
+        app:showAsAction="always"
+        android:id="@+id/notification_1"
+        android:icon="@drawable/notification_counter"
+        />
+
+    <item
+        android:title="Add To Cart"
         app:showAsAction="always"
         android:id="@+id/add_to_cart"
         android:icon="@drawable/counter"

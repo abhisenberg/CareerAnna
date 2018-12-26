@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -41,6 +43,7 @@ import com.careeranna.careeranna.data.Banner;
 import com.careeranna.careeranna.data.Category;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
+import com.careeranna.careeranna.data.MenuList;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.dashboard_fragements.CategoryFragment;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ExamPrepFragment;
@@ -49,6 +52,7 @@ import com.careeranna.careeranna.helper.CountDrawable;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreFragement;
 import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
+import com.careeranna.careeranna.helper.InternetDialog;
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,6 +71,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -93,7 +99,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     ArticlesFragment myArticleFragment;
     ExamPrepFragment myExamPrepFragment;
     CategoryFragment categoryFragment;
-
 
     FragmentManager fragmentManager;
 
@@ -166,13 +171,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
 
     public void setCount(Context context, String count) {
-        MenuItem menuItem = menu.findItem(R.id.add_to_cart);
+        MenuItem menuItem = menu.findItem(R.id.notification_1);
+
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
 
         CountDrawable badge;
 
         // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_group_count);
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_noti_count);
         if (reuse != null && reuse instanceof CountDrawable) {
             badge = (CountDrawable) reuse;
         } else {
@@ -181,7 +187,26 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         badge.setCount(count);
         icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_group_count, badge);
+        icon.setDrawableByLayerId(R.id.ic_noti_count, badge);
+
+        MenuItem menuItem1 = menu.findItem(R.id.add_to_cart);
+
+        LayerDrawable icon1 = (LayerDrawable) menuItem1.getIcon();
+
+        CountDrawable badge1;
+
+        // Reuse drawable if possible
+        Drawable reuse1 = icon1.findDrawableByLayerId(R.id.ic_group_count);
+        if (reuse1 != null && reuse1 instanceof CountDrawable) {
+            badge1 = (CountDrawable) reuse1;
+        } else {
+            badge1 = new CountDrawable(context);
+        }
+
+        badge1.setCount(count);
+        icon1.mutate();
+        icon1.setDrawableByLayerId(R.id.ic_group_count, badge1);
+
     }
 
     @Override
@@ -198,26 +223,23 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         Paper.init(this);
 
-
         listView = findViewById(R.id.list_menu_items);
 
+        Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
 
-        final ArrayList<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("MBA");
-        your_array_list.add("Banking");
-        your_array_list.add("Professional Development");
-        your_array_list.add("General Knowledge");
-        your_array_list.add("Govt. Jobs");
-        your_array_list.add("Law");
-        your_array_list.add("Finance");
-        your_array_list.add("Marketing");
-        your_array_list.add("Certificate Courses");
-        your_array_list.add("My Courses");
-        your_array_list.add("Explore");
-        your_array_list.add("Articles");
-        your_array_list.add("Our Mentors");
-        your_array_list.add("My Profile");
-        your_array_list.add("Sign Out");
+        final ArrayList<MenuList> your_array_list = new ArrayList<MenuList>();
+        your_array_list.add(new MenuList("MBA", getApplicationContext().getResources().getDrawable(R.drawable.ic_scholarship)));
+        your_array_list.add(new MenuList("UPSC", getApplicationContext().getResources().getDrawable(R.drawable.ic_hinduism)));
+        your_array_list.add(new MenuList("General Knowledge", getApplicationContext().getResources().getDrawable(R.drawable.ic_gears)));
+        //your_array_list.add(new MenuList("Finance", getApplicationContext().getResources().getDrawable(R.drawable.ic_ascendant_bars_graphic)));
+        //your_array_list.add(new MenuList("Marketing", getApplicationContext().getResources().getDrawable(R.drawable.ic_digital_marketing)));
+        your_array_list.add(new MenuList("Certificate Courses", getApplicationContext().getResources().getDrawable(R.drawable.ic_certi)));
+        your_array_list.add(new MenuList("My Courses",getApplicationContext().getResources().getDrawable(R.drawable.ic_study)));
+        your_array_list.add(new MenuList("Explore",getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
+        your_array_list.add(new MenuList("Articles",getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
+        your_array_list.add(new MenuList("Our Mentors",getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
+        your_array_list.add(new MenuList("My Profile",getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
+        your_array_list.add(new MenuList("Sign Out",getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1)));
 
         ListViewAdapter adapter = new ListViewAdapter(this, your_array_list);
         //
@@ -230,6 +252,32 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(!amIConnect()) {
+
+                    InternetDialog internetDialog = new InternetDialog();
+                    internetDialog.showDialog(MyCourses.this, "none");
+
+
+                    String cart = Paper.book().read("cart");
+
+                    if(cart != null && !cart.isEmpty()) {
+                        Gson gson = new Gson();
+
+                        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+
+                        ArrayList<String> arrayList = gson.fromJson(cart, type);
+
+                        setCount(MyCourses.this, arrayList.size()+"");
+
+                    } else {
+                        setCount(MyCourses.this, "0");
+                    }
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+                    return;
+                }
+
                 switch (position) {
                     case 0:
                         categoryFragment = new CategoryFragment();
@@ -244,17 +292,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         categoryFragment.addSubCategory("2", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-                        getSupportActionBar().setTitle("Banking");
-                        break;
+                        getSupportActionBar().setTitle("UPSC");
                     case 2:
-                        categoryFragment = new CategoryFragment();
-
-                        categoryFragment.addSubCategory("5", user.getUser_id());
-
-                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-                        getSupportActionBar().setTitle("Professional Development");
-                        break;
-                    case 3:
                         categoryFragment = new CategoryFragment();
 
                         categoryFragment.addSubCategory("6", user.getUser_id());
@@ -262,29 +301,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("General Knowledge");
                         break;
-                    case 4:
-                        categoryFragment = new CategoryFragment();
-
-                        categoryFragment.addSubCategory("9", user.getUser_id());
-
-                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-                        getSupportActionBar().setTitle("Govt. Jobs");
-                        break;
-                    case 5:
-                        categoryFragment = new CategoryFragment();
-                        categoryFragment.addSubCategory("12", user.getUser_id());
-
-                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-                        getSupportActionBar().setTitle("Law");
-                        break;
-                    case 6:
+          /*          case 3:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("13", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("Finance");
                         break;
-                    case 7:
+          *//*          case 4:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("14", user.getUser_id());
 
@@ -292,36 +316,36 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         navigationView.setCheckedItem(R.id.marketing);
                         getSupportActionBar().setTitle("Marketing");
                         break;
-                    case 8:
+            */        case 3:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("15", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("Certificate Courses");
                         break;
-                    case 9:
+                    case 4:
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
                         getSupportActionBar().setTitle("My Courses");
                         break;
-                    case 10:
+                    case 5:
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         getSupportActionBar().setTitle("Explorer");
 
                         addExam();
                         break;
-                    case 11:
+                    case 6:
                         initArticle();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();
                         getSupportActionBar().setTitle("Articles");
                         break;
-                    case 12:
+                    case 7:
                         startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
                         break;
-                    case 13:
+                    case 8:
                         startActivity(new Intent(MyCourses.this, MyProfile_2.class));
                         break;
-                    case 14:
+                    case 9:
                         mAuth = FirebaseAuth.getInstance();
                         if(mAuth != null) {
                             mAuth.signOut();
@@ -587,7 +611,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         int id = menuItem.getItemId();
 
-
         String cart = Paper.book().read("cart");
 
         if(cart != null && !cart.isEmpty()) {
@@ -768,6 +791,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         names = new ArrayList<>();
         urls = new ArrayList<>();
         ids = new ArrayList<>();
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -995,6 +1019,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("discount")
                                         , "",
                                         Category.getString("video_url").replace("\\", "")));
+                                courses.get(i).setType("Paid");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1049,6 +1074,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("eid"),
                                         Category.getString("discount")
                                         , "meta_description",""));
+                                freecourse.get(i).setType("Free");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1069,6 +1095,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         );
 
         requestQueue1.add(stringRequest1);
+    }
+
+
+    private boolean amIConnect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
     }
 }
 

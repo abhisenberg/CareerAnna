@@ -95,12 +95,38 @@
                 android:id="@+id/course_price"
                 android:text="99" />
 
-            <ImageView
-                android:layout_gravity="end"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_waste_bin"
-                />
+                android:layout_marginTop="10dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:drawableLeft="@drawable/ic_presentation"
+                    android:id="@+id/pb_instructor"
+                    android:text=" By CareerAnna"
+                    android:textColor="@color/black"
+                    />
+
+
+                <Button
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="25dp"
+                    android:gravity="center"
+                    android:layout_weight="3"
+                    android:layout_gravity="end"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:drawableStart="@drawable/ic_waste_bin"
+                    />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

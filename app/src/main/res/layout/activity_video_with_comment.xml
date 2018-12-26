@@ -5,121 +5,157 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".VideoWithComment">
 
     <com.longtailvideo.jwplayer.JWPlayerView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
 
-
-    <TextView
-        android:layout_below="@+id/videoView"
-        android:id="@+id/views"
-        android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="100 Views"
-        android:layout_marginLeft="10dp"
-        android:gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:drawablePadding="5dp"
-        android:drawableLeft="@drawable/baseline_remove_red_eye_black_18dp"
-        />
-
-
-    <TextView
-        android:layout_below="@+id/videoView"
-        android:id="@+id/up"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:gravity="center_vertical"
-        android:drawablePadding="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/thumbdown"
-        android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
-        />
-
-    <TextView
-        android:layout_below="@+id/videoView"
-        android:id="@+id/thumbdown"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" 0"
-        android:gravity="center_vertical"
-        android:drawablePadding="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"
-        android:drawableLeft="@drawable/ic_thumbs_down_silhouette"
-        />
-
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
+        android:id="@+id/linear_rv"
         android:layout_height="wrap_content"
-        android:layout_below="@id/views"
-        android:id="@+id/linear"
-        android:paddingLeft="5dp"
-        android:weightSum="10">
+        android:weightSum="11"
+        android:layout_below="@id/videoView">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:src="@drawable/ic_person_color"
+        <TextView
+            android:layout_below="@+id/videoView"
+            android:id="@+id/views"
+            android:textColor="@color/black"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2"
-            android:layout_marginTop="5dp"
+            android:layout_weight="7"
+            android:layout_height="wrap_content"
+            android:text="100 Views"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/baseline_remove_red_eye_black_18dp"
             />
 
-        <EditText
-            android:id="@+id/addComment"
-            android:textSize="14sp"
+
+        <Button
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/videoView"
+            android:id="@+id/up"
+            android:textColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="40dp"
+            android:text="20"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:layout_toLeftOf="@id/thumbdown"
+            android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
+            />
+
+        <Button
+            android:layout_marginTop="6dp"
+            android:layout_below="@+id/videoView"
+            android:id="@+id/thumbdown"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_thumbs_down_silhouette"
+            />
+
+        <TextView
+            android:layout_marginTop="4dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:hint="Enter Comment"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="0"
             />
 
     </LinearLayout>
 
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_rv"
+        android:id="@+id/linear"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:weightSum="10">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/ic_person_color"
+            android:layout_width="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="35dp"
+            android:id="@+id/image"
+            />
+
+        <EditText
+            android:layout_toRightOf="@id/image"
+            android:id="@+id/addComment"
+            android:textSize="16sp"
+            android:padding="7dp"
+            android:textColor="#000"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add A Public Comment"
+            />
+
+    </RelativeLayout>
+
     <Button
+        android:visibility="gone"
+        android:id="@+id/cancel"
         android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_below="@id/linear"
         android:text="Cancel"
         android:layout_marginRight="10dp"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="@color/red"
         android:layout_toLeftOf="@id/reply"
         />
 
     <Button
+        android:visibility="gone"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_below="@id/linear"
         android:text="Leave A Comment "
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_alignParentRight="true"
         android:drawableRight="@drawable/ic_send_white_24dp"
-        android:padding="10dp"
-        android:background="@color/dark_blue"
-        android:textColor="@color/white"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorPrimary"
         android:id="@+id/reply"
         />
 
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/reply"
+        android:background="#867d7d"
+        android:id="@+id/view"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/comments"
-        android:layout_below="@+id/reply"
+        android:layout_below="@+id/view"
         android:layout_marginTop="10dp"
         />
 
