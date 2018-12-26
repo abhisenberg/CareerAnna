@@ -1,14 +1,20 @@
 package com.careeranna.careeranna;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,11 +39,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener {
+public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener, CommentAdapter.OnItemClickListener {
 
     RecyclerView recyclerView;
 
@@ -50,6 +58,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
     ArrayList<Comment> comments;
 
     EditText comment_tv;
+
+    String id;
 
     User user;
 
@@ -65,7 +75,6 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         setContentView(R.layout.activity_video_with_comment);
 
         comments = new ArrayList<>();
-        comments.add(new Comment());
 
         comment_tv = findViewById(R.id.addComment);
 
@@ -82,18 +91,34 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             mEmail = user.getUser_email();
         }
 
+        comment_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().isEmpty()) {
+                    cancel.setVisibility(View.VISIBLE);
+                    addComment.setVisibility(View.VISIBLE);
+                } else {
+                    cancel.setVisibility(View.INVISIBLE);
+                    addComment.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+            }
+        });
+
         image = findViewById(R.id.image);
 
         Glide.with(this).load(profile_pic_url).into(image);
-
-        final ArrayList<Comment> comments1 = new ArrayList<>();
-        comments1.add(new Comment());
-        comments1.add(new Comment());
-        comments1.add(new Comment());
-
-        comments.get(0).setComments(comments1);
-
-        comments.add(new Comment());
 
         cancel = findViewById(R.id.cancel);
 
@@ -114,7 +139,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        commentAdapter = new CommentAdapter(comments, this);
+        commentAdapter = new CommentAdapter(comments, this, user);
+        commentAdapter.setOnItemClicklistener(this);
         recyclerView.setAdapter(commentAdapter);
 
         String url = freeVideos.getVideo_url();
@@ -123,7 +149,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
         playVideo(url);
 
-        String id = "38";
+        id = freeVideos.getId();
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         comments = new ArrayList<>();
@@ -164,7 +191,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                     }
                 }
 
-                commentAdapter = new CommentAdapter(comments, VideoWithComment.this);
+                commentAdapter = new CommentAdapter(comments, VideoWithComment.this, user);
+                commentAdapter.setOnItemClicklistener(VideoWithComment.this);
                 recyclerView.setAdapter(commentAdapter);
             }
         }, new Response.ErrorListener() {
@@ -180,7 +208,40 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             @Override
             public void onClick(View v) {
                 if(!comment_tv.getText().toString().isEmpty()) {
-                    commentAdapter.addComment(new Comment());
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                            "https://careeranna.com/api/addComment.php", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("url_response", "Register Response: " + response);
+                            Toast.makeText(VideoWithComment.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(VideoWithComment.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            // Posting params to login url
+                            Map<String, String> params = new HashMap<>();
+                            params.put("email", user.getUser_email());
+                            params.put("name", user.getUser_username());
+                            params.put("body", comment_tv.getText().toString());
+                            params.put("parent_id", "0");
+                            params.put("ne_id", id);
+                            return params;
+                        }
+                    };
+                    RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+                    requestQueue.add(stringRequest);
+
+                    Comment comment = new Comment();
+                    comment.setComment_body(comment_tv.getText().toString());
+                    comment.setName(user.getUser_username());
+                    commentAdapter.addComment(comment);
+
                 }
             }
         });
@@ -230,5 +291,37 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     public boolean isPlayerFullscreen(){
         return playerView.getFullscreen();
+    }
+
+    @Override
+    public void onItemClick1(final int position, final String comment) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "https://careeranna.com/api/addComment.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("url_response", "Register Response: " + response);
+                Toast.makeText(VideoWithComment.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(VideoWithComment.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to login url
+                Map<String, String> params = new HashMap<>();
+                params.put("email", user.getUser_email());
+                params.put("name", user.getUser_username());
+                params.put("body", comment);
+                params.put("parent_id", comments.get(position).getId());
+                params.put("ne_id", id);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+        requestQueue.add(stringRequest);
+
     }
 }

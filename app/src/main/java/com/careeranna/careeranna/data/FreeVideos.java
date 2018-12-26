@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class FreeVideos implements Serializable {
 
-    String id, video_url, thumbnail, total_view, tags, title, type;
+    String id, video_url, thumbnail, total_view, tags, title, type, duration;
 
     public FreeVideos(String id, String video_url, String thumbnail, String total_view, String tags, String title) {
         this.id = id;
@@ -14,6 +14,27 @@ public class FreeVideos implements Serializable {
         this.tags = tags;
         this.title = title;
         this.type = "Free";
+        this.duration = "0";
+        this.tags = "null";
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public FreeVideos(String id, String video_url, String thumbnail, String total_view, String tags, String title, String type, String duration) {
+        this.id = id;
+        this.video_url = video_url;
+        this.thumbnail = thumbnail;
+        this.total_view = total_view;
+        this.tags = tags;
+        this.title = title;
+        this.type = type;
+        this.duration = duration;
     }
 
     public String getType() {

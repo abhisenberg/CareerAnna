@@ -217,17 +217,10 @@ public class NewCourseActivity extends AppCompatActivity implements NavigationVi
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("foo");
-        your_array_list.add("bar");
-
-        ListViewAdapter adapter = new ListViewAdapter(this, your_array_list);
-        //
         //// Attach the adapter to a ListView
         //
         //ListView listView = (ListView) findViewById(R.id.lvItems);
         //
-        listView.setAdapter(adapter);
 
         navigationView.setNavigationItemSelectedListener(this);
 

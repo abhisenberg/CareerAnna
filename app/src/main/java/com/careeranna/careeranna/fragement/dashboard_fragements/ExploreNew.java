@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,10 +46,21 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     ArrayList<Course> courses, freecourse;
 
-    RecyclerView recyclerView, recyclerView1, freeCorse, paidCourse;
+    TrendingVideosAdapter trendingVideosAdapter;
+
+    TrendingVideosAdapter freeVideosAdapter;
+
+    RecyclerView trending, recyclerView1, freeCorse, paidCourse;
+
+    public static int position = 0, position_latest = 0;
+
+    public static int position_free = 0, position_paid = 0;
 
     ProgressDialog progressDialog;
 
+    ImageView arrow_t_l,arrow_t_r,arrow_l_r, arrow_l_l;
+
+    ImageView arrow_p_l,arrow_p_r,arrow_f_r, arrow_f_l;
 
     public ExploreNew() {
     }
@@ -80,9 +92,110 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_my_explore_new, container, false);
 
-        recyclerView = view.findViewById(R.id.trending_rv);
+        trending = view.findViewById(R.id.trending_rv);
 
         recyclerView1 = view.findViewById(R.id.latest_rv);
+
+        arrow_t_l = view.findViewById(R.id.arrow_t_l);
+        arrow_t_r = view.findViewById(R.id.arrow_t_r);
+
+        arrow_l_l = view.findViewById(R.id.arrow_l_l);
+        arrow_l_r = view.findViewById(R.id.arrow_l_r);
+
+        arrow_f_l = view.findViewById(R.id.arrow_f_l);
+        arrow_f_r = view.findViewById(R.id.arrow_f_r);
+
+        arrow_p_l = view.findViewById(R.id.arrow_p_l);
+        arrow_p_r = view.findViewById(R.id.arrow_p_r);
+
+        arrow_t_r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    arrow_t_l.setVisibility(View.VISIBLE);
+                }
+                position += 1;
+                trending.smoothScrollToPosition(position);
+            }
+        });
+
+        arrow_t_l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 1) {
+                    arrow_t_l.setVisibility(View.INVISIBLE);
+                }
+                position -= 1;
+                trending.smoothScrollToPosition(position);
+            }
+        });
+
+        arrow_l_r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_latest == 0) {
+                    arrow_l_l.setVisibility(View.VISIBLE);
+                }
+                position_latest += 1;
+                recyclerView1.smoothScrollToPosition(position_latest);
+            }
+        });
+
+        arrow_l_l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_latest == 1) {
+                    arrow_l_l.setVisibility(View.INVISIBLE);
+                }
+                position_latest -= 1;
+                recyclerView1.smoothScrollToPosition(position_latest);
+            }
+        });
+
+
+        arrow_f_r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_free == 0) {
+                    arrow_f_l.setVisibility(View.VISIBLE);
+                }
+                position_free += 1;
+                freeCorse.smoothScrollToPosition(position_free);
+            }
+        });
+
+        arrow_f_l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_free == 1) {
+                    arrow_f_l.setVisibility(View.INVISIBLE);
+                }
+                position_free -= 1;
+                freeCorse.smoothScrollToPosition(position_free);
+            }
+        });
+
+        arrow_p_r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_paid == 0) {
+                    arrow_p_l.setVisibility(View.VISIBLE);
+                }
+                position_paid += 1;
+                paidCourse.smoothScrollToPosition(position_paid);
+            }
+        });
+
+        arrow_p_l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position_paid == 1) {
+                    arrow_p_l.setVisibility(View.INVISIBLE);
+                }
+                position_paid -= 1;
+                paidCourse.smoothScrollToPosition(position_paid);
+            }
+        });
 
         freeCorse = view.findViewById(R.id.free_course_rv);
 
@@ -97,25 +210,14 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         trendingvVideos = new ArrayList<>();
 
-        freeVideos.add(new FreeVideos());
-        freeVideos.add(new FreeVideos());
-        freeVideos.add(new FreeVideos());
-        freeVideos.add(new FreeVideos());
-        freeVideos.add(new FreeVideos());
-
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager1);
+        trending.setLayoutManager(linearLayoutManager1);
 
         recyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
 
         freeCorse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
 
         paidCourse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
-
-        TrendingVideosAdapter trendingVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
-
-        recyclerView.setAdapter(trendingVideosAdapter);
-        recyclerView1.setAdapter(trendingVideosAdapter);
 
         initalizeVideo();
     }
@@ -149,8 +251,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                         videos.getString("id"),
                                         videos.getString("video_url").replace("\\",""),
                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
-                                        videos.getString("totalViews"),"",
-                                        videos.getString("heading")));
+                                        videos.getString("totalViews"),
+                                        videos.getString("tags"),
+                                        videos.getString("heading"),
+                                        "Free",
+                                        videos.getString("duration")));
                                 freeVideos.get(i).setType("Latest");
                             }
 
@@ -158,11 +263,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                             e.printStackTrace();
                         }
 
-                        TrendingVideosAdapter trendingVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
+                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
 
-                        recyclerView1.setAdapter(trendingVideosAdapter);
+                        recyclerView1.setAdapter(freeVideosAdapter);
 
-                        trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
+                        freeVideosAdapter.setOnItemClicklistener(ExploreNew.this);
 
                         progressDialog.dismiss();
 
@@ -189,8 +294,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                                         videos.getString("id"),
                                                         videos.getString("video_url").replace("\\",""),
                                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
-                                                        videos.getString("totalViews"),"",
-                                                        videos.getString("heading")));
+                                                        videos.getString("totalViews"),
+                                                        videos.getString("tags"),
+                                                        videos.getString("heading"),
+                                                        "Trending",
+                                                        videos.getString("duration")
+                                                ));
                                                 trendingvVideos.get(i).setType("Trending");
                                             }
 
@@ -198,9 +307,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                             e.printStackTrace();
                                         }
 
-                                        TrendingVideosAdapter trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
+                                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
 
-                                        recyclerView.setAdapter(trendingVideosAdapter);
+                                        trending.setAdapter(trendingVideosAdapter);
 
                                         trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
 

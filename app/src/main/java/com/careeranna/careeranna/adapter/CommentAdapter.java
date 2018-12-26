@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +15,30 @@ import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Comment;
+import com.careeranna.careeranna.data.User;
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private ArrayList<Comment> comments;
+    private User user;
     private Context context;
+    private OnItemClickListener mListener;
 
-    public CommentAdapter(ArrayList<Comment> comments, Context context) {
+    public interface OnItemClickListener {
+        void onItemClick1(int position, String comment);
+    }
+
+    public void setOnItemClicklistener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+
+    public CommentAdapter(ArrayList<Comment> comments, Context context, User user) {
         this.comments = comments;
         this.context = context;
+        this.user = user;
     }
 
     @NonNull
@@ -34,9 +49,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        CommentChildAdapter commentAdapter = new CommentChildAdapter(comments.get(i).getComments(), context);
+        final CommentChildAdapter commentAdapter = new CommentChildAdapter(comments.get(i).getComments(), context);
 
         viewHolder.comments_tv.setText(comments.get(i).getComments().size()+" Comments");
 
@@ -55,10 +70,53 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         viewHolder.image.setText(name);
 
+        viewHolder.editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(!s.toString().isEmpty()) {
+                    viewHolder.replyCancel.setVisibility(View.VISIBLE);
+                    viewHolder.reply_child.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.replyCancel.setVisibility(View.INVISIBLE);
+                    viewHolder.reply_child.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         viewHolder.replyCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder.editText.setText("");
+            }
+        });
+
+        viewHolder.reply_child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!viewHolder.editText.getText().toString().equals("")) {
+                    if(mListener != null) {
+
+                        Comment comment1 = new Comment();
+                        comment1.setName(user.getUser_username());
+                        comment1.setComment_body(viewHolder.editText.getText().toString());
+                        comments.get(i).getComments().add(comment1);
+                        final CommentChildAdapter commentAdapter = new CommentChildAdapter(comments.get(i).getComments(), context);
+                        viewHolder.recyclerView.setAdapter(commentAdapter);
+
+                        mListener.onItemClick1(i, viewHolder.editText.getText().toString());
+                    }
+                }
             }
         });
 
