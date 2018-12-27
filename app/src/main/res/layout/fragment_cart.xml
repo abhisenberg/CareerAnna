@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CartFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/layout"
+        android:layout_height="match_parent"
+        tools:context=".CartPage">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:elevation="10dp"
+            android:id="@+id/card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Soory You Don't Have Purchase Any Course Please Add Some"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_cart"
+                    android:layout_marginTop="10dp"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ordered_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/card1"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" />
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/promo"
+                    android:layout_toLeftOf="@id/apply"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_above="@id/checkout"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#b4a9a9"
+                    android:textColorHint="#b4a9a9"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:hint="Enter Your Promo Code Here "
+                    />
+
+                <Button
+                    android:layout_above="@id/checkout"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:id="@+id/apply"
+                    android:text="Apply"
+                    android:background="@color/colorPrimary"
+                    android:enabled="false"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grand Total"
+                    android:textStyle="bold"
+                    android:id="@+id/grand_total1"
+                    android:layout_above="@id/grand_total"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_rupee_indian_black"
+                    android:id="@+id/grand_total"
+                    android:text="0.00"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+
+                <Button
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:id="@+id/checkout"
+                    android:drawableRight="@drawable/ic_send_black_24dp"
+                    android:text="Proced To CheckOut"
+                    android:background="@color/colorPrimary"
+                    android:enabled="false"
+                    />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</FrameLayout>

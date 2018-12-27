@@ -64,8 +64,7 @@
         <activity android:name=".Pdf" />
         <activity
             android:name=".ParticularArticleActivity"
-            android:label="Article"
-            />
+            android:label="Article" />
         <activity
             android:name=".ExamPrepActivity"
             android:label="Examp Prep" />
@@ -88,7 +87,6 @@
             android:name=".SortByCourse"
             android:label="Sort Course" />
         <activity android:name=".InstructorProfileActivity" />
-
         <activity android:name=".InstructorsListActivity" />
         <activity android:name=".user.MyProfile_2"
             android:theme="@style/UserProfileTheme"
@@ -97,9 +95,9 @@
         <activity
             android:name=".VideoWithComment"
             android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".NewCourseActivity"></activity>
-
-        <activity android:name=".ExploreNotSIActivity_2"></activity>
+        <activity android:name=".NewCourseActivity" />
+        <activity android:name=".ExploreNotSIActivity_2" />
+        <activity android:name=".Exams"></activity>
     </application>
 
 </manifest>

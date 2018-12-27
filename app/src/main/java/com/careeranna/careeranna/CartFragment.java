@@ -1,17 +1,20 @@
 package com.careeranna.careeranna;
 
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -27,14 +30,14 @@ import com.careeranna.careeranna.data.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
 
-public class CartPage extends AppCompatActivity {
+
+public class CartFragment extends Fragment {
+
 
     private ArrayList<OrderedCourse> orderedCourses;
     RecyclerView recyclerView;
@@ -75,26 +78,31 @@ public class CartPage extends AppCompatActivity {
 
     ArrayList<String> arrayList;
 
+
+    public CartFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart_page);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_cart, container, false);
 
-        layout = findViewById(R.id.price_layout);
+        linearLayout = view.findViewById(R.id.layout);
 
-        linearLayout = findViewById(R.id.layout);
+        Paper.init(getContext());
 
-        Paper.init(this);
+        checkout = view.findViewById(R.id.checkout);
 
-        checkout = findViewById(R.id.checkout);
+        promo = view.findViewById(R.id.promo);
 
-        promo = findViewById(R.id.promo);
+        cardView = view.findViewById(R.id.card);
 
-        cardView = findViewById(R.id.card);
+        recyclerView = view.findViewById(R.id.ordered_rv);
 
-        recyclerView = findViewById(R.id.ordered_rv);
-
-        price = findViewById(R.id.grand_total);
+        price = view.findViewById(R.id.grand_total);
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
@@ -118,8 +126,6 @@ public class CartPage extends AppCompatActivity {
 
                 arrayList = gson.fromJson(cart, type);
 
-                grand_total = 0;
-
                 for(String orderedCourse: arrayList) {
 
                     String course[] = orderedCourse.split(",");
@@ -136,10 +142,10 @@ public class CartPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        dialog = new Dialog(CartPage.this);
+                        dialog = new Dialog(getContext());
                         dialog.setContentView(R.layout.custom_payment_layout);
                         dialog.setTitle("Pay Now ... ");
-                        dialog = new Dialog(CartPage.this);
+                        dialog = new Dialog(getContext());
                         dialog.setContentView(R.layout.custom_payment_layout);
                         dialog.setTitle("Pay Now ... ");
 
@@ -160,7 +166,7 @@ public class CartPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
-                                intent = new Intent(CartPage.this, PaytmPayment.class);
+                                intent = new Intent(getContext(), PaytmPayment.class);
                                 intent.putExtra("price", grand_total);
                                 startActivity(intent);
                             }
@@ -170,7 +176,7 @@ public class CartPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
-                                intent = new Intent(CartPage.this, Payment.class);
+                                intent = new Intent(getContext(), Payment.class);
                                 intent.putExtra("price", grand_total);
                                 startActivity(intent);
                             }
@@ -182,9 +188,9 @@ public class CartPage extends AppCompatActivity {
             }
 
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setHasFixedSize(true);
-            orderCourseAdapter = new OrderCourseAdapter(orderedCourses, this);
+            orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
             recyclerView.setAdapter(orderCourseAdapter);
             recyclerView.smoothScrollToPosition(0);
             new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -211,22 +217,21 @@ public class CartPage extends AppCompatActivity {
             promo.setVisibility(View.VISIBLE);
             checkout.setVisibility(View.VISIBLE);
 
-            layout.setVisibility(View.VISIBLE);
 
         } else {
             cardView.setVisibility(View.VISIBLE);
-
-            layout.setVisibility(View.INVISIBLE);
 
             promo.setVisibility(View.INVISIBLE);
             checkout.setVisibility(View.INVISIBLE);
         }
 
+        return view;
+
     }
 
     private void removeAlert(final int pos) {
 
-        mBuilder = new AlertDialog.Builder(this);
+        mBuilder = new AlertDialog.Builder(getContext());
         mBuilder.setTitle("Course Deletion");
         mBuilder.setCancelable(false);
         mBuilder.setMessage("Are you sure you want remove from cart ?");
@@ -245,8 +250,6 @@ public class CartPage extends AppCompatActivity {
                 if(orderedCourses.size() == 0) {
                     cardView.setVisibility(View.VISIBLE);
 
-                    layout.setVisibility(View.INVISIBLE);
-
                     promo.setVisibility(View.INVISIBLE);
                     checkout.setVisibility(View.INVISIBLE);
                 } else {
@@ -256,8 +259,6 @@ public class CartPage extends AppCompatActivity {
                     promo.setVisibility(View.VISIBLE);
                     checkout.setVisibility(View.VISIBLE);
 
-                    layout.setVisibility(View.VISIBLE);
-
                 }
                 snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
@@ -266,7 +267,7 @@ public class CartPage extends AppCompatActivity {
                     public void onClick(View v) {
                         arrayList.add(myCourse);
                         orderedCourses.add(orderedCourse);
-                        orderCourseAdapter = new OrderCourseAdapter(orderedCourses, CartPage.this);
+                        orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
                         recyclerView.setAdapter(orderCourseAdapter);
                         recyclerView.smoothScrollToPosition(0);
 
@@ -275,7 +276,6 @@ public class CartPage extends AppCompatActivity {
                         if(orderedCourses.size() == 0) {
                             cardView.setVisibility(View.VISIBLE);
 
-                            layout.setVisibility(View.INVISIBLE);
 
                             promo.setVisibility(View.INVISIBLE);
                             checkout.setVisibility(View.INVISIBLE);
@@ -286,8 +286,6 @@ public class CartPage extends AppCompatActivity {
                             promo.setVisibility(View.VISIBLE);
                             checkout.setVisibility(View.VISIBLE);
 
-                            layout.setVisibility(View.VISIBLE);
-
                         }
                     }
                 });
@@ -297,7 +295,7 @@ public class CartPage extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
-                orderCourseAdapter = new OrderCourseAdapter(orderedCourses, CartPage.this);
+                orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
                 recyclerView.setAdapter(orderCourseAdapter);
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -305,5 +303,5 @@ public class CartPage extends AppCompatActivity {
         alertDialog = mBuilder.show();
 
     }
-}
 
+}
