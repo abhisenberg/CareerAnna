@@ -22,14 +22,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.Constants;
 import com.hbb20.CountryCodePicker;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.careeranna.careeranna.data.Constants.USER_USERNAME;
+
 public class Register extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String TAG = "RegisterActivity";
+
+//    private final String USER_USERNAME = "username",
+//            USER_EMAIL = "email",
+//            USER_PASSWORD = "password",
+//            USER_PHONE = "phone",
+//            USER_CITY = "city",
+//            USER_HOWTOKNOW = "howtoknow";
 
     TextInputLayout emailLayout,
             passwordLayout,
@@ -51,6 +61,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        Log.d(TAG, "onCreate: ");
+
         if(getSupportActionBar().isShowing()){
             getSupportActionBar().hide();
         }
@@ -63,11 +75,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         ciytLayout= findViewById(R.id.usercityTv1);
         userNameLayout = findViewById(R.id.usernameTv1);
         spinner_how_know = findViewById(R.id.how_spinner);
-//        spinner_state_selector = findViewById(R.id.state_selector_spinner);
         signUp = findViewById(R.id.signUpBtn);
-
         spinner_how_know.setOnItemSelectedListener(this);
-//        spinner_state_selector.setOnItemSelectedListener(this);
         signUp.setOnClickListener(this);
     }
 
@@ -77,17 +86,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         switch (view.getId()) {
 
             case R.id.signUpBtn:
+                Log.d(TAG, "Register button pressed ");
                 if( !validateEmailTv() |
                         !validateUserCityTv() |
                         !validateUserNameTv() |
                         !validateUserNmberTv() |
                         !validateUserPasswordTv()
-//                        !validateState()
                         ) {
                     return;
                 } else {
                     progressDialog = new ProgressDialog(this);
-                    progressDialog.setMessage("Creating USer Please Wait!!");
+                    progressDialog.setMessage("Creating your account, please wait..");
                     progressDialog.show();
 
                     Log.d(TAG, "Country code selected is "+countryCode);
@@ -125,13 +134,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                         @Override
                         protected Map<String, String> getParams() {
                             // Posting params to login url
+                            String phone = countryCode+phoneNumber;
+                            Log.d(TAG, "phone = "+phone);
                             Map<String, String> params = new HashMap<>();
-                            params.put("email", email);
-                            params.put("password", password);
-                            params.put("username", username);
-                            params.put("phoneNumber", countryCode+phoneNumber);
-                            params.put("city", city);
-                            params.put("howtoknow", howtoKnow);
+                            params.put(Constants.USER_EMAIL, email);
+                            params.put(Constants.USER_PASSWORD, password);
+                            params.put(Constants.USER_USERNAME, username);
+                            params.put(Constants.USER_PHONE, phone);
+                            params.put(Constants.USER_CITY, city);
+                            params.put(Constants.USER_HOWTOKNOW, howtoKnow);
                             return params;
                         }
                     };
@@ -150,7 +161,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
         if(emailInput.isEmpty()) {
 
-            emailLayout.setError("UserEmail can't be emplty ");
+            emailLayout.setError("UserEmail can't be empty ");
             return false;
 
         } else if(!emailInput.matches(emailPattern)) {
@@ -172,7 +183,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
         if(emailInput.isEmpty()) {
 
-            userNameLayout.setError("UserName can't be emplty ");
+            userNameLayout.setError("UserName can't be empty ");
             return false;
 
         }else if(emailInput.length() > 30) {
@@ -194,7 +205,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
         if(emailInput.isEmpty()) {
 
-            passwordLayout.setError("Password can't be emplty ");
+            passwordLayout.setError("Password can't be empty ");
             return false;
 
         } else {
@@ -211,7 +222,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
         if(emailInput.isEmpty()) {
 
-            ciytLayout.setError("City can't be emplty ");
+            ciytLayout.setError("City can't be empty ");
             return false;
 
         } else {
@@ -228,7 +239,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
         if(emailInput.isEmpty()) {
 
-            phoneLayout.setError("Phone Number can't be emplty ");
+            phoneLayout.setError("Phone Number can't be empty ");
             return false;
 
         } else if(!emailInput.matches(MobilePattern)) {
