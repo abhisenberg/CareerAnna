@@ -23,6 +23,30 @@
           }
         },
         {
+          "client_id": "818754991008-77glgtsjj26np0j13kikjm27e56qrsgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.careeranna.careeranna",
+            "certificate_hash": "2dd70ea96b3af8e3dbc2f7f6ecd3bcd01253e879"
+          }
+        },
+        {
+          "client_id": "818754991008-ofnh8qa6lkv7032vojv396qiuptogqo2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.careeranna.careeranna",
+            "certificate_hash": "11e8dd6183b63e49db42a27d7a7578c6169fecb3"
+          }
+        },
+        {
+          "client_id": "818754991008-lcbbh8tnr27f513oc9b5poshl4jk0duj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.careeranna.careeranna",
+            "certificate_hash": "ef809dd59903ff6a51981cc8ec5663757839ade5"
+          }
+        },
+        {
           "client_id": "818754991008-93r45lm5oa5d0gb54ihsd1ftppd6m60s.apps.googleusercontent.com",
           "client_type": 3
         }

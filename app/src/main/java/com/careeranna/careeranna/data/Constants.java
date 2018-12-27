@@ -10,4 +10,11 @@ public class Constants {
     public static final String WEBSITE = "APPSTAGING";
     public static final String CALLBACK_URL = "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp";
 
+    public static final String USER_USERNAME = "username",
+            USER_EMAIL = "email",
+            USER_PASSWORD = "password",
+            USER_PHONE = "phone",
+            USER_CITY = "city",
+            USER_HOWTOKNOW = "howtoknow";
+
 }
