@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="9dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="10"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/course_image"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:layout_height="100dp" />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_weight="6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/course_name"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Course Name"
+                    />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:id="@+id/pb_instructor"
+                    android:text="By CareerAnna"
+                    android:textColor="#b4a9a9"
+                    />
+
+                <RelativeLayout
+                    android:layout_marginTop="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_marginTop="3dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/star1"
+                        android:src="@drawable/ic_star_colour_full" />
+                    <ImageView
+                        android:layout_marginTop="3dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/star2"
+                        android:layout_toRightOf="@id/star1"
+                        android:src="@drawable/ic_star_colour_full"/>
+                    <ImageView
+                        android:layout_marginTop="3dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/star3"
+                        android:layout_toRightOf="@id/star2"
+                        android:src="@drawable/ic_star_colour_full" />
+                    <ImageView
+                        android:layout_marginTop="3dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/star4"
+                        android:layout_toRightOf="@id/star3"
+                        android:src="@drawable/ic_star_colour_full"/>
+                    <ImageView
+                        android:layout_marginTop="2dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/star5"
+                        android:layout_toRightOf="@id/star4"
+                        android:src="@drawable/ic_star_colour"/>
+
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/star5"
+                        android:layout_marginLeft="10dp"
+                        android:text="4.00 (4,000)"
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:drawableLeft="@drawable/ic_rupee_indian_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:id="@+id/course_price"
+                    android:text="99" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10">
+
+            <Button
+                android:background="@drawable/border_grey"
+                android:layout_gravity="end"
+                android:layout_width="0dp"
+                android:textSize="14sp"
+                android:layout_weight="5"
+                android:layout_height="33dp"
+                android:text="Remove"
+                android:id="@+id/remove"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                />
+
+            <Button
+                android:textStyle="bold"
+                android:background="@drawable/border_grey"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="end"
+                android:id="@+id/whishlist"
+                android:textSize="14sp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="33dp"
+                android:text="Add To Cart"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

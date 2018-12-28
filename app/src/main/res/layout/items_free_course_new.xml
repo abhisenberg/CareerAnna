@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="8dp"
     android:layout_height="240dp"
     app:cardElevation="10dp">
@@ -114,10 +114,10 @@
                 android:layout_toRightOf="@id/star5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/ratings"
-                android:text="4.00 ( 4,000 Ratings)"
+                android:text="4.00 ( 4,00 Ratings)"
                 android:textColor="#7e7171"
                 />
         </RelativeLayout>

@@ -96,6 +96,28 @@
             android:id="@+id/image"
             />
 
+
+        <RelativeLayout
+            android:visibility="invisible"
+            android:layout_width="30dp"
+            android:id="@+id/rel"
+            android:background="@drawable/circle_guest"
+            android:layout_height="30dp">
+
+            <TextView
+                android:src="@drawable/ic_person_color"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="G"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:id="@+id/imageWithoutLogin"
+                />
+
+        </RelativeLayout>
+
         <EditText
             android:layout_toRightOf="@id/image"
             android:id="@+id/addComment"

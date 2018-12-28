@@ -29,7 +29,7 @@ public class PasswordReset extends AppCompatActivity {
 
     EditText verificationCode;
 
-    TextInputLayout newPassword;
+    TextInputLayout newPassword, confirmPassword;
 
     Button sendNewPassword, verifyCode;
 
@@ -60,9 +60,13 @@ public class PasswordReset extends AppCompatActivity {
 
         newPassword = findViewById(R.id.new_password);
 
+        confirmPassword = findViewById(R.id.confirm_new_password);
+
         sendNewPassword = findViewById(R.id.changePassowrd);
 
         newPassword.setEnabled(false);
+
+        confirmPassword.setEnabled(false);
 
         verifyCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +75,33 @@ public class PasswordReset extends AppCompatActivity {
                     Snackbar.make(relativeLayout, "Code Correct", Snackbar.LENGTH_SHORT).show();
                     newPassword.setEnabled(true);
                     sendNewPassword.setEnabled(true);
+                    confirmPassword.setEnabled(true);
                 } else {
                     Snackbar.make(relativeLayout, "Code InCorrect", Snackbar.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        confirmPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String password = newPassword.getEditText().getText().toString();
+                if(s.length()>0 && password.length()>0) {
+                    if(!s.equals(password)) {
+                        Snackbar.make(relativeLayout, "Password Does Not Match !", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
 
@@ -81,11 +109,14 @@ public class PasswordReset extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String pass = newPassword.getEditText().getText().toString();
-                if(pass.isEmpty()) {
+                if (pass.isEmpty()) {
                     Snackbar.make(relativeLayout, "Password Could Not Be Empty !", Snackbar.LENGTH_SHORT).show();
-                } else if(pass.length() < 8) {
+                } else if (pass.length() < 8) {
                     Snackbar.make(relativeLayout, "Password Length Should Be Greater Than 7", Snackbar.LENGTH_SHORT).show();
-                } else {
+                } else if (pass.equals(confirmPassword.getEditText().getText())) {
+                    confirmPassword.setError("Password Does Not Match !");
+                    Snackbar.make(relativeLayout, "Password Does Not Match", Snackbar.LENGTH_SHORT).show();
+                }else {
                     snackbar = Snackbar.make(relativeLayout, "Changing Password Please Wait", Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
                     progressBar.setVisibility(View.VISIBLE);

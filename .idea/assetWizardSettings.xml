@@ -72,11 +72,16 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+<<<<<<< HEAD
                             <entry key="height" value="400" />
                             <entry key="outputName" value="careeranna_icon_transparent" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/image2vector (1).svg" />
                             <entry key="width" value="400" />
+=======
+                            <entry key="outputName" value="ic_like" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/like.svg" />
+>>>>>>> 93d6b96914a2d75168cd5cc21402a50406acf8a1
                           </map>
                         </option>
                       </PersistentState>

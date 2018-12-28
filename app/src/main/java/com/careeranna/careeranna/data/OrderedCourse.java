@@ -13,6 +13,14 @@ public class OrderedCourse implements Serializable {
         this.name = name;
     }
 
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
+    }
+
     public OrderedCourse(String course_id, String price, String image, String name, String category_id) {
         this.course_id = course_id;
         this.price = price;

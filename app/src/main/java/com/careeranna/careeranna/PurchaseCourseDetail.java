@@ -317,8 +317,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         mBuilder.setNegativeButton("Add To Cart", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(new Intent(PurchaseCourseDetail.this, CartPage.class));
-
                 String cart = Paper.book().read("cart");;
 
                 if(cart != null && !cart.isEmpty()) {

@@ -1,6 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    signingConfigs {
+        debug {
+            storeFile file("../app/CareerAnna.jks")
+            storePassword "career"
+            keyAlias "key0"
+            keyPassword "career"
+        }
+        release {
+            storeFile file("../app/CareerAnna.jks")
+            storePassword "career"
+            keyAlias "key0"
+            keyPassword "career"
+        }
+    }
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.careeranna.careeranna"

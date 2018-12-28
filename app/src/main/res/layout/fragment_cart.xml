@@ -126,11 +126,10 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textColor="@color/white"
-                    android:id="@+id/checkout"
+                    android:id="@+id/checkout1"
                     android:drawableRight="@drawable/ic_send_black_24dp"
                     android:text="Proced To CheckOut"
                     android:background="@color/colorPrimary"
-                    android:enabled="false"
                     />
 
             </RelativeLayout>
