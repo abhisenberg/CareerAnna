@@ -203,7 +203,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 alert.dismiss();
-                                startActivity(new Intent(PurchaseCourseDetail.this, CartPage.class));
+                                startActivity(new Intent(PurchaseCourseDetail.this, MyCourses.class));
                                 finish();
                             }
                         });
