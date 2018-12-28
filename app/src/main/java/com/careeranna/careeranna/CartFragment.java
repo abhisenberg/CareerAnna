@@ -101,7 +101,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
         card1 = view.findViewById(R.id.card1);
 
-        checkout = view.findViewById(R.id.checkout);
+        checkout = view.findViewById(R.id.checkout1);
 
         promo = view.findViewById(R.id.promo);
 
@@ -160,55 +160,52 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                 price.setText(String.valueOf(grand_total));
 
-                checkout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.custom_payment_layout);
-                        dialog.setTitle("Pay Now ... ");
-                        dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.custom_payment_layout);
-                        dialog.setTitle("Pay Now ... ");
-
-                        Button paytm, payu;
-
-                        TextView price = dialog.findViewById(R.id.price);
-
-                        TextView email = dialog.findViewById(R.id.email);
-
-                        price.setText(String.valueOf(grand_total));
-
-                        email.setText(user.getUser_email());
-
-                        paytm = (Button) dialog.findViewById(R.id.paytm);
-                        payu = (Button) dialog.findViewById(R.id.payu);
-
-                        paytm.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                intent = new Intent(getContext(), PaytmPayment.class);
-                                intent.putExtra("price", grand_total);
-                                startActivity(intent);
-                            }
-                        });
-
-                        payu.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                intent = new Intent(getContext(), Payment.class);
-                                intent.putExtra("price", grand_total);
-                                startActivity(intent);
-                            }
-                        });
-
-                        dialog.show();
-                    }
-                });
             }
 
+            checkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.custom_payment_layout);
+                    dialog.setTitle("Pay Now ... ");
+
+                    Button paytm, payu;
+
+                    TextView price = dialog.findViewById(R.id.price);
+
+                    TextView email = dialog.findViewById(R.id.email);
+
+                    price.setText(String.valueOf(grand_total));
+
+                    email.setText(user.getUser_email());
+
+                    paytm = (Button) dialog.findViewById(R.id.paytm);
+                    payu = (Button) dialog.findViewById(R.id.payu);
+
+                    paytm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            intent = new Intent(getContext(), PaytmPayment.class);
+                            intent.putExtra("price", grand_total);
+                            startActivity(intent);
+                        }
+                    });
+
+                    payu.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            intent = new Intent(getContext(), Payment.class);
+                            intent.putExtra("price", grand_total);
+                            startActivity(intent);
+                        }
+                    });
+
+                    dialog.show();
+                }
+            });
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setHasFixedSize(true);
