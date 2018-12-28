@@ -26,4 +26,5 @@
 
     <color name="dark_gray">#8d8d8d</color>
     <color name="userProf_options_textColor">#000</color>
+    <color name="golden">#FFC300</color>
 </resources>

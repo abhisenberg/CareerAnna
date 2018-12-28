@@ -1,7 +1,33 @@
 package com.careeranna.careeranna.dummy_data;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class CourseDummyData {
-    public static String dummyData = "\"content\": [\n" +
+    private Scanner sc;
+    private String dummyData;
+    private String pathToDummy = "com/careeranna/careeranna/dummy_data/CourseContentsDummy";
+    public CourseDummyData(){
+        dummyData = "";
+            try {
+                sc = new Scanner(new File(pathToDummy));
+                StringBuilder sb = new StringBuilder();
+                while (sc.hasNextLine()){
+
+                    sb.append(sc.nextLine());
+                }
+                dummyData = sb.toString();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public String getDummyData(){
+        return dummyData;
+    }
+
+    public static String dummyString = "{\"content\": [\n" +
             "    \"Introduction\",\n" +
             "    \"$Introduction to Python and Its Features,https:\\/\\/careeranna.s3.amazonaws.com\\/online\\/wp-content\\/uploads\\/2018\\/08\\/05081401\\/Introduction-copy-2.mp4\",\n" +
             "    \"Getting Started\",\n" +
@@ -88,5 +114,6 @@ public class CourseDummyData {
             "    \"$XML Processing in Python,https:\\/\\/s3.amazonaws.com\\/careeranna\\/uploads\\/videos\\/88071_XMLProcessing copy.mp4\",\n" +
             "    \"Debugging in Python\",\n" +
             "    \"$Debugging in Python,https:\\/\\/s3.amazonaws.com\\/careeranna\\/uploads\\/videos\\/28508_DebuggingPython copy.mp4\"\n" +
-            "  ]";
+            "  ]}";
+
 }

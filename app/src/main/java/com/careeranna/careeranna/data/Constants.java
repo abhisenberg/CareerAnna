@@ -17,4 +17,6 @@ public class Constants {
             USER_CITY = "city",
             USER_HOWTOKNOW = "howtoknow";
 
+    public static final String OPEN_MY_COURSES_INTENT = "openMyCourseIntent";
+
 }

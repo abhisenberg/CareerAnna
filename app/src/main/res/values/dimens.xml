@@ -11,4 +11,5 @@
     <dimen name="badge_count_textsize">12sp</dimen>
     <dimen name="signin_icon_google_fb">45dp</dimen>
     <dimen name="userProf_options_margin">30dp</dimen>
+    <dimen name="app_bar_width">55dp</dimen>
 </resources>

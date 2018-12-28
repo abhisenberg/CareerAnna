@@ -28,6 +28,7 @@
                     app:layout_collapseMode="parallax"
                 />
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
@@ -58,154 +59,138 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/course_details_card"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="8dp"
-                app:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <include layout="@layout/course_description_card"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        android:id="@+id/layout_price"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="7"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:id="@+id/course_price"
-                            android:padding="12dp"
-                            android:text="₹1000"
-                            android:textColor="@color/colorPrimary"
-                            />
-
-
-                        <TextView
-                            android:layout_weight="6"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:drawableLeft="@drawable/ic_presentation"
-                            android:id="@+id/pb_instructor"
-                            android:text=" By CareerAnna"
-                            android:textColor="@color/colorPrimary"
-                            />
-
-                    </LinearLayout>
-                    <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star1"
-                        android:src="@drawable/ic_star_black_24dp" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star2"
-                        android:layout_toRightOf="@id/star1"
-                        android:src="@drawable/ic_star_black_24dp"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star3"
-                        android:layout_toRightOf="@id/star2"
-                        android:src="@drawable/ic_star_black_24dp" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star4"
-                        android:layout_toRightOf="@id/star3"
-                        android:src="@drawable/ic_star_half_black_24dp"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star5"
-                        android:layout_toRightOf="@id/star4"
-                        android:src="@drawable/ic_star_border_black_24dp"/>
-
-                        <TextView
-                            android:layout_toRightOf="@id/star5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:layout_marginLeft="10dp"
-                            android:id="@+id/ratings"
-                            android:text="5 (100)"
-                            android:textColor="@color/colorPrimary"
-                            />
-                </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:drawableLeft="@drawable/ic_person_color"
-                        android:id="@+id/learners"
-                        android:layout_marginTop="8dp"
-                        android:padding="12dp"
-                        android:text="Learner Count : 200"
-                        android:textColor="@color/colorPrimary"
-                        />
-                </LinearLayout>
-
-            </android.support.design.card.MaterialCardView>
-
-            <!--<android.support.v7.widget.CardView-->
-                <!--app:cardElevation="8dp"-->
-                <!--app:cardUseCompatPadding="true"-->
+            <!--<android.support.design.card.MaterialCardView-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:cardElevation="8dp"-->
+                <!--app:cardUseCompatPadding="true">-->
+                <!--<LinearLayout-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
 
-                <!--<TextView-->
-                    <!--android:id="@+id/course_description"-->
-                    <!--android:layout_marginTop="12dp"-->
-                    <!--android:lineSpacingMultiplier="1.5"-->
-                    <!--android:padding="12dp"-->
-                    <!--android:text="Description"-->
-                    <!--android:textColor="@color/colorPrimary"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--/>-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:id="@+id/layout_price"-->
+                        <!--android:layout_height="wrap_content">-->
 
-            <!--</android.support.v7.widget.CardView>-->
+                        <!--<TextView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_weight="7"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:textSize="20sp"-->
+                            <!--android:id="@+id/course_price"-->
+                            <!--android:padding="12dp"-->
+                            <!--android:text="₹1000"-->
+                            <!--android:textColor="@color/colorPrimary"-->
+                            <!--/>-->
+
+
+                        <!--<TextView-->
+                            <!--android:layout_weight="6"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:drawableLeft="@drawable/ic_presentation"-->
+                            <!--android:id="@+id/pb_instructor"-->
+                            <!--android:text=" By CareerAnna"-->
+                            <!--android:textColor="@color/colorPrimary"-->
+                            <!--/>-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/star1"-->
+                        <!--android:src="@drawable/ic_star_black_24dp" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/star2"-->
+                        <!--android:layout_toRightOf="@id/star1"-->
+                        <!--android:src="@drawable/ic_star_black_24dp"/>-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/star3"-->
+                        <!--android:layout_toRightOf="@id/star2"-->
+                        <!--android:src="@drawable/ic_star_black_24dp" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/star4"-->
+                        <!--android:layout_toRightOf="@id/star3"-->
+                        <!--android:src="@drawable/ic_star_half_black_24dp"/>-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/star5"-->
+                        <!--android:layout_toRightOf="@id/star4"-->
+                        <!--android:src="@drawable/ic_star_border_black_24dp"/>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_toRightOf="@id/star5"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:id="@+id/ratings"-->
+                            <!--android:text="5 (100)"-->
+                            <!--android:textColor="@color/colorPrimary"-->
+                            <!--/>-->
+                <!--</RelativeLayout>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:drawableLeft="@drawable/ic_person_color"-->
+                        <!--android:id="@+id/learners"-->
+                        <!--android:layout_marginTop="8dp"-->
+                        <!--android:padding="12dp"-->
+                        <!--android:text="Learner Count : 200"-->
+                        <!--android:textColor="@color/colorPrimary"-->
+                        <!--/>-->
+                <!--</LinearLayout>-->
+
+            <!--</android.support.design.card.MaterialCardView>-->
 
             <ExpandableListView
                 android:id="@+id/purchaseCourse_expandableUnit"
-                android:background="@color/white"
+                app:layout_anchor="@id/course_details_card"
+                app:layout_anchorGravity="bottom|right"
+                android:groupIndicator="@null"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal"
-                android:layout_marginRight="20dp"
+                android:layout_height="2000dp"
                 android:layout_below="@+id/videoView"
-                />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/list_item_shadow"
+                android:orientation="horizontal" />
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-
 
 </android.support.design.widget.CoordinatorLayout>

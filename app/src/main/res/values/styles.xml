@@ -6,8 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionBarSize">40dp</item>
-        <item name="actionBarSize">40dp</item>
+        <item name="android:actionBarSize">@dimen/app_bar_width</item>
+        <item name="actionBarSize">@dimen/app_bar_width</item>
         <item name="android:fontFamily">@font/robotoregular</item>
 
     </style>
@@ -36,10 +36,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionBarSize">40dp</item>
-        <item name="actionBarSize">40dp</item>
+        <item name="android:actionBarSize">@dimen/app_bar_width</item>
+        <item name="actionBarSize">@dimen/app_bar_width</item>
         <item name="android:fontFamily">@font/robotoregular</item>
+    </style>
 
+    <style name="RatingBarCustom" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="android:colorControlNormal" app:ignore="NewApi">@color/golden</item>
     </style>
 
 </resources>

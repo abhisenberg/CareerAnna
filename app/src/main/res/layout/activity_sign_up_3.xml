@@ -118,8 +118,9 @@
         android:id="@+id/Middle"
         android:orientation="horizontal"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="43dp">
+        android:layout_height="45dp">
 
         <View
             android:layout_width="0dp"
@@ -130,6 +131,7 @@
 
         <View
             android:id="@+id/view_centerCircle"
+            android:layout_gravity="center"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@drawable/circle_signin_middle"
@@ -157,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/Middle"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="25dp">
 
         <!--<android.support.design.widget.TextInputLayout-->
         <!--android:id="@+id/useremailL"-->
