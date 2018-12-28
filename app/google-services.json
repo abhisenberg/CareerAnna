@@ -47,6 +47,14 @@
           }
         },
         {
+          "client_id": "818754991008-0jon8n7aa3v4u7cgr6nljb7en63eroc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.careeranna.careeranna",
+            "certificate_hash": "9202e35b496eb19c545db61449fddfad40d4e20a"
+          }
+        },
+        {
           "client_id": "818754991008-93r45lm5oa5d0gb54ihsd1ftppd6m60s.apps.googleusercontent.com",
           "client_type": 3
         }

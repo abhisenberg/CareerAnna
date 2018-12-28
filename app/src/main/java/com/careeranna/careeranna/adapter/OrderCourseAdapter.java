@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,17 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
 
     private ArrayList<OrderedCourse> mOrdered;
     private Context mContext;
+
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick1(int position, String type);
+    }
+
+    public void setOnItemClicklistener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
 
     public OrderCourseAdapter(ArrayList<OrderedCourse> mOrdered, Context mContext) {
         this.mOrdered = mOrdered;
@@ -34,13 +46,37 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
         viewHolder.itemView.setTag(i);
 
         viewHolder.name.setText(mOrdered.get(i).getName());
         viewHolder.price.setText(mOrdered.get(i).getPrice());
         Glide.with(mContext).load(mOrdered.get(i).getImage()).into(viewHolder.imageView);
+
+        viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null) {
+                    int position = i;
+                    if(position != RecyclerView.NO_POSITION) {
+                        mListener.onItemClick1(position, "remove");
+                    }
+                }
+            }
+        });
+
+        viewHolder.whishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null) {
+                    int position = i;
+                    if(position != RecyclerView.NO_POSITION) {
+                        mListener.onItemClick1(position, "wish");
+                    }
+                }
+            }
+        });
     }
 
     public void remove(int pos) {
@@ -58,13 +94,17 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
 
         TextView name, price;
         ImageView imageView;
+        Button remove, whishlist;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.course_name);
             price = itemView.findViewById(R.id.course_price);
 
+            remove = itemView.findViewById(R.id.remove);
+
             imageView = itemView.findViewById(R.id.course_image);
+            whishlist = itemView.findViewById(R.id.whishlist);
         }
     }
 }

@@ -133,6 +133,7 @@
                 android:layout_weight="5"
                 android:layout_height="33dp"
                 android:text="Remove"
+                android:id="@+id/remove"
                 android:textStyle="bold"
                 android:textColor="@color/red"
                 />
@@ -142,6 +143,7 @@
                 android:background="@drawable/border_grey"
                 android:layout_marginLeft="2dp"
                 android:layout_gravity="end"
+                android:id="@+id/whishlist"
                 android:textSize="14sp"
                 android:layout_width="0dp"
                 android:layout_weight="5"

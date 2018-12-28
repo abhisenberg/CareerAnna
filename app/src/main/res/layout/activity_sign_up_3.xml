@@ -29,7 +29,7 @@
     <TextView
         android:id="@+id/signin_3_continueWith"
         android:text="Continue with"
-        android:layout_above="@+id/bt_googleAndFb"
+        android:layout_above="@+id/bt_google_login_1"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/register_screen_fields_color"
@@ -52,7 +52,17 @@
 
     </FrameLayout>
 
+    <Button
+        android:layout_above="@id/Middle"
+        android:layout_marginBottom="20dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/bt_google_login_1"
+        android:background="@drawable/ic_google_round_corners"
+        android:layout_width="@dimen/signin_icon_google_fb"
+        android:layout_height="@dimen/signin_icon_google_fb" />
+
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/bt_googleAndFb"
         android:orientation="horizontal"
         android:layout_width="wrap_content"

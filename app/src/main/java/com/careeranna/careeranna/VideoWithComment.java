@@ -1,7 +1,11 @@
 package com.careeranna.careeranna;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +33,7 @@ import com.careeranna.careeranna.adapter.CommentAdapter;
 import com.careeranna.careeranna.data.Comment;
 import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.User;
+import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
 import com.longtailvideo.jwplayer.JWPlayerView;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
@@ -63,11 +69,15 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     User user;
 
+    RelativeLayout relativeLayout;
+
     String mUsername, profile_pic_url, mEmail;
 
     Button addComment, cancel;
 
     CircleImageView image;
+
+    AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +86,18 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
         comments = new ArrayList<>();
 
+        relativeLayout = findViewById(R.id.rel);
+
         comment_tv = findViewById(R.id.addComment);
 
         addComment = findViewById(R.id.reply);
 
         Paper.init(this);
+
+
+        image = findViewById(R.id.image);
+
+        user = null;
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
@@ -89,17 +106,21 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             profile_pic_url = user.getUser_photo().replace("\\", "");
             mUsername = user.getUser_username();
             mEmail = user.getUser_email();
+        } else {
+            image.setVisibility(View.INVISIBLE);
+            relativeLayout.setVisibility(View.VISIBLE);
         }
 
         comment_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().isEmpty()) {
+                if(user == null) {
+                    alertDialogForComment();
+                } else if(!s.toString().isEmpty()) {
                     cancel.setVisibility(View.VISIBLE);
                     addComment.setVisibility(View.VISIBLE);
                 } else {
@@ -115,8 +136,6 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
             }
         });
-
-        image = findViewById(R.id.image);
 
         Glide.with(this).load(profile_pic_url).into(image);
 
@@ -247,6 +266,37 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         });
 
     }
+
+    private void alertDialogForComment() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Sign In");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setCancelable(false);
+
+        builder.setMessage("Please Sign in to comment")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alert.dismiss();
+                    }
+                })
+                .setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(
+                                new Intent(
+                                      VideoWithComment.this, SignUp.class
+                                        )
+                        );
+                    }
+                });
+
+        alert = builder.create();
+        alert.show();
+    }
+
 
     private void playVideo(String videoUrl){
         PlaylistItem playlistItem = new PlaylistItem.Builder()

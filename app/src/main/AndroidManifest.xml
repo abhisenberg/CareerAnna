@@ -72,7 +72,9 @@
             android:name=".MyExamPrepActivity"
             android:label="My Exam Prep" />
         <activity android:name=".Payment" />
-        <activity android:name=".PasswordReset" />
+        <activity
+            android:name=".PasswordReset"
+            android:label="Password Reset" />
         <activity
             android:name=".CartPage"
             android:label="My Cart" />
@@ -88,16 +90,19 @@
             android:label="Sort Course" />
         <activity android:name=".InstructorProfileActivity" />
         <activity android:name=".InstructorsListActivity" />
-        <activity android:name=".user.MyProfile_2"
-            android:theme="@style/UserProfileTheme"
-            ></activity>
-
+        <activity
+            android:name=".user.MyProfile_2"
+            android:theme="@style/UserProfileTheme" />
         <activity
             android:name=".VideoWithComment"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity android:name=".NewCourseActivity" />
         <activity android:name=".ExploreNotSIActivity_2" />
-        <activity android:name=".Exams"></activity>
+        <activity android:name=".Exams" />
+        <activity
+            android:name=".ExploreNotSignActivity_3"
+            android:label="Explore" />
+        <activity android:name=".WhisList"></activity>
     </application>
 
 </manifest>

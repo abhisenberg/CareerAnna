@@ -43,6 +43,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -151,7 +153,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         bt_fb_login = findViewById(R.id.bt_facebook_login);
 
-        bt_google_login = findViewById(R.id.bt_google_login);
+        bt_google_login = findViewById(R.id.bt_google_login_1);
 
         googleSigninButton = findViewById(R.id.bt_google_sign_in_button_3);
 
@@ -208,7 +210,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
 
-        fbLoginButton.setReadPermissions("email");
+        fbLoginButton.setReadPermissions("email, public_profile");
 
         fbLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 
@@ -256,7 +258,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         switch (view.getId()) {
 
-                case R.id.bt_google_login:
+                case R.id.bt_google_login_1:
                     Log.d(TAG, "Google signin clicked ");
 
                     if(!amIConnect()) {
@@ -327,11 +329,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+                snackbar.dismiss();
+                snackbar = Snackbar.make(relativeLayout, "Successful sign in Fetching Details...", Snackbar.LENGTH_INDEFINITE);
+                snackbar.show();
+//
                 Log.d(TAG, "onActivityResult: Successful sign in");
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("SignUp1", "Google sign in failed", e);
-                Toast.makeText(this, "Google sign-in failed!", Toast.LENGTH_SHORT).show() ;
+                snackbar.dismiss();
+                snackbar = Snackbar.make(relativeLayout, "Google sign-in failed!", Snackbar.LENGTH_INDEFINITE);
+                snackbar.show();
                 // ...
             }
         } else {
@@ -350,12 +358,19 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SignUp1", "signInWithCredential:success");
+                            snackbar.dismiss();
+                            snackbar = Snackbar.make(relativeLayout, "Successful sign In WithCredential", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.show();
+//
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
+
+                            snackbar.dismiss();
+                            snackbar = Snackbar.make(relativeLayout, "USer auth failed!", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.show();
                             Log.w("SignUp1", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SignUp.this, "Firebase auth failed!", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
 
@@ -364,7 +379,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                 });
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(final AccessToken token) {
         Log.d("facebook", "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -377,10 +392,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                         frame_dimmer.setVisibility(View.INVISIBLE);
 //                        progressBar.setVisibility(View.INVISIBLE);
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("facebook", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback(){
+
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    try {
+                                        Log.i("facebook_email", object.getString("email"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("facebook", "signInWithCredential:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
+                                }
+                            });
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("facebook", "signInWithCredential:failure", task.getException());
@@ -396,15 +425,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
     private void updateUI(final FirebaseUser userAccount) {
 
         if(userAccount != null) {
-            if(snackbar != null)
+            if (snackbar != null)
                 snackbar.dismiss();
 
-            if(userAccount.getPhoneNumber() != null) {
+            if (userAccount.getPhoneNumber() != null) {
                 userphone = userAccount.getPhoneNumber();
             }
+            if (userAccount.getDisplayName() != null) {
+                final String username = userAccount.getDisplayName().toString();
+            }
+            Log.d("username", userAccount.getDisplayName());
+            Log.d(TAG, "updateUI: "+userAccount.getEmail());
+            Log.d(TAG, "updateUI: "+userAccount.getPhotoUrl());
             final String username = userAccount.getDisplayName().toString();
-            final String useremail = userAccount.getEmail().toString();
-            final String userPhoto = userAccount.getPhotoUrl().toString();
+            final String useremail = userAccount.getEmail();
+            final String userPhoto = ""+userAccount.getPhotoUrl();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST,
                     "https://careeranna.com/api/google_login.php", new Response.Listener<String>() {
@@ -431,19 +466,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                             snackbar = Snackbar.make(relativeLayout, response.toString(), Snackbar.LENGTH_SHORT);
                             snackbar.show();
                         }
-                        /*
-                        DIMMER VISIBILITY
-                         */
-//                        frame_dimmer.setVisibility(View.INVISIBLE);
-//                    progressBar.setVisibility(View.INVISIBLE);
+                        frame_dimmer.setVisibility(View.INVISIBLE);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     snackbar = Snackbar.make(relativeLayout, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
                     snackbar.show();
-//                    frame_dimmer.setVisibility(View.INVISIBLE);
-//                    progressBar.setVisibility(View.INVISIBLE);
+                    frame_dimmer.setVisibility(View.INVISIBLE);
                 }
             }) {
                 @Override
