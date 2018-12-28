@@ -50,6 +50,7 @@ import com.careeranna.careeranna.adapter.ViewPagerAdapter;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Banner;
 import com.careeranna.careeranna.data.Category;
+import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.MenuList;
@@ -218,6 +219,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         setContentView(R.layout.activity_my_couses);
 
         Log.d(TAG, "onCreate: ");
+
         //  Initialize Layout Variable
         drawerLayout = findViewById(R.id.drawelayout);
         navigationView = findViewById(R.id.nav_view);
@@ -312,6 +314,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("General Knowledge");
                         break;
+
           /*          case 3:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("13", user.getUser_id());
@@ -327,6 +330,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         navigationView.setCheckedItem(R.id.marketing);
                         getSupportActionBar().setTitle("Marketing");
                         break;
+
                     case 3:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("15", user.getUser_id());
@@ -334,14 +338,20 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("Certificate Courses");
                         break;
+
+                    case 4:
+                        openMyCoursesFragment();
             */        case 2:
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
                         getSupportActionBar().setTitle("My Courses");
+
                         break;
                     case 3:
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         getSupportActionBar().setTitle("Explorer");
+
+                        addExam();
 
                         break;
                     case 4:
@@ -455,14 +465,25 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         getSupportActionBar().setTitle("Explore");
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
+        /*
+        LAUNCH EXPLORE FRAGMENT BY DEFAULT
+         */
+        Bundle extras = getIntent().getExtras();
+        Log.d(TAG, "Trying to get intent, "+(extras == null));
+        if(extras != null && extras.getBoolean(Constants.OPEN_MY_COURSES_INTENT)){
+            openMyCoursesFragment();
+        } else {
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
+            addExam();
+        }
 
         // Set Navigation View Information
         setNavigationView();
 
         // Setting Banner Information
         getBanner();
+
         PackageInfo info;
         try {
             info = getPackageManager().getPackageInfo("com.careeranna.careeranna", PackageManager.GET_SIGNATURES);
@@ -643,11 +664,10 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onResume() {
-
         super.onResume();
+
         handler.postDelayed(runnable, delay);
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
@@ -1052,8 +1072,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         requestQueue.add(stringRequest);
     }
 
-
-
     private void addExam() {
 
         courses = new ArrayList<>();
@@ -1115,7 +1133,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         requestQueue1.add(stringRequest1);
     }
 
-
     private void addFree() {
 
         freecourse = new ArrayList<>();
@@ -1168,13 +1185,21 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         requestQueue1.add(stringRequest1);
     }
 
-
     private boolean amIConnect() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
+    }
+
+    private void openMyCoursesFragment(){
+        myCourse();
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
+        navigationView.setCheckedItem(R.id.myCourse);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setTitle("My Courses");
     }
 }
 

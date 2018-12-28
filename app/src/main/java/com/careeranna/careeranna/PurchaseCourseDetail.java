@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,9 +78,13 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     private static final Pattern REMOVE_TAGS1 = Pattern.compile("&.+;");
 
-    TextView price,desc,name;
+    TextView tv_courseName, tv_instructor_name , tv_star_rating, tv_user_ratings, tv_cost, tv_striked_cost,
+    tv_discount, tv_enrollments;
 
-    TextView description;
+    RatingBar ratingBar;
+//    TextView price,desc,name;
+//
+//    TextView description;
 
     FloatingActionButton addTocart;
 
@@ -124,11 +129,21 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
         Paper.init(this);
 
+        tv_cost = findViewById(R.id.course_cost);
+        tv_courseName = findViewById(R.id.course_name);
+        tv_discount = findViewById(R.id.course_discount);
+        tv_enrollments = findViewById(R.id.course_enrollments);
+        tv_star_rating = findViewById(R.id.course_rating_number);
+        tv_user_ratings = findViewById(R.id.course_number_of_ratings);
+        tv_striked_cost = findViewById(R.id.course_striked_cost);
+        tv_instructor_name = findViewById(R.id.course_instructor);
+        ratingBar = findViewById(R.id.course_rating_bar);
+
         expandableListView = findViewById(R.id.purchaseCourse_expandableUnit);
         progressBar = findViewById(R.id.progress_bar_course);
-        price = findViewById(R.id.course_price);
+//        price = findViewById(R.id.course_price);
         playerView =  findViewById(R.id.playerView);
-        description = findViewById(R.id.course_description);
+//        description = findViewById(R.id.course_description);
         addTocart = findViewById(R.id.btn_cart);
 
         Intent intent = getIntent();
@@ -149,8 +164,12 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         }
 
         playerView.addOnFullscreenListener(this);
-        String cart = Paper.book().read("cart");;
+        String cart = Paper.book().read("cart");
 
+        ratingBar.setRating(5f);
+        /*
+        TODO: Change the color of the stars
+         */
         if(cart != null && !cart.isEmpty()) {
 
             Log.i("details", cart);
@@ -385,15 +404,24 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             exam prep. if "course" is null, it is exam prep.
              */
             uri = Uri.parse(examPrep.getDemo_url());
-            price.setText(examPrep.getPrice());
+//            price.setText(examPrep.getPrice());
             getSupportActionBar().setTitle(examPrep.getName());
         } else {
             /*
             If "course" is not null, it is video based course.
              */
             uri = Uri.parse(course.getDemo_url());
+
+            tv_courseName.setText(course.getName());
+            tv_instructor_name.setText("By Careeranna");
             if(course.getPrice().equals("null"))
-            price.setText("Free");
+                tv_cost.setText("Free");
+            else{
+                String price = "₹"+course.getPrice();
+                tv_cost.setText(price);
+            }
+
+//            price.setText("Free");
             getSupportActionBar().setTitle(course.getName());
         }
 
@@ -423,7 +451,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                        ArrayList<String> course = new ArrayList<>();
                         try {
                             Log.i("pdf", response);
-                            response = CourseDummyData.dummyData;
+//                            CourseDummyData cdd = new CourseDummyData();
+//                            response = cdd.getDummyData();
+                            response = CourseDummyData.dummyString;
+                            Log.d(TAG, "response = "+response);
                             JSONObject jsonObject = new JSONObject(response);
                                 JSONArray jsonArray = jsonObject.getJSONArray("content");
                                 for(int i=0;i<jsonArray.length();i++) {
@@ -431,14 +462,12 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                                 }
                                 Log.d(TAG, "DummyUnits = "+course.size());
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                            e.printStackTrace(); }
                         /*
                         addCourseUnit call
                         pass the course
                          */
                         addCourseUnits(course);
-//
 //                    }
 //                }, new Response.ErrorListener() {
 //            @Override
@@ -452,10 +481,9 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     public void addCourseUnits(ArrayList<String> course) {
-        Log.d(TAG, "DummyUnits = "+course.size());
+        Log.d(TAG, "addCourseUnits: "+course.size());
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
-
         ArrayList<Unit> mUnits = new ArrayList<>();
 
         for (String unitsname : course) {
@@ -471,8 +499,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             }
 
             listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits);
+            listAdapter.setExpandableListView(expandableListView);
             expandableListView.setAdapter(listAdapter);
         }
+        Log.d(TAG, "addCourseUnits: units size: "+mUnits.size());
     }
 }
 

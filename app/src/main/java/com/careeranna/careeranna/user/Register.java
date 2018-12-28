@@ -122,6 +122,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                             snackbar = Snackbar.make(relativeLayout, response, Snackbar.LENGTH_SHORT);
                             snackbar.show();
                             progressDialog.dismiss();
+                            finish();
                         }
                     }, new Response.ErrorListener() {
                         @Override

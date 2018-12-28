@@ -94,4 +94,7 @@
         <item>West Bengal</item>
     </string-array>
 
+    <string name="dummy_striked_cost"><strike>₹5000</strike></string>
+    <string name="dummy_discount">90% Off including taxes</string>
+
 </resources>

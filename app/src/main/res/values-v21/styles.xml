@@ -8,4 +8,8 @@
         <item name="android:colorControlActivated">@color/register_screen_fields_color</item>
         <item name="android:colorControlNormal">@color/register_screen_fields_color</item>
     </style>
+
+    <style name="RatingBarCustom" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="android:colorControlNormal">@color/golden</item>
+    </style>
 </resources>

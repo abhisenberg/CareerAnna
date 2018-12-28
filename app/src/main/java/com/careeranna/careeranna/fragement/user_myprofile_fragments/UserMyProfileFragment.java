@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.careeranna.careeranna.MyCourses;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +31,7 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
 //    Button bt_signout;
 
     TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_tnc;
-    CardView cv_myCourses;
+    CardView openMyCourses;
 
     public UserMyProfileFragment() {
         // Required empty public constructors
@@ -45,14 +46,13 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
         tv_referralCode = view.findViewById(R.id.tv_userProf_appReferralCode);
         tv_support = view.findViewById(R.id.tv_userProf_Support);
         tv_tnc = view.findViewById(R.id.tv_userProf_tnc);
-        cv_myCourses = view.findViewById(R.id.bt_userProf_myCourses);
+        openMyCourses = view.findViewById(R.id.bt_userProf_myCourses);
 
+        openMyCourses.setOnClickListener(this);
         tv_changeNotiPref.setOnClickListener(this);
         tv_referralCode.setOnClickListener(this);
         tv_support.setOnClickListener(this);
         tv_tnc.setOnClickListener(this);
-        cv_myCourses.setOnClickListener(this);
-
         return view;
     }
 
@@ -79,7 +79,11 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.bt_userProf_myCourses:
-                startActivity(new Intent(getContext(), MyCourses.class));
+                if(getActivity() != null)
+                    getActivity().finish();
+                 Intent openMyCourses = new Intent(getContext(), MyCourses.class);
+                 openMyCourses.putExtra(Constants.OPEN_MY_COURSES_INTENT, true);
+                 startActivity(openMyCourses);
                 break;
         }
     }

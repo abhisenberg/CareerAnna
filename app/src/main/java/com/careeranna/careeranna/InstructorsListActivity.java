@@ -44,6 +44,10 @@ public class InstructorsListActivity extends AppCompatActivity implements Recycl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructors_list);
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("CareerAnna Mentors");
+        }
+
         instructorsList = new ArrayList<>();
         rvp_current_page = 0;
 
