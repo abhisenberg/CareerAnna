@@ -12,6 +12,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemClickListener{
 
 
     private ArrayList<OrderedCourse> orderedCourses;
@@ -76,8 +78,9 @@ public class CartFragment extends Fragment {
 
     float grand_total = 0;
 
-    ArrayList<String> arrayList;
+    ArrayList<String> arrayList, arrayListWish;
 
+    CardView card1;
 
     public CartFragment() {
         // Required empty public constructor
@@ -88,11 +91,15 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         linearLayout = view.findViewById(R.id.layout);
 
+        arrayListWish = new ArrayList<>();
+
         Paper.init(getContext());
+
+        card1 = view.findViewById(R.id.card1);
 
         checkout = view.findViewById(R.id.checkout);
 
@@ -105,28 +112,43 @@ public class CartFragment extends Fragment {
         price = view.findViewById(R.id.grand_total);
 
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
-            user =  new Gson().fromJson(cache, User.class);
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
 
             String cart = Paper.book().read("cart");
 
             orderedCourses = new ArrayList<>();
 
-            if(cart != null && !cart.isEmpty()) {
+            if (cart != null && !cart.isEmpty()) {
 
-                if(cache != null && !cache.isEmpty()) {
+                if (cache != null && !cache.isEmpty()) {
 
-                    user =  new Gson().fromJson(cache, User.class);
+                    user = new Gson().fromJson(cache, User.class);
 
                 }
 
+                Log.d("cart_details", cart);
+
                 Gson gson = new Gson();
 
-                Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                Type type = new TypeToken<ArrayList<String>>() {
+                }.getType();
 
                 arrayList = gson.fromJson(cart, type);
 
-                for(String orderedCourse: arrayList) {
+                if (arrayList.size() > 0) {
+
+                    cardView.setVisibility(View.INVISIBLE);
+
+                    card1.setVisibility(View.VISIBLE);
+                } else {
+
+                    cardView.setVisibility(View.VISIBLE);
+
+                    card1.setVisibility(View.INVISIBLE);
+                }
+
+                for (String orderedCourse : arrayList) {
 
                     String course[] = orderedCourse.split(",");
 
@@ -191,6 +213,7 @@ public class CartFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setHasFixedSize(true);
             orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
+            orderCourseAdapter.setOnItemClicklistener(this);
             recyclerView.setAdapter(orderCourseAdapter);
             recyclerView.smoothScrollToPosition(0);
             new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -212,19 +235,12 @@ public class CartFragment extends Fragment {
             mAnimation.setRepeatCount(Animation.INFINITE);
             mAnimation.setRepeatMode(Animation.REVERSE);
 
-            cardView.setVisibility(View.INVISIBLE);
-
-            promo.setVisibility(View.VISIBLE);
-            checkout.setVisibility(View.VISIBLE);
-
-
         } else {
             cardView.setVisibility(View.VISIBLE);
 
-            promo.setVisibility(View.INVISIBLE);
-            checkout.setVisibility(View.INVISIBLE);
-        }
 
+            card1.setVisibility(View.INVISIBLE);
+        }
         return view;
 
     }
@@ -234,7 +250,6 @@ public class CartFragment extends Fragment {
         mBuilder = new AlertDialog.Builder(getContext());
         mBuilder.setTitle("Course Deletion");
         mBuilder.setCancelable(false);
-        mBuilder.setMessage("Are you sure you want remove from cart ?");
         mBuilder.setMessage("Are you sure you want remove from cart ?");
         mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
@@ -250,15 +265,11 @@ public class CartFragment extends Fragment {
                 if(orderedCourses.size() == 0) {
                     cardView.setVisibility(View.VISIBLE);
 
-                    promo.setVisibility(View.INVISIBLE);
-                    checkout.setVisibility(View.INVISIBLE);
+                    card1.setVisibility(View.INVISIBLE);
                 } else {
 
                     cardView.setVisibility(View.INVISIBLE);
-
-                    promo.setVisibility(View.VISIBLE);
-                    checkout.setVisibility(View.VISIBLE);
-
+                    card1.setVisibility(View.VISIBLE);
                 }
                 snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
@@ -269,6 +280,7 @@ public class CartFragment extends Fragment {
                         orderedCourses.add(orderedCourse);
                         orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
                         recyclerView.setAdapter(orderCourseAdapter);
+                        orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
                         recyclerView.smoothScrollToPosition(0);
 
                         Paper.book().write("cart", new Gson().toJson(arrayList));
@@ -276,15 +288,12 @@ public class CartFragment extends Fragment {
                         if(orderedCourses.size() == 0) {
                             cardView.setVisibility(View.VISIBLE);
 
-
-                            promo.setVisibility(View.INVISIBLE);
-                            checkout.setVisibility(View.INVISIBLE);
+                            card1.setVisibility(View.INVISIBLE);
                         } else {
 
                             cardView.setVisibility(View.INVISIBLE);
 
-                            promo.setVisibility(View.VISIBLE);
-                            checkout.setVisibility(View.VISIBLE);
+                            card1.setVisibility(View.VISIBLE);
 
                         }
                     }
@@ -297,6 +306,7 @@ public class CartFragment extends Fragment {
                 alertDialog.dismiss();
                 orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
                 recyclerView.setAdapter(orderCourseAdapter);
+                orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
                 recyclerView.smoothScrollToPosition(0);
             }
         });
@@ -304,4 +314,101 @@ public class CartFragment extends Fragment {
 
     }
 
+    @Override
+    public void onItemClick1(int position, String type) {
+        if (type.equals("remove")) {
+            orderedCourse = orderedCourses.get(position);
+            orderCourseAdapter.remove(position);
+
+            myCourse = arrayList.get(position);
+            arrayList.remove(position);
+
+            Paper.book().write("cart", new Gson().toJson(arrayList));
+
+            if (orderedCourses.size() == 0) {
+                cardView.setVisibility(View.VISIBLE);
+
+                card1.setVisibility(View.INVISIBLE);
+            } else {
+
+                cardView.setVisibility(View.INVISIBLE);
+
+                card1.setVisibility(View.VISIBLE);
+
+            }
+            snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            snackbar.setAction("Undo", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    arrayList.add(myCourse);
+                    orderedCourses.add(orderedCourse);
+                    orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
+                    recyclerView.setAdapter(orderCourseAdapter);
+                    recyclerView.smoothScrollToPosition(0);
+
+                    Paper.book().write("cart", new Gson().toJson(arrayList));
+
+                    if (orderedCourses.size() == 0) {
+                        cardView.setVisibility(View.VISIBLE);
+                        card1.setVisibility(View.INVISIBLE);
+                    } else {
+
+                        cardView.setVisibility(View.INVISIBLE);
+                        card1.setVisibility(View.VISIBLE);
+
+                    }
+                }
+            });
+        } else if(type.equals("wish")) {
+
+            String cart1 = Paper.book().read("wish");
+
+            if(cart1 != null && !cart1.isEmpty()) {
+
+                Log.i( "details",   cart1);
+
+                Gson gson = new Gson();
+
+                Type type1 = new TypeToken<ArrayList<String>>() {}.getType();
+
+                ArrayList<String> arrayList = gson.fromJson(cart1, type1);
+
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+
+                arrayList.add(courseString);
+
+                Paper.book().write("wish", new Gson().toJson(arrayList));
+
+            } else {
+
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+
+                ArrayList<String> array = new ArrayList<>();
+
+                array.add(courseString);
+
+                Paper.book().write("wish", new Gson().toJson(array));
+            }
+
+            orderedCourse = orderedCourses.get(position);
+            orderCourseAdapter.remove(position);
+
+            myCourse = arrayList.get(position);
+            arrayList.remove(position);
+
+            Paper.book().write("cart", new Gson().toJson(arrayList));
+
+            if (orderedCourses.size() == 0) {
+                cardView.setVisibility(View.VISIBLE);
+                card1.setVisibility(View.INVISIBLE);
+            } else {
+
+                cardView.setVisibility(View.INVISIBLE);
+                card1.setVisibility(View.VISIBLE);
+
+            }
+            Toast.makeText(getContext(), "Added To WishList", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

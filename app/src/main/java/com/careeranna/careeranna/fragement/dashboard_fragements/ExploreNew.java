@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.InsideWithoutSignFragment;
 import com.careeranna.careeranna.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.VideoWithComment;
@@ -52,7 +53,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     TrendingVideosAdapter freeVideosAdapter;
 
     RecyclerViewPager trending, recyclerView1, freeCorse, paidCourse;;
-    
+
     public static int position = 0, position_latest = 0;
 
     public static int position_free = 0, position_paid = 0;
@@ -64,35 +65,15 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     ImageView arrow_p_l,arrow_p_r,arrow_f_r, arrow_f_l;
 
     public ExploreNew() {
+        // Required empty public constructor
     }
 
-    public void addPaidCourses(ArrayList<Course> courses, ArrayList<Course> freecourse) {
 
-        this.courses = courses;
-
-        this.freecourse = freecourse;
-
-        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(this.courses, getApplicationContext());
-
-        paidCourse.setAdapter(freeCourseAdapter);
-
-        freeCourseAdapter.setOnItemClicklistener(this);
-
-        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(this.freecourse, getApplicationContext());
-
-        freeCorse.setAdapter(freeCourseAdapter1);
-
-        freeCourseAdapter1.setOnItemClicklistener(this);
-
-        initalizeVideos();
-
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_my_explore_new, container, false);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.activity_my_explore_new, container, false);
         trending = view.findViewById(R.id.trending_rv);
 
         recyclerView1 = view.findViewById(R.id.latest_rv);
@@ -114,6 +95,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_l = view.findViewById(R.id.arrow_p_l);
         arrow_p_r = view.findViewById(R.id.arrow_p_r);
 
+        initalizeVideos();
+
         arrow_t_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +105,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 }
                 position += 1;
                 trending.smoothScrollToPosition(position);
+                if(position+1 == trendingvVideos.size()) {
+                    arrow_t_r.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -144,6 +130,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 }
                 position_latest += 1;
                 recyclerView1.smoothScrollToPosition(position_latest);
+                if(position_latest+1 == freeVideos.size()) {
+                    arrow_l_r.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -382,6 +371,144 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         return view;
     }
 
+
+    private void addPaidCourse() {
+
+        courses = new ArrayList<>();
+
+        progressDialog = new ProgressDialog(getContext());
+
+        progressDialog.setMessage("Loading Paid Courses Please Wait ... ");
+        progressDialog.show();
+
+        progressDialog.setCancelable(false);
+
+        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+        String url1 = "https://careeranna.com/api/getAllCourse.php";
+        Log.d("url_res", url1);
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            courses = new ArrayList<>();
+
+                            Log.i("url_response", response.toString());
+                            JSONArray CategoryArray = new JSONArray(response.toString());
+                            for (int i = 0; i < 20; i++) {
+                                JSONObject Category = CategoryArray.getJSONObject(i);
+                                courses.add(new Course(Category.getString("product_id"),
+                                        Category.getString("course_name"),
+                                        "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
+                                        Category.getString("exam_id"),
+                                        Category.getString("discount")
+                                        , "",
+                                        Category.getString("video_url").replace("\\", "")));
+                                courses.get(i).setType("Paid");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+
+                        paidCourse.setAdapter(freeCourseAdapter);
+
+                        freeCourseAdapter.setOnItemClicklistener(ExploreNew.this);
+
+                        progressDialog.dismiss();
+
+                        addFree();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+
+                        paidCourse.setAdapter(freeCourseAdapter);
+
+                        freeCourseAdapter.setOnItemClicklistener(ExploreNew.this);
+
+                        progressDialog.dismiss();
+
+                        addFree();
+                    }
+                }
+        );
+
+        requestQueue1.add(stringRequest1);
+    }
+
+
+    private void addFree() {
+
+        freecourse = new ArrayList<>();
+
+        progressDialog = new ProgressDialog(getContext());
+
+        progressDialog.setMessage("Loading Free Courses Please Wait ... ");
+        progressDialog.show();
+
+        progressDialog.setCancelable(false);
+
+        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+        String url1 = "https://careeranna.com/api/getFreeCourse.php";
+        Log.d("url_res", url1);
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            Log.i("url_response", response.toString());
+                            JSONArray CategoryArray = new JSONArray(response.toString());
+                            for (int i = 0; i < CategoryArray.length(); i++) {
+                                JSONObject Category = CategoryArray.getJSONObject(i);
+                                freecourse.add(new Course(Category.getString("course_id"),
+                                        Category.getString("name"),
+                                        "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
+                                        Category.getString("eid"),
+                                        "0"
+                                        , "meta_description",""));
+                                freecourse.get(i).setType("Free");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        progressDialog.dismiss();
+
+
+                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+
+                        freeCorse.setAdapter(freeCourseAdapter1);
+
+                        freeCourseAdapter1.setOnItemClicklistener(ExploreNew.this);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+
+                        freeCorse.setAdapter(freeCourseAdapter1);
+
+                        freeCourseAdapter1.setOnItemClicklistener(ExploreNew.this);
+
+                    }
+                }
+        );
+
+        requestQueue1.add(stringRequest1);
+    }
+
+
     private void initalizeVideos() {
 
         freeVideos = new ArrayList<>();
@@ -408,13 +535,13 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Free Videos Please Wait ... ");
+        progressDialog.setMessage("Loading Trending Videos Please Wait ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        String url1 = "https://careeranna.com/api/getFreeVideos.php";
+        String url1 = "https://careeranna.com/api/getTrendingVideos.php";
         Log.d("url_res", url1);
         StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
                 new Response.Listener<String>() {
@@ -425,7 +552,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                             JSONArray VideosArray = new JSONArray(response);
                             for(int i=0;i<VideosArray.length();i++) {
                                 JSONObject videos = VideosArray.getJSONObject(i);
-                                freeVideos.add(new FreeVideos(
+                                trendingvVideos.add(new FreeVideos(
                                         videos.getString("id"),
                                         videos.getString("video_url").replace("\\",""),
                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
@@ -434,30 +561,31 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                         videos.getString("heading"),
                                         "Free",
                                         videos.getString("duration")));
-                                freeVideos.get(i).setType("Latest");
+                                trendingvVideos.get(i).setType("Trending");
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
 
-                        recyclerView1.setAdapter(freeVideosAdapter);
+                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
 
-                        freeVideosAdapter.setOnItemClicklistener(ExploreNew.this);
+                        trending.setAdapter(trendingVideosAdapter);
+
+                        trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
 
                         progressDialog.dismiss();
 
                         progressDialog = new ProgressDialog(getContext());
 
-                        progressDialog.setMessage("Loading Free Videos Please Wait ... ");
+                        progressDialog.setMessage("Loading Latest Videos Please Wait ... ");
                         progressDialog.show();
 
                         progressDialog.setCancelable(false);
 
                         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-                        String url1 = "https://careeranna.com/api/getTrendingVideos.php";
+                        String url1 = "https://careeranna.com/api/getFreeVideos.php";
                         Log.d("url_res", url1);
                         StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
                                 new Response.Listener<String>() {
@@ -468,7 +596,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                             JSONArray VideosArray = new JSONArray(response);
                                             for(int i=0;i<VideosArray.length();i++) {
                                                 JSONObject videos = VideosArray.getJSONObject(i);
-                                                trendingvVideos.add(new FreeVideos(
+                                                freeVideos.add(new FreeVideos(
                                                         videos.getString("id"),
                                                         videos.getString("video_url").replace("\\",""),
                                                         "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
@@ -478,25 +606,29 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                                         "Trending",
                                                         videos.getString("duration")
                                                 ));
-                                                trendingvVideos.get(i).setType("Trending");
+                                                freeVideos.get(i).setType("Latest");
                                             }
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
 
-                                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
+                                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
 
-                                        trending.setAdapter(trendingVideosAdapter);
+                                        recyclerView1.setAdapter(freeVideosAdapter);
 
-                                        trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
+                                        freeVideosAdapter.setOnItemClicklistener(ExploreNew.this);
 
                                         progressDialog.dismiss();
+
+                                        addPaidCourse();
                                     }
                                 },
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+
+                                        addPaidCourse();
                                         progressDialog.dismiss();
                                     }
                                 });
@@ -509,6 +641,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        addPaidCourse();
                         progressDialog.dismiss();
                     }
                 });

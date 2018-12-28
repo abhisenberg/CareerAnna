@@ -32,13 +32,19 @@ public class ListViewAdapter extends ArrayAdapter<MenuList> {
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.menu_icon_with_divider,parent, false);
         }
+        ImageView arrow = convertView.findViewById(R.id.arrow);
 
         TextView tvName = (TextView) convertView.findViewById(R.id.text);
 
         // Populate the data into the template view using the data object
 
+        tvName.setGravity(this.user.get(position).getgravity());
         tvName.setText(user);
+        Color.parseColor(this.user.get(position).getColor());
 
+        arrow.setVisibility(this.user.get(position).getVisibility());
+        convertView.setBackgroundColor(Color.parseColor(this.user.get(position).getColor()));
+        tvName.setTextColor(Color.parseColor(this.user.get(position).getInsideColor()));
         ImageView imageView = (ImageView) convertView.findViewById(R.id.image);
 
         imageView.setImageDrawable(this.user.get(position).getDrawable());

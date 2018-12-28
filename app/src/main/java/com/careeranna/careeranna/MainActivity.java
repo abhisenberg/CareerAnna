@@ -1,7 +1,10 @@
 package com.careeranna.careeranna;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +19,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.user.ExploreNotSIActivity;
 import com.careeranna.careeranna.user.MyProfile_2;
@@ -24,6 +33,10 @@ import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.paperdb.Paper;
 
@@ -121,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.bt_explore:
-                Intent openExplorePage = new Intent(this, ExploreNotSIActivity_2.class);
+                Intent openExplorePage = new Intent(this, ExploreNotSignActivity_3.class);
                 startActivity(openExplorePage);
                 break;
         }
@@ -133,12 +146,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        startActivity(new Intent(this, SignUp.class));
 
+        checkUpdates();
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
             startActivity(new Intent(this, MyCourses.class));
             finish();
         }
     }
+
+    private void checkUpdates() {
+
+        final String[] versionUpdate = {""};
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://careeranna.com/api/updateVersion.php";
+        StringRequest str = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.i("App", response);
+                            JSONObject spo = new JSONObject(response);
+                            versionUpdate[0] = spo.getString("version_name");
+                            String versionName = BuildConfig.VERSION_NAME;
+                            if(!versionUpdate[0].equals(versionName)) {
+                                alertDialogForUpdate();
+                            }
+                        } catch (JSONException e) {
+                            Log.e("error_coce", e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        queue.add(str);
+
+    }
+
+
+    private void alertDialogForUpdate() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Update Available");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setCancelable(false);
+
+        builder.setMessage("New Version Available")
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(
+                                new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.careeranna.careeranna"
+                                        )
+                                )
+                        );
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override

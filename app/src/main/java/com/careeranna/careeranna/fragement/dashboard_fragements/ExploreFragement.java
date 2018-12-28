@@ -41,12 +41,6 @@ public class ExploreFragement extends Fragment implements RecyclerViewTopAdapter
     RecyclerViewTopAdapter recyclerViewTopAdapter;
     RecyclerViewExamAdapter recyclerViewExamAdapter;
 
-    private String[] imageUrls = new String[] {
-            "https://4.bp.blogspot.com/-qf3t5bKLvUE/WfwT-s2IHmI/AAAAAAAABJE/RTy60uoIDCoVYzaRd4GtxCeXrj1zAwVAQCLcBGAs/s1600/Machine-Learning.png",
-            "https://cdn-images-1.medium.com/max/2000/1*SSutxOFoBUaUmgeNWAPeBA.jpeg",
-            "https://www.digitalvidya.com/wp-content/uploads/2016/02/Master_Digital_marketng-1170x630.jpg"
-    };
-
     public ExploreFragement() {
         // Required empty public constructor
     }

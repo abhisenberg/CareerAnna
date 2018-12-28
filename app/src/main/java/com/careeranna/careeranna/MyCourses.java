@@ -3,6 +3,9 @@ package com.careeranna.careeranna;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
@@ -19,7 +22,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +73,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +93,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private ActionBarDrawerToggle mToggle;
 
+    WhisListFragement whisListFragement;
     Menu menu;
 
     LinearLayout linearLayout;
@@ -161,6 +170,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         String cart = Paper.book().read("cart");
 
         if(cart != null && !cart.isEmpty()) {
+
+            Log.i("cart", cart);
             Gson gson = new Gson();
 
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
@@ -178,24 +189,27 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     private int menuToChoose = R.menu.add_cart;
 
     public void setCount(Context context, String count) {
-        MenuItem menuItem = menu.findItem(R.id.notification_1);
 
-        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+        if(menuToChoose == R.id.add_to_cart) {
+            MenuItem menuItem = menu.findItem(R.id.add_to_cart);
 
-        CountDrawable badge;
+            LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
 
-        // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_noti_count);
-        if (reuse != null && reuse instanceof CountDrawable) {
-            badge = (CountDrawable) reuse;
-        } else {
-            badge = new CountDrawable(context);
+            CountDrawable badge;
+
+            // Reuse drawable if possible
+            Drawable reuse = icon.findDrawableByLayerId(R.id.ic_group_count);
+            if (reuse != null && reuse instanceof CountDrawable) {
+                badge = (CountDrawable) reuse;
+            } else {
+                badge = new CountDrawable(context);
+            }
+
+            badge.setCount(count);
+            icon.mutate();
+            icon.setDrawableByLayerId(R.id.ic_group_count, badge);
+
         }
-
-        badge.setCount(count);
-        icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_noti_count, badge);
-
     }
 
     @Override
@@ -228,8 +242,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         your_array_list.add(new MenuList("Explore",getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
         your_array_list.add(new MenuList("Articles",getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
         your_array_list.add(new MenuList("Our Mentors",getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
+        your_array_list.add(new MenuList("WhisList",getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
         your_array_list.add(new MenuList("My Profile",getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
-        your_array_list.add(new MenuList("Sign Out",getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1)));
+        your_array_list.add(new MenuList("Sign Out",getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1),"#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
 
         ListViewAdapter adapter = new ListViewAdapter(this, your_array_list);
         //
@@ -328,7 +343,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         getSupportActionBar().setTitle("Explorer");
 
-                        addExam();
                         break;
                     case 6:
                         initArticle();
@@ -339,9 +353,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
                         break;
                     case 8:
-                        startActivity(new Intent(MyCourses.this, MyProfile_2.class));
+
+                        frameLayout.setVisibility(View.GONE);
+                        fragmentManager.beginTransaction().replace(R.id.main_content, whisListFragement).commit();
+                        getSupportActionBar().setTitle("Wish List");
                         break;
                     case 9:
+                        startActivity(new Intent(MyCourses.this, MyProfile_2.class));
+                        break;
+                    case 10:
                         mAuth = FirebaseAuth.getInstance();
                         if(mAuth != null) {
                             mAuth.signOut();
@@ -385,6 +405,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             mEmail = user.getUser_email();
         }
 
+        whisListFragement = new WhisListFragement();
         myCoursesFragement = new MyCoursesFragment();
         myExplorerFragement = new ExploreFragement();
         myArticleFragment = new ArticlesFragment();
@@ -437,15 +458,29 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
 
-        addExam();
-
         // Set Navigation View Information
         setNavigationView();
 
         // Setting Banner Information
         getBanner();
-
-
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("com.careeranna.careeranna", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("hash key", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
         // Runnable For banner for changing in banner
         handler = new Handler();
     }
@@ -461,20 +496,19 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         mBanners = new ArrayList<>();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://api.myjson.com/bins/te3gu";
+        String url = "https://careeranna.com/api/banner.php";
         StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
-                            JSONObject bannerObject = new JSONObject(response.toString());
-                            JSONArray bannerArray = bannerObject.getJSONArray("banner");
+                            JSONArray bannerArray = new JSONArray(response);
                             for(int i=0;i<bannerArray.length();i++) {
                                 JSONObject banner = bannerArray.getJSONObject(i);
-                                mBanners.add(new Banner(banner.getString("id"),
-                                        banner.getString("title"),
-                                        banner.getString("image_url")));
+                                mBanners.add(new Banner(banner.getString("banner_id"),
+                                        banner.getString("banner_title"),
+                                        "https://careeranna.com/uploads/banners/banner/"+banner.getString("banner_image_url")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -501,6 +535,23 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         requestQueue.add(stringRequest);
     }
 
+
+    private void addDots(int i){
+        linearLayout.removeAllViews();
+        TextView[] dots = new TextView[viewPagerAdapter.getCount()];
+
+        for(int x=0; x<dots.length; x++){
+            dots[x] = new TextView(this);
+            dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
+            dots[x].setTextSize(40);
+            dots[x].setTextColor(getResources().getColor(R.color.intro_dot_dark));
+
+            linearLayout.addView(dots[x]);
+        }
+
+        dots[i].setTextColor(getResources().getColor(R.color.intro_dot_light));
+    }
+
     public void makeRunnable() {
         runnable = new Runnable() {
             public void run() {
@@ -523,6 +574,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         @Override
         public void onPageSelected(int i) {
+
+            addDots(i);
             currentPage = i;
         }
 
@@ -572,6 +625,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         if(id == R.id.add_to_cart) {
 
+            cartFragment = new CartFragment();
             menuToChoose = R.menu.notification;
             invalidateOptionsMenu();
 
@@ -1100,14 +1154,13 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
                         progressDialog.dismiss();
 
-                        exploreNew.addPaidCourses(courses, freecourse);
                     }
                 },
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        exploreNew.addPaidCourses(courses, freecourse);
                     }
                 }
         );

@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
@@ -57,18 +59,22 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
         TextView name;
 
+        CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sub);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            checkBox = itemView.findViewById(R.id.checkbox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    if(mListener != null) {
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position);
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        if(mListener != null) {
+                            int position = getAdapterPosition();
+                            if(position != RecyclerView.NO_POSITION) {
+                                mListener.onItemClick(position);
+                            }
                         }
                     }
                 }
