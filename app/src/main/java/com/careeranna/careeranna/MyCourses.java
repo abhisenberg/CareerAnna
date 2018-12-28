@@ -233,11 +233,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         final ArrayList<MenuList> your_array_list = new ArrayList<MenuList>();
         your_array_list.add(new MenuList("MBA", getApplicationContext().getResources().getDrawable(R.drawable.ic_scholarship)));
-        your_array_list.add(new MenuList("UPSC", getApplicationContext().getResources().getDrawable(R.drawable.ic_hinduism)));
+        //your_array_list.add(new MenuList("UPSC", getApplicationContext().getResources().getDrawable(R.drawable.ic_hinduism)));
         your_array_list.add(new MenuList("General Knowledge", getApplicationContext().getResources().getDrawable(R.drawable.ic_gears)));
         //your_array_list.add(new MenuList("Finance", getApplicationContext().getResources().getDrawable(R.drawable.ic_ascendant_bars_graphic)));
         //your_array_list.add(new MenuList("Marketing", getApplicationContext().getResources().getDrawable(R.drawable.ic_digital_marketing)));
-        your_array_list.add(new MenuList("Certificate Courses", getApplicationContext().getResources().getDrawable(R.drawable.ic_certi)));
+        //your_array_list.add(new MenuList("Certificate Courses", getApplicationContext().getResources().getDrawable(R.drawable.ic_certi)));
         your_array_list.add(new MenuList("My Courses",getApplicationContext().getResources().getDrawable(R.drawable.ic_study)));
         your_array_list.add(new MenuList("Explore",getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
         your_array_list.add(new MenuList("Articles",getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
@@ -297,14 +297,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("MBA");
                         break;
-                    case 1:
+                    /*case 1:
                         categoryFragment = new CategoryFragment();
 
                         categoryFragment.addSubCategory("2", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("UPSC");
-                    case 2:
+                    */case 1:
                         categoryFragment = new CategoryFragment();
 
                         categoryFragment.addSubCategory("6", user.getUser_id());
@@ -327,41 +327,41 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         navigationView.setCheckedItem(R.id.marketing);
                         getSupportActionBar().setTitle("Marketing");
                         break;
-            */        case 3:
+                    case 3:
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("15", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("Certificate Courses");
                         break;
-                    case 4:
+            */        case 2:
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
                         getSupportActionBar().setTitle("My Courses");
                         break;
-                    case 5:
+                    case 3:
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         getSupportActionBar().setTitle("Explorer");
 
                         break;
-                    case 6:
+                    case 4:
                         initArticle();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();
                         getSupportActionBar().setTitle("Articles");
                         break;
-                    case 7:
+                    case 5:
                         startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
                         break;
-                    case 8:
+                    case 6:
 
                         frameLayout.setVisibility(View.GONE);
                         fragmentManager.beginTransaction().replace(R.id.main_content, whisListFragement).commit();
                         getSupportActionBar().setTitle("Wish List");
                         break;
-                    case 9:
+                    case 7:
                         startActivity(new Intent(MyCourses.this, MyProfile_2.class));
                         break;
-                    case 10:
+                    case 8:
                         mAuth = FirebaseAuth.getInstance();
                         if(mAuth != null) {
                             mAuth.signOut();
