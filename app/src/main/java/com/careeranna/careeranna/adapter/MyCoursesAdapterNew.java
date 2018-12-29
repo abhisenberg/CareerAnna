@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.helper.RecyclerViewCoursesAdapter;
 
 import java.util.ArrayList;
@@ -25,13 +26,12 @@ import java.util.Random;
 public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNew.ViewHolder>{
 
     private Context mContext;
-    private ArrayList<String> names = new ArrayList<>();
-    private ArrayList<String> urls = new ArrayList<>();
+    private ArrayList<CourseWithLessData> course = new ArrayList<>();
+    private ArrayList<CourseWithLessData> courseCopy = new ArrayList<>();
 
-    public MyCoursesAdapterNew(Context mContext, ArrayList<String> names, ArrayList<String> urls) {
+    public MyCoursesAdapterNew(Context mContext, ArrayList<CourseWithLessData> course) {
         this.mContext = mContext;
-        this.names = names;
-        this.urls = urls;
+        this.course = course;
     }
 
     private OnItemClickListener mListener;
@@ -59,9 +59,9 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
         Random rand = new Random();
         int random  = rand.nextInt(100);
         Glide.with(mContext)
-                .load(urls.get(position))
+                .load(course.get(position).getCourse_imageURL())
                 .into(viewHolder.imageView);
-        viewHolder.textView.setText(names.get(position));
+        viewHolder.textView.setText(course.get(position).getCourse_name());
         viewHolder.progressBar.setProgress(random);
         viewHolder.tv.setText(random+"%");
         if(random <= 20) {
@@ -92,7 +92,7 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
 
     @Override
     public int getItemCount() {
-        return urls.size();
+        return course.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

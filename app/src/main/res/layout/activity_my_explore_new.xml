@@ -1,52 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
-        app:cardElevation="5dp"
+
+    <LinearLayout
+        android:weightSum="8"
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:paddingBottom="25dp"
-            android:layout_width="match_parent"
+        <Button
+            android:textStyle="bold"
+            android:id="@+id/trending"
+            android:drawableRight="@drawable/ic_slow_motion_video_black_24dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingRight="3dp"
+            android:textColor="@color/white"
+            android:layout_weight="2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:text="Trending"
+            />
+
+        <Button
+            android:layout_marginLeft="1dp"
+            android:paddingRight="12dp"
+            android:id="@+id/free"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:drawableRight="@drawable/ic_open_book"
+            android:text="Free"
+            />
+        <Button
+            android:layout_marginLeft="1dp"
+            android:id="@+id/latest"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:drawableRight="@drawable/ic_slow_motion_video_black_24dp"
+            android:layout_weight="2"
+            android:paddingRight="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:text="Latest"
+            />
+        <Button
+            android:layout_marginLeft="1dp"
+            android:id="@+id/premium"
+            android:drawableRight="@drawable/ic_open_book"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_weight="2"
+            android:paddingRight="4dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:text="Premium"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/trending_card"
+        app:cardElevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="4dp"
-                >
-
-                <TextView
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Trending Videos"
-                    android:textSize="18sp"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="12dp"
-                    android:gravity="left"
-                    />
-
-            </android.support.design.card.MaterialCardView>
 
             <LinearLayout
                 android:weightSum="13"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
             <ImageView
                 android:visibility="invisible"
@@ -63,6 +109,7 @@
                     android:elevation="10dp"
                     android:layout_width="0dp"
                     android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:id="@+id/trending_rv"
                     android:orientation="horizontal"
@@ -85,43 +132,20 @@
 
         <android.support.v7.widget.CardView
             app:cardElevation="5dp"
-            android:layout_marginTop="15dp"
+            android:id="@+id/latest_card"
+            android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:paddingBottom="25dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <android.support.design.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="4dp"
-                    >
-
-                    <TextView
-                        android:background="@color/colorPrimary"
-                        android:textColor="@color/white"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Latest Videos"
-                        android:textSize="18sp"
-                        android:paddingTop="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="12dp"
-                        android:gravity="left"
-                        />
-
-                </android.support.design.card.MaterialCardView>
 
                 <LinearLayout
                     android:weightSum="13"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                 <ImageView
                     android:visibility="invisible"
@@ -137,6 +161,7 @@
                     <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                         android:layout_width="0dp"
                         android:layout_weight="9"
+                        android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"
                         android:id="@+id/latest_rv"
                         />
@@ -159,44 +184,22 @@
 
     <android.support.v7.widget.CardView
         app:cardElevation="10dp"
-        android:layout_marginTop="20dp"
+        android:id="@+id/free_card"
+        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <LinearLayout
-        android:paddingBottom="25dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            >
-
-            <TextView
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Free Course"
-                android:textSize="18sp"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="12dp"
-                android:gravity="left"
-                />
-
-        </android.support.design.card.MaterialCardView>
 
 
         <LinearLayout
             android:weightSum="13"
-            android:layout_marginTop="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <ImageView
         android:visibility="invisible"
         android:layout_gravity="center_vertical"
@@ -211,6 +214,7 @@
             <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
                 android:layout_width="0dp"
                 android:layout_weight="9"
+                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:id="@+id/free_course_rv"
                 />
@@ -231,45 +235,23 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/premium_card"
+        android:visibility="invisible"
         app:cardElevation="10dp"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <LinearLayout
-        android:paddingBottom="25dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            >
-
-            <TextView
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Paid Course"
-                android:textSize="18sp"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="12dp"
-                android:gravity="left"
-                />
-
-        </android.support.design.card.MaterialCardView>
 
         <LinearLayout
         android:weightSum="13"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
 
         <ImageView
@@ -286,6 +268,7 @@
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
             android:layout_width="0dp"
             android:layout_weight="9"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:id="@+id/paid_courses_rv"
             />
@@ -306,4 +289,6 @@
     </android.support.v7.widget.CardView>
     </LinearLayout>
 
-</ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

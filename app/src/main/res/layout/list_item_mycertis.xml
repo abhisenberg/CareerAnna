@@ -58,7 +58,6 @@
 
     <ImageView
         android:id="@+id/iv_certiImage"
-        android:src="@drawable/ic_launcher_background"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
