@@ -52,6 +52,7 @@ import com.careeranna.careeranna.data.Banner;
 import com.careeranna.careeranna.data.Category;
 import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.data.Course;
+import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.MenuList;
 import com.careeranna.careeranna.data.User;
@@ -146,7 +147,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     NavigationView navigationView;
 
-    ArrayList<String> names, urls, ids, category_ids;
+    ArrayList<CourseWithLessData> names, urls, ids, category_ids;
 
     ListView listView;
 
@@ -857,14 +858,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             JSONArray CategoryArray = new JSONArray(response);
                             for(int i=0;i<10;i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
-                                names.add(Category.getString("product_name"));
-                                urls.add(Category.getString("product_image").replace("\\",""));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
-                        myExamPrepFragment.add(names, urls);
                     }
                 },
                 new Response.ErrorListener() {
@@ -903,16 +901,18 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             JSONArray coursesArray = new JSONArray(response);
                             for(int i=0;i<coursesArray.length();i++) {
                                 JSONObject Category = coursesArray.getJSONObject(i);
-                                category_ids.add(Category.getString("category_id"));
-                                ids.add(Category.getString("product_id"));
-                                names.add(Category.getString("product_name"));
-                                urls.add(Category.getString("product_image").replace("\\",""));
+                                names.add(new CourseWithLessData(Category.getString("product_name"),
+                                        Category.getString("product_id"),
+                                        Category.getString("product_image").replace("\\",""),
+                                        "0",
+                                        Category.getString("category_id")
+                                        ));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
-                        myCoursesFragement.add(names, urls, ids, category_ids);
+                        myCoursesFragement.add(names);
                     }
                 },
                 new Response.ErrorListener() {
@@ -1100,8 +1100,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             JSONArray CategoryArray = new JSONArray(response.toString());
                             for (int i = 0; i < 20; i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
-                                names.add(Category.getString("course_name"));
-                                urls.add("https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""));
                                 courses.add(new Course(Category.getString("product_id"),
                                         Category.getString("course_name"),
                                         "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),

@@ -192,7 +192,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         freeVideos.add(new FreeVideos());
         freeVideos.add(new FreeVideos());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false));
 
         FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
 
