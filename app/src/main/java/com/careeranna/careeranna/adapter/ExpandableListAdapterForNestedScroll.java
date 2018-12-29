@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Topic;
+import com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll;
 import com.careeranna.careeranna.data.Unit;
 
 import java.util.ArrayList;
 
-public class ExpandableList_Adapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapterForNestedScroll extends BaseExpandableListAdapter {
 
     public static final String TAG = "ExpandableListAdapter";
 
@@ -30,7 +31,7 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
 
     private OnItemClickListener mListener;
 
-    private ExpandableListView expandableListView;
+    private ExpandableListViewForNestedScroll expandableListView;
 
     public interface OnItemClickListener {
         void onItemClick1(int position, int position2);
@@ -40,12 +41,11 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
         mListener = listener;
     }
 
-    public ExpandableList_Adapter(Context mContext, ArrayList<Unit> unit, ExpandableListView expandableListView) {
+    public ExpandableListAdapterForNestedScroll(Context mContext, ArrayList<Unit> unit, ExpandableListViewForNestedScroll expandableListView) {
         this.mContext = mContext;
         this.unitsList = unit;
         layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.expandableListView = expandableListView;
-
         expandableListView.setGroupIndicator(null);
     }
 

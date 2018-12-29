@@ -102,7 +102,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 }
             }
 
-            listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits);
+            listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
             listView.setAdapter(listAdapter);
             listAdapter.setOnItemClicklistener(this);
         }
