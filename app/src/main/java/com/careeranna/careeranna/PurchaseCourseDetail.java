@@ -1,4 +1,5 @@
 package com.careeranna.careeranna;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,18 +14,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
+import com.careeranna.careeranna.adapter.ExpandableListAdapterForNestedScroll;
 import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
@@ -44,16 +40,13 @@ import com.careeranna.careeranna.data.Topic;
 import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.dummy_data.CourseDummyData;
-import com.careeranna.careeranna.user.SignUp;
+import com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.longtailvideo.jwplayer.JWPlayerView;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
 import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
-import com.payu.india.CallBackHandler.OnetapCallback;
-import com.payu.india.Model.PaymentParams;
-import com.payu.india.Model.PayuConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +61,7 @@ import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener{
 
@@ -118,9 +111,9 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     User user;
 
-    ExpandableList_Adapter listAdapter;
+    ExpandableListAdapterForNestedScroll listAdapter;
 
-    ExpandableListView expandableListView;
+    ExpandableListViewForNestedScroll expandableListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +214,21 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         addTocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buyCourse();
+                /*
+                If course if free, directly go to freeCourseCheckout()
+                if it is paid, then go to buyCourse()
+                 */
+                if(course != null){
+                    if(course.getPrice().equals("0")){
+                        freeCourseCheckout();
+                    } else
+                        buyCourse();
+                } else {
+                    if(examPrep.getPrice().equals("0")){
+                        freeCourseCheckout();
+                    } else
+                        buyCourse();
+                }
             }
         });
 
@@ -297,20 +304,30 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     private void buyCourse() {
-
         mBuilder = new AlertDialog.Builder(this);
         mBuilder.setTitle("Are You Sure You Want To Buy This Course");
-        mBuilder.setCancelable(false);
+        mBuilder.setCancelable(true);
+
+        final String price;
         if(course != null ) {
             mBuilder.setMessage("Course Name : " + course.getName() + " \n Price : " + course.getPrice());
+            price = course.getPrice();
         } else {
             mBuilder.setMessage("Course Name : " + examPrep.getName() + " \n Price : " + examPrep.getPrice());
+            price = examPrep.getPrice();
         }
+        /*
+        setNegativeButton is the left button, here we are showing "Add to Cart" option instead of cancel
+        and setPositiveButton is the right button, in which we are showing "Direct Checkout".
+
+        setNegativeButton is NOT cancel button here.
+         */
+
         mBuilder.setPositiveButton("Check Out", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                buyCourseInside();
+                paidCourseCheckout(price);
             }
         });
 
@@ -319,30 +336,24 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             public void onClick(DialogInterface dialogInterface, int i) {
                 String cart = Paper.book().read("cart");;
 
+                /*
+                If the cart is not null, we extract the already stored cart contents and add our new course
+                in the cart.
+                 */
                 if(cart != null && !cart.isEmpty()) {
 
                     Log.i( "details",   cart);
-
                     Gson gson = new Gson();
-
                     Type type = new TypeToken<ArrayList<String>>() {}.getType();
-
                     ArrayList<String> arrayList = gson.fromJson(cart, type);
-
                     String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id();
-
                     arrayList.add(courseString);
-
                     Paper.book().write("cart", new Gson().toJson(arrayList));
-
                 } else {
 
                     String courseString = course.getId()+","+course.getPrice()+","+course.getImageUrl()+","+course.getName()+","+course.getCategory_id();
-
                     ArrayList<String> array = new ArrayList<>();
-
                     array.add(courseString);
-
                     Paper.book().write("cart", new Gson().toJson(array));
                 }
 
@@ -354,7 +365,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         alertDialog = mBuilder.show();
     }
 
-    private void buyCourseInside() {
+    private void freeCourseCheckout() {
         progressBar.setVisibility(View.VISIBLE);
         RequestQueue requestQueue =Volley.newRequestQueue(PurchaseCourseDetail.this);
         String url = "https://careeranna.com/api/addProduct.php?";
@@ -404,7 +415,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             exam prep. if "course" is null, it is exam prep.
              */
             uri = Uri.parse(examPrep.getDemo_url());
-//            price.setText(examPrep.getPrice());
             getSupportActionBar().setTitle(examPrep.getName());
         } else {
             /*
@@ -414,14 +424,13 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
             tv_courseName.setText(course.getName());
             tv_instructor_name.setText("By Careeranna");
-            if(course.getPrice().equals("null"))
+            if(course.getPrice().equals("0"))
                 tv_cost.setText("Free");
             else{
                 String price = "₹"+course.getPrice();
                 tv_cost.setText(price);
             }
 
-//            price.setText("Free");
             getSupportActionBar().setTitle(course.getName());
         }
 
@@ -432,35 +441,31 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     private void fetchUnit() {
-//        String id = course.getId();
-//
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setMessage("Loading Videos .. ");
-//        progressDialog.show();
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
-////        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id=228";
-//        Log.i("urlInsidePurchaseCourse", url);
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET,
-//                url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-                String response = "";
-                       ArrayList<String> course = new ArrayList<>();
-                        try {
-                            Log.i("pdf", response);
-//                            CourseDummyData cdd = new CourseDummyData();
-//                            response = cdd.getDummyData();
+        String id = course.getId();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Videos .. ");
+        progressDialog.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
+        Log.i("urlInsidePurchaseCourse", url);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("No results")){
                             response = CourseDummyData.dummyString;
+                        }
+                        ArrayList<String> course = new ArrayList<>();
+                        try {
                             Log.d(TAG, "response = "+response);
                             JSONObject jsonObject = new JSONObject(response);
                                 JSONArray jsonArray = jsonObject.getJSONArray("content");
                                 for(int i=0;i<jsonArray.length();i++) {
                                     course.add((String)jsonArray.get(i));
                                 }
-                                Log.d(TAG, "DummyUnits = "+course.size());
                         } catch (JSONException e) {
                             e.printStackTrace(); }
                         /*
@@ -468,16 +473,17 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                         pass the course
                          */
                         addCourseUnits(course);
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d(TAG, "onErrorResponse: "+error.networkResponse);
-//                Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-//            }
-//        });
-//        requestQueue.add(stringRequest);
+                        progressDialog.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: "+error.networkResponse);
+                Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+        requestQueue.add(stringRequest);
     }
 
     public void addCourseUnits(ArrayList<String> course) {
@@ -498,11 +504,49 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
 
-            listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits);
-            listAdapter.setExpandableListView(expandableListView);
+            listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
             expandableListView.setAdapter(listAdapter);
         }
         Log.d(TAG, "addCourseUnits: units size: "+mUnits.size());
     }
+
+    public void paidCourseCheckout(final String price){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_payment_layout);
+        dialog.setTitle("Pay Now... ");
+
+        Button paytm, payu;
+
+        TextView tv_price = dialog.findViewById(R.id.price);
+        TextView tv_email = dialog.findViewById(R.id.email);
+
+        tv_price.setText(price);
+        tv_email.setText(user.getUser_email());
+
+        paytm = (Button) dialog.findViewById(R.id.paytm);
+        payu = (Button) dialog.findViewById(R.id.payu);
+
+        paytm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PaytmPayment.class);
+                intent.putExtra("price", price);
+                startActivity(intent);
+            }
+        });
+
+        payu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Payment.class);
+                intent.putExtra("price", price);
+                startActivity(intent);
+            }
+        });
+
+        dialog.show();
+
+    }
+
 }
 

@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        startActivity(new Intent(this, SignUp.class));
 
-        checkUpdates();
+//        checkUpdates();
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
             startActivity(new Intent(this, MyCourses.class));
@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AlertDialog alert = builder.create();
         alert.show();
     }
-
 
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
