@@ -54,11 +54,9 @@ import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.MenuList;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.dashboard_fragements.CategoryFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExamPrepFragment;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreNew;
 import com.careeranna.careeranna.helper.CountDrawable;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreFragement;
 import com.careeranna.careeranna.helper.InternetDialog;
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.careeranna.careeranna.user.SignUp;
@@ -93,7 +91,6 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
     FragmentManager fragmentManager;
 
     ArrayList<Banner> mBanners;
-
 
     int page = 0;
 

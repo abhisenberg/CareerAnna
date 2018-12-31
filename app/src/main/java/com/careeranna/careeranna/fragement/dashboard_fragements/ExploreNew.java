@@ -2,11 +2,8 @@ package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,8 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.careeranna.careeranna.InsideWithoutSignFragment;
 import com.careeranna.careeranna.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.VideoWithComment;
@@ -35,13 +28,11 @@ import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeVideos;
-import com.careeranna.careeranna.user.ExploreNotSIActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -82,7 +73,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.activity_my_explore_new, container, false);
+        View view =  inflater.inflate(R.layout.fragement_my_explore_new, container, false);
         trending = view.findViewById(R.id.trending_rv);
 
         recyclerView1 = view.findViewById(R.id.latest_rv);
@@ -518,8 +509,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                             courses = new ArrayList<>();
 
                             Log.i("url_response", response.toString());
-                            JSONArray CategoryArray = new JSONArray(response.toString());
-                            for (int i = 0; i < 20; i++) {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray CategoryArray = jsonObject.getJSONArray("paid");
+                            for (int i = 0; i < 40; i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 courses.add(new Course(Category.getString("product_id"),
                                         Category.getString("course_name"),

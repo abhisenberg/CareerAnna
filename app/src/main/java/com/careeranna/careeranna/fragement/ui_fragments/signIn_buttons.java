@@ -62,7 +62,6 @@ public class signIn_buttons extends Fragment implements View.OnClickListener {
                 FragmentTransaction changeFrag = fragmentManager.beginTransaction();
                     changeFrag.setCustomAnimations(android.R.anim.slide_in_left,
                             android.R.anim.slide_out_right);
-                    changeFrag.replace(R.id.fragment_btAndFields, fragment);
                     changeFrag.commit();
 
                 break;

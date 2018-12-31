@@ -54,13 +54,8 @@
             android:name=".user.Register"
             android:label="Create An Account" />
         <activity
-            android:name=".PurchaseCourses"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".CategoriesSection" />
-        <activity
             android:name=".ParticularCourse"
             android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".user.ExploreNotSIActivity" />
         <activity android:name=".Pdf" />
         <activity
             android:name=".ParticularArticleActivity"
@@ -75,13 +70,9 @@
         <activity
             android:name=".PasswordReset"
             android:label="Password Reset" />
-        <activity
-            android:name=".CartPage"
-            android:label="My Cart" />
         <activity android:name=".PurchaseCourseDetail" />
         <activity android:name=".PaytmPayment" />
         <activity android:name=".ExampPrepParticular" />
-        <activity android:name=".DashBoard" />
         <activity
             android:name=".FilterOfCategory"
             android:label="Filter Course" />
@@ -96,13 +87,10 @@
         <activity
             android:name=".VideoWithComment"
             android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".NewCourseActivity" />
-        <activity android:name=".ExploreNotSIActivity_2" />
         <activity android:name=".Exams" />
         <activity
             android:name=".ExploreNotSignActivity_3"
             android:label="Explore" />
-        <activity android:name=".WhisList"></activity>
     </application>
 
 </manifest>

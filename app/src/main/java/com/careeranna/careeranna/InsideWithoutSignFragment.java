@@ -388,7 +388,8 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                             courses = new ArrayList<>();
 
                             Log.i("url_response", response.toString());
-                            JSONArray CategoryArray = new JSONArray(response.toString());
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray CategoryArray = jsonObject.getJSONArray("paid");
                             for (int i = 0; i < 20; i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 courses.add(new Course(Category.getString("product_id"),
@@ -464,7 +465,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                                         Category.getString("name"),
                                         "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
                                         Category.getString("eid"),
-                                        Category.getString("discount")
+                                        "0"
                                         , "meta_description",""));
                                 freecourse.get(i).setType("Free");
                             }
