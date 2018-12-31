@@ -41,6 +41,7 @@ import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.dummy_data.CourseDummyData;
 import com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll;
+import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.longtailvideo.jwplayer.JWPlayerView;
@@ -65,7 +66,7 @@ import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener{
 
-    public static final String TAG = "PurchaseCourses";
+    public static final String TAG = "PurchaseCourseDetail";
 
     private static final Pattern REMOVE_TAGS = Pattern.compile("<.+?>");
 
@@ -147,6 +148,8 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             /*
             DON'T FETCH UNITS HERE BECAUSE THIS IS EXAM_PREP COURSE
              */
+            fetchUnit();
+//
             examPrep = (ExamPrep) intent.getSerializableExtra("Examp");
 //            description.append("\n"+removeTags(examPrep.getDesc()).replace("-", "\n"));
 
@@ -214,6 +217,13 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         addTocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String cache = Paper.book().read("user");
+                if(cache != null && !cache.isEmpty()) {
+                } else {
+                    Toast.makeText(PurchaseCourseDetail.this, "Please Sign up", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(PurchaseCourseDetail.this, SignUp.class));
+                    finish();
+                }
                 /*
                 If course if free, directly go to freeCourseCheckout()
                 if it is paid, then go to buyCourse()

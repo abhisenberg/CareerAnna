@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -25,16 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.user.ExploreNotSIActivity;
-import com.careeranna.careeranna.user.MyProfile_2;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -146,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        startActivity(new Intent(this, SignUp.class));
 
-//        checkUpdates();
+        checkUpdates();
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
             startActivity(new Intent(this, MyCourses.class));

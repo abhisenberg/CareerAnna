@@ -22,24 +22,27 @@
         android:layout_below="@id/Paid"
         android:layout_marginTop="5dp"
         android:id="@+id/linear"
+        android:orientation="vertical"
         android:weightSum="10">
 
-        <Button
+        <CheckBox
             android:id="@+id/free"
             android:textSize="12sp"
             android:background="@drawable/border"
-            android:layout_width="0dp"
-            android:layout_weight="5"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_height="40dp"
             android:text="Free"
             />
-        <Button
+        <CheckBox
             android:id="@+id/paid"
             android:textSize="12sp"
             android:background="@drawable/border"
-            android:layout_width="0dp"
-            android:layout_weight="5"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="Paid"
             />
 
@@ -51,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/category"
-        android:text="By SubCategory"
+        android:text="By Exam Name"
         android:layout_below="@id/linear"
         android:textStyle="bold"
         />

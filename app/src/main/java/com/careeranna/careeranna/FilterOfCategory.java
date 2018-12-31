@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.careeranna.careeranna.adapter.SubCategoryAdapter;
@@ -23,7 +25,11 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
     ArrayList<SubCategory> chosenSub;
 
-    Button free, paid, cancel, apply;
+    Button cancel, apply;
+
+    CheckBox free, paid;
+
+    Boolean free1, paid1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +57,18 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
         cancel = findViewById(R.id.cancel);
 
-        free.setOnClickListener(new View.OnClickListener() {
+        free.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(FilterOfCategory.this, "free", Toast.LENGTH_SHORT).show();
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                free1 = isChecked;
             }
         });
 
-        paid.setOnClickListener(new View.OnClickListener() {
+
+        paid.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(FilterOfCategory.this, "paid", Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                paid1 = isChecked;
             }
         });
 
@@ -72,6 +78,8 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
                 Intent intent = new Intent();
                 intent.putExtra("category", chosenSub);
+                intent.putExtra("free", free1);
+                intent.putExtra("paid", paid1);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

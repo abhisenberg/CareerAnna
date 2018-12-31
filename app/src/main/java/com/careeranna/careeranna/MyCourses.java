@@ -1,7 +1,9 @@
 package com.careeranna.careeranna;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -57,11 +60,9 @@ import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.MenuList;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.dashboard_fragements.CategoryFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExamPrepFragment;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreNew;
 import com.careeranna.careeranna.helper.CountDrawable;
 import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreFragement;
 import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
 import com.careeranna.careeranna.helper.InternetDialog;
 import com.careeranna.careeranna.user.MyProfile_2;
@@ -108,10 +109,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     String mUsername, profile_pic_url, mEmail;
 
     ExploreNew exploreNew;
-    ExploreFragement myExplorerFragement;
     MyCoursesFragment myCoursesFragement;
     ArticlesFragment myArticleFragment;
-    ExamPrepFragment myExamPrepFragment;
     CategoryFragment categoryFragment;
 
     FragmentManager fragmentManager;
@@ -192,7 +191,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     public void setCount(Context context, String count) {
 
-        if(menuToChoose == R.id.add_to_cart) {
+        if(menuToChoose == R.menu.add_cart) {
             MenuItem menuItem = menu.findItem(R.id.add_to_cart);
 
             LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
@@ -221,6 +220,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         Log.d(TAG, "onCreate: ");
 
+        checkUpdates();
         //  Initialize Layout Variable
         drawerLayout = findViewById(R.id.drawelayout);
         navigationView = findViewById(R.id.nav_view);
@@ -245,7 +245,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         your_array_list.add(new MenuList("Explore",getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
         your_array_list.add(new MenuList("Articles",getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
         your_array_list.add(new MenuList("Our Mentors",getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
-        your_array_list.add(new MenuList("WhisList",getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
+        your_array_list.add(new MenuList("Wish List",getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
         your_array_list.add(new MenuList("My Profile",getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
         your_array_list.add(new MenuList("Sign Out",getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1),"#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
 
@@ -295,7 +295,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 switch (position) {
                     case 0:
                         categoryFragment = new CategoryFragment();
-                        categoryFragment.addSubCategory("1", user.getUser_id());
+                        categoryFragment.addSubCategory("1", "4", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("MBA");
@@ -310,7 +310,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     */case 1:
                         categoryFragment = new CategoryFragment();
 
-                        categoryFragment.addSubCategory("6", user.getUser_id());
+                        categoryFragment.addSubCategory("6", "6", user.getUser_id());
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("General Knowledge");
@@ -418,9 +418,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         whisListFragement = new WhisListFragement();
         myCoursesFragement = new MyCoursesFragment();
-        myExplorerFragement = new ExploreFragement();
         myArticleFragment = new ArticlesFragment();
-        myExamPrepFragment = new ExamPrepFragment();
         exploreNew = new ExploreNew();
         categoryFragment = new CategoryFragment();
         cartFragment = new CartFragment();
@@ -637,7 +635,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         username.setText(mUsername);
         useremail.setText(mEmail);
 
-        navigationView.setCheckedItem(R.id.explore);
     }
 
     @Override
@@ -718,118 +715,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             setCount(this, "0");
         }
 
-        if(id == R.id.signOut) {
-
-            mAuth = FirebaseAuth.getInstance();
-            if(mAuth != null) {
-                mAuth.signOut();
-                LoginManager.getInstance().logOut();
-            }
-            Paper.delete("user");
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-
-        } else if(id == R.id.myCourse) {
-
-            myCourse();
-            fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
-            navigationView.setCheckedItem(R.id.myCourse);
-            getSupportActionBar().setTitle("My Courses");
-
-        }  else if(id == R.id.explore) {
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
-            navigationView.setCheckedItem(R.id.explore);
-            getSupportActionBar().setTitle("Explorer");
-
-        } else if(id == R.id.article) {
-
-            initArticle();
-            fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();
-            navigationView.setCheckedItem(R.id.article);
-            getSupportActionBar().setTitle("Articles");
-
-        } else if(id == R.id.profile) {
-
-            startActivity(new Intent(this, MyProfile_2.class));
-
-        } else if(id == R.id.category) {
-
-            startActivity(new Intent(this, DashBoard.class));
-
-        } else if(id == R.id.MBA) {
-
-            categoryFragment = new CategoryFragment();
-            categoryFragment.addSubCategory("1", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.MBA);
-            getSupportActionBar().setTitle("MBA");
-
-        } else if(id == R.id.Professional) {
-
-            categoryFragment = new CategoryFragment();
-
-            categoryFragment.addSubCategory("5", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.govt);
-            getSupportActionBar().setTitle("Professional Development");
-
-        } else if(id == R.id.Gk) {
-
-            categoryFragment = new CategoryFragment();
-
-            categoryFragment.addSubCategory("6", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.Banking);
-            getSupportActionBar().setTitle("General Knowledge");
-
-        }  else if(id == R.id.govt) {
-
-            categoryFragment = new CategoryFragment();
-
-            categoryFragment.addSubCategory("9", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.govt);
-            getSupportActionBar().setTitle("Govt. Jobs");
-
-        } else if(id == R.id.law) {
-            categoryFragment = new CategoryFragment();
-            categoryFragment.addSubCategory("12", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.law);
-            getSupportActionBar().setTitle("Law");
-
-        } else if(id == R.id.finance) {
-            categoryFragment = new CategoryFragment();
-            categoryFragment.addSubCategory("13", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.finance);
-            getSupportActionBar().setTitle("Finance");
-
-        } else if(id == R.id.marketing) {
-            categoryFragment = new CategoryFragment();
-            categoryFragment.addSubCategory("14", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.marketing);
-            getSupportActionBar().setTitle("Marketing");
-
-        } else if(id == R.id.certificate) {
-            categoryFragment = new CategoryFragment();
-            categoryFragment.addSubCategory("15", user.getUser_id());
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
-            navigationView.setCheckedItem(R.id.certificate);
-            getSupportActionBar().setTitle("Certificate Courses");
-
-        }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -841,7 +726,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading My Courses Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -884,7 +769,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading My Courses Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -941,7 +826,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Articles Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -999,7 +884,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Paid Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -1078,7 +963,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Paid Courses Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -1097,8 +982,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             urls = new ArrayList<>();
 
                             Log.i("url_response", response.toString());
-                            JSONArray CategoryArray = new JSONArray(response.toString());
-                            for (int i = 0; i < 20; i++) {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray CategoryArray = jsonObject.optJSONArray("paid");
+                            for (int i = 0; i < CategoryArray.length(); i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 courses.add(new Course(Category.getString("product_id"),
                                         Category.getString("course_name"),
@@ -1137,7 +1023,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Free Courses Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -1191,11 +1077,68 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    private void checkUpdates() {
+
+        final String[] versionUpdate = {""};
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://careeranna.com/api/updateVersion.php";
+        StringRequest str = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.i("App", response);
+                            JSONObject spo = new JSONObject(response);
+                            versionUpdate[0] = spo.getString("version_name");
+                            String versionName = BuildConfig.VERSION_NAME;
+                            if(!versionUpdate[0].equals(versionName)) {
+                                alertDialogForUpdate();
+                            }
+                        } catch (JSONException e) {
+                            Log.e("error_coce", e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        queue.add(str);
+
+    }
+
+
+    private void alertDialogForUpdate() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Update Available");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setCancelable(false);
+
+        builder.setMessage("New Version Available")
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(
+                                new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.careeranna.careeranna"
+                                        )
+                                )
+                        );
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
     private void openMyCoursesFragment(){
         myCourse();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
-        navigationView.setCheckedItem(R.id.myCourse);
         if(getSupportActionBar() != null)
             getSupportActionBar().setTitle("My Courses");
     }

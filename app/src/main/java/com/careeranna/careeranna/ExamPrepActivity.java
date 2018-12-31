@@ -39,10 +39,7 @@ public class ExamPrepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_prep);
 
-        price = findViewById(R.id.dollar);
         videoView =  findViewById(R.id.playerView);
-        desc = findViewById(R.id.descTextDetails);
-        purchaseCourse = findViewById(R.id.purchase);
 
         Intent intent = getIntent();
         examPrep = (ExamPrep) intent.getSerializableExtra("Examp");
