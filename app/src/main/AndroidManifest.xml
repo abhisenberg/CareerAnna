@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +48,7 @@
             android:name=".user.SignUp"
             android:label="Sign In" />
         <activity
-            android:name=".MyCourses"
+            android:name=".activity.MyCourses"
             android:label="MyCourses" />
         <activity
             android:name=".user.Register"
@@ -58,7 +58,7 @@
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity android:name=".Pdf" />
         <activity
-            android:name=".ParticularArticleActivity"
+            android:name=".activity.ParticularArticleActivity"
             android:label="Article" />
         <activity
             android:name=".ExamPrepActivity"
@@ -66,18 +66,18 @@
         <activity
             android:name=".MyExamPrepActivity"
             android:label="My Exam Prep" />
-        <activity android:name=".Payment" />
+        <activity android:name=".activity.Payment" />
         <activity
-            android:name=".PasswordReset"
+            android:name=".activity.PasswordReset"
             android:label="Password Reset" />
-        <activity android:name=".PurchaseCourseDetail" />
-        <activity android:name=".PaytmPayment" />
+        <activity android:name=".activity.PurchaseCourseDetail" />
+        <activity android:name=".activity.PaytmPayment" />
         <activity android:name=".ExampPrepParticular" />
         <activity
-            android:name=".FilterOfCategory"
+            android:name=".activity.FilterOfCategory"
             android:label="Filter Course" />
         <activity
-            android:name=".SortByCourse"
+            android:name=".activity.SortByCourse"
             android:label="Sort Course" />
         <activity android:name=".InstructorProfileActivity" />
         <activity android:name=".InstructorsListActivity" />
@@ -85,11 +85,11 @@
             android:name=".user.MyProfile_2"
             android:theme="@style/UserProfileTheme" />
         <activity
-            android:name=".VideoWithComment"
+            android:name=".activity.VideoWithComment"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity android:name=".Exams" />
         <activity
-            android:name=".ExploreNotSignActivity_3"
+            android:name=".activity.ExploreNotSignActivity"
             android:label="Explore" />
     </application>
 

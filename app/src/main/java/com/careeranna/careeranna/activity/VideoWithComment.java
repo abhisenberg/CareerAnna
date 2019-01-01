@@ -1,12 +1,9 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.CommentAdapter;
 import com.careeranna.careeranna.data.Comment;
 import com.careeranna.careeranna.data.FreeVideos;

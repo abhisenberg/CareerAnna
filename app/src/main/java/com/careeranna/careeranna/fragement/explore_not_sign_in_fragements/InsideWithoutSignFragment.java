@@ -1,15 +1,18 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.fragement.explore_not_sign_in_fragements;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
@@ -18,10 +21,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.activity.PurchaseCourseDetail;
+import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.VideoWithComment;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.data.UrlConstants;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
@@ -33,7 +40,7 @@ import java.util.ArrayList;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment For Explore WithOut Sign Up
  */
 public class InsideWithoutSignFragment extends Fragment  implements TrendingVideosAdapter.OnItemClickListener, FreeCourseAdapter.OnItemClickListener{
 
@@ -41,11 +48,13 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
     ArrayList<Course> courses, freecourse;
 
+    Button trending_btn, latest_btn, free_btn, premium_btn;
+
     TrendingVideosAdapter trendingVideosAdapter;
 
     TrendingVideosAdapter freeVideosAdapter;
 
-    RecyclerViewPager trending, recyclerView1, freeCorse, paidCourse;;
+    RecyclerViewPager trending, latest_recycler, free_course_recyler, paid_course_recyler;
 
     public static int position = 0, position_latest = 0;
 
@@ -53,9 +62,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
     ProgressDialog progressDialog;
 
-    ImageView arrow_t_l,arrow_t_r,arrow_l_r, arrow_l_l;
+    ImageView arrow_trending_left,arrow_trending_right,arrow_latest_right, arrow_latest_left;
 
-    ImageView arrow_p_l,arrow_p_r,arrow_f_r, arrow_f_l;
+    ImageView arrow_paid_left,arrow_paid_right,arrow_free_right, arrow_free_left;
+
+    CardView trendingCard, premiumCard, freeCard, latestCard;
 
     public InsideWithoutSignFragment() {
         // Required empty public constructor
@@ -69,82 +80,147 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
         View view =  inflater.inflate(R.layout.fragment_inside_without_sign_in, container, false);
         trending = view.findViewById(R.id.trending_rv);
 
-        recyclerView1 = view.findViewById(R.id.latest_rv);
+        latest_recycler = view.findViewById(R.id.latest_rv);
 
-        freeCorse = view.findViewById(R.id.free_course_rv);
+        free_course_recyler = view.findViewById(R.id.free_course_rv);
 
-        paidCourse = view.findViewById(R.id.paid_courses_rv);
+        paid_course_recyler = view.findViewById(R.id.paid_courses_rv);
+        
+        arrow_trending_left = view.findViewById(R.id.arrow_t_l);
+        arrow_trending_right = view.findViewById(R.id.arrow_t_r);
 
+        arrow_latest_left = view.findViewById(R.id.arrow_l_l);
+        arrow_latest_right = view.findViewById(R.id.arrow_l_r);
 
-        arrow_t_l = view.findViewById(R.id.arrow_t_l);
-        arrow_t_r = view.findViewById(R.id.arrow_t_r);
+        arrow_free_left = view.findViewById(R.id.arrow_f_l);
+        arrow_free_right = view.findViewById(R.id.arrow_f_r);
 
-        arrow_l_l = view.findViewById(R.id.arrow_l_l);
-        arrow_l_r = view.findViewById(R.id.arrow_l_r);
+        arrow_paid_left = view.findViewById(R.id.arrow_p_l);
+        arrow_paid_right = view.findViewById(R.id.arrow_p_r);
 
-        arrow_f_l = view.findViewById(R.id.arrow_f_l);
-        arrow_f_r = view.findViewById(R.id.arrow_f_r);
-
-        arrow_p_l = view.findViewById(R.id.arrow_p_l);
-        arrow_p_r = view.findViewById(R.id.arrow_p_r);
+        trendingCard = view.findViewById(R.id.trending_card);
+        premiumCard = view.findViewById(R.id.premium_card);
+        freeCard = view.findViewById(R.id.free_card);
+        latestCard = view.findViewById(R.id.latest_card);
 
         initalizeVideos();
 
-        arrow_t_r.setOnClickListener(new View.OnClickListener() {
+        trending_btn = view.findViewById(R.id.trending);
+        latest_btn = view.findViewById(R.id.latest);
+        free_btn = view.findViewById(R.id.free);
+        premium_btn = view.findViewById(R.id.premium);
+
+        hidingRecylerView();
+
+        arrow_trending_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position = trending.getCurrentPosition();
                 if(position == 0) {
-                    arrow_t_l.setVisibility(View.VISIBLE);
+                    arrow_trending_left.setVisibility(View.VISIBLE);
                 }
                 position += 1;
                 trending.smoothScrollToPosition(position);
                 if(position+1 == trendingvVideos.size()) {
-                    arrow_t_r.setVisibility(View.INVISIBLE);
+                    arrow_trending_right.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        arrow_t_l.setOnClickListener(new View.OnClickListener() {
+        arrow_trending_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position = trending.getCurrentPosition();
                 if(position == 1) {
-                    arrow_t_l.setVisibility(View.INVISIBLE);
+                    arrow_trending_left.setVisibility(View.INVISIBLE);
                 }
                 position -= 1;
                 trending.smoothScrollToPosition(position);
             }
         });
 
-        arrow_l_r.setOnClickListener(new View.OnClickListener() {
+        arrow_latest_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_latest = latest_recycler.getCurrentPosition();
                 if(position_latest == 0) {
-                    arrow_l_l.setVisibility(View.VISIBLE);
+                    arrow_latest_left.setVisibility(View.VISIBLE);
                 }
                 position_latest += 1;
-                recyclerView1.smoothScrollToPosition(position_latest);
+                latest_recycler.smoothScrollToPosition(position_latest);
                 if(position_latest+1 == freeVideos.size()) {
-                    arrow_l_r.setVisibility(View.INVISIBLE);
+                    arrow_latest_right.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        arrow_l_l.setOnClickListener(new View.OnClickListener() {
+        arrow_latest_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_latest = latest_recycler.getCurrentPosition();
                 if(position_latest == 1) {
-                    arrow_l_l.setVisibility(View.INVISIBLE);
+                    arrow_latest_left.setVisibility(View.INVISIBLE);
                 }
                 position_latest -= 1;
-                recyclerView1.smoothScrollToPosition(position_latest);
+                latest_recycler.smoothScrollToPosition(position_latest);
             }
         });
 
-        recyclerView1.setFlingFactor(0.1f);
-        recyclerView1.fling(1, 1);
-        recyclerView1.setVerticalFadingEdgeEnabled(true);
 
-        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        arrow_free_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_free = free_course_recyler.getCurrentPosition();
+                if(position_free == 0) {
+                    arrow_free_left.setVisibility(View.VISIBLE);
+                }
+                position_free += 1;
+                free_course_recyler.smoothScrollToPosition(position_free);
+            }
+        });
+
+        arrow_free_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_free = free_course_recyler.getCurrentPosition();
+                if(position_free == 1) {
+                    arrow_free_left.setVisibility(View.INVISIBLE);
+                }
+                position_free -= 1;
+                free_course_recyler.smoothScrollToPosition(position_free);
+            }
+        });
+
+        arrow_paid_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_paid = paid_course_recyler.getCurrentPosition();
+                if(position_paid == 0) {
+                    arrow_paid_left.setVisibility(View.VISIBLE);
+                }
+                position_paid += 1;
+                paid_course_recyler.smoothScrollToPosition(position_paid);
+            }
+        });
+
+        arrow_paid_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_paid = paid_course_recyler.getCurrentPosition();
+                if(position_paid == 1) {
+                    arrow_paid_left.setVisibility(View.INVISIBLE);
+                }
+                position_paid -= 1;
+                paid_course_recyler.smoothScrollToPosition(position_paid);
+            }
+        });
+
+
+        latest_recycler.setFlingFactor(0.1f);
+        latest_recycler.fling(1, 1);
+        latest_recycler.setVerticalFadingEdgeEnabled(true);
+
+        latest_recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -153,9 +229,9 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                int childCount = recyclerView1.getChildCount();
-                int width = recyclerView1.getChildAt(0).getWidth();
-                int padding = (recyclerView1.getWidth() - width) / 2;
+                int childCount = latest_recycler.getChildCount();
+                int width = latest_recycler.getChildAt(0).getWidth();
+                int padding = (latest_recycler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                 for (int j = 0; j < childCount; j++) {
@@ -184,11 +260,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             }
         });
 
-        freeCorse.setFlingFactor(0.1f);
-        freeCorse.fling(1, 1);
-        freeCorse.setVerticalFadingEdgeEnabled(true);
+        free_course_recyler.setFlingFactor(0.1f);
+        free_course_recyler.fling(1, 1);
+        free_course_recyler.setVerticalFadingEdgeEnabled(true);
 
-        freeCorse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        free_course_recyler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -197,9 +273,9 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                int childCount = freeCorse.getChildCount();
-                int width = freeCorse.getChildAt(0).getWidth();
-                int padding = (freeCorse.getWidth() - width) / 2;
+                int childCount = free_course_recyler.getChildCount();
+                int width = free_course_recyler.getChildAt(0).getWidth();
+                int padding = (free_course_recyler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                 for (int j = 0; j < childCount; j++) {
@@ -228,11 +304,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             }
         });
 
-        paidCourse.setFlingFactor(0.1f);
-        paidCourse.fling(1, 1);
-        paidCourse.setVerticalFadingEdgeEnabled(true);
+        paid_course_recyler.setFlingFactor(0.1f);
+        paid_course_recyler.fling(1, 1);
+        paid_course_recyler.setVerticalFadingEdgeEnabled(true);
 
-        paidCourse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        paid_course_recyler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -241,9 +317,9 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                int childCount = paidCourse.getChildCount();
-                int width = paidCourse.getChildAt(0).getWidth();
-                int padding = (paidCourse.getWidth() - width) / 2;
+                int childCount = paid_course_recyler.getChildCount();
+                int width = paid_course_recyler.getChildAt(0).getWidth();
+                int padding = (paid_course_recyler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                 for (int j = 0; j < childCount; j++) {
@@ -316,56 +392,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             }
         });
 
-
-        arrow_f_r.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(position_free == 0) {
-                    arrow_f_l.setVisibility(View.VISIBLE);
-                }
-                position_free += 1;
-                freeCorse.smoothScrollToPosition(position_free);
-            }
-        });
-
-        arrow_f_l.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(position_free == 1) {
-                    arrow_f_l.setVisibility(View.INVISIBLE);
-                }
-                position_free -= 1;
-                freeCorse.smoothScrollToPosition(position_free);
-            }
-        });
-
-        arrow_p_r.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(position_paid == 0) {
-                    arrow_p_l.setVisibility(View.VISIBLE);
-                }
-                position_paid += 1;
-                paidCourse.smoothScrollToPosition(position_paid);
-            }
-        });
-
-        arrow_p_l.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(position_paid == 1) {
-                    arrow_p_l.setVisibility(View.INVISIBLE);
-                }
-                position_paid -= 1;
-                paidCourse.smoothScrollToPosition(position_paid);
-            }
-        });
-
         return view;
     }
 
 
-    private void addPaidCourse() {
+    private void addpaid_course_recyler() {
 
         courses = new ArrayList<>();
 
@@ -377,9 +408,8 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        String url1 = "https://careeranna.com/api/getAllCourse.php";
-        Log.d("url_res", url1);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                UrlConstants.FETCH_PREMIUM_COURSE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -407,7 +437,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
 
-                        paidCourse.setAdapter(freeCourseAdapter);
+                        paid_course_recyler.setAdapter(freeCourseAdapter);
 
                         freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
@@ -422,7 +452,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
 
-                        paidCourse.setAdapter(freeCourseAdapter);
+                        paid_course_recyler.setAdapter(freeCourseAdapter);
 
                         freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
@@ -449,9 +479,8 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        String url1 = "https://careeranna.com/api/getFreeCourse.php";
-        Log.d("url_res", url1);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                UrlConstants.FETCH_FREE_COURSE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -478,7 +507,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
 
-                        freeCorse.setAdapter(freeCourseAdapter1);
+                        free_course_recyler.setAdapter(freeCourseAdapter1);
 
                         freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
@@ -491,7 +520,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
 
-                        freeCorse.setAdapter(freeCourseAdapter1);
+                        free_course_recyler.setAdapter(freeCourseAdapter1);
 
                         freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
@@ -512,11 +541,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
         trending.setLayoutManager(linearLayoutManager1);
 
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        latest_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
 
-        freeCorse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        free_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
 
-        paidCourse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        paid_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
 
         initalizeVideo();
     }
@@ -529,15 +558,14 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Trending Videos Please Wait ... ");
+        progressDialog.setMessage("Loading Just Give Us A Few Seconds ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        String url1 = "https://careeranna.com/api/getTrendingVideos.php";
-        Log.d("url_res", url1);
-        StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
+        StringRequest stringRequest1  = new StringRequest(Request.Method.GET,
+                UrlConstants.FETCH_TRENDING_VIDEOS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -573,15 +601,14 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         progressDialog = new ProgressDialog(getContext());
 
-                        progressDialog.setMessage("Loading Latest Videos Please Wait ... ");
+                        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
                         progressDialog.show();
 
                         progressDialog.setCancelable(false);
 
                         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-                        String url1 = "https://careeranna.com/api/getFreeVideos.php";
-                        Log.d("url_res", url1);
-                        StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
+                        StringRequest stringRequest1  = new StringRequest(Request.Method.GET,
+                                UrlConstants.FETCH_FREE_VIDEOS,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
@@ -609,20 +636,20 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                                         freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
 
-                                        recyclerView1.setAdapter(freeVideosAdapter);
+                                        latest_recycler.setAdapter(freeVideosAdapter);
 
                                         freeVideosAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
                                         progressDialog.dismiss();
 
-                                        addPaidCourse();
+                                        addpaid_course_recyler();
                                     }
                                 },
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
 
-                                        addPaidCourse();
+                                        addpaid_course_recyler();
                                         progressDialog.dismiss();
                                     }
                                 });
@@ -636,7 +663,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        addPaidCourse();
+                        addpaid_course_recyler();
                         progressDialog.dismiss();
                     }
                 });
@@ -645,7 +672,80 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
     }
 
+    private void hidingRecylerView() {
+        trending_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                trendingCard.setVisibility(View.VISIBLE);
+                freeCard.setVisibility(View.GONE);
+                latestCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                trending_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
 
+
+        latest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                latestCard.setVisibility(View.VISIBLE);
+                trendingCard.setVisibility(View.GONE);
+                freeCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                latest_btn.setTypeface(null, Typeface.BOLD);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        free_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freeCard.setVisibility(View.VISIBLE);
+                trendingCard.setVisibility(View.GONE);
+                latestCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        premium_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                premiumCard.setVisibility(View.VISIBLE);
+                latestCard.setVisibility(View.GONE);
+                freeCard.setVisibility(View.GONE);
+                trendingCard.setVisibility(View.GONE);
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+    }
 
     @Override
     public void onItemClick1(String type, int position) {

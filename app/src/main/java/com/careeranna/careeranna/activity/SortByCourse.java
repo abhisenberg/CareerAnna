@@ -1,7 +1,9 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.careeranna.careeranna.R;
 
 public class SortByCourse extends AppCompatActivity {
 

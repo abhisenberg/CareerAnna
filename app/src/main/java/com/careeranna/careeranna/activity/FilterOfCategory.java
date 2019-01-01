@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,12 +12,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.SubCategoryAdapter;
 import com.careeranna.careeranna.data.SubCategory;
 
 import java.util.ArrayList;
 
-public class FilterOfCategory extends AppCompatActivity implements SubCategoryAdapter.OnItemClickListener{
+public class FilterOfCategory extends AppCompatActivity implements SubCategoryAdapter.OnItemClickListener {
 
     RecyclerView recyclerView;
 

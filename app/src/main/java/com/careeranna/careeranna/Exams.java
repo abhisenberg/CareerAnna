@@ -25,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.activity.MainActivity;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.profile_fragements.CertificateFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;

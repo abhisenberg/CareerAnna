@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 
 import android.app.Dialog;
@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.WishListAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.User;

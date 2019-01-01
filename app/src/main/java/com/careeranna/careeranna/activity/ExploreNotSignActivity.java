@@ -1,40 +1,21 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,85 +23,71 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 
-import com.careeranna.careeranna.adapter.ListViewAdapter;
-import com.careeranna.careeranna.adapter.ViewPagerAdapter;
-import com.careeranna.careeranna.data.Article;
+import com.careeranna.careeranna.fragement.explore_not_sign_in_fragements.InsideWithoutSignFragment;
+import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
 import com.careeranna.careeranna.data.Banner;
-import com.careeranna.careeranna.data.Category;
-import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.ExamPrep;
-import com.careeranna.careeranna.data.MenuList;
-import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.fragement.dashboard_fragements.CategoryFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreNew;
-import com.careeranna.careeranna.helper.CountDrawable;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
-import com.careeranna.careeranna.helper.InternetDialog;
-import com.careeranna.careeranna.user.MyProfile_2;
+import com.careeranna.careeranna.data.UrlConstants;
 import com.careeranna.careeranna.user.SignUp;
-import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import io.paperdb.Paper;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+public class ExploreNotSignActivity extends AppCompatActivity {
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+    LinearLayout linearLayout;                              // Linear Layout For Dots Of Banner
 
-public class ExploreNotSignActivity_3 extends AppCompatActivity {
-    
-    LinearLayout linearLayout;
+    InsideWithoutSignFragment insideWithoutSignFragment;    // Fragement Inside Explore to Show Details
 
-    InsideWithoutSignFragment insideWithoutSignFragment;
-    
-    FragmentManager fragmentManager;
+    FragmentManager fragmentManager;                        // Fragement Manager To Change Fragements
 
-    ArrayList<Banner> mBanners;
+    ArrayList<Banner> mBanners;                             // Arraylist Of Banner For Slider
 
-    int page = 0;
+    int page = 0;                                           // Position For The Current Banner Image
 
-    ViewPager viewPager;
+    ViewPager viewPager;                                    // ViewPager For Banner
 
-    ProgressDialog progressDialog;
+    BannerViewPagerAdapter bannerViewPagerAdapter;  // Pager Adaper For Banner Slider
 
-    ViewPagerAdapter viewPagerAdapter;
+    private int currentPage;        // Current Image Position
+    private Handler handler;        // Handler For The Images
+    private int delay = 5000;       // Delay Of 5 Seconds For Image Changing
+    Runnable runnable;              // Runnable For Changing Banner Images
 
-    private int currentPage;
-    private Handler handler;
-    private int delay = 5000;
-    Runnable runnable;
-    
-    ArrayList<Course> courses, freecourse;
-    
-    FrameLayout frameLayout;
+    FrameLayout frameLayout;        // FrameLayout For Banner Images
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explore_not_sign_3);
+        setContentView(R.layout.activity_explore_not_sign);
+
+        /**
+         * Initializing Variables of layout
+         */
 
         viewPager = findViewById(R.id.viewPager);
         linearLayout = findViewById(R.id.sliderDots);
         frameLayout = findViewById(R.id.pager);
 
+        /**
+         * Inializing Fragement Which will have all the free videos and courses
+         */
+
         insideWithoutSignFragment = new InsideWithoutSignFragment();
-        
+
+        /**
+         * Getting Fragement Manager Fron The Activity
+         */
+
         fragmentManager = getSupportFragmentManager();
+
+        /**
+         * Replacing Main Container With Fragment Inside Explore
+         */
 
         fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
 
@@ -128,32 +95,35 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
 
     }
 
+    /**
+     * Fetching Banner From The Api Every Time The App Loads
+     */
 
     public void getBanner() {
 
         mBanners = new ArrayList<>();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/banner.php";
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                UrlConstants.FETCH_BANNER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray bannerArray = new JSONArray(response);
-                            for(int i=0;i<bannerArray.length();i++) {
+                            for (int i = 0; i < bannerArray.length(); i++) {
                                 JSONObject banner = bannerArray.getJSONObject(i);
                                 mBanners.add(new Banner(banner.getString("banner_id"),
                                         banner.getString("banner_title"),
-                                        "https://careeranna.com/uploads/banners/banner/"+banner.getString("banner_image_url")));
+                                        "https://careeranna.com/uploads/banners/banner/" + banner.getString("banner_image_url")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        viewPagerAdapter = new ViewPagerAdapter(getApplicationContext(), mBanners);
-                        viewPager.setAdapter(viewPagerAdapter);
+                        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), mBanners);
+                        viewPager.setAdapter(bannerViewPagerAdapter);
                         // Initializing dots for swipping banner layout
                         viewPager.addOnPageChangeListener(bannerListener);
                         currentPage = 0;
@@ -172,12 +142,17 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * Changing Dots From Non Active To Active Accoring To Position
+     *
+     * @param i
+     */
 
-    private void addDots(int i){
+    private void addDots(int i) {
         linearLayout.removeAllViews();
-        TextView[] dots = new TextView[viewPagerAdapter.getCount()];
+        TextView[] dots = new TextView[bannerViewPagerAdapter.getCount()];
 
-        for(int x=0; x<dots.length; x++){
+        for (int x = 0; x < dots.length; x++) {
             dots[x] = new TextView(this);
             dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
             dots[x].setTextSize(40);
@@ -189,10 +164,14 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
         dots[i].setTextColor(getResources().getColor(R.color.intro_dot_light));
     }
 
+    /**
+     * Runnable Which Will Change Image Every 5 Seconds
+     */
+
     public void makeRunnable() {
         runnable = new Runnable() {
             public void run() {
-                if (viewPagerAdapter.getCount() == page) {
+                if (bannerViewPagerAdapter.getCount() == page) {
                     page = 0;
                 } else {
                     page++;
@@ -202,6 +181,11 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
             }
         };
     }
+
+    /**
+     * Listener For Banner Images Which Wil Change Dots State From Active To Non Active According
+     * To Postion
+     */
 
     ViewPager.OnPageChangeListener bannerListener = new ViewPager.OnPageChangeListener() {
 
@@ -221,17 +205,12 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
         }
     };
 
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
+    /**
+     * Inflating Menu Sign In Which Has Only One Item For Sign In
+     *
+     * @param menu
+     * @return
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -239,12 +218,16 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Menu Item For go To Sign up Activity from Without Sign In Explore
+     *
+     * @param item
+     * @return
+     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        switch (item.getItemId()) {
 
             case R.id.menu_signin:
                 Intent signInActivity = new Intent(this, SignUp.class);
@@ -255,6 +238,12 @@ public class ExploreNotSignActivity_3 extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /**
+     * Checking If User Is Connected To Wifi Or Mobile Internet
+     *
+     * @return
+     */
 
     private boolean amIConnect() {
 

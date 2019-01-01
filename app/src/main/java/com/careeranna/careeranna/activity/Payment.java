@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -7,17 +7,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
+import com.careeranna.careeranna.R;
 import com.payu.india.Extras.PayUChecksum;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
 import com.payu.india.Model.PayuHashes;
-import com.payu.india.Model.PostData;
 import com.payu.india.Payu.Payu;
 import com.payu.india.Payu.PayuConstants;
-import com.payu.india.Payu.PayuErrors;
 import com.payu.payuui.Activity.PayUBaseActivity;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -24,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.BuildConfig;
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,34 +37,87 @@ import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     *  Declaring Variables for firebase authentication
+     */
     FirebaseAuth mAuth;
     public static final String TAG = "MainAct";
 
-    public static int counter = 0;
+    public static int counter = 0;  // Counter For Counting User Opening The App
 
-    private LinearLayout dotsLayout;
-    private ViewPager introSlider;
-    private SlideAdapter slideAdapter;
+    private LinearLayout dotsLayout;    // Layout For the dots below landing page images
+    private ViewPager introSlider;      // Slider ViewPager For Images
+    private SlideAdapter slideAdapter;  // Slider Adapter For Lanfing Images
 
-    private Button bt_explore;
-    private Button bt_signin;
+    private Button bt_explore;          // Button For Explore Without Sign Up
+    private Button bt_signin;           // Button To Go To Sign up
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.signIn).setOnClickListener(this);
+
+        /**
+         * Initializing Layout Variables
+         */
+
+        dotsLayout = findViewById(R.id.intro_dots);
+        introSlider = findViewById(R.id.intro_viewpager);
+        introSlider.addOnPageChangeListener(viewListener);
+        bt_explore = findViewById(R.id.bt_explore);
+        bt_signin = findViewById(R.id.signIn);
+
+
+        /**
+         * Initializing Paper db and retrieving firebase user
+         */
 
         mAuth = FirebaseAuth.getInstance();
-
         Paper.init(this);
+
+        /**
+         *  Hiding Action Bar
+         */
 
         if(getSupportActionBar() != null)
             getSupportActionBar().hide();
 
+        /**
+         *  Permission For Read And Send sms
+         */
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }
+
+        /**
+         * Counter For Number Of Times User Opens App Without Sign Up
+         */
+
+        counterForUser();
+
+        /**
+         *  Slider For App Landing Page Images
+         */
+
+        slideAdapter = new SlideAdapter(this);
+        introSlider.setAdapter(slideAdapter);
+        addDots(0);
+
+        /**
+         *  Button Listener For Explore And Sign up Button
+         */
+
+        bt_explore.setOnClickListener(this);
+        bt_signin.setOnClickListener(this);
+    }
+
+
+    /**
+     * Fetching counter variable from the cache and if the user is using the app 3rd time or more
+     * Force Him To Sign Up For His Use
+     */
+
+    private void counterForUser() {
 
         int cache;
         try {
@@ -85,22 +140,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Paper.book().write("counter", counter);
         }
 
-        dotsLayout = findViewById(R.id.intro_dots);
-        introSlider = findViewById(R.id.intro_viewpager);
 
-        slideAdapter = new SlideAdapter(this);
-        introSlider.setAdapter(slideAdapter);
-        addDots(0);
-
-        introSlider.addOnPageChangeListener(viewListener);
-
-        bt_explore = findViewById(R.id.bt_explore);
-        bt_signin = findViewById(R.id.signIn);
-
-        bt_explore.setOnClickListener(this);
-        bt_signin.setOnClickListener(this);
     }
 
+    /**
+     * Slider Listener For changing of active dots as per the position of the image visible
+     */
+
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+            addDots(i);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
+
+    /**
+     * Add Changing Dots Active State Accoring To Position
+     * @param i ->  refers to the postion of dots according to image which is visible to user
+     */
     private void addDots(int i){
         dotsLayout.removeAllViews();
         TextView[] dots = new TextView[3];
@@ -118,6 +185,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dots[i].setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
+
+    /**
+     * Click Events For Explore And Sign up button
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -127,11 +199,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.bt_explore:
-                Intent openExplorePage = new Intent(this, ExploreNotSignActivity_3.class);
+                Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
                 startActivity(openExplorePage);
                 break;
         }
     }
+
+    /**
+     *  Checking user count of open the app without sign up
+     *  and also checking if the user is login before and not sign out then redirect to dashboard if login
+     *  Also Checking Version Update
+     */
 
     @Override
     protected void onResume() {
@@ -145,7 +223,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, MyCourses.class));
             finish();
         }
+        counterForUser();
     }
+
+    /**
+     *  Checking the version of the app with the playstore version
+     *  if the version is same no dialog if the version is older giving update dialog and redirect to playstore
+     */
 
     private void checkUpdates() {
 
@@ -177,6 +261,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Alert Dialog For Update Which Will Send Him to Playstore Page
+     */
 
     private void alertDialogForUpdate() {
 
@@ -203,23 +290,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AlertDialog alert = builder.create();
         alert.show();
     }
-
-
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i1) {
-
-        }
-
-        @Override
-        public void onPageSelected(int i) {
-            addDots(i);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    };
 
 }

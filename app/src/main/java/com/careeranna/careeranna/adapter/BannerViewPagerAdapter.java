@@ -8,23 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Banner;
 
 import java.util.ArrayList;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class BannerViewPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private LayoutInflater layoutInflater;
     private ArrayList<Banner> mBanners;
 
-    public ViewPagerAdapter(Context mContext, ArrayList<Banner> mBanners) {
+    public BannerViewPagerAdapter(Context mContext, ArrayList<Banner> mBanners) {
         this.mContext = mContext;
         this.mBanners = mBanners;
     }

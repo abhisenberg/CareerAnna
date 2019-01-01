@@ -1,9 +1,10 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.helper.Api;
 import com.careeranna.careeranna.helper.CheckSum;

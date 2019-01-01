@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,10 +13,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -48,8 +46,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import com.careeranna.careeranna.BuildConfig;
+import com.careeranna.careeranna.CartFragment;
+import com.careeranna.careeranna.InstructorsListActivity;
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ListViewAdapter;
-import com.careeranna.careeranna.adapter.ViewPagerAdapter;
+import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Banner;
 import com.careeranna.careeranna.data.Category;
@@ -84,9 +86,6 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -125,7 +124,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     ProgressDialog progressDialog;
 
-    ViewPagerAdapter viewPagerAdapter;
+    BannerViewPagerAdapter bannerViewPagerAdapter;
 
     private int currentPage;
     private Handler handler;
@@ -153,7 +152,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onBackPressed() {
 
-        if(backPressed + 2000 > System.currentTimeMillis()) {
+        if (backPressed + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
         } else {
@@ -170,16 +169,17 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         String cart = Paper.book().read("cart");
 
-        if(cart != null && !cart.isEmpty()) {
+        if (cart != null && !cart.isEmpty()) {
 
             Log.i("cart", cart);
             Gson gson = new Gson();
 
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
 
             ArrayList<String> arrayList = gson.fromJson(cart, type);
 
-            setCount(this, arrayList.size()+"");
+            setCount(this, arrayList.size() + "");
 
         } else {
             setCount(this, "0");
@@ -191,7 +191,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     public void setCount(Context context, String count) {
 
-        if(menuToChoose == R.menu.add_cart) {
+        if (menuToChoose == R.menu.add_cart) {
             MenuItem menuItem = menu.findItem(R.id.add_to_cart);
 
             LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
@@ -241,13 +241,13 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         //your_array_list.add(new MenuList("Finance", getApplicationContext().getResources().getDrawable(R.drawable.ic_ascendant_bars_graphic)));
         //your_array_list.add(new MenuList("Marketing", getApplicationContext().getResources().getDrawable(R.drawable.ic_digital_marketing)));
         //your_array_list.add(new MenuList("Certificate Courses", getApplicationContext().getResources().getDrawable(R.drawable.ic_certi)));
-        your_array_list.add(new MenuList("My Courses",getApplicationContext().getResources().getDrawable(R.drawable.ic_study)));
-        your_array_list.add(new MenuList("Explore",getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
-        your_array_list.add(new MenuList("Articles",getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
-        your_array_list.add(new MenuList("Our Mentors",getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
-        your_array_list.add(new MenuList("Wish List",getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
-        your_array_list.add(new MenuList("My Profile",getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
-        your_array_list.add(new MenuList("Sign Out",getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1),"#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
+        your_array_list.add(new MenuList("My Courses", getApplicationContext().getResources().getDrawable(R.drawable.ic_study)));
+        your_array_list.add(new MenuList("Explore", getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
+        your_array_list.add(new MenuList("Articles", getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
+        your_array_list.add(new MenuList("Our Mentors", getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
+        your_array_list.add(new MenuList("Wish List", getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
+        your_array_list.add(new MenuList("My Profile", getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
+        your_array_list.add(new MenuList("Sign Out", getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1), "#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
 
         ListViewAdapter adapter = new ListViewAdapter(this, your_array_list);
         //
@@ -261,7 +261,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(!amIConnect()) {
+                if (!amIConnect()) {
 
                     InternetDialog internetDialog = new InternetDialog();
                     internetDialog.showDialog(MyCourses.this, "none");
@@ -269,14 +269,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
                     String cart = Paper.book().read("cart");
 
-                    if(cart != null && !cart.isEmpty()) {
+                    if (cart != null && !cart.isEmpty()) {
                         Gson gson = new Gson();
 
-                        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                        Type type = new TypeToken<ArrayList<String>>() {
+                        }.getType();
 
                         ArrayList<String> arrayList = gson.fromJson(cart, type);
 
-                        setCount(MyCourses.this, arrayList.size()+"");
+                        setCount(MyCourses.this, arrayList.size() + "");
 
                     } else {
                         setCount(MyCourses.this, "0");
@@ -307,7 +308,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
                         fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
                         getSupportActionBar().setTitle("UPSC");
-                    */case 1:
+                    */
+                    case 1:
                         categoryFragment = new CategoryFragment();
 
                         categoryFragment.addSubCategory("6", "6", user.getUser_id());
@@ -342,7 +344,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
                     case 4:
                         openMyCoursesFragment();
-            */        case 2:
+            */
+                    case 2:
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
                         getSupportActionBar().setTitle("My Courses");
@@ -374,7 +377,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         break;
                     case 8:
                         mAuth = FirebaseAuth.getInstance();
-                        if(mAuth != null) {
+                        if (mAuth != null) {
                             mAuth.signOut();
                             LoginManager.getInstance().logOut();
                         }
@@ -385,14 +388,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 }
                 String cart = Paper.book().read("cart");
 
-                if(cart != null && !cart.isEmpty()) {
+                if (cart != null && !cart.isEmpty()) {
                     Gson gson = new Gson();
 
-                    Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<String>>() {
+                    }.getType();
 
                     ArrayList<String> arrayList = gson.fromJson(cart, type);
 
-                    setCount(MyCourses.this, arrayList.size()+"");
+                    setCount(MyCourses.this, arrayList.size() + "");
 
                 } else {
                     setCount(MyCourses.this, "0");
@@ -408,8 +412,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
-            user =  new Gson().fromJson(cache, User.class);
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
 
             profile_pic_url = user.getUser_photo().replace("\\", "");
             mUsername = user.getUser_username();
@@ -468,8 +472,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         LAUNCH EXPLORE FRAGMENT BY DEFAULT
          */
         Bundle extras = getIntent().getExtras();
-        Log.d(TAG, "Trying to get intent, "+(extras == null));
-        if(extras != null && extras.getBoolean(Constants.OPEN_MY_COURSES_INTENT)){
+        Log.d(TAG, "Trying to get intent, " + (extras == null));
+        if (extras != null && extras.getBoolean(Constants.OPEN_MY_COURSES_INTENT)) {
             openMyCoursesFragment();
         } else {
             fragmentManager = getSupportFragmentManager();
@@ -517,25 +521,25 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/banner.php";
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray bannerArray = new JSONArray(response);
-                            for(int i=0;i<bannerArray.length();i++) {
+                            for (int i = 0; i < bannerArray.length(); i++) {
                                 JSONObject banner = bannerArray.getJSONObject(i);
                                 mBanners.add(new Banner(banner.getString("banner_id"),
                                         banner.getString("banner_title"),
-                                        "https://careeranna.com/uploads/banners/banner/"+banner.getString("banner_image_url")));
+                                        "https://careeranna.com/uploads/banners/banner/" + banner.getString("banner_image_url")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        viewPagerAdapter = new ViewPagerAdapter(getApplicationContext(), mBanners);
-                        viewPager.setAdapter(viewPagerAdapter);
+                        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), mBanners);
+                        viewPager.setAdapter(bannerViewPagerAdapter);
                         // Initializing dots for swipping banner layout
                         viewPager.addOnPageChangeListener(bannerListener);
                         currentPage = 0;
@@ -556,11 +560,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     }
 
 
-    private void addDots(int i){
+    private void addDots(int i) {
         linearLayout.removeAllViews();
-        TextView[] dots = new TextView[viewPagerAdapter.getCount()];
+        TextView[] dots = new TextView[bannerViewPagerAdapter.getCount()];
 
-        for(int x=0; x<dots.length; x++){
+        for (int x = 0; x < dots.length; x++) {
             dots[x] = new TextView(this);
             dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
             dots[x].setTextSize(40);
@@ -575,7 +579,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     public void makeRunnable() {
         runnable = new Runnable() {
             public void run() {
-                if (viewPagerAdapter.getCount() == page) {
+                if (bannerViewPagerAdapter.getCount() == page) {
                     page = 0;
                 } else {
                     page++;
@@ -622,14 +626,12 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         If there is no image url provided, then write the initial letter of the username
          */
         TextView initialAlphabet = findViewById(R.id.nav_username_initial);
-        if(!profile_pic_url.isEmpty()){
+        if (!profile_pic_url.isEmpty()) {
             Glide.with(this).load(profile_pic_url).into(profile);
             initialAlphabet.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             initialAlphabet.setVisibility(View.VISIBLE);
-            initialAlphabet.setText(mUsername.substring(0,1));
+            initialAlphabet.setText(mUsername.substring(0, 1));
         }
 
         username.setText(mUsername);
@@ -642,7 +644,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         int id = item.getItemId();
 
-        if(id == R.id.add_to_cart) {
+        if (id == R.id.add_to_cart) {
 
             cartFragment = new CartFragment();
             menuToChoose = R.menu.notification;
@@ -655,7 +657,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).commit();
         }
 
-        if(mToggle.onOptionsItemSelected(item)) {
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -668,8 +670,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         handler.postDelayed(runnable, delay);
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
-            User user =  new Gson().fromJson(cache, User.class);
+        if (cache != null && !cache.isEmpty()) {
+            User user = new Gson().fromJson(cache, User.class);
 
             profile_pic_url = user.getUser_photo().replace("//", "");
             mUsername = user.getUser_username();
@@ -702,14 +704,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         String cart = Paper.book().read("cart");
 
-        if(cart != null && !cart.isEmpty()) {
+        if (cart != null && !cart.isEmpty()) {
             Gson gson = new Gson();
 
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
 
             ArrayList<String> arrayList = gson.fromJson(cart, type);
 
-            setCount(this, arrayList.size()+"");
+            setCount(this, arrayList.size() + "");
 
         } else {
             setCount(this, "0");
@@ -732,16 +735,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
-        final String url1 = "https://careeranna.com/api/getMyExam.php?user="+user.getUser_id();
+        final String url1 = "https://careeranna.com/api/getMyExam.php?user=" + user.getUser_id();
         Log.d("url_res", url1);
-        StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray CategoryArray = new JSONArray(response);
-                            for(int i=0;i<10;i++) {
+                            for (int i = 0; i < 10; i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                             }
                         } catch (JSONException e) {
@@ -775,23 +778,23 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         progressDialog.setCancelable(false);
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
-        final String url1 = "https://careeranna.com/api/getMyCourse.php?user="+user.getUser_id();
+        final String url1 = "https://careeranna.com/api/getMyCourse.php?user=" + user.getUser_id();
         Log.d("url_res", url1);
-        StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray coursesArray = new JSONArray(response);
-                            for(int i=0;i<coursesArray.length();i++) {
+                            for (int i = 0; i < coursesArray.length(); i++) {
                                 JSONObject Category = coursesArray.getJSONObject(i);
                                 names.add(new CourseWithLessData(Category.getString("product_name"),
                                         Category.getString("product_id"),
-                                        Category.getString("product_image").replace("\\",""),
+                                        Category.getString("product_image").replace("\\", ""),
                                         "0",
                                         Category.getString("category_id")
-                                        ));
+                                ));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -840,18 +843,18 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/articlewithimage.php";
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray ArticlesArray = new JSONArray(response.toString());
-                            for(int i=0;i<ArticlesArray.length();i++) {
+                            for (int i = 0; i < ArticlesArray.length(); i++) {
                                 JSONObject Articles = ArticlesArray.getJSONObject(i);
                                 mArticles.add(new Article(Articles.getString("ID"),
                                         Articles.getString("post_title"),
-                                        "https://www.careeranna.com/articles/wp-content/uploads/"+Articles.getString("meta_value").replace("\\",""),
+                                        "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
                                         Articles.getString("display_name"),
                                         "CAT",
                                         desc,
@@ -891,18 +894,18 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "http://careeranna.com/apicategory.php";
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
                             JSONArray CategoryArray = new JSONArray(response.toString());
-                            for(int i=0;i<CategoryArray.length();i++) {
+                            for (int i = 0; i < CategoryArray.length(); i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 categories.add(new Category(Integer.toString(Category.getInt("CATEGORY_ID")),
                                         Category.getString("CATEGORY_NAME"),
-                                        Category.getString("cimage").replace("\\","")));
+                                        Category.getString("cimage").replace("\\", "")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -910,22 +913,22 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
                         String url1 = "http://careeranna.com/api/getCertficateCourse.php";
                         Log.d("url_res", url1);
-                        StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
+                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         try {
                                             Log.i("url_response", response.toString());
                                             JSONArray CategoryArray = new JSONArray(response.toString());
-                                            for(int i=0;i<10;i++) {
+                                            for (int i = 0; i < 10; i++) {
                                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                                 courses.add(new Course(Category.getString("product_id"),
                                                         Category.getString("course_name"),
-                                                        "https://www.careeranna.com/"+Category.getString("product_image").replace("\\",""),
+                                                        "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
                                                         "15",
                                                         Category.getString("discount")
                                                         , Category.getString("description"),
-                                                        Category.getString("video_url").replace("\\","")));
+                                                        Category.getString("video_url").replace("\\", "")));
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -1046,7 +1049,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
                                         Category.getString("eid"),
                                         Category.getString("discount")
-                                        , "meta_description",""));
+                                        , "meta_description", ""));
                                 freecourse.get(i).setType("Free");
                             }
                         } catch (JSONException e) {
@@ -1091,7 +1094,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             JSONObject spo = new JSONObject(response);
                             versionUpdate[0] = spo.getString("version_name");
                             String versionName = BuildConfig.VERSION_NAME;
-                            if(!versionUpdate[0].equals(versionName)) {
+                            if (!versionUpdate[0].equals(versionName)) {
                                 alertDialogForUpdate();
                             }
                         } catch (JSONException e) {
@@ -1135,11 +1138,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     }
 
 
-    private void openMyCoursesFragment(){
+    private void openMyCoursesFragment() {
         myCourse();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
-        if(getSupportActionBar() != null)
+        if (getSupportActionBar() != null)
             getSupportActionBar().setTitle("My Courses");
     }
 }

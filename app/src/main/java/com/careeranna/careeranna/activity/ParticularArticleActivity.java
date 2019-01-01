@@ -1,4 +1,4 @@
-package com.careeranna.careeranna;
+package com.careeranna.careeranna.activity;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.ISO8601Parse;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
@@ -57,7 +58,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_particular_article);
 
-        if(getSupportActionBar().isShowing()){
+        if (getSupportActionBar().isShowing()) {
             getSupportActionBar().hide();
         }
 
@@ -99,13 +100,13 @@ public class ParticularArticleActivity extends AppCompatActivity {
         articleCreated.setText(article.getCreated_at().substring(0, 10));
         articleCategory.setText("Category : " + article.getCategory());
 
-        if(article.getAuthor().length()>10) {
-            article.setAuthor(article.getAuthor().substring(0, 10)+"...");
+        if (article.getAuthor().length() > 10) {
+            article.setAuthor(article.getAuthor().substring(0, 10) + "...");
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/particularArticle.php?id="+article.getId();
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+        String url = "https://careeranna.com/api/particularArticle.php?id=" + article.getId();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -146,10 +147,10 @@ public class ParticularArticleActivity extends AppCompatActivity {
                                 "</head>" +
                                 "<body>" +
                                 "<div class=\"container\">" +
-                                "<h2 style=\"margin-top:20px;\">"+article.getName()+"</h2><hr/>" +
-                                "<div class=\"row\"><span class=\"col col-sm-6 col-md-6\"><i class=\"fas fa-user-circle\"></i> "+article.getAuthor()+"</span><span class=\"col col-sm-6 col-md-6\">" +
-                                "<i class=\"fas fa-calendar-alt\"></i> "+article.getCreated_at().substring(0,10)+"</span></div>"+
-                                "<img style=\"margin-top:20px;\" class=\"img-thumbnail\" src=" + article.getImage_url() + " width=300 height=300><br/>"+response+
+                                "<h2 style=\"margin-top:20px;\">" + article.getName() + "</h2><hr/>" +
+                                "<div class=\"row\"><span class=\"col col-sm-6 col-md-6\"><i class=\"fas fa-user-circle\"></i> " + article.getAuthor() + "</span><span class=\"col col-sm-6 col-md-6\">" +
+                                "<i class=\"fas fa-calendar-alt\"></i> " + article.getCreated_at().substring(0, 10) + "</span></div>" +
+                                "<img style=\"margin-top:20px;\" class=\"img-thumbnail\" src=" + article.getImage_url() + " width=300 height=300><br/>" + response +
                                 "</div>" +
                                 "</html>";
                         webview.loadData(html, "text/html", null);
@@ -170,7 +171,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(showandhiden) {
+                if (showandhiden) {
                     hiden();
                     showandhiden = false;
                 } else {
