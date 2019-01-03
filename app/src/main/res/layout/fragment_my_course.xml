@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Soory You Don't Have Purchase Any Course Please Add Some"
+                    android:text="@string/no_course_added"
                     />
 
                 <ImageView

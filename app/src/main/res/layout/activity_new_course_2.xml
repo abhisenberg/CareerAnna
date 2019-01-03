@@ -19,7 +19,7 @@
 
             <android.support.v4.view.ViewPager
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/viewPager">
             </android.support.v4.view.ViewPager>
             <LinearLayout
@@ -27,10 +27,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sliderDots"
-                android:layout_marginTop="110dp"
+                android:layout_marginTop="90dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal" >
             </LinearLayout>
+
+            <ImageButton
+                android:alpha="0.4"
+                android:id="@+id/left_nav"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|left"
+                android:background="@drawable/circular_arrow"
+                android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+            <ImageButton
+                android:alpha="0.4"
+                android:id="@+id/right_nav"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/circular_arrow"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/ic_keyboard_arrow_right_black1_24dp"/>
 
         </FrameLayout>
 
@@ -59,14 +77,15 @@
             android:orientation="vertical">
 
             <include layout="@layout/header"
-                android:id="@+id/header_header"/>
+                android:id="@+id/header"/>
 
             <ListView
                 android:id="@+id/list_menu_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                android:dividerHeight="1dp"/>
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>

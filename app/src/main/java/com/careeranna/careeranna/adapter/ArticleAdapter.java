@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,18 +54,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int i) {
 
-//        if(mArticles.get(i).getName().length() > 50) {
-//            articleViewHolder.articleTitle.setText(mArticles.get(i).getName().substring(0,50) + "...");
-//        } else {
-//            articleViewHolder.articleTitle.setText(mArticles.get(i).getName());
-//        }
         articleViewHolder.articleTitle.setText(mArticles.get(i).getName());
-        if(mArticles.get(i).getContent().length() > 250){
-            String contentShow = mArticles.get(i).getContent().substring(0 , 250)+"...";
-            articleViewHolder.articleContent.setText(contentShow, true);
+        String contentShow;
+        if(mArticles.get(i).getContent().length() > 255){
+            contentShow = mArticles.get(i).getContent().substring(0 , 255)+"...";
         } else {
-            articleViewHolder.articleContent.setText(mArticles.get(i).getContent(), true);
+            contentShow = mArticles.get(i).getContent();
         }
+        articleViewHolder.articleContent.setText(getFormattedArticleContent(contentShow));
 
         Glide.with(mContext)
                 .load(mArticles.get(i).getImage_url())
@@ -75,9 +73,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         int authorImagePath;
         if(authorName.startsWith("Sri")){
-            authorImagePath = R.drawable.author_pic_2;
+            authorImagePath = R.drawable.author_srinidhi;
         } else if(authorName.startsWith("Sai")){
-            authorImagePath = R.drawable.author_pic_1;
+            authorImagePath = R.drawable.author_saima;
         } else
             authorImagePath = R.drawable.ic_person_color;
 
@@ -91,6 +89,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void addArticles(ArrayList<Article> articles) {
         mArticles.addAll(articles);
         notifyDataSetChanged();
+    }
+
+    private Spanned getFormattedArticleContent(String unformattedString){
+        String formattedString = "<font color=#808080>"+unformattedString+"</font>"
+                +"<font color=#00C0FF> Read More</font>";
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return Html.fromHtml(formattedString, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(formattedString);
+        }
     }
 
     @Override
