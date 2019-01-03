@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:id="@+id/linear_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/intro_slide_image"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="8"
+                android:gravity="center_horizontal"
+                android:text="7,83,000+ Users"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_heading">
+
+            <TextView
+                android:id="@+id/sub_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="8"
+                android:gravity="center_horizontal"
+                android:text="10 Languages. 1 Platform."
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_below="@id/linear_sub"
+            android:layout_marginTop="20dp"
+            android:id="@+id/intro_slide_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@color/light_gray"
+            android:adjustViewBounds="true"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/intro_pic_2_video" />
+
+        <LinearLayout
+            android:layout_below="@id/intro_slide_image"
+            android:id="@+id/linear_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/intro_slide_desc"
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lines="2"
+                android:text="@string/largest_platform_to_learn_and_share_knowledge_n_in_indian_languages"
+                android:textColor="#867f7f"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+</RelativeLayout>

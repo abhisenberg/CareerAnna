@@ -26,12 +26,13 @@
     <string name="cert_date">Date of completion</string>
     <string name="cert_download">Download Certificate</string>
 
-    <string name="intro_slide1_title">Maximize your potential</string>
-    <string name="intro_slide1_desc">Score high in competitive exams with us</string>
-    <string name="intro_slide2_title">Master the contemporary skills</string>
-    <string name="intro_slide2_desc">Our courses are created by industy leaders</string>
-    <string name="intro_slide3_title">Get hired by dream companies</string>
-    <string name="intro_slide3_desc">Stand out from all the applicants</string>
+    <string name="intro_slide1_title">7,83,000+ Users</string>
+    <string name="intro_slide1_desc">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages.</string>
+    <string name="intro_slide2_title">Video Based Learning</string>
+    <string name="intro_slide2_desc">On Demand interactive video courses.</string>
+    <string name="intro_slide3_title">Q&amp;A from Experts</string>
+    <string name="intro_slide3_desc">Ask Anything You Need To Know.</string>
+
 
     <string name="signout">Sign out</string>
     <string name="signin">Sign In</string>
@@ -96,5 +97,6 @@
 
     <string name="dummy_striked_cost"><strike>₹5000</strike></string>
     <string name="dummy_discount">90% Off including taxes</string>
+    <string name="largest_platform_to_learn_and_share_knowledge_n_in_indian_languages">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class SlideAdapter extends PagerAdapter {
     private String[] list_title;
     private String[] list_desc;
     private int[] list_images;
+    private String[] list_sub;
 
     public SlideAdapter(Context context){
         this.context = context;
@@ -38,10 +40,16 @@ public class SlideAdapter extends PagerAdapter {
                 context.getResources().getString(R.string.intro_slide3_desc)
         };
 
+        list_sub = new String[] {
+                "10 Languages. 1 Platform",
+                "On Demand Videos by Top Educators",
+                "Ask Anything You Need to Know"
+        };
+
         list_images = new int[] {
-                R.drawable.intro_pic_1,
-                R.drawable.intro_pic_2,
-                R.drawable.intro_pic_3
+                R.drawable.intro_pic_1_indian_languages,
+                R.drawable.intro_pic_2_video,
+                R.drawable.intro_pic_3_ques
         };
 
     }
@@ -60,15 +68,17 @@ public class SlideAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.intro_slider, container, false);
+        View view = inflater.inflate(R.layout.intro_slider_2, container, false);
 
         ImageView intro_image = view.findViewById(R.id.intro_slide_image);
-        TextView intro_title = view.findViewById(R.id.intro_slide_title);
+        TextView intro_title = view.findViewById(R.id.heading);
+        TextView intro_sub_title = view.findViewById(R.id.sub_heading);
         TextView intro_desc = view.findViewById(R.id.intro_slide_desc);
 
         intro_title.setText(list_title[position]);
         intro_desc.setText(list_desc[position]);
         intro_image.setImageResource(list_images[position]);
+        intro_sub_title.setText(list_sub[position]);
 
         container.addView(view);
 

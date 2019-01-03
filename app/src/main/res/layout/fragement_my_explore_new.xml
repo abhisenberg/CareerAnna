@@ -17,6 +17,7 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:layout_marginLeft="1dp"
             android:textStyle="bold"
             android:id="@+id/trending"
             android:drawableRight="@drawable/ic_slow_motion_video_black_24dp"
@@ -57,9 +58,10 @@
             android:text="Latest"
             />
         <Button
+            android:layout_marginRight="1dp"
             android:layout_marginLeft="1dp"
             android:id="@+id/premium"
-            android:drawableRight="@drawable/ic_open_book"
+            android:drawableRight="@drawable/ic_lock_outline_white_24dp"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:layout_weight="2"

@@ -106,42 +106,31 @@ public class ParticularArticleActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/particularArticle.php?id=" + article.getId();
+        Log.d("ParticularArticle", "post"+url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.i("url_response", response.toString());
                         response = response.replace("<img ", "<img class=\"img-thumbnail\" ");
+                        response = response.replaceAll("<table .*>", "<table class=\"table table-responsive\"  >");
+                        response = response.replaceAll("\\s+"," ");
+                        Log.d("url_response_with_table", response);
                         String html = "<html>" +
                                 "<head>" +
                                 "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n" +
                                 "<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>" +
                                 "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.6.3/css/all.css\" integrity=\"sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/\" crossorigin=\"anonymous\">" +
                                 "<style>" +
-                                "img {" +
-                                "width:300;" +
-                                "height:280;" +
-                                "" +
-                                "}" +
                                 "body {\n" +
                                 "    font-family: Roboto; " +
                                 "}" +
-                                "h1,h2,h3,h4,h5,h6{" +
-                                "font-size: 1em;" +
+                                "table tr:nth-child(odd) {" +
+                                "   background: #d9e2f3;" +
                                 "}" +
-                                "table {" +
-                                "  border-collapse: collapse;" +
-                                "  border-spacing: 0;" +
-                                "  width:  300px" +
-                                "  border: 1px solid #ddd;" +
-                                "}" +
-                                "" +
-                                "th, td {" +
-                                "  text-align: left;" +
-                                "  padding: 8px;" +
-                                "}" +
-                                ".container{" +
-                                " width:310px;" +
+                                "tr:nth-child(1) {\n" +
+                                "  background: #11336f;" +
+                                "   color: #fff" +
                                 "}" +
                                 "</style>" +
                                 "</head>" +
@@ -150,7 +139,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
                                 "<h2 style=\"margin-top:20px;\">" + article.getName() + "</h2><hr/>" +
                                 "<div class=\"row\"><span class=\"col col-sm-6 col-md-6\"><i class=\"fas fa-user-circle\"></i> " + article.getAuthor() + "</span><span class=\"col col-sm-6 col-md-6\">" +
                                 "<i class=\"fas fa-calendar-alt\"></i> " + article.getCreated_at().substring(0, 10) + "</span></div>" +
-                                "<img style=\"margin-top:20px;\" class=\"img-thumbnail\" src=" + article.getImage_url() + " width=300 height=300><br/>" + response +
+                                "<img style=\"margin-top:20px;\" class=\"img-thumbnail\" src=" + article.getImage_url() + "><br/>" + response +
                                 "</div>" +
                                 "</html>";
                         webview.loadData(html, "text/html", null);
