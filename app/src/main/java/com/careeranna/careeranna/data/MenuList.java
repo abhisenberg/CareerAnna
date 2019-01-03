@@ -4,10 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 
-import com.careeranna.careeranna.VideoWithComment;
-
-import retrofit2.http.GET;
-
 public class MenuList {
 
     String name;

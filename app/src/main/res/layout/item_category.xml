@@ -18,7 +18,6 @@
             android:layout_weight="8"
             android:scaleType="fitXY"
             android:id="@+id/categoryImage"
-            android:src="@drawable/sign_in"
             />
         <TextView
             android:layout_width="match_parent"

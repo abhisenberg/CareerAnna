@@ -26,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.careeranna.careeranna.activity.Payment;
+import com.careeranna.careeranna.activity.PaytmPayment;
 import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.User;

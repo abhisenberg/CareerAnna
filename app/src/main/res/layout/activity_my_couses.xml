@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawelayout"
-    tools:context=".MyCourses">
+    tools:context=".activity.MyCourses">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -52,8 +52,7 @@
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white"
         android:background="@color/colorPrimary"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/my_courses">
+        android:fitsSystemWindows="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

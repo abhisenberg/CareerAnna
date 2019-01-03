@@ -1,6 +1,5 @@
 package com.careeranna.careeranna;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.activity.MainActivity;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.profile_fragements.CertificateFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;
@@ -33,9 +34,7 @@ import com.careeranna.careeranna.fragement.profile_fragements.TestFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TutorialFragment;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;

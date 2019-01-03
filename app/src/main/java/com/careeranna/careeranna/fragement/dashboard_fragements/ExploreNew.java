@@ -2,19 +2,18 @@ package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,16 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.careeranna.careeranna.InsideWithoutSignFragment;
-import com.careeranna.careeranna.PurchaseCourseDetail;
+import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.VideoWithComment;
+import com.careeranna.careeranna.activity.VideoWithComment;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeVideos;
-import com.careeranna.careeranna.user.ExploreNotSIActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
@@ -54,6 +50,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     RecyclerViewPager trending, recyclerView1, freeCorse, paidCourse;;
 
+    Button trending_btn, latest_btn, free_btn, premium_btn;
+
     public static int position = 0, position_latest = 0;
 
     public static int position_free = 0, position_paid = 0;
@@ -64,6 +62,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     ImageView arrow_p_l,arrow_p_r,arrow_f_r, arrow_f_l;
 
+    CardView trendingCard, premiumCard, freeCard, latestCard;
+
     public ExploreNew() {
         // Required empty public constructor
     }
@@ -73,15 +73,97 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.activity_my_explore_new, container, false);
+        View view =  inflater.inflate(R.layout.fragement_my_explore_new, container, false);
         trending = view.findViewById(R.id.trending_rv);
 
         recyclerView1 = view.findViewById(R.id.latest_rv);
+
+        trendingCard = view.findViewById(R.id.trending_card);
+        premiumCard = view.findViewById(R.id.premium_card);
+        freeCard = view.findViewById(R.id.free_card);
+        latestCard = view.findViewById(R.id.latest_card);
 
         freeCorse = view.findViewById(R.id.free_course_rv);
 
         paidCourse = view.findViewById(R.id.paid_courses_rv);
 
+        trending_btn = view.findViewById(R.id.trending);
+        latest_btn = view.findViewById(R.id.latest);
+        free_btn = view.findViewById(R.id.free);
+        premium_btn = view.findViewById(R.id.premium);
+
+        trending_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                trendingCard.setVisibility(View.VISIBLE);
+                freeCard.setVisibility(View.GONE);
+                latestCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                trending_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
+
+
+        latest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                latestCard.setVisibility(View.VISIBLE);
+                trendingCard.setVisibility(View.GONE);
+                freeCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                latest_btn.setTypeface(null, Typeface.BOLD);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        free_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freeCard.setVisibility(View.VISIBLE);
+                trendingCard.setVisibility(View.GONE);
+                latestCard.setVisibility(View.GONE);
+                premiumCard.setVisibility(View.GONE);
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+                premium_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        premium_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                premiumCard.setVisibility(View.VISIBLE);
+                latestCard.setVisibility(View.GONE);
+                freeCard.setVisibility(View.GONE);
+                trendingCard.setVisibility(View.GONE);
+                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                premium_btn.setTypeface(null, Typeface.BOLD);
+                latest_btn.setTypeface(null, Typeface.NORMAL);
+                free_btn.setTypeface(null, Typeface.NORMAL);
+                trending_btn.setTypeface(null, Typeface.NORMAL);
+            }
+        });
 
         arrow_t_l = view.findViewById(R.id.arrow_t_l);
         arrow_t_r = view.findViewById(R.id.arrow_t_r);
@@ -100,6 +182,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_t_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position = trending.getCurrentPosition();
                 if(position == 0) {
                     arrow_t_l.setVisibility(View.VISIBLE);
                 }
@@ -114,6 +197,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_t_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position = trending.getCurrentPosition();
                 if(position == 1) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
@@ -125,6 +209,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_l_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_latest = recyclerView1.getCurrentPosition();
                 if(position_latest == 0) {
                     arrow_l_l.setVisibility(View.VISIBLE);
                 }
@@ -139,6 +224,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_l_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_latest = recyclerView1.getCurrentPosition();
                 if(position_latest == 1) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
@@ -160,6 +246,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(recyclerView1.getCurrentPosition() > 0) {
+                    arrow_l_l.setVisibility(View.VISIBLE);
+                } else {
+                    arrow_l_l.setVisibility(View.INVISIBLE);
+
+                }
                 int childCount = recyclerView1.getChildCount();
                 int width = recyclerView1.getChildAt(0).getWidth();
                 int padding = (recyclerView1.getWidth() - width) / 2;
@@ -204,6 +296,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(freeCorse.getCurrentPosition() > 0) {
+                    arrow_f_l.setVisibility(View.VISIBLE);
+                } else {
+                    arrow_f_l.setVisibility(View.INVISIBLE);
+
+                }
                 int childCount = freeCorse.getChildCount();
                 int width = freeCorse.getChildAt(0).getWidth();
                 int padding = (freeCorse.getWidth() - width) / 2;
@@ -248,6 +346,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(paidCourse.getCurrentPosition() > 0) {
+                    arrow_p_l.setVisibility(View.VISIBLE);
+                } else {
+                    arrow_p_l.setVisibility(View.INVISIBLE);
+
+                }
                 int childCount = paidCourse.getChildCount();
                 int width = paidCourse.getChildAt(0).getWidth();
                 int padding = (paidCourse.getWidth() - width) / 2;
@@ -292,6 +396,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(trending.getCurrentPosition() > 0) {
+                   arrow_t_l.setVisibility(View.VISIBLE);
+                } else {
+                    arrow_t_l.setVisibility(View.INVISIBLE);
+
+                }
                 int childCount = trending.getChildCount();
                 int width = trending.getChildAt(0).getWidth();
                 int padding = (trending.getWidth() - width) / 2;
@@ -327,6 +437,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_f_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_free = freeCorse.getCurrentPosition();
                 if(position_free == 0) {
                     arrow_f_l.setVisibility(View.VISIBLE);
                 }
@@ -338,6 +449,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_f_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_free = freeCorse.getCurrentPosition();
                 if(position_free == 1) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
@@ -349,6 +461,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_paid = paidCourse.getCurrentPosition();
                 if(position_paid == 0) {
                     arrow_p_l.setVisibility(View.VISIBLE);
                 }
@@ -360,6 +473,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position_paid = paidCourse.getCurrentPosition();
                 if(position_paid == 1) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
@@ -395,8 +509,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                             courses = new ArrayList<>();
 
                             Log.i("url_response", response.toString());
-                            JSONArray CategoryArray = new JSONArray(response.toString());
-                            for (int i = 0; i < 20; i++) {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray CategoryArray = jsonObject.getJSONArray("paid");
+                            for (int i = 0; i < 40; i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 courses.add(new Course(Category.getString("product_id"),
                                         Category.getString("course_name"),

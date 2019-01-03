@@ -17,7 +17,6 @@
             android:layout_height="130dp"
             android:scaleType="fitXY"
             android:id="@+id/categoryImage"
-            android:src="@drawable/sign_in"
             />
         <TextView
             android:layout_weight="3"

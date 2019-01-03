@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,13 +10,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SnapHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +32,7 @@ import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
 import com.careeranna.careeranna.data.Category;
 import com.careeranna.careeranna.data.Course;
+import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.helper.RecyclerViewCoursesAdapter;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
@@ -44,8 +51,8 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
     CardView cardView;
 
-    private ArrayList<String> names;
-    private ArrayList<String> urls, ids, category_ids;
+    SearchView search;
+    private ArrayList<CourseWithLessData> course, tempCourse;
 
     private String[] imageUrls = new String[] {
             "https://4.bp.blogspot.com/-qf3t5bKLvUE/WfwT-s2IHmI/AAAAAAAABJE/RTy60uoIDCoVYzaRd4GtxCeXrj1zAwVAQCLcBGAs/s1600/Machine-Learning.png",
@@ -59,18 +66,16 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         // Required empty public constructor
     }
 
-    public void add(ArrayList<String> names, ArrayList<String> urls, ArrayList<String> ids,ArrayList<String> course_ids) {
+    public void add(ArrayList<CourseWithLessData> course) {
 
-        this.names = names;
-        this.urls = urls;
-        this.ids =ids;
-        this.category_ids = course_ids;
+        this.course = course;
+        this.tempCourse = tempCourse;
 
-        if(ids.size() == 0) {
+        if(course.size() == 0) {
             cardView.setVisibility(View.VISIBLE);
         }
 
-        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), names, urls);
+        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), course);
         mRecyclerView.setAdapter(myCoursesAdapterNew);
 
         mRecyclerView.setFlingFactor(0.1f);
@@ -162,10 +167,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_course, container, false);
 
-        names = new ArrayList<>();
-        urls = new ArrayList<>();
-        ids = new ArrayList<>();
-
+        course = new ArrayList<>();
 
         mRecyclerView = view.findViewById(R.id.my_courses);
 
@@ -174,23 +176,58 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         cardView = view.findViewById(R.id.card);
 
+        search = view.findViewById(R.id.search);
+
+        search.setSuggestionsAdapter(null);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                tempCourse = new ArrayList<>();
+                for(CourseWithLessData courseWithLessData: course) {
+                    if(courseWithLessData.getCourse_name().toLowerCase().contains(query)) {
+                        tempCourse.add(courseWithLessData);
+                    }
+                }
+
+
+                myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
+                mRecyclerView.setAdapter(myCoursesAdapterNew);
+                myCoursesAdapterNew.setOnItemClicklistener(MyCoursesFragment.this);
+                closeKeyboard();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+
         return view;
+    }
+
+    private void closeKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override
     public void onItemClick(int position) {
 
-        if(category_ids.get(position).equals("15")) {
+        if(course.get(position).getCategory_id().equals("15")) {
             Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
-            intent.putExtra("course_name", names.get(position));
-            intent.putExtra("course_ids", ids.get(position));
-            intent.putExtra("course_image", urls.get(position));
+            intent.putExtra("course_name", course.get(position).getCourse_name());
+            intent.putExtra("course_ids", course.get(position).getCourse_ID());
+            intent.putExtra("course_image", course.get(position).getCourse_imageURL());
             getContext().startActivity(intent);
         } else {
             Intent intent = new Intent(getApplicationContext(), Exams.class);
-            intent.putExtra("course_name", names.get(position));
-            intent.putExtra("course_ids", ids.get(position));
-            intent.putExtra("course_image", urls.get(position));
+            intent.putExtra("course_name", course.get(position).getCourse_name());
+            intent.putExtra("course_ids", course.get(position).getCourse_ID());
+            intent.putExtra("course_image", course.get(position).getCourse_imageURL());
             getContext().startActivity(intent);
 
         }
