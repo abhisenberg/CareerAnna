@@ -1,51 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/intro_viewpager"
-        android:layout_centerHorizontal="true"
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                app:layout_constraintTop_toBottomOf="@id/view"
+                android:layout_height="0dp"
+                android:id="@+id/intro_viewpager"
+                app:layout_constraintHeight_percent="0.7"
+                android:layout_width="match_parent"
+                />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v4.view.ViewPager>
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:id="@+id/view"
+        app:layout_constraintHeight_percent="0.15"
+        />
 
     <LinearLayout
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/intro_viewpager"
         android:id="@+id/intro_dots"
-        android:layout_above="@id/intro_button_layout"
-        android:layout_marginBottom="25dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp">
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/intro_button_layout"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp"
+        android:weightSum="10"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
         <Button
             android:text="Explore"
+            android:letterSpacing="0.05"
+            android:textSize="14sp"
+            android:layout_weight="5"
+            android:layout_marginRight="1dp"
             android:id="@+id/bt_explore"
-            android:textColor="#FFF"
+            android:textColor="@color/white"
             android:background="@drawable/intro_button"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="?android:attr/listDivider" />
+            android:layout_height="match_parent" />
+
         <Button
             android:text="Sign in"
             android:id="@+id/signIn"
             android:textColor="#FFF"
             android:background="@drawable/intro_button"
-            android:layout_weight="1"
+            android:textSize="14sp"
+            android:layout_weight="5"
+            android:layout_marginLeft="1dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
+
     </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
 </RelativeLayout>

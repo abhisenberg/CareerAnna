@@ -6,6 +6,7 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="pink">#bebe</color>
+    <color name="light_blue">#0d8bd7</color>
 
     <color name="intro_button">#7986cb</color>
     <color name="intro_button_pressed">#aab6fe</color>
@@ -23,7 +24,7 @@
 
     <color name="sign_in_button_color">#0780c9</color>
     <color name="sign_in_button_color_pressed">#004ba0</color>
-
+    <color name="light_gray">#d6cccc</color>
     <color name="dark_gray">#8d8d8d</color>
     <color name="userProf_options_textColor">#000</color>
     <color name="golden">#FFC300</color>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".activity.ExploreNotSignActivity">
 
     <RelativeLayout
@@ -32,6 +33,16 @@
             </LinearLayout>
 
         </FrameLayout>
+
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/explore_dimmer"
+            android:background="@color/black"
+            android:alpha="0.5"
+            android:elevation="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
         <FrameLayout
             android:layout_width="match_parent"

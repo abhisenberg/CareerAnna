@@ -90,12 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         /**
-         * Counter For Number Of Times User Opens App Without Sign Up
-         */
-
-        counterForUser();
-
-        /**
          *  Slider For App Landing Page Images
          */
 
@@ -112,36 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
-     * Fetching counter variable from the cache and if the user is using the app 3rd time or more
-     * Force Him To Sign Up For His Use
-     */
-
-    private void counterForUser() {
-
-        int cache;
-        try {
-            cache = Paper.book().read("counter");
-        } catch (NullPointerException e){
-            cache = 0;
-            Paper.book().write("counter", counter);
-        }
-        if(cache > -1 ) {
-            Log.i("counter", String.valueOf(cache));
-            counter = cache;
-            if(counter > 2) {
-                Intent intent = new Intent(this, SignUp.class);
-                startActivity(intent);
-            } else {
-                counter++;
-                Paper.book().write("counter", counter);
-            }
-        } else {
-            Paper.book().write("counter", counter);
-        }
-
-
-    }
 
     /**
      * Slider Listener For changing of active dots as per the position of the image visible
@@ -175,14 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int x=0; x<dots.length; x++){
             dots[x] = new TextView(this);
             dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
-            dots[x].setTextSize(40);
-            dots[x].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            dots[x].setTextSize(30);
+            dots[x].setTextColor(getResources().getColor(R.color.light_gray));
 
             Log.d(TAG, "addDots: "+x);
             dotsLayout.addView(dots[x]);
         }
 
-        dots[i].setTextColor(getResources().getColor(R.color.colorPrimary));
+        dots[i].setTextColor(getResources().getColor(R.color.black));
     }
 
 
@@ -223,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, MyCourses.class));
             finish();
         }
-        counterForUser();
+
     }
 
     /**

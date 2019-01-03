@@ -1,9 +1,12 @@
 package com.careeranna.careeranna.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -13,6 +16,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,9 +41,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.paperdb.Paper;
+
 public class ExploreNotSignActivity extends AppCompatActivity {
 
     LinearLayout linearLayout;                              // Linear Layout For Dots Of Banner
+
+    public static int counter = 0;  // Counter For Counting User Opening The App
 
     InsideWithoutSignFragment insideWithoutSignFragment;    // Fragement Inside Explore to Show Details
 
@@ -60,6 +68,8 @@ public class ExploreNotSignActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;        // FrameLayout For Banner Images
 
+    FrameLayout dimmer;             // Dimmer For PopUp For Exhaustive Explore Without Sign Up
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +82,7 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         linearLayout = findViewById(R.id.sliderDots);
         frameLayout = findViewById(R.id.pager);
+        dimmer = findViewById(R.id.explore_dimmer);
 
         /**
          * Inializing Fragement Which will have all the free videos and courses
@@ -92,6 +103,8 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
 
         getBanner();
+
+        counterForUser();       // Counter For User Accessing Explore Without Sign Up
 
     }
 
@@ -251,6 +264,93 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
+    }
+
+
+    /**
+     * Fetching counter variable from the cache and if the user is using the app 3rd time or more
+     * Force Him To Sign Up For His Use
+     */
+
+    private void counterForUser() {
+
+        int cache;
+        try {
+            cache = Paper.book().read("counter");
+        } catch (NullPointerException e){
+            cache = 0;
+            Paper.book().write("counter", counter);
+        }
+        if(cache > -1 ) {
+            Log.i("counter", String.valueOf(cache));
+            counter = cache;
+            if(counter > 2) {
+                alertDialogForSignUp();
+            } else {
+                counter++;
+                Paper.book().write("counter", counter);
+            }
+        } else {
+            Paper.book().write("counter", counter);
+        }
+
+
+    }
+
+    /**
+     * Function For Dialog For Send Him To Sign After 3rd Times He Enter Without Sign Up
+     */
+
+    public void showPopUpForSignUp() {
+
+        int cache;
+        try {
+            cache = Paper.book().read("counter");
+        } catch (NullPointerException e){
+            cache = 0;
+            Paper.book().write("counter", counter);
+        }
+        if(cache > -1 ) {
+            Log.i("counter", String.valueOf(cache));
+            counter = cache;
+            if(counter > 2) {
+                alertDialogForSignUp();
+            } else {
+            }
+        } else {
+            Paper.book().write("counter", counter);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showPopUpForSignUp();
+    }
+
+    /**
+     * Alert Dialog For Sign up
+     */
+
+    private void alertDialogForSignUp() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Free Limit Reached");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setCancelable(false);
+
+        builder.setMessage("You Have Reached Your Limit Of Open Browsing. Please Sign Up For Free To Continue Accessing The App.")
+                .setPositiveButton("Sign Up", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ExploreNotSignActivity.this, SignUp.class));
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }
