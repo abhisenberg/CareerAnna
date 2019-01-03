@@ -2,17 +2,37 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:weightSum="8" >
+    >
 
     <ImageView
         android:background="#fff"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:id="@+id/bannerImage"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_person_black_24dp" />
+        android:adjustViewBounds="true"
+        android:id="@+id/bannerImage"
+        android:src="@drawable/intro_pic_1"
+        />
 
 </LinearLayout>
+
+<!--<LinearLayout-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:orientation="vertical"-->
+<!--android:weightSum="8" >-->
+
+<!--<ImageView-->
+    <!--android:background="#fff"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="8"-->
+    <!--android:id="@+id/bannerImage"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@drawable/intro_pic_1"-->
+    <!--/>-->
+
+<!--</LinearLayout>-->

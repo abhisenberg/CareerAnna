@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -64,10 +65,15 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     CardView trendingCard, premiumCard, freeCard, latestCard;
 
+    Context context;
+
     public ExploreNew() {
         // Required empty public constructor
     }
 
+    public void setContext(Context context){
+        this.context = context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -177,7 +183,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_l = view.findViewById(R.id.arrow_p_l);
         arrow_p_r = view.findViewById(R.id.arrow_p_r);
 
-        initalizeVideos();
+        initializevideos();
 
         arrow_t_r.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -485,19 +491,18 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         return view;
     }
 
-
     private void addPaidCourse() {
 
         courses = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(context);
 
         progressDialog.setMessage("Loading Paid Courses Please Wait ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue1 = Volley.newRequestQueue(context);
         String url1 = "https://careeranna.com/api/getAllCourse.php";
         Log.d("url_res", url1);
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
@@ -526,7 +531,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                             e.printStackTrace();
                         }
 
-                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, context);
 
                         paidCourse.setAdapter(freeCourseAdapter);
 
@@ -541,7 +546,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, context);
 
                         paidCourse.setAdapter(freeCourseAdapter);
 
@@ -557,19 +562,18 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         requestQueue1.add(stringRequest1);
     }
 
-
     private void addFree() {
 
         freecourse = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(context);
 
         progressDialog.setMessage("Loading Free Courses Please Wait ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue1 = Volley.newRequestQueue(context);
         String url1 = "https://careeranna.com/api/getFreeCourse.php";
         Log.d("url_res", url1);
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
@@ -597,7 +601,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                         progressDialog.dismiss();
 
 
-                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, context);
 
                         freeCorse.setAdapter(freeCourseAdapter1);
 
@@ -610,7 +614,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
 
-                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, context);
 
                         freeCorse.setAdapter(freeCourseAdapter1);
 
@@ -623,39 +627,38 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         requestQueue1.add(stringRequest1);
     }
 
-
-    private void initalizeVideos() {
+    private void initializevideos() {
 
         freeVideos = new ArrayList<>();
 
         trendingvVideos = new ArrayList<>();
 
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false);
         trending.setLayoutManager(linearLayoutManager1);
 
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        recyclerView1.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
 
-        freeCorse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        freeCorse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
 
-        paidCourse.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        paidCourse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
 
-        initalizeVideo();
+        initializevideo();
     }
 
-    private void initalizeVideo() {
+    private void initializevideo() {
 
         freeVideos = new ArrayList<>();
 
         trendingvVideos = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(context);
 
         progressDialog.setMessage("Loading Trending Videos Please Wait ... ");
         progressDialog.show();
 
         progressDialog.setCancelable(false);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue1 = Volley.newRequestQueue(context);
         String url1 = "https://careeranna.com/api/getTrendingVideos.php";
         Log.d("url_res", url1);
         StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
@@ -684,7 +687,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                         }
 
 
-                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
+                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, context);
 
                         trending.setAdapter(trendingVideosAdapter);
 
@@ -692,14 +695,14 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
                         progressDialog.dismiss();
 
-                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog = new ProgressDialog(context);
 
                         progressDialog.setMessage("Loading Latest Videos Please Wait ... ");
                         progressDialog.show();
 
                         progressDialog.setCancelable(false);
 
-                        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+                        RequestQueue requestQueue1 = Volley.newRequestQueue(context);
                         String url1 = "https://careeranna.com/api/getFreeVideos.php";
                         Log.d("url_res", url1);
                         StringRequest stringRequest1  = new StringRequest(Request.Method.GET, url1,
@@ -728,7 +731,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                                             e.printStackTrace();
                                         }
 
-                                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
+                                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, context);
 
                                         recyclerView1.setAdapter(freeVideosAdapter);
 
@@ -766,25 +769,24 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     }
 
-
     @Override
     public void onItemClick1(String type, int position) {
 
         if(type.equals("Free")) {
-            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
+            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
         }
         if(type.equals("Paid")) {
-            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
         }
     }
 
     @Override
     public void onItemClick1(int position, String type) {
         if(type.equals("Trending")) {
-            startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
+            startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
         }
         if(type.equals("Latest")) {
-            startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
+            startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
         }
     }
 }
