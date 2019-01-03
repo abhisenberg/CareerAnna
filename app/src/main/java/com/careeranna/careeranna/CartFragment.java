@@ -76,13 +76,13 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
     Intent intent;
 
-    CardView cardView;
+    CardView cardNoCourseAdded;
 
     float grand_total = 0;
 
     ArrayList<String> arrayList, arrayListWish;
 
-    CardView card1;
+    CardView cardTotalPriceCheckout;
 
     public CartFragment() {
         // Required empty public constructor
@@ -101,13 +101,13 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
         Paper.init(getContext());
 
-        card1 = view.findViewById(R.id.card1);
+        cardTotalPriceCheckout = view.findViewById(R.id.card1);
 
         checkout = view.findViewById(R.id.checkout1);
 
         promo = view.findViewById(R.id.promo);
 
-        cardView = view.findViewById(R.id.card);
+        cardNoCourseAdded = view.findViewById(R.id.card);
 
         recyclerView = view.findViewById(R.id.ordered_rv);
 
@@ -139,15 +139,11 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 arrayList = gson.fromJson(cart, type);
 
                 if (arrayList.size() > 0) {
-
-                    cardView.setVisibility(View.INVISIBLE);
-
-                    card1.setVisibility(View.VISIBLE);
+                    cardNoCourseAdded.setVisibility(View.INVISIBLE);
+                    cardTotalPriceCheckout.setVisibility(View.VISIBLE);
                 } else {
-
-                    cardView.setVisibility(View.VISIBLE);
-
-                    card1.setVisibility(View.INVISIBLE);
+                    cardNoCourseAdded.setVisibility(View.VISIBLE);
+                    cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
                 }
 
                 for (String orderedCourse : arrayList) {
@@ -158,10 +154,11 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                     orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4]));
                 }
-
-
                 price.setText(String.valueOf(grand_total));
 
+            } else {
+                cardNoCourseAdded.setVisibility(View.VISIBLE);
+                cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
             }
 
             checkout.setOnClickListener(new View.OnClickListener() {
@@ -235,10 +232,10 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             mAnimation.setRepeatMode(Animation.REVERSE);
 
         } else {
-            cardView.setVisibility(View.VISIBLE);
+            cardNoCourseAdded.setVisibility(View.VISIBLE);
 
 
-            card1.setVisibility(View.INVISIBLE);
+            cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
         }
         return view;
 
@@ -262,13 +259,13 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 Paper.book().write("cart", new Gson().toJson(arrayList));
 
                 if(orderedCourses.size() == 0) {
-                    cardView.setVisibility(View.VISIBLE);
+                    cardNoCourseAdded.setVisibility(View.VISIBLE);
 
-                    card1.setVisibility(View.INVISIBLE);
+                    cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
                 } else {
 
-                    cardView.setVisibility(View.INVISIBLE);
-                    card1.setVisibility(View.VISIBLE);
+                    cardNoCourseAdded.setVisibility(View.INVISIBLE);
+                    cardTotalPriceCheckout.setVisibility(View.VISIBLE);
                 }
                 snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
@@ -285,14 +282,14 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                         Paper.book().write("cart", new Gson().toJson(arrayList));
 
                         if(orderedCourses.size() == 0) {
-                            cardView.setVisibility(View.VISIBLE);
+                            cardNoCourseAdded.setVisibility(View.VISIBLE);
 
-                            card1.setVisibility(View.INVISIBLE);
+                            cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
                         } else {
 
-                            cardView.setVisibility(View.INVISIBLE);
+                            cardNoCourseAdded.setVisibility(View.INVISIBLE);
 
-                            card1.setVisibility(View.VISIBLE);
+                            cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
                         }
                     }
@@ -325,14 +322,14 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             Paper.book().write("cart", new Gson().toJson(arrayList));
 
             if (orderedCourses.size() == 0) {
-                cardView.setVisibility(View.VISIBLE);
+                cardNoCourseAdded.setVisibility(View.VISIBLE);
 
-                card1.setVisibility(View.INVISIBLE);
+                cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
             } else {
 
-                cardView.setVisibility(View.INVISIBLE);
+                cardNoCourseAdded.setVisibility(View.INVISIBLE);
 
-                card1.setVisibility(View.VISIBLE);
+                cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
             }
             snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
@@ -349,12 +346,12 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                     Paper.book().write("cart", new Gson().toJson(arrayList));
 
                     if (orderedCourses.size() == 0) {
-                        cardView.setVisibility(View.VISIBLE);
-                        card1.setVisibility(View.INVISIBLE);
+                        cardNoCourseAdded.setVisibility(View.VISIBLE);
+                        cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
                     } else {
 
-                        cardView.setVisibility(View.INVISIBLE);
-                        card1.setVisibility(View.VISIBLE);
+                        cardNoCourseAdded.setVisibility(View.INVISIBLE);
+                        cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -399,12 +396,12 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             Paper.book().write("cart", new Gson().toJson(arrayList));
 
             if (orderedCourses.size() == 0) {
-                cardView.setVisibility(View.VISIBLE);
-                card1.setVisibility(View.INVISIBLE);
+                cardNoCourseAdded.setVisibility(View.VISIBLE);
+                cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
             } else {
 
-                cardView.setVisibility(View.INVISIBLE);
-                card1.setVisibility(View.VISIBLE);
+                cardNoCourseAdded.setVisibility(View.INVISIBLE);
+                cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
             }
             Toast.makeText(getContext(), "Added To WishList", Toast.LENGTH_SHORT).show();

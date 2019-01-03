@@ -22,15 +22,6 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
-import com.careeranna.careeranna.data.ISO8601Parse;
-import com.github.curioustechizen.ago.RelativeTimeTextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.util.Date;
 
 
 public class ParticularArticleActivity extends AppCompatActivity {
@@ -172,7 +163,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (showandhiden) {
-                    hiden();
+                    hidden();
                     showandhiden = false;
                 } else {
                     shown();
@@ -182,7 +173,7 @@ public class ParticularArticleActivity extends AppCompatActivity {
         });
     }
 
-    public void hiden() {
+    public void hidden() {
 
         fab_facebook.show();
         fab_google.show();

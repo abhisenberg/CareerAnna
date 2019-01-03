@@ -216,7 +216,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_couses);
+        setContentView(R.layout.activity_my_courses);
 
         Log.d(TAG, "onCreate: ");
 
@@ -420,12 +420,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             mEmail = user.getUser_email();
         }
 
+
         whisListFragement = new WhisListFragement();
         myCoursesFragement = new MyCoursesFragment();
         myArticleFragment = new ArticlesFragment();
         exploreNew = new ExploreNew();
         categoryFragment = new CategoryFragment();
         cartFragment = new CartFragment();
+
+        exploreNew.setContext(MyCourses.this);
 
         names = new ArrayList<>();
         urls = new ArrayList<>();

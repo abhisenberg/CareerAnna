@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -144,13 +145,13 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                                     isLoading = false;
                                     articleAdapter.addArticles(articles);
                                     articleAdapter.notifyDataSetChanged();
-                                    progressBar.setVisibility(View.INVISIBLE);
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             },
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    progressBar.setVisibility(View.INVISIBLE);
+                                    progressBar.setVisibility(View.GONE);
                                     isLoading = false;
                                 }
                             }

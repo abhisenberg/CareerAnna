@@ -40,7 +40,9 @@ import io.paperdb.Paper;
 
 
 public class WhisListFragement extends Fragment implements WishListAdapter.OnItemClickListener{
-    
+
+    public static final String TAG = "WishListFragment";
+
     private ArrayList<OrderedCourse> orderedCourses;
     RecyclerView recyclerView;
 
@@ -85,6 +87,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
 
     public WhisListFragement() {
         // Required empty public constructor
+        Log.d(TAG, "WhisListFragement: ");
     }
 
 
@@ -92,6 +95,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_whis_list_fragement, container, false);
 
         arrayListWish = new ArrayList<>();
@@ -135,16 +139,6 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
 
                 arrayList = gson.fromJson(cart, type);
 
-                if (arrayList.size() > 0) {
-
-                    cardView.setVisibility(View.INVISIBLE);
-
-                } else {
-
-                    cardView.setVisibility(View.VISIBLE);
-
-                }
-
                 for (String orderedCourse : arrayList) {
 
                     String course[] = orderedCourse.split(",");
@@ -154,6 +148,8 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
                     orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4]));
                 }
 
+            } else {
+                cardView.setVisibility(View.VISIBLE);
             }
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

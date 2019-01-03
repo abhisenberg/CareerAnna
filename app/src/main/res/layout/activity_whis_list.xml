@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:visibility="invisible"
             android:layout_centerInParent="true"
             android:elevation="10dp"
             android:id="@+id/card">
@@ -31,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Soory You Don't Have Purchase Any Course Please Add Some"
+                    android:text="Looks like you don't have any courses added yet!"
                     />
 
                 <ImageView

@@ -96,5 +96,5 @@
 
     <string name="dummy_striked_cost"><strike>₹5000</strike></string>
     <string name="dummy_discount">90% Off including taxes</string>
-
+    <string name="no_course_added">Looks like you haven\'t added any courses yet!</string>
 </resources>
