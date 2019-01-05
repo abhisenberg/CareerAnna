@@ -47,7 +47,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import com.careeranna.careeranna.BuildConfig;
-import com.careeranna.careeranna.CartFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.CartFragment;
 import com.careeranna.careeranna.InstructorsListActivity;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ListViewAdapter;
@@ -359,6 +359,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
                         break;
                     case 4:
+                        frameLayout.setVisibility(View.GONE);
                         initArticle();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();
                         getSupportActionBar().setTitle("Articles");
@@ -367,7 +368,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
                         break;
                     case 6:
-
                         frameLayout.setVisibility(View.GONE);
                         fragmentManager.beginTransaction().replace(R.id.main_content, whisListFragement).commit();
                         getSupportActionBar().setTitle("Wish List");
@@ -385,21 +385,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         startActivity(new Intent(MyCourses.this, MainActivity.class));
                         finish();
                         break;
-                }
-                String cart = Paper.book().read("cart");
-
-                if (cart != null && !cart.isEmpty()) {
-                    Gson gson = new Gson();
-
-                    Type type = new TypeToken<ArrayList<String>>() {
-                    }.getType();
-
-                    ArrayList<String> arrayList = gson.fromJson(cart, type);
-
-                    setCount(MyCourses.this, arrayList.size() + "");
-
-                } else {
-                    setCount(MyCourses.this, "0");
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
@@ -860,7 +845,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
                                         Articles.getString("display_name"),
                                         "CAT",
-                                        desc,
+                                        Articles.getString("post_content"),
                                         Articles.getString("post_date")));
                             }
                         } catch (JSONException e) {

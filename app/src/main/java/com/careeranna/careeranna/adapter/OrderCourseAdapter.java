@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_ordered_course, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_my_ordered_course, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -51,8 +52,17 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
         viewHolder.itemView.setTag(i);
 
         viewHolder.name.setText(mOrdered.get(i).getName());
-        viewHolder.price.setText(mOrdered.get(i).getPrice());
+        viewHolder.newPrice.setText("₹ "+mOrdered.get(i).getPrice());
         Glide.with(mContext).load(mOrdered.get(i).getImage()).into(viewHolder.imageView);
+
+        if(!mOrdered.get(i).getOld_price().equals("0")) {
+            viewHolder.percent_off.setVisibility(View.VISIBLE);
+            Float discount = (Float.valueOf(mOrdered.get(i).getOld_price())-Float.valueOf(mOrdered.get(i).getPrice()))*100/Float.valueOf(mOrdered.get(i).getOld_price());
+            viewHolder.percent_off.setText(String.format("% .2f", discount)+"% Off");
+            viewHolder.price.setVisibility(View.VISIBLE);
+            viewHolder.price.setPaintFlags(viewHolder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.price.setText("₹ "+mOrdered.get(i).getOld_price());
+        }
 
         viewHolder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +89,13 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
         });
     }
 
+    public void changePrice(int pos, String Price) {
+        mOrdered.get(pos).setOld_price(mOrdered.get(pos).getPrice());
+        Float price = Float.valueOf(mOrdered.get(pos).getPrice()) - Float.valueOf(Price);
+        mOrdered.get(pos).setPrice(""+price);
+        notifyDataSetChanged();
+    }
+
     public void remove(int pos) {
         mOrdered.remove(pos);
         notifyDataSetChanged();
@@ -92,12 +109,14 @@ public class OrderCourseAdapter extends RecyclerView.Adapter<OrderCourseAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, price;
+        TextView name, price, newPrice, percent_off;
         ImageView imageView;
         Button remove, whishlist;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            percent_off  = itemView.findViewById(R.id.course_price_percent_off);
+            newPrice = itemView.findViewById(R.id.discount_price);
             name = itemView.findViewById(R.id.course_name);
             price = itemView.findViewById(R.id.course_price);
 

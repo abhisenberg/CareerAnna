@@ -119,9 +119,11 @@ public class ParticularArticleActivity extends AppCompatActivity {
                                 "table tr:nth-child(odd) {" +
                                 "   background: #d9e2f3;" +
                                 "}" +
-                                "tr:nth-child(1) {\n" +
-                                "  background: #11336f;" +
-                                "   color: #fff" +
+                                "table tr:nth-child(1) {" +
+                                "  background: #11336f !important;" +
+                                "}" +
+                                "table tr:nth-child(1) td span {" +
+                                "    color: #fff !important;" +
                                 "}" +
                                 "</style>" +
                                 "</head>" +

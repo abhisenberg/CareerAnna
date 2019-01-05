@@ -4,13 +4,22 @@ import java.io.Serializable;
 
 public class OrderedCourse implements Serializable {
 
-    String course_id, price, image, name, category_id;
+    String course_id, price, image, name, category_id, old_price;
 
     public OrderedCourse(String course_id, String name, String price, String image) {
         this.course_id = course_id;
         this.price = price;
         this.image = image;
         this.name = name;
+    }
+
+    public OrderedCourse(String course_id, String price, String image, String name, String category_id, String old_price) {
+        this.course_id = course_id;
+        this.price = price;
+        this.image = image;
+        this.name = name;
+        this.category_id = category_id;
+        this.old_price = old_price;
     }
 
     public String getCategory_id() {
@@ -27,6 +36,15 @@ public class OrderedCourse implements Serializable {
         this.image = image;
         this.name = name;
         this.category_id = category_id;
+        this.old_price = "0";
+    }
+
+    public String getOld_price() {
+        return old_price;
+    }
+
+    public void setOld_price(String old_price) {
+        this.old_price = old_price;
     }
 
     public String getName() {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CartFragment">
+    tools:context=".fragement.dashboard_fragements.CartFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,7 +93,6 @@
                     android:id="@+id/apply"
                     android:text="Apply"
                     android:background="@color/colorPrimary"
-                    android:enabled="false"
                     />
 
                 <TextView
