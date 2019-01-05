@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        startActivity(new Intent(this, SignUp.class));
 
+        //TODO: Uncomment this line when publishing updates to play store
         checkUpdates();
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {

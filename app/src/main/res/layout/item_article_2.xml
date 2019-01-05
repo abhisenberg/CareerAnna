@@ -47,12 +47,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
 
-                <!--<de.hdodenhof.circleimageview.CircleImageView-->
-                    <!--android:id="@+id/article_author_image"-->
-                    <!--android:src="@drawable/intro_pic_1"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp" />-->
-
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/article_author_image"
                     android:src="@drawable/ic_person_color"
@@ -97,14 +91,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <!--<com.bluejamesbond.text.DocumentView-->
-            <!--android:id="@+id/article_content"-->
-            <!--android:text="@string/sample_article_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="100dp"-->
-            <!--/>-->
 
         <com.careeranna.careeranna.misc.TextViewEx
             android:id="@+id/article_content"

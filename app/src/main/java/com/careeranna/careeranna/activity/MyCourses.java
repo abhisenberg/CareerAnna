@@ -220,7 +220,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         Log.d(TAG, "onCreate: ");
 
+        //TODO: Uncomment this line when publishing updates to play store
         checkUpdates();
+
         //  Initialize Layout Variable
         drawerLayout = findViewById(R.id.drawelayout);
         navigationView = findViewById(R.id.nav_view);

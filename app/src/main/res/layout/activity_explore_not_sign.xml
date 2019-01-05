@@ -7,19 +7,20 @@
     android:background="#fff"
     tools:context=".activity.ExploreNotSignActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1.35"
             android:orientation="horizontal"
             android:id="@+id/pager"
             >
-
             <android.support.v4.view.ViewPager
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/viewPager">
             </android.support.v4.view.ViewPager>
             <LinearLayout
@@ -27,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sliderDots"
-                android:layout_marginTop="110dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -35,22 +35,13 @@
         </FrameLayout>
 
         <FrameLayout
-            android:visibility="gone"
-            android:id="@+id/explore_dimmer"
-            android:background="@color/black"
-            android:alpha="0.5"
-            android:elevation="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
             android:id="@+id/main_content"
             android:layout_below="@id/pager">
         </FrameLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
