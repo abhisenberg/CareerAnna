@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -11,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +23,10 @@ import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.misc.TextViewEx;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
@@ -47,14 +53,21 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article_2, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article_3, viewGroup, false);
         return new ArticleViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int i) {
 
+        if(i == 0) {
+            articleViewHolder.linearLayout.setVisibility(View.VISIBLE);
+            articleViewHolder.articleContent_1.setVisibility(View.VISIBLE);
+
+        }
+
         articleViewHolder.articleTitle.setText(mArticles.get(i).getName());
+        articleViewHolder.articleTitle_1.setText(mArticles.get(i).getName());
         String contentShow;
         if(mArticles.get(i).getContent().length() > 255){
             contentShow = mArticles.get(i).getContent().substring(0 , 255)+"...";
@@ -62,14 +75,23 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             contentShow = mArticles.get(i).getContent();
         }
         articleViewHolder.articleContent.setText(getFormattedArticleContent(contentShow));
+        articleViewHolder.articleContent_1.setText(getFormattedArticleContent(contentShow));
 
         Glide.with(mContext)
                 .load(mArticles.get(i).getImage_url())
                 .into(articleViewHolder.articleImage);
 
+        Glide.with(mContext)
+                .load(mArticles.get(i).getImage_url())
+                .into(articleViewHolder.articleImage_1);
+
         String authorName = mArticles.get(i).getAuthor();
         articleViewHolder.articleAuthor.setText(authorName);
         articleViewHolder.articleCreated.setText(mArticles.get(i).getCreated_at().substring(0, 10));
+
+        String authorName1 = mArticles.get(i).getAuthor();
+        articleViewHolder.articleAuthor_1.setText(authorName1);
+        articleViewHolder.articleCreated_1.setText(mArticles.get(i).getCreated_at().substring(8, 10)+getMonth(Integer.valueOf(mArticles.get(i).getCreated_at().substring(5, 7)))+", "+mArticles.get(i).getCreated_at().substring(0, 4));
 
         int authorImagePath;
         if(authorName.startsWith("Sri")){
@@ -83,8 +105,34 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 .load(authorImagePath)
                 .into(articleViewHolder.authorImage);
 
+        Glide.with(mContext)
+                .load(authorImagePath)
+                .into(articleViewHolder.authorImage_1);
+
         Log.d(TAG, "Image url is "+mArticles.get(i).getImage_url());
+
     }
+
+    public String getMonth(int month) {
+        String monthString;
+        switch (month) {
+            case 1:  monthString = " Jan";       break;
+            case 2:  monthString = " Feb";      break;
+            case 3:  monthString = " March";         break;
+            case 4:  monthString = " April";         break;
+            case 5:  monthString = " May";           break;
+            case 6:  monthString = " June";          break;
+            case 7:  monthString = " July";          break;
+            case 8:  monthString = " Aug";        break;
+            case 9:  monthString = " Sept";     break;
+            case 10: monthString = " Oct";       break;
+            case 11: monthString = " Nov";      break;
+            case 12: monthString = " Dec";      break;
+            default: monthString = "Invalid month"; break;
+        }
+        return monthString;
+    }
+
 
     public void addArticles(ArrayList<Article> articles) {
         mArticles.addAll(articles);
@@ -109,20 +157,62 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
-        TextView articleTitle, articleAuthor;
-        RelativeTimeTextView articleCreated;
-        TextViewEx articleContent;
-        ImageView articleImage, authorImage;
+        TextView articleTitle, articleAuthor, articleAuthor_1 ,articleTitle_1;
+        RelativeTimeTextView articleCreated, articleCreated_1;
+        TextViewEx articleContent, articleContent_1;
+        ImageView articleImage, authorImage, articleImage_1, authorImage_1;
+        LinearLayout linearLayout;
+        Button arrow;
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
 
+            linearLayout = itemView.findViewById(R.id.linear_of_author);
             articleImage = itemView.findViewById(R.id.article_image);
+            articleImage_1 = itemView.findViewById(R.id.article_image_1);
             articleTitle = itemView.findViewById(R.id.article_name);
+            articleTitle_1 = itemView.findViewById(R.id.article_name_1);
             articleAuthor = itemView.findViewById(R.id.article_author_name);
             articleCreated = itemView.findViewById(R.id.article_created_date);
             articleContent = itemView.findViewById(R.id.article_content);
             authorImage = itemView.findViewById(R.id.article_author_image);
+            articleAuthor_1 = itemView.findViewById(R.id.article_author_name_1);
+            articleCreated_1 = itemView.findViewById(R.id.article_created_date_1);
+            articleContent_1 = itemView.findViewById(R.id.article_content_1);
+            authorImage_1 = itemView.findViewById(R.id.article_author_image_1);
+            arrow = itemView.findViewById(R.id.arrow);
+
+            arrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(linearLayout.getVisibility() == View.VISIBLE) {
+                        Drawable[] drawables = arrow.getCompoundDrawables();
+                        // get left drawable.
+                        Drawable rightCompoundDrawable = drawables[2];
+                        // get new drawable.
+                        Drawable img = mContext.getResources().getDrawable(R.drawable.ic_arrow_drop_down_grey_24dp);
+                        // set image size (don't change the size values)
+                        img.setBounds(rightCompoundDrawable.getBounds());
+                        // set new drawable
+                        arrow.setCompoundDrawables(null, null, img, null);
+                        linearLayout.setVisibility(View.GONE);
+                        articleContent_1.setVisibility(View.GONE);
+                    } else {
+                        Drawable[] drawables = arrow.getCompoundDrawables();
+                        // get left drawable.
+                        Drawable rightCompoundDrawable = drawables[2];
+                        // get new drawable.
+                        Drawable img = mContext.getResources().getDrawable(R.drawable.ic_arrow_drop_up_grey_24dp);
+                        // set image size (don't change the size values)
+                        img.setBounds(rightCompoundDrawable.getBounds());
+                        // set new drawable
+                        arrow.setCompoundDrawables(null, null, img, null);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        articleContent_1.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

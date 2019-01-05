@@ -503,13 +503,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
         for (String unitsname : course) {
             char c = unitsname.charAt(0);
-            if(!Character.isDigit(c)) {
-                if(c != '$') {
-                    Unit unit = new Unit(unitsname, check);
-                    mUnits.add(unit);
+            if(c != '$') {
+                Unit unit = new Unit(unitsname, check);
+                mUnits.add(unit);
+            } else {
+                String array[] = unitsname.split(",url");
+                if(array.length == 1) {
+                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), ""));
                 } else {
-                    String array[] = unitsname.split(",");
-                    mUnits.get(mUnits.size() -1).topics.add(new Topic(array[0].substring(1), array[1]));
+                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), array[1]));
                 }
             }
 

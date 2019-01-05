@@ -49,6 +49,7 @@
             android:label="Sign In" />
         <activity
             android:name=".activity.MyCourses"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:label="MyCourses" />
         <activity
             android:name=".user.Register"
