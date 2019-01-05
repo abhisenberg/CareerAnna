@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.dashboard_fragements.CategoryFragment">
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:id="@+id/relative"
         android:layout_height="wrap_content">
@@ -24,8 +23,7 @@
             android:layout_height="wrap_content"
             android:weightSum="10"
             android:id="@+id/linear"
-            android:layout_below="@+id/categorySpinner">
-
+            >
 
             <Button
                 android:layout_width="0dp"
@@ -91,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/linear"
-            android:layout_marginTop="10dp">
+            >
 
             <View
                 android:layout_width="0dp"
@@ -102,10 +100,9 @@
 
             <android.support.v7.widget.RecyclerView
                 app:layout_constraintLeft_toRightOf="@+id/view"
-                android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.82"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_ripple"
                 android:id="@+id/categoriesCourses" />
 

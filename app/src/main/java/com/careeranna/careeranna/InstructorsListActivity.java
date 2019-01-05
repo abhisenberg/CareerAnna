@@ -59,6 +59,10 @@ public class InstructorsListActivity extends AppCompatActivity implements Recycl
         rvp_instructors.setVerticalFadingEdgeEnabled(true);
         rvp_instructors.setVerticalFadingEdgeEnabled(true);
         rvp_instructors.addOnPageChangedListener(this);
+
+        /*
+        These functions are necessary to produce the flick effect on scrolling instructors list
+         */
         rvp_instructors.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -145,6 +149,10 @@ public class InstructorsListActivity extends AppCompatActivity implements Recycl
         requestQueue.add(request);
     }
 
+    /*
+    To get the current page and store it in a global variable through which we can perform button based
+    scrolling.
+     */
     @Override
     public void OnPageChanged(int i, int i1) {
         Log.d(TAG, "OnPageChanged: oldPage = "+i+", newPage = "+i1);
@@ -158,6 +166,10 @@ public class InstructorsListActivity extends AppCompatActivity implements Recycl
         Log.d(TAG, "onErrorResponse: "+error.networkResponse);
     }
 
+    /*
+    The description field of the instructors is blank in the database hence the 'desc' is
+    left empty.
+     */
     @Override
     public void onResponse(String response) {
         Log.i(TAG, "getInstructors response: "+response);

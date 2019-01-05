@@ -68,7 +68,7 @@ public class ExploreNotSignActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;        // FrameLayout For Banner Images
 
-    FrameLayout dimmer;             // Dimmer For PopUp For Exhaustive Explore Without Sign Up
+//    FrameLayout dimmer;             // Dimmer For PopUp For Exhaustive Explore Without Sign Up
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         linearLayout = findViewById(R.id.sliderDots);
         frameLayout = findViewById(R.id.pager);
-        dimmer = findViewById(R.id.explore_dimmer);
+//        dimmer = findViewById(R.id.explore_dimmer);
 
         /**
          * Inializing Fragement Which will have all the free videos and courses
@@ -105,7 +105,6 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         getBanner();
 
         counterForUser();       // Counter For User Accessing Explore Without Sign Up
-
     }
 
     /**
