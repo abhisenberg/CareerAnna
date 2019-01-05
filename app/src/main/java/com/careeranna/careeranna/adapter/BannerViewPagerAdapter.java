@@ -42,9 +42,16 @@ public class BannerViewPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.banner_layout, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.bannerImage);
+
+        //TODO: Insert banners here
         Glide.with(view)
                 .load(mBanners.get(position).getmLink())
                 .into(imageView);
+
+//        Glide.with(view)
+//                .load(mContext.getResources().getDrawable(R.drawable.sample_banner_size_140))
+//                .into(imageView);
+
         ViewPager vp = (ViewPager) container;
         vp.addView(view,0);
         return  view;

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.FreeVideos;
 
 import java.util.ArrayList;
 
@@ -43,14 +42,19 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_free_course_new, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_free_course_new_2, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-        Glide.with(mContext).load(freeVideos.get(i).getImageUrl()).into(viewHolder.imageView);
+//        TODO: Change the dummy thumbnails
+        Glide
+                .with(mContext)
+                .load(mContext.getResources().getDrawable(R.drawable.sample_xat_up))
+                .into(viewHolder.imageView);
+
         viewHolder.name.setText(freeVideos.get(i).getName());
     }
 

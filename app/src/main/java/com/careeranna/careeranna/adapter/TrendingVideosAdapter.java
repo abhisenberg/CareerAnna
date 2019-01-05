@@ -26,7 +26,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_videos_new, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_videos_new_2, viewGroup, false);
         return new ViewHolder(view);
     }
 

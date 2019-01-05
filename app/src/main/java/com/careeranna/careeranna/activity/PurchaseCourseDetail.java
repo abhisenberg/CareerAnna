@@ -443,8 +443,12 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             getSupportActionBar().setTitle(course.getName());
         }
 
-        PlaylistItem playlistItem = new PlaylistItem.Builder()
-                .file(uri.toString())
+
+//        PlaylistItem playlistItem = new PlaylistItem.Builder()
+//                .file(uri.toString())
+//                .build();
+                PlaylistItem playlistItem = new PlaylistItem.Builder()
+                .file("http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-87.mp4")
                 .build();
         playerView.load(playlistItem);
     }
