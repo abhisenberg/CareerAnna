@@ -11,8 +11,12 @@ import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Comment;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapter.ViewHolder> {
 
@@ -36,7 +40,19 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
 
         viewHolder.name.setText(comments.get(i).getName());
         viewHolder.comment.setText(comments.get(i).getComment_body());
-        String name = "C";
+        String name = "G";
+
+        String myDate = comments.get(i).getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = sdf.parse(myDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long millis = date.getTime();
+
+        viewHolder.relativeTimeTextView.setReferenceTime(millis);
 
         if(comments.get(i).getName() != null){
             name = comments.get(i).getName().substring(0,1).toUpperCase();
@@ -55,10 +71,15 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
 
         TextView name, comment, image;
 
+        RelativeTimeTextView relativeTimeTextView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.name);
+
+            relativeTimeTextView = itemView.findViewById(R.id.timestamp);
+
             comment = itemView.findViewById(R.id.comment);
 
             image  = itemView.findViewById(R.id.image);

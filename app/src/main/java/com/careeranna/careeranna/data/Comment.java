@@ -1,11 +1,33 @@
 package com.careeranna.careeranna.data;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Comment {
 
-    String id, name, email, comment_body, parent_id, ne_id;
+    String id, name, email, comment_body, parent_id, ne_id, date;
     private ArrayList<Comment> comments;
+
+    public Comment(String id, String name, String email, String comment_body, String parent_id, String ne_id, String date) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.comment_body = comment_body;
+        this.parent_id = parent_id;
+        this.ne_id = ne_id;
+        this.date = date;
+        this.comments = new ArrayList<>();
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Comment(String id, String name, String email, String comment_body, String parent_id, String ne_id) {
         this.id = id;
@@ -66,7 +88,12 @@ public class Comment {
     }
 
     public Comment() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = sdf.format(cal.getTime());
+
         this.comments = new ArrayList<>();
+        this.date = strDate;
     }
 
     public ArrayList<Comment> getComments() {

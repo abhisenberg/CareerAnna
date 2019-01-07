@@ -173,6 +173,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         comments = new ArrayList<>();
 
         String url1 = "https://careeranna.com/api/comments.php?id="+id;
+        Log.d("comment_url", url1);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -188,7 +189,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                                         jsonObject.getString("comment_email"),
                                         jsonObject.getString("comment_body"),
                                         jsonObject.getString("parent_id"),
-                                        jsonObject.getString("comment_id")));
+                                        jsonObject.getString("videoId"),
+                                        jsonObject.getString("comment_created")));
                             } else {
                                 for (int j=0;j<comments.size();j++) {
                                     if(comments.get(j).getId().equals(jsonObject.getString("parent_id"))) {
@@ -197,7 +199,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                                                 jsonObject.getString("comment_email"),
                                                 jsonObject.getString("comment_body"),
                                                 jsonObject.getString("parent_id"),
-                                                jsonObject.getString("comment_id")));
+                                                jsonObject.getString("videoId"),
+                                                jsonObject.getString("comment_created")));
                                         break;
                                     }
                                 }
@@ -205,6 +208,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                          }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Toast.makeText(VideoWithComment.this, "JSON Error ", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -215,7 +219,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(VideoWithComment.this, "Something Went Wrong .. ", Toast.LENGTH_SHORT).show();
             }
         });
 

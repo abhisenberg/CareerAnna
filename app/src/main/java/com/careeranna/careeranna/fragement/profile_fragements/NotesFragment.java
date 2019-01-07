@@ -37,7 +37,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotesFragment extends Fragment {
+public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickListener{
 
     TextView heading;
 
@@ -46,6 +46,7 @@ public class NotesFragment extends Fragment {
     RecyclerView recyclerView;
 
     String status;
+    ArrayList<String> pdfs;
 
     private String[] imageUrls = new String[] {
             "https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/OK-512.png",
@@ -74,24 +75,29 @@ public class NotesFragment extends Fragment {
         return view;
     }
 
-    public void addPdf(ArrayList<String> pdfs, String status) {
-        this.urls = pdfs;
+    public void addPdf(ArrayList<String> pdf, String status) {
+        this.urls = pdf;
         this.status = status;
 
         if(!status.equals("No pdf")) {
 
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
             recyclerView.setLayoutManager(mGridLayoutManager);
-            ArrayList<String> pdf = new ArrayList<>();
+            pdfs = new ArrayList<>();
 
             for(String string: urls) {
-                pdf.add(string);
+                pdfs.add(string);
             }
 
-            PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdf);
+            PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdfs);
             recyclerView.setAdapter(pdfAdapter);
+            pdfAdapter.setOnItemClicklistener(this);
         }
         heading.setText(status);
     }
 
+    @Override
+    public void onItemClick1(int position) {
+        startActivity(new Intent(getApplicationContext(), Pdf.class).putExtra("pdf",pdfs.get(position)));
+    }
 }

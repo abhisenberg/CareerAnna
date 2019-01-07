@@ -57,7 +57,9 @@
         <activity
             android:name=".ParticularCourse"
             android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".Pdf" />
+        <activity android:name=".Pdf"
+            android:label="Pdf View"
+            />
         <activity
             android:name=".activity.ParticularArticleActivity"
             android:label="Article" />

@@ -3,12 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.profile_fragements.TestFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TextView
+
+    <android.support.v7.widget.CardView
+        app:cardElevation="5dp"
+        android:layout_margin="30dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="20dp"
+            android:letterSpacing="0.03"
+            android:textStyle="bold"
+            android:textColor="#1d1c1c"
+            android:layout_height="wrap_content"
+            android:text="Please note that feature to take mock test for paid users will be available in future updates and is not available right now. For now, we recommend to take the test on laptop or on website through mobile."
+            />
+
+    </android.support.v7.widget.CardView>
+
+   <TextView
+       android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/testText"
@@ -20,6 +42,7 @@
         android:layout_marginTop="20dp"
         />
     <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"

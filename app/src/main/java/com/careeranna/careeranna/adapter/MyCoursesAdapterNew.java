@@ -59,7 +59,7 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
         Random rand = new Random();
         int random  = rand.nextInt(100);
         Glide.with(mContext)
-                .load(course.get(position).getCourse_imageURL())
+                .load("https://www.careeranna.com/"+course.get(position).getCourse_imageURL())
                 .into(viewHolder.imageView);
         viewHolder.textView.setText(course.get(position).getCourse_name());
         viewHolder.progressBar.setProgress(random);

@@ -104,6 +104,14 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 }
             }
 
+            if(!mUnits.isEmpty()) {
+                if(!mUnits.get(0).topics.isEmpty()) {
+                    if(!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+                        playVideo(mUnits.get(0).topics.get(0).getVideos());
+                    }
+                }
+            }
+
             listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
             listView.setAdapter(listAdapter);
             listAdapter.setOnItemClicklistener(this);
