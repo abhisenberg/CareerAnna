@@ -340,7 +340,7 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setCancelable(false);
 
-        builder.setMessage("You Have Reached Your Limit Of Open Browsing. Please Sign Up For Free To Continue Accessing The App.")
+        builder.setMessage(getString(R.string.open_browser_limit_reached))
                 .setPositiveButton("Sign Up", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

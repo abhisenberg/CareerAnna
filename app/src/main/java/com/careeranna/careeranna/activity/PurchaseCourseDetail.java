@@ -63,6 +63,7 @@ import io.paperdb.Paper;
 
 import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener{
 
     public static final String TAG = "PurchaseCourseDetail";
@@ -193,7 +194,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 builder.setTitle("Already In The Cart");
                 builder.setIcon(R.mipmap.ic_launcher);
                 builder.setCancelable(false);
-                builder.setMessage("Please Remove In Your Cart Or Go To Cart ")
+                builder.setMessage(getString(R.string.course_already_in_cart))
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -219,7 +220,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 String cache = Paper.book().read("user");
                 if(cache != null && !cache.isEmpty()) {
                 } else {
-                    Toast.makeText(PurchaseCourseDetail.this, "Please Sign up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PurchaseCourseDetail.this, getString(R.string.please_register_to_continue), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(PurchaseCourseDetail.this, SignUp.class));
                     finish();
                 }
@@ -528,7 +529,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     public void paidCourseCheckout(final String price){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_payment_layout);
-        dialog.setTitle("Pay Now... ");
+        dialog.setTitle(getString(R.string.pay_now));
 
         Button paytm, payu;
 

@@ -58,7 +58,7 @@ public class MyCerti_Adapter extends RecyclerView.Adapter<MyCerti_Adapter.ViewHo
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_certiDownload:
-                Toast.makeText(context, "Download functionality test", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Coming soon!", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

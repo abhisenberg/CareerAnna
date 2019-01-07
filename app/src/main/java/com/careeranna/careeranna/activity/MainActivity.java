@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setCancelable(false);
 
-        builder.setMessage("New Version Available")
+        builder.setMessage(getString(R.string.update_your_app))
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

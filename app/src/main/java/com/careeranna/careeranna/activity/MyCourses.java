@@ -166,7 +166,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
             return;
         } else {
-            Toast.makeText(this, "Please Click Again To Exit !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.click_again_to_exit), Toast.LENGTH_SHORT).show();
         }
 
         backPressed = System.currentTimeMillis();
@@ -719,7 +719,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -776,17 +776,10 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
-
-
-        final String desc = "Organizations of all sizes and Industries, be it a financial institution or a small big data start up, everyone is using Python for their business.\n" +
-                "Python is among the popular data science programming languages not only in Big data companies but also in the tech start up crowd. Around 46% of data scientists use Python.\n" +
-                "Python has overtaken Java as the preferred programming language and is only second to SQL in usage today. \n" +
-                "Python is finding Increased adoption in numerical computations, machine learning and several data science applications.\n" +
-                "Python for data science requires data scientists to learn the usage of regular expressions, work with the scientific libraries and master the data visualization concepts.";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/articlewithimage.php";
@@ -834,7 +827,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -913,7 +906,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -973,7 +966,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         progressDialog = new ProgressDialog(this);
 
-        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -1066,7 +1059,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setCancelable(false);
 
-        builder.setMessage("New Version Available")
+        builder.setMessage(getString(R.string.update_your_app))
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

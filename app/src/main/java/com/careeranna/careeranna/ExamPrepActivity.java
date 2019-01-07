@@ -84,7 +84,7 @@ public class ExamPrepActivity extends AppCompatActivity {
     private void buyCourse() {
 
         mBuilder = new AlertDialog.Builder(this);
-        mBuilder.setTitle("Are You Sure You Want To Buy This Course");
+        mBuilder.setTitle("Are You Sure You Want To Buy This Course?");
         mBuilder.setCancelable(false);
         mBuilder.setMessage("Course Name : " + examPrep.getName() +" \n Price : "+ examPrep.getPrice() );
         mBuilder.setPositiveButton("Go To Cart", new DialogInterface.OnClickListener() {
