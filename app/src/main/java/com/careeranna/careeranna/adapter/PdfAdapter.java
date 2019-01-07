@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
@@ -54,12 +55,15 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView pdfText;
+        Button view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pdfText = itemView.findViewById(R.id.pdfText);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            view = itemView.findViewById(R.id.view);
+
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(mListener != null) {

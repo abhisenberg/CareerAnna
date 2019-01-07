@@ -309,13 +309,12 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     return;
                 }
 
-                frameLayout.setVisibility(View.VISIBLE);
-
                 menuToChoose = R.menu.add_cart;
                 invalidateOptionsMenu();
 
                 switch (position) {
                     case 0:
+                        frameLayout.setVisibility(View.GONE);
                         categoryFragment = new CategoryFragment();
                         categoryFragment.addSubCategory("1", "4", user.getUser_id());
 
@@ -331,6 +330,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         getSupportActionBar().setTitle("UPSC");
                     */
                     case 1:
+                        frameLayout.setVisibility(View.GONE);
                         categoryFragment = new CategoryFragment();
 
                         categoryFragment.addSubCategory("6", "6", user.getUser_id());
@@ -367,12 +367,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         openMyCoursesFragment();
             */
                     case 2:
+                        frameLayout.setVisibility(View.GONE);
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
                         getSupportActionBar().setTitle("My Courses");
 
                         break;
                     case 3:
+                        frameLayout.setVisibility(View.VISIBLE);
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         getSupportActionBar().setTitle("Explorer");
                         initializevideo();

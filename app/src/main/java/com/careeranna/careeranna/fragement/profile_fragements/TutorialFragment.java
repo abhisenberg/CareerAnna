@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,18 +45,17 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class TutorialFragment extends Fragment implements ExpandableList_Adapter.OnItemClickListener
-        , VideoPlayerEvents.OnFullscreenListener{
+        , VideoPlayerEvents.OnFullscreenListener {
 
     //    VideoView videoView;
     private JWPlayerView playerView;
 
-    String videoUrl;
+    CardView cardView;
 
     ExpandableListView listView;
     ExpandableList_Adapter listAdapter;
     ArrayList<Unit> mUnits;
 
-    ProgressDialog progressDialog;
 
     public TutorialFragment() {
     }
@@ -75,9 +75,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         TODO: Play from the last moment where the user left.
          */
 
-        String videoPath = "android.resource://com.careeranna.careeranna/"+R.raw.video;
-        Uri uri = Uri.parse(videoPath);
-        playVideo(uri.toString());
+        cardView = view.findViewById(R.id.card);
 
         listView = view.findViewById(R.id.expandableunit);
         return view;
@@ -86,35 +84,40 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
     public void addCourseUnits(ArrayList<String> course) {
 
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
-        Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
 
         mUnits = new ArrayList<>();
 
-        for (String unitsname : course) {
-            char c = unitsname.charAt(0);
-            if(c != '$') {
-                Unit unit = new Unit(unitsname, check);
-                mUnits.add(unit);
-            } else {
-                String array[] = unitsname.split(",url");
-                if(array.length == 1) {
-                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), ""));
-                } else {
-                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), array[1]));
-                }
-            }
+        if (course.get(0).equals("No results")) {
+            playerView.setVisibility(View.GONE);
+            cardView.setVisibility(View.VISIBLE);
+        } else {
 
-            if(!mUnits.isEmpty()) {
-                if(!mUnits.get(0).topics.isEmpty()) {
-                    if(!mUnits.get(0).topics.get(0).getVideos().equals("")) {
-                        playVideo(mUnits.get(0).topics.get(0).getVideos());
+            for (String unitsname : course) {
+                char c = unitsname.charAt(0);
+                if (c != '$') {
+                    Unit unit = new Unit(unitsname, check);
+                    mUnits.add(unit);
+                } else {
+                    String array[] = unitsname.split(",url");
+                    if (array.length == 1) {
+                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+                    } else {
+                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
                     }
                 }
-            }
 
-            listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
-            listView.setAdapter(listAdapter);
-            listAdapter.setOnItemClicklistener(this);
+                if (!mUnits.isEmpty()) {
+                    if (!mUnits.get(0).topics.isEmpty()) {
+                        if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+                            playVideo(mUnits.get(0).topics.get(0).getVideos());
+                        }
+                    }
+                }
+
+                listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
+                listView.setAdapter(listAdapter);
+                listAdapter.setOnItemClicklistener(this);
+            }
         }
     }
 
@@ -126,7 +129,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     }
 
-    private void playVideo(String videoUrl){
+    private void playVideo(String videoUrl) {
         PlaylistItem playlistItem = new PlaylistItem.Builder()
                 .file(videoUrl)
                 .build();
@@ -159,16 +162,16 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     @Override
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
-        if(fullscreenEvent.getFullscreen()){
+        if (fullscreenEvent.getFullscreen()) {
             //If fullscreen, remove the action bar
-            ((ParticularCourse)getActivity()).removeActionBar();
+            ((ParticularCourse) getActivity()).removeActionBar();
         } else {
             //If not fullscreen, show the action bar
-            ((ParticularCourse)getActivity()).showActionBar();
+            ((ParticularCourse) getActivity()).showActionBar();
         }
     }
 
-    public boolean isPlayerFullscreen(){
+    public boolean isPlayerFullscreen() {
         return playerView.getFullscreen();
     }
 

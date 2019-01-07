@@ -139,4 +139,7 @@
     <string name="loading_notes">Loading notes</string>
     <string name="network_error">Network error occured, please check your internet connection.</string>
     <string name="click_again_to_exit">Click again to exit</string>
+    <string name="oops_looks_like_we_don_t_have_any_notes_for_this_course_yet_check_back_soon">Sorry, Ebooks is not the part of this course! Check videos</string>
+    <string name="oops_looks_like_we_don_t_have_any_videos_for_this_course_yet_check_back_soon">Sorry, Videos is not the part of this course! Check ebooks</string>
+
 </resources>

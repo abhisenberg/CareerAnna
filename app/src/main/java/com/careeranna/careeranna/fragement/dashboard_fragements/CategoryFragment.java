@@ -3,6 +3,7 @@ package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,7 +33,9 @@ import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.SortByCourse;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
+import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
 import com.careeranna.careeranna.data.Course;
+import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.SubCategory;
 
@@ -46,9 +51,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
     ProgressDialog progressDialog;
 
-    Snackbar snackbar;
-
-    ProgressBar progressBar;
+    SearchView search;
 
     private ArrayList<String> names;
     private ArrayList<String> urls, ids1;
@@ -101,9 +104,39 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         names = new ArrayList<>();
         urls = new ArrayList<>();
+
+        closeKeyboard();
+
         temp = new ArrayList<>();
 
         courses = new ArrayList<>();
+
+        search = view.findViewById(R.id.search);
+
+        search.setSuggestionsAdapter(null);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                tempCourse = new ArrayList<>();
+                for(Course courseWithLessData: tempCourse) {
+                    if(courseWithLessData.getName().toLowerCase().contains(query)) {
+                        tempCourse.add(courseWithLessData);
+                    }
+                }
+
+                FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse, getApplicationContext());
+                recyclerView.setAdapter(freeCourseAdapter);
+
+                closeKeyboard();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+
 
         tempCourse = new ArrayList<>();
 
@@ -187,7 +220,6 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         );
 
         requestQueue.add(stringRequest);
-
 
         freeVideos = new ArrayList<>();
 
@@ -434,5 +466,14 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
 
     }
+
+    private void closeKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }
 
