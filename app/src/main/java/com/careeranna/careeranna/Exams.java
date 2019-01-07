@@ -60,7 +60,6 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
     TutorialFragment tutorialFragment;
     NotesFragment notesFragment;
     TestFragment testFragment;
-    CertificateFragment certificateFragment;
 
     User user;
 
@@ -117,7 +116,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
         setHeader();
 
-        getSupportActionBar().setTitle("Tutorial");
+        getSupportActionBar().setTitle("Videos");
         navigationView.setCheckedItem(R.id.tutorial);
 
         initializeFragement();
@@ -190,7 +189,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
             fetchUnit();
             navigationView.setCheckedItem(R.id.tutorial);
             fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
-            getSupportActionBar().setTitle("Tutorial");
+            getSupportActionBar().setTitle("Videos");
 
         } else if(id == R.id.notes) {
 
@@ -198,7 +197,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
             navigationView.setCheckedItem(R.id.notes);
             fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
-            getSupportActionBar().setTitle("Notes");
+            getSupportActionBar().setTitle("Ebooks");
 
         } else if(id == R.id.test) {
 
@@ -240,6 +239,8 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                 for(int i=0;i<jsonArray.length();i++) {
                                     course.add((String)jsonArray.get(i));
                                 }
+                            } else {
+                                course.add("No results");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -278,7 +279,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                 JSONObject jsonObject = new JSONObject(response);
                                 material = jsonObject.getString("material_file");
                                 if (!material.equals("null")) {
-                                    status = "Select Pdf from Below !";
+                                    status = "Select Pdf from Below ";
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

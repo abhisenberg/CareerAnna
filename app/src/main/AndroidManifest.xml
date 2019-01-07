@@ -59,6 +59,7 @@
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity android:name=".Pdf"
             android:label="Pdf View"
+            android:configChanges="orientation|screenSize|screenLayout"
             />
         <activity
             android:name=".activity.ParticularArticleActivity"
@@ -90,7 +91,8 @@
         <activity
             android:name=".activity.VideoWithComment"
             android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".Exams" />
+        <activity android:name=".Exams"
+            android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".activity.ExploreNotSignActivity"
             android:label="Explore" />

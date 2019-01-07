@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,21 +42,14 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 
     TextView heading;
 
+    CardView cardView;
+
     ArrayList<String> urls;
 
     RecyclerView recyclerView;
 
     String status;
     ArrayList<String> pdfs;
-
-    private String[] imageUrls = new String[] {
-            "https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/OK-512.png",
-            "https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/OK-512.png",
-            "https://3mxwfc45nzaf2hj9w92hd04y-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/inside-page-style-blank-3.jpg",
-            "https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/OK-512.png",
-            "https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/OK-512.png",
-            "https://3mxwfc45nzaf2hj9w92hd04y-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/inside-page-style-blank-3.jpg",
-    };
 
     public NotesFragment() {
         // Required empty public constructor
@@ -72,6 +66,8 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 
         recyclerView = view.findViewById(R.id.pdf_rv);
 
+        cardView = view.findViewById(R.id.card);
+
         return view;
     }
 
@@ -86,18 +82,26 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
             pdfs = new ArrayList<>();
 
             for(String string: urls) {
+                string = string.replaceAll("/\\d","");
+                string = string.replaceAll("/", " ");
+                string = string.replaceAll("_", " ");
+                int pos = string.indexOf(".");
+                string = string.substring(0, pos);
                 pdfs.add(string);
             }
 
             PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdfs);
             recyclerView.setAdapter(pdfAdapter);
             pdfAdapter.setOnItemClicklistener(this);
+            cardView.setVisibility(View.GONE);
+        } else {
+            cardView.setVisibility(View.VISIBLE);
         }
         heading.setText(status);
     }
 
     @Override
     public void onItemClick1(int position) {
-        startActivity(new Intent(getApplicationContext(), Pdf.class).putExtra("pdf",pdfs.get(position)));
+        startActivity(new Intent(getApplicationContext(), Pdf.class).putExtra("pdf",urls.get(position)));
     }
 }

@@ -18,7 +18,22 @@
             android:id="@+id/progress"
             />
 
+        <android.support.v7.widget.SearchView
+            android:textSize="14sp"
+            android:paddingRight="10dp"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search Your Course"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/search"
+            android:layout_marginTop="10dp"
+            android:layout_height="30dp" />
+
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10"
