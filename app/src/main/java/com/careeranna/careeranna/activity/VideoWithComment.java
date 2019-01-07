@@ -236,6 +236,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                         public void onResponse(String response) {
                             Log.d("url_response", "Register Response: " + response);
                             Toast.makeText(VideoWithComment.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            comment_tv.getText().clear();
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -305,6 +306,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                 .file(videoUrl)
                 .build();
         playerView.load(playlistItem);
+        playerView.play();
     }
 
 

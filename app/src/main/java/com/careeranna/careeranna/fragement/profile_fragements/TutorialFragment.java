@@ -134,6 +134,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 .file(videoUrl)
                 .build();
         playerView.load(playlistItem);
+        playerView.play();
     }
 
     @Override

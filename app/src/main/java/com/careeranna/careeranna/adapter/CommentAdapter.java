@@ -131,6 +131,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                         viewHolder.recyclerView.setAdapter(commentAdapter);
 
                         mListener.onItemClick1(i, viewHolder.editText.getText().toString());
+                        viewHolder.editText.getText().clear();
+
                     }
                 }
             }
