@@ -154,20 +154,20 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 if(promocode_edit_tv.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Please Enter A PromoCode ..." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.enter_promocode) , Toast.LENGTH_SHORT).show();
                     return;
                 } else {
 
                     if(!promoCodes.isEmpty()) {
                         for(PromoCode promoCode: promoCodes) {
                             if(promoCode.getCode_name().equals(promocode_edit_tv.getText().toString())) {
-                                Toast.makeText(getContext(), "PromoCode Already Applied ..." , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.promocode_already_applied) , Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
                     }
 
-                    snackbar = Snackbar.make(relativeLayout, "Please Wait Checking PromoCode ...", Snackbar.LENGTH_INDEFINITE);
+                    snackbar = Snackbar.make(relativeLayout, getString(R.string.promocode_checking), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
 
                     final String promocode =promocode_edit_tv.getText().toString();
@@ -182,7 +182,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                         Log.d("CartFragment", "promo_response : "+ response);
                                         JSONArray jsonArray = new JSONArray(response);
                                         if(jsonArray.length() == 0) {
-                                            Toast.makeText(getContext(), "Inalid PromoCode ..." , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), getString(R.string.promocode_invalid) , Toast.LENGTH_SHORT).show();
                                             return;
                                         } else {
                                                 JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -203,7 +203,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                             Log.d("PromoCodeWithId", orderedCourses.get(j).getCourse_id() + ", " + promoCode.getProduct_id());
                                             if(orderedCourses.get(j).getCourse_id().equals(promoCode.getProduct_id())) {
                                                 promoCodes.add(promoCode);
-                                                Toast.makeText(getContext(), "PromoCode Applied On " + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), getString(R.string.promocode_already_applied) + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
                                                 isApplied = true;
                                                 orderCourseAdapter.changePrice(j, promoCode.getDiscount_amount());
                                                 Float price_value = Float.valueOf(price.getText().toString());
@@ -213,7 +213,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                             }
                                         }
                                         if(!isApplied) {
-                                            Toast.makeText(getContext(), "Invalid PromoCode ... " , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), getString(R.string.promocode_invalid) , Toast.LENGTH_SHORT).show();
                                             return;
                                         }
                                     } catch (JSONException e) {
@@ -225,7 +225,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     snackbar.dismiss();
-                                    Toast.makeText(getContext(), "Something Went Wrong Please Try Again ..." , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }
@@ -290,7 +290,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                     dialog = new Dialog(getContext());
                     dialog.setContentView(R.layout.custom_payment_layout);
-                    dialog.setTitle("Pay Now ... ");
+                    dialog.setTitle(getString(R.string.pay_now));
 
                     Button paytm, payu;
 
@@ -369,7 +369,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
         mBuilder = new AlertDialog.Builder(getContext());
         mBuilder.setTitle("Course Deletion");
         mBuilder.setCancelable(false);
-        mBuilder.setMessage("Are you sure you want remove from cart ?");
+        mBuilder.setMessage(getString(R.string.course_delete_confirm));
         mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -390,7 +390,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                     cardNoCourseAdded.setVisibility(View.INVISIBLE);
                     cardTotalPriceCheckout.setVisibility(View.VISIBLE);
                 }
-                snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
+                snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
                 snackbar.show();
                 snackbar.setAction("Undo", new View.OnClickListener() {
                     @Override
@@ -455,7 +455,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
             }
-            snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
+            snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
             snackbar.show();
             snackbar.setAction("Undo", new View.OnClickListener() {
                 @Override
@@ -527,7 +527,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 cardTotalPriceCheckout.setVisibility(View.VISIBLE);
 
             }
-            Toast.makeText(getContext(), "Added To WishList", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.added_to_wishlist), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -27,8 +27,8 @@ public class ForgetDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.forgot_layout, null);
 
         builder.setView(view)
-                .setTitle("Forget Password Enter Regestered Email")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.forget_pw_enter_email))
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

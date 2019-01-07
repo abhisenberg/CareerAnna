@@ -48,7 +48,7 @@ public class Pdf extends AppCompatActivity {
         protected void onPreExecute() {
 
             progressDialog = new ProgressDialog(Pdf.this);
-            progressDialog.setMessage("Loading Just Give Us A Few Seconds ...");
+            progressDialog.setMessage(getString(R.string.loading_just_a_sec));
             progressDialog.show();
 
         }

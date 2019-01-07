@@ -111,13 +111,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
                     isLoading = true;
                     progressBar.setVisibility(View.VISIBLE);
-                    Snackbar.make(getActivity().findViewById(R.id.main_content), "Loading More Article", Snackbar.LENGTH_SHORT).show();
-                    final String desc = "Organizations of all sizes and Industries, be it a financial institution or a small big data start up, everyone is using Python for their business.\n" +
-                            "Python is among the popular data science programming languages not only in Big data companies but also in the tech start up crowd. Around 46% of data scientists use Python.\n" +
-                            "Python has overtaken Java as the preferred programming language and is only second to SQL in usage today. \n" +
-                            "Python is finding Increased adoption in numerical computations, machine learning and several data science applications.\n" +
-                            "Python for data science requires data scientists to learn the usage of regular expressions, work with the scientific libraries and master the data visualization concepts.";
-
+                    Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.loading_more_articles), Snackbar.LENGTH_SHORT).show();
                     RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                     String url = "https://careeranna.com/api/articlewithimage.php?pageno="+page;
                     page += 1;
@@ -136,7 +130,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                                                     "https://www.careeranna.com/articles/wp-content/uploads/"+Articles.getString("meta_value").replace("\\",""),
                                                     Articles.getString("display_name"),
                                                     "CAT",
-                                                    desc,
+                                                    "",
                                                     Articles.getString("post_date")));
                                         }
                                     } catch (JSONException e) {

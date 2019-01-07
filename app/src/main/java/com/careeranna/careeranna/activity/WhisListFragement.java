@@ -190,7 +190,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
         mBuilder = new AlertDialog.Builder(getContext());
         mBuilder.setTitle("Course Deletion");
         mBuilder.setCancelable(false);
-        mBuilder.setMessage("Are you sure you want remove from cart ?");
+        mBuilder.setMessage(getString(R.string.course_delete_confirm));
         mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -209,7 +209,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
 
                     cardView.setVisibility(View.INVISIBLE);
                 }
-                snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
+                snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
                 snackbar.show();
                 snackbar.setAction("Undo", new View.OnClickListener() {
                     @Override
@@ -270,7 +270,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
 
 
             }
-            snackbar = Snackbar.make(linearLayout, "Item Removed !! ", Snackbar.LENGTH_SHORT);
+            snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
             snackbar.show();
             snackbar.setAction("Undo", new View.OnClickListener() {
                 @Override
@@ -342,7 +342,7 @@ public class WhisListFragement extends Fragment implements WishListAdapter.OnIte
                 cardView.setVisibility(View.INVISIBLE);
 
             }
-            Toast.makeText(getContext(), "Added To Cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.added_to_cart), Toast.LENGTH_SHORT).show();
         }
     }
 }

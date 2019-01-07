@@ -41,9 +41,9 @@ public class SlideAdapter extends PagerAdapter {
         };
 
         list_sub = new String[] {
-                "10 Languages. 1 Platform",
-                "On Demand Videos by Top Educators",
-                "Ask Anything You Need to Know"
+                context.getString(R.string.intro_subhead_1),
+                context.getString(R.string.intro_subhead_2),
+                context.getString(R.string.intro_subhead_3)
         };
 
         list_images = new int[] {

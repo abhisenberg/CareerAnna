@@ -72,12 +72,12 @@ public class PasswordReset extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(code.equals(verificationCode.getText().toString())) {
-                    Snackbar.make(relativeLayout, "Code Correct", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(relativeLayout, getString(R.string.security_code_match), Snackbar.LENGTH_SHORT).show();
                     newPassword.setEnabled(true);
                     sendNewPassword.setEnabled(true);
                     confirmPassword.setEnabled(true);
                 } else {
-                    Snackbar.make(relativeLayout, "Code InCorrect", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(relativeLayout, getString(R.string.security_code_not_match), Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,7 +98,7 @@ public class PasswordReset extends AppCompatActivity {
                 String password = newPassword.getEditText().getText().toString();
                 if(s.length()>0 && password.length()>0) {
                     if(!s.equals(password)) {
-                        Snackbar.make(relativeLayout, "Password Does Not Match !", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(relativeLayout, getString(R.string.pw_not_match), Snackbar.LENGTH_SHORT).show();
                     }
                 }
 
@@ -114,10 +114,10 @@ public class PasswordReset extends AppCompatActivity {
                 } else if (pass.length() < 8) {
                     Snackbar.make(relativeLayout, "Password Length Should Be Greater Than 7", Snackbar.LENGTH_SHORT).show();
                 } else if (pass.equals(confirmPassword.getEditText().getText())) {
-                    confirmPassword.setError("Password Does Not Match !");
-                    Snackbar.make(relativeLayout, "Password Does Not Match", Snackbar.LENGTH_SHORT).show();
+                    confirmPassword.setError(getString(R.string.pw_not_match));
+                    Snackbar.make(relativeLayout, getString(R.string.pw_not_match), Snackbar.LENGTH_SHORT).show();
                 }else {
-                    snackbar = Snackbar.make(relativeLayout, "Changing Password Please Wait", Snackbar.LENGTH_INDEFINITE);
+                    snackbar = Snackbar.make(relativeLayout, "Changing password, please wait...", Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
                     progressBar.setVisibility(View.VISIBLE);
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -135,7 +135,7 @@ public class PasswordReset extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            snackbar = Snackbar.make(relativeLayout, "Something Went Wrong! Please Try Again", Snackbar.LENGTH_SHORT);
+                            snackbar = Snackbar.make(relativeLayout, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT);
                             snackbar.show();
                         }
                     }) {
