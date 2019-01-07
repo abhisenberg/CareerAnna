@@ -18,29 +18,31 @@
             android:id="@+id/progress"
             />
 
-        <android.support.v7.widget.SearchView
-            android:textSize="14sp"
-            android:paddingRight="10dp"
-            app:iconifiedByDefault="false"
-            app:queryHint="Search Your Course"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/search"
-            android:layout_marginTop="10dp"
-            android:layout_height="30dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_below="@id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
             android:id="@+id/linear"
             >
 
+            <android.support.v7.widget.SearchView
+                android:textSize="14sp"
+                android:paddingRight="10dp"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search Your Course"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_toLeftOf="@id/filterSub"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/search"
+                android:layout_marginTop="10dp"
+                android:layout_height="30dp" />
+
             <Button
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="40dp"
@@ -54,17 +56,19 @@
 
             <Button
                 android:id="@+id/filterSub"
-                android:layout_width="0dp"
-                android:layout_weight="5"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="Filter"
-                android:paddingLeft="50dp"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:textSize="12sp"
                 android:background="@drawable/border"
                 android:drawableLeft="@drawable/ic_filter_list_black_24dp"
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <android.support.v7.widget.CardView

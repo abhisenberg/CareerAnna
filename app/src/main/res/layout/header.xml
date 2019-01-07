@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/nav_view1"
-    android:background="#cfc8c8"
+    android:background="#dad4d4"
     android:layout_height="160dp">
 
     <RelativeLayout
