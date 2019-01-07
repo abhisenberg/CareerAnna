@@ -123,7 +123,7 @@
     <string name="forget_pw_enter_email">Please enter your registered email address</string>
     <string name="loading_premium_courses">Loading Premium courses, please wait... </string>
     <string name="loading_free_courses">Loading free courses, please wait... </string>
-    <string name="loading_just_a_sec">Just a sec...</string>
+    <string name="loading_just_a_sec">Loading, just give us a few seconds...</string>
     <string name="update_your_app">New version is up! Update to get new features and latest courses!</string>
     <string name="added_to_cart">Successfully added to cart!</string>
     <string name="please_wait">Please wait...</string>

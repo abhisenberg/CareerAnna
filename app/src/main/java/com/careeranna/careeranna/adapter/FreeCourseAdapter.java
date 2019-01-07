@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,13 +50,39 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+        viewHolder.name.setText(freeVideos.get(i).getName());
+
 //        TODO: Change the dummy thumbnails
+        /*
+        Setting the thumbnails of the courses according to their names.
+         */
+        String[] thumbnail_URLs = {
+                "https://www.careeranna.com/uploads/thumbnail_images/CAT01.jpg",
+                "https://www.careeranna.com/uploads/thumbnail_images/XAT_02.jpg",
+                "https://www.careeranna.com/uploads/thumbnail_images/TISSNET.jpg",
+                "https://www.careeranna.com/uploads/thumbnail_images/SNAP.jpg",
+                "https://www.careeranna.com/uploads/thumbnail_images/MICAT.jpg"
+        };
+
+        String courseName = freeVideos.get(i).getName();
+        String courseThumbnailURL = freeVideos.get(i).getImageUrl();
+
+        if(courseName.contains("CAT")){
+            courseThumbnailURL = thumbnail_URLs[0];
+        } else if (courseName.contains("XAT")){
+            courseThumbnailURL = thumbnail_URLs[1];
+        } else if (courseName.contains("TISSNET")){
+            courseThumbnailURL = thumbnail_URLs[2];
+        } else if (courseName.contains("SNAP")){
+            courseThumbnailURL = thumbnail_URLs[3];
+        } else if (courseName.contains("MICAT")){
+            courseThumbnailURL = thumbnail_URLs[4];
+        }
+
         Glide
                 .with(mContext)
-                .load(mContext.getResources().getDrawable(R.drawable.sample_xat_up))
+                .load(Uri.parse(courseThumbnailURL))
                 .into(viewHolder.imageView);
-
-        viewHolder.name.setText(freeVideos.get(i).getName());
     }
 
     @Override
