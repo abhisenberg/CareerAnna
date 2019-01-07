@@ -22,7 +22,7 @@
         app:itemIconTint="@color/colorPrimary"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        app:menu="@menu/partcular_course" >
+        app:menu="@menu/particular_exams" >
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

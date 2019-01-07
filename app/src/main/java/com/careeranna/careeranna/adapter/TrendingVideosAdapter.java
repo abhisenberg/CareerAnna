@@ -37,17 +37,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
         viewHolder.title.setText(freeVideos.get(i).getTitle());
         viewHolder.views.setText(freeVideos.get(i).getTotal_view()+" views");
         Log.i("length", freeVideos.get(i).getDuration().length()+"");
-        if(freeVideos.get(i).getDuration().length() == 4) {
-            viewHolder.duration.setText(freeVideos.get(i).getDuration()+"0");
-        } else if(freeVideos.get(i).getDuration().length() == 3) {
-            viewHolder.duration.setText(freeVideos.get(i).getDuration()+"00");
-        } else if(freeVideos.get(i).getDuration().length() == 2) {
-            viewHolder.duration.setText(freeVideos.get(i).getDuration()+".00");
-        } else  if(freeVideos.get(i).getDuration().length() == 1) {
-            viewHolder.duration.setText("0"+freeVideos.get(i).getDuration()+".00");
-        } else{
             viewHolder.duration.setText(freeVideos.get(i).getDuration());
-        }
         if(freeVideos.get(i).getTags() != null) {
             if (!freeVideos.get(i).getTags().equals("null")) {
                 viewHolder.tags.setText(freeVideos.get(i).getTags());

@@ -100,4 +100,7 @@
     <string name="largest_platform_to_learn_and_share_knowledge_n_in_indian_languages">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages</string>
 
     <string name="no_course_added">Looks like you haven\'t added any courses yet!</string>
+    <string name="oops_looks_like_we_don_t_have_any_notes_for_this_course_yet_check_back_soon">Sorry, Ebooks is not the part of this course! Check videos</string>
+    <string name="oops_looks_like_we_don_t_have_any_videos_for_this_course_yet_check_back_soon">Sorry, Videos is not the part of this course! Check ebooks</string>
+
 </resources>

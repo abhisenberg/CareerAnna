@@ -7,27 +7,58 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:layout_height="match_parent">
     <TextView
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:text="Select Notes From Below "
         android:textColor="@color/colorPrimary"
         style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/weekText"
-        />
+        android:layout_marginTop="10dp"
+        android:id="@+id/weekText" />
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/pdf_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/weekText"
-            android:layout_marginBottom="20dp"
             />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:elevation="10dp"
+            android:id="@+id/card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/oops_looks_like_we_don_t_have_any_notes_for_this_course_yet_check_back_soon"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_sad_face"
+                    android:layout_marginTop="10dp"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
     </RelativeLayout>
 </FrameLayout>
