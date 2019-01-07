@@ -28,9 +28,6 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
     Button cancel, apply;
 
-    CheckBox free, paid;
-
-    Boolean free1, paid1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,28 +47,11 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
         subCategoryAdapter.setOnItemClicklistener(this);
         recyclerView.setAdapter(subCategoryAdapter);
 
-        free = findViewById(R.id.free);
-
-        paid = findViewById(R.id.paid);
 
         apply = findViewById(R.id.apply);
 
         cancel = findViewById(R.id.cancel);
 
-        free.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                free1 = isChecked;
-            }
-        });
-
-
-        paid.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                paid1 = isChecked;
-            }
-        });
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +59,6 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
                 Intent intent = new Intent();
                 intent.putExtra("category", chosenSub);
-                intent.putExtra("free", free1);
-                intent.putExtra("paid", paid1);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -93,7 +71,7 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
                 chosenSub.clear();
                 Intent intent = new Intent();
                 intent.putExtra("category", chosenSub);
-                setResult(Activity.RESULT_OK, intent);
+                setResult(Activity.RESULT_CANCELED, intent);
                 finish();
 
             }
@@ -102,8 +80,8 @@ public class FilterOfCategory extends AppCompatActivity implements SubCategoryAd
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, subCategories.get(position).getEXAM_NAME(), Toast.LENGTH_SHORT).show();
 
+        Toast.makeText(this, subCategories.get(position).getEXAM_NAME(), Toast.LENGTH_SHORT).show();
         chosenSub.add(subCategories.get(position));
 
     }
