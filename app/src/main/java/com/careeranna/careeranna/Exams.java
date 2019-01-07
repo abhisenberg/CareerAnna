@@ -264,33 +264,35 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://careeranna.com/apicoursePdf.php?id="+id;
+        String url = "https://careeranna.com/api/coursePdf.php?id="+id;
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String status = "No pdf";
-                        try {
-                            Log.i("pdf", response);
-                            JSONObject jsonObject = new JSONObject(response);
-                            material = jsonObject.getString("material_file");
-                            if(!material.equals("null")) {
-                                status = "Select Pdf from Below !";
+                        if(!response.equals("No results")) {
+                            String status = "No pdf";
+                            try {
+                                Log.i("pdf", response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                material = jsonObject.getString("material_file");
+                                if (!material.equals("null")) {
+                                    status = "Select Pdf from Below !";
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                material = "No Pdf";
+                                status = "No Pdf";
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            material = "No Pdf";
-                            status = "No Pdf";
+                            progressDialog.dismiss();
+                            ArrayList<String> pdfs = new ArrayList<>();
+                            String[] pdfs1 = material.split(",");
+                            for (String pdf : pdfs1) {
+                                pdfs.add(pdf);
+                            }
+                            notesFragment.addPdf(pdfs, status);
                         }
-                        progressDialog.dismiss();
-                        ArrayList<String> pdfs = new ArrayList<>();
-                        String[] pdfs1 = material.split(",");
-                        for(String pdf : pdfs1) {
-                            pdfs.add(pdf);
-                        }
-                        notesFragment.addPdf(pdfs, status);
                     }
                 }, new Response.ErrorListener() {
             @Override

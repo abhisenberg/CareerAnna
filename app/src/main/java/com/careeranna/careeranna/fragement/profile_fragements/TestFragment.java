@@ -33,12 +33,6 @@ public class TestFragment extends Fragment {
 
     RecyclerViewTopAdapter recyclerViewTopAdapter;
 
-    private String[] imageUrls = new String[] {
-            "https://4.bp.blogspot.com/-qf3t5bKLvUE/WfwT-s2IHmI/AAAAAAAABJE/RTy60uoIDCoVYzaRd4GtxCeXrj1zAwVAQCLcBGAs/s1600/Machine-Learning.png",
-            "https://cdn-images-1.medium.com/max/2000/1*SSutxOFoBUaUmgeNWAPeBA.jpeg",
-            "https://www.digitalvidya.com/wp-content/uploads/2016/02/Master_Digital_marketng-1170x630.jpg"
-    };
-
     public TestFragment() {
     }
 
@@ -48,7 +42,6 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_test, container, false);
 
-        initializeCourse();
 
         return view;
 
@@ -63,24 +56,6 @@ public class TestFragment extends Fragment {
                 "Python for data science requires data scientists to learn the usage of regular expressions, work with the scientific libraries and master the data visualization concepts.";
 
         courses = new ArrayList<>();
-        courses.add(new Course("1",  "Machine Learning", imageUrls[0], "1", "6999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("2",  "Python", imageUrls[1], "2", "4999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("3",  "Marketing", imageUrls[2], "3", "5999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("4",  "Machine Learning", imageUrls[0], "4", "6999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("5",  "Python", imageUrls[1], "5", "3999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("6",  "Marketing", imageUrls[2], "1", "7999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("7",  "Machine Learning", imageUrls[0], "2", "8999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("8",  "Python", imageUrls[1], "2", "3999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
-        courses.add(new Course("8",  "Marketing", imageUrls[2], "1", "4999",
-                desc, "android.resource://com.careeranna.careeranna/"+R.raw.video));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
         recyclerViewCourses.setLayoutManager(linearLayoutManager);

@@ -144,9 +144,8 @@
                 </LinearLayout>
 
                 <TextView
-                    android:layout_marginTop="2dp"
-                    android:textStyle="italic"
                     android:visibility="gone"
+                    android:textStyle="italic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
@@ -161,6 +160,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:weightSum="10">
 
             <Button

@@ -54,12 +54,6 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     SearchView search;
     private ArrayList<CourseWithLessData> course, tempCourse;
 
-    private String[] imageUrls = new String[] {
-            "https://4.bp.blogspot.com/-qf3t5bKLvUE/WfwT-s2IHmI/AAAAAAAABJE/RTy60uoIDCoVYzaRd4GtxCeXrj1zAwVAQCLcBGAs/s1600/Machine-Learning.png",
-            "https://cdn-images-1.medium.com/max/2000/1*SSutxOFoBUaUmgeNWAPeBA.jpeg",
-            "https://www.digitalvidya.com/wp-content/uploads/2016/02/Master_Digital_marketng-1170x630.jpg"
-    };
-
     RecyclerViewPager mRecyclerView;
 
     public MyCoursesFragment() {
@@ -69,13 +63,13 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     public void add(ArrayList<CourseWithLessData> course) {
 
         this.course = course;
-        this.tempCourse = tempCourse;
+        this.tempCourse = course;
 
         if(course.size() == 0) {
             cardView.setVisibility(View.VISIBLE);
         }
 
-        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), course);
+        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
         mRecyclerView.setAdapter(myCoursesAdapterNew);
 
         mRecyclerView.setFlingFactor(0.1f);
@@ -219,15 +213,15 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         if(course.get(position).getCategory_id().equals("15")) {
             Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
-            intent.putExtra("course_name", course.get(position).getCourse_name());
-            intent.putExtra("course_ids", course.get(position).getCourse_ID());
-            intent.putExtra("course_image", course.get(position).getCourse_imageURL());
+            intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
+            intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
+            intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
             getContext().startActivity(intent);
         } else {
             Intent intent = new Intent(getApplicationContext(), Exams.class);
-            intent.putExtra("course_name", course.get(position).getCourse_name());
-            intent.putExtra("course_ids", course.get(position).getCourse_ID());
-            intent.putExtra("course_image", course.get(position).getCourse_imageURL());
+            intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
+            intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
+            intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
             getContext().startActivity(intent);
 
         }

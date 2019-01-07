@@ -22,6 +22,17 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
         this.mPdfs = mPdfs;
     }
 
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick1(int position);
+    }
+
+    public void setOnItemClicklistener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -47,6 +58,19 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pdfText = itemView.findViewById(R.id.pdfText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick1(position);
+                        }
+                    }
+                }
+            });
         }
     }
+
 }
