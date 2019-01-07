@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ExpandableListAdapterForNestedScroll;
+import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.OrderedCourse;
@@ -61,6 +62,7 @@ import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -506,24 +508,43 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
         ArrayList<Unit> mUnits = new ArrayList<>();
 
+//        for (String unitsname : course) {
+//            char c = unitsname.charAt(0);
+//            if(c != '$') {
+//                Unit unit = new Unit(unitsname, check);
+//                mUnits.add(unit);
+//            } else {
+//                String array[] = unitsname.split(",url");
+//                if(array.length == 1) {
+//                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), ""));
+//                } else {
+//                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), array[1]));
+//                }
+//            }
+//
+//            listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
+//            expandableListView.setAdapter(listAdapter);
+//        }
+//        Log.d(TAG, "addCourseUnits: units size: "+mUnits.size());
+
         for (String unitsname : course) {
             char c = unitsname.charAt(0);
-            if(c != '$') {
+            if (c != '$') {
                 Unit unit = new Unit(unitsname, check);
                 mUnits.add(unit);
             } else {
                 String array[] = unitsname.split(",url");
-                if(array.length == 1) {
-                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), ""));
+                if (array.length == 1) {
+                    mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
                 } else {
-                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), array[1]));
+                    mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
                 }
             }
 
             listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
             expandableListView.setAdapter(listAdapter);
         }
-        Log.d(TAG, "addCourseUnits: units size: "+mUnits.size());
+
     }
 
     public void paidCourseCheckout(final String price){
