@@ -198,7 +198,7 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "CourseFetchError: "+error.networkResponse);
 //                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(MyProfile_2.this, "Network error occured!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyProfile_2.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {

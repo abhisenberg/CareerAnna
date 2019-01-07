@@ -164,7 +164,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Sub Category Please Wait ... ");
+        progressDialog.setMessage(getString(R.string.loading_subcategory));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -240,7 +240,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Courses Please Wait ... ");
+        progressDialog.setMessage(getString(R.string.loading_courses));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -403,7 +403,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Your Courses Please Wait ... ");
+        progressDialog.setMessage(getString(R.string.loading_your_courses));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -447,10 +447,10 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                 if(id.equals(tempCourse.get(position).getId())) {
 
                     builder = new android.app.AlertDialog.Builder(getContext());
-                    builder.setTitle("Already Purchased");
+                    builder.setTitle("Already purchased");
                     builder.setIcon(R.mipmap.ic_launcher);
                     builder.setCancelable(false);
-                    builder.setMessage("You Have Already Pruchase This Course")
+                    builder.setMessage("You have already purchased this course!")
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

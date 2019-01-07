@@ -22,10 +22,11 @@
 
 
             <ImageView
-                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
                 android:layout_height="140dp"
+                android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
-                android:scaleType="fitXY"
                 android:id="@+id/image"
                 android:src="@drawable/helper_overlay"
                 />

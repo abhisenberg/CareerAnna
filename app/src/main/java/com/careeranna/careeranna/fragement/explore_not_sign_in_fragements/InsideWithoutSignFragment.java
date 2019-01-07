@@ -402,7 +402,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Paid Courses Please Wait ... ");
+        progressDialog.setMessage(getString(R.string.loading_premium_courses));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -473,7 +473,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Free Courses Please Wait ... ");
+        progressDialog.setMessage(getString(R.string.loading_free_courses));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -558,7 +558,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage("Loading Just Give Us A Few Seconds ... ");
+        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
         progressDialog.show();
 
         progressDialog.setCancelable(false);
@@ -601,7 +601,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
                         progressDialog = new ProgressDialog(getContext());
 
-                        progressDialog.setMessage("Loading Just Give Us Few Seconds ... ");
+                        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
                         progressDialog.show();
 
                         progressDialog.setCancelable(false);

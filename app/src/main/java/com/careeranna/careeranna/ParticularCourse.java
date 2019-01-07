@@ -257,7 +257,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ParticularCourse.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ParticularCourse.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
@@ -267,7 +267,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
     private void fetchPdf() {
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading Materilal .. ");
+        progressDialog.setMessage(getString(R.string.loading_notes));
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -302,7 +302,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ParticularCourse.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ParticularCourse.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });

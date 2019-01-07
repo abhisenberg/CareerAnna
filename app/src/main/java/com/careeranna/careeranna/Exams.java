@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,10 +149,19 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         userName = headerView.findViewById(R.id.navUsername);
         userEmail = headerView.findViewById(R.id.navUseremail);
 
-        Glide.with(this).load(profile_pic_url).into(profile);
+        /*
+        If there is no image url provided, then write the initial letter of the username
+         */
+        TextView initialAlphabet = headerView.findViewById(R.id.nav_username_initial);
+        if (!profile_pic_url.isEmpty()) {
+            Glide.with(this).load(profile_pic_url).into(profile);
+            initialAlphabet.setVisibility(View.INVISIBLE);
+        } else {
+            initialAlphabet.setVisibility(View.VISIBLE);
+            initialAlphabet.setText(mUsername.substring(0, 1));
+        }
         userName.setText(mUsername);
         userEmail.setText(mEmail);
-
     }
 
     @Override

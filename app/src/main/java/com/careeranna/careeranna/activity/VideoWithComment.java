@@ -219,7 +219,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(VideoWithComment.this, "Something Went Wrong .. ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VideoWithComment.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -240,7 +240,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(VideoWithComment.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VideoWithComment.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         @Override
@@ -357,7 +357,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(VideoWithComment.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VideoWithComment.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

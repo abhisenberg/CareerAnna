@@ -295,7 +295,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
     }
 
     private void signIn() {
-        snackbar = Snackbar.make(relativeLayout, "Please Wait...", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(relativeLayout, getString(R.string.please_wait), Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
 //        VISIBLING 3
         Log.d(TAG, "visi 3");
@@ -322,7 +322,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
                 snackbar.dismiss();
-                snackbar = Snackbar.make(relativeLayout, "Successful sign in Fetching Details...", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(relativeLayout, getString(R.string.fetching_your_details), Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
 //
                 Log.d(TAG, "onActivityResult: Successful sign in");
@@ -351,7 +351,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SignUp1", "signInWithCredential:success");
                             snackbar.dismiss();
-                            snackbar = Snackbar.make(relativeLayout, "Successful sign In WithCredential", Snackbar.LENGTH_INDEFINITE);
+                            snackbar = Snackbar.make(relativeLayout, getString(R.string.successfully_signing_in), Snackbar.LENGTH_INDEFINITE);
                             snackbar.show();
 //
                             FirebaseUser user = mAuth.getCurrentUser();
@@ -360,7 +360,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                             // If sign in fails, display a message to the user.
 
                             snackbar.dismiss();
-                            snackbar = Snackbar.make(relativeLayout, "USer auth failed!", Snackbar.LENGTH_INDEFINITE);
+                            snackbar = Snackbar.make(relativeLayout, getString(R.string.failed_signing_in), Snackbar.LENGTH_INDEFINITE);
                             snackbar.show();
                             Log.w("SignUp1", "signInWithCredential:failure", task.getException());
                             updateUI(null);
@@ -463,7 +463,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    snackbar = Snackbar.make(relativeLayout, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
+                    snackbar = Snackbar.make(relativeLayout, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                     frame_dimmer.setVisibility(View.INVISIBLE);
                 }
@@ -503,7 +503,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             @Override
             public void onResponse(String response) {
                 Log.i("url_respon", response.toString());
-                if(response.toString().equals("No User Exists Please Sign Up !")) {
+                if(response.toString().equals(getString(R.string.no_user_exists))) {
                     snackbar = Snackbar.make(relativeLayout, response.toString(), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 } else {
@@ -516,7 +516,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                snackbar = Snackbar.make(relativeLayout, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
+                snackbar = Snackbar.make(relativeLayout, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
         }) {
@@ -549,7 +549,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
                     user.setUser_photo(userObject.getString("img_url_app"));
                     user.setUser_email(userObject.getString("USER_EMAIL"));
                     Paper.book().write("user", new Gson().toJson(user));
-                    snackbar = Snackbar.make(relativeLayout, "Sign In As " + user.getUser_username(), Snackbar.LENGTH_SHORT);
+                    snackbar = Snackbar.make(relativeLayout, "Signed in as " + user.getUser_username(), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                     startActivity(new Intent(SignUp.this, MyCourses.class));
                 } catch (JSONException e) {
@@ -563,7 +563,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                snackbar = Snackbar.make(relativeLayout, "Something ", Snackbar.LENGTH_SHORT);
+                snackbar = Snackbar.make(relativeLayout, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT);
                 snackbar.show();
 //                INVISIBLING 4
                 Log.d(TAG, "invi 4");

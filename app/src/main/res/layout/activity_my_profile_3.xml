@@ -80,7 +80,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_below="@id/mProfile_3_appBarLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="10dp"
         android:layout_above="@id/bt_userp_profile_signout_3"
         android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
