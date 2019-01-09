@@ -1212,7 +1212,10 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("exam_id"),
                                         Category.getString("discount")
                                         , "",
-                                        Category.getString("video_url").replace("\\", "")));
+                                        Category.getString("video_url").replace("\\", ""),
+                                        "Paid",
+                                        Category.getString("price")
+                                ));
                                 coursesForExplore.get(i).setType("Paid");
                             }
                         } catch (JSONException e) {

@@ -140,9 +140,9 @@ public class MyExamPrepActivity extends AppCompatActivity {
     private void buyCourse() {
 
         mBuilder = new AlertDialog.Builder(this);
-        mBuilder.setTitle("Are You Sure You Want To Buy This Course");
+        mBuilder.setTitle("Are You Sure You Want To Buy This Course?");
         mBuilder.setCancelable(false);
-        mBuilder.setMessage("Course Name : " + course.getName() +" \n Price : "+ course.getPrice() );
+        mBuilder.setMessage("Course Name : " + course.getName() +" \n Price : ₹"+ course.getPrice() );
         mBuilder.setPositiveButton("Go To Cart", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
