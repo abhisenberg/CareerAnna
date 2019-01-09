@@ -92,6 +92,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     AppBarLayout appBarLayout;
 
+
     ArrayList<OrderedCourse> orderedCourse;
 
     OrderedList orderedList;
@@ -151,6 +152,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         expandableListView = findViewById(R.id.purchaseCourse_expandableUnit);
         progressBar = findViewById(R.id.progress_bar_course);
 //        price = findViewById(R.id.course_price);
+
 //        playerView =  findViewById(R.id.playerView);
 //        description = findViewById(R.id.course_description);
         addTocart = findViewById(R.id.btn_cart);
@@ -225,10 +227,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 alert.show();
 
             }
-        }
 
 //        playerView.addOnFullscreenListener(this);
 //        new KeepScreenOnHandler(playerView, getWindow());
+        }
 
         setCourseViews();
 
@@ -307,6 +309,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         return m1.replaceAll("");
     }
 
+
     @Override
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
         if(fullscreenEvent.getFullscreen()){
@@ -315,6 +318,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             //If not fullscreen, show action bar
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -338,6 +342,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         super.onConfigurationChanged(newConfig);
     }
 
+
     @Override
     protected void onPause() {
 //        playerView.onPause();
@@ -357,6 +362,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //        else
 //            super.onBackPressed();
         super.onBackPressed();
+
     }
 
     private void buyCourse() {
@@ -579,10 +585,25 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
 
+            if (!mUnits.isEmpty()) {
+                if (!mUnits.get(0).topics.isEmpty()) {
+                    if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+                        playVideo(mUnits.get(0).topics.get(0).getVideos());
+                    }
+                }
+            }
             listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
             expandableListView.setAdapter(listAdapter);
         }
 
+    }
+
+    private void playVideo(String videoUrl) {
+        PlaylistItem playlistItem = new PlaylistItem.Builder()
+                .file(videoUrl)
+                .build();
+        playerView.load(playlistItem);
+        playerView.play();
     }
 
     public void paidCourseCheckout(final String price){
@@ -604,7 +625,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         paytm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PaytmPayment.class);
+                Intent intent = new Intent(PurchaseCourseDetail.this, PaytmPayment.class);
                 intent.putExtra("price", price);
                 startActivity(intent);
             }
@@ -613,7 +634,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         payu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Payment.class);
+                Intent intent = new Intent(PurchaseCourseDetail.this, Payment.class);
                 intent.putExtra("price", price);
                 startActivity(intent);
             }

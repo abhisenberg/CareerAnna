@@ -51,6 +51,7 @@ import com.careeranna.careeranna.BuildConfig;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.fragement.NoInternetFragement;
 import com.careeranna.careeranna.fragement.dashboard_fragements.CartFragment;
 import com.careeranna.careeranna.InstructorsListActivity;
 import com.careeranna.careeranna.R;
@@ -91,7 +92,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragement.OnFragemntClickListener {
 
     public static final String TAG = "MyCourses";
 
@@ -103,6 +104,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     RelativeLayout relativeLayout;
 
     Menu menu;
+
+    int fragement_id;
 
     LinearLayout linearLayout;
 
@@ -119,6 +122,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     ExploreNew exploreNew;
     MyCoursesFragment myCoursesFragement;
+    NoInternetFragement noInternetFragement;
     ArticlesFragment myArticleFragment;
     CategoryFragment categoryFragment;
 
@@ -240,6 +244,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         linearLayout = findViewById(R.id.sliderDots);
         frameLayout = findViewById(R.id.pager);
 
+        noInternetFragement = new NoInternetFragement();
+        noInternetFragement.setOnFragementClicklistener(this);
+
         relativeLayout = findViewById(R.id.relative_loading);
 
 
@@ -283,10 +290,14 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (!amIConnect()) {
-
+/*
                     InternetDialog internetDialog = new InternetDialog();
-                    internetDialog.showDialog(MyCourses.this, "none");
+                    internetDialog.showDialog(MyCourses.this, "none");*/
 
+                    fragement_id = position;
+
+                    frameLayout.setVisibility(View.GONE);
+                    fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
 
                     String cart = Paper.book().read("cart");
 
@@ -1276,5 +1287,105 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         requestQueue1.add(stringRequest1);
     }
 
+    @Override
+    public void onItemClick1() {
+        switch (fragement_id) {
+            case 0:
+                frameLayout.setVisibility(View.GONE);
+                categoryFragment = new CategoryFragment();
+                categoryFragment.addSubCategory("1", "4", user.getUser_id());
+
+                fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                getSupportActionBar().setTitle("MBA");
+                break;
+                    /*case 1:
+                        categoryFragment = new CategoryFragment();
+
+                        categoryFragment.addSubCategory("2", user.getUser_id());
+
+                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                        getSupportActionBar().setTitle("UPSC");
+                    */
+            case 1:
+                frameLayout.setVisibility(View.GONE);
+                categoryFragment = new CategoryFragment();
+
+                categoryFragment.addSubCategory("6", "6", user.getUser_id());
+
+                fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                getSupportActionBar().setTitle("General Knowledge");
+                break;
+
+          /*          case 3:
+                        categoryFragment = new CategoryFragment();
+                        categoryFragment.addSubCategory("13", user.getUser_id());
+
+                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                        getSupportActionBar().setTitle("Finance");
+                        break;
+          *//*          case 4:
+                        categoryFragment = new CategoryFragment();
+                        categoryFragment.addSubCategory("14", user.getUser_id());
+
+                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                        navigationView.setCheckedItem(R.id.marketing);
+                        getSupportActionBar().setTitle("Marketing");
+                        break;
+
+                    case 3:
+                        categoryFragment = new CategoryFragment();
+                        categoryFragment.addSubCategory("15", user.getUser_id());
+
+                        fragmentManager.beginTransaction().replace(R.id.main_content, categoryFragment).commit();
+                        getSupportActionBar().setTitle("Certificate Courses");
+                        break;
+
+                    case 4:
+                        openMyCoursesFragment();
+            */
+            case 2:
+                frameLayout.setVisibility(View.GONE);
+                myCourse();
+                fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragement).commit();
+                getSupportActionBar().setTitle("My Courses");
+
+                break;
+            case 3:
+                frameLayout.setVisibility(View.VISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
+                getSupportActionBar().setTitle("Explorer");
+                initializevideo();
+
+                break;
+
+            case 4:
+                frameLayout.setVisibility(View.GONE);
+                initArticle();
+                fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();
+                getSupportActionBar().setTitle("Articles");
+                break;
+            case 5:
+                startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
+                break;
+            case 6:
+                frameLayout.setVisibility(View.GONE);
+                fragmentManager.beginTransaction().replace(R.id.main_content, whisListFragement).commit();
+                getSupportActionBar().setTitle("Wish List");
+                break;
+            case 7:
+                startActivity(new Intent(MyCourses.this, MyProfile_2.class));
+                break;
+            case 8:
+                mAuth = FirebaseAuth.getInstance();
+                if (mAuth != null) {
+                    mAuth.signOut();
+                    LoginManager.getInstance().logOut();
+                }
+                Paper.delete("user");
+                startActivity(new Intent(MyCourses.this, MainActivity.class));
+                finish();
+                break;
+        }
+    }
 }
 
