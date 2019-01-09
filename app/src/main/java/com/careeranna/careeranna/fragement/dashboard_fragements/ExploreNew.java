@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.PurchaseCourseDetail2;
 import com.careeranna.careeranna.activity.VideoWithComment;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
@@ -552,10 +553,10 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     public void onItemClick1(String type, int position) {
 
         if (type.equals("Free")) {
-            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
+            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
         }
         if (type.equals("Paid")) {
-            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
         }
     }
 
