@@ -109,47 +109,14 @@
                 android:gravity="left|center"
                 >
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <RatingBar
+                    android:id="@+id/ratingBar_freeVideos"
+                    style="@style/RatingBarCustom"
+                    android:progressTint="@color/golden"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star1"
-                        android:src="@drawable/ic_star_colour_full" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star2"
-                        android:layout_toRightOf="@id/star1"
-                        android:src="@drawable/ic_star_colour_full"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star3"
-                        android:layout_toRightOf="@id/star2"
-                        android:src="@drawable/ic_star_colour_full"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star4"
-                        android:layout_toRightOf="@id/star3"
-                        android:src="@drawable/ic_star_colour_full"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/star5"
-                        android:layout_toRightOf="@id/star4"
-                        android:src="@drawable/ic_star_colour"
-                        />
-                </LinearLayout>
-
+                    android:layout_height="wrap_content"
+                    />
 
                 <TextView
                     android:id="@+id/ratings"

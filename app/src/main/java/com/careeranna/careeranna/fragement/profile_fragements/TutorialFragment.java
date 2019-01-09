@@ -45,7 +45,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class TutorialFragment extends Fragment implements ExpandableList_Adapter.OnItemClickListener
-        , VideoPlayerEvents.OnFullscreenListener {
+        ,VideoPlayerEvents.OnFullscreenListener {
 
     //    VideoView videoView;
     private JWPlayerView playerView;
@@ -134,7 +134,6 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 .file(videoUrl)
                 .build();
         playerView.load(playlistItem);
-        playerView.play();
     }
 
     @Override

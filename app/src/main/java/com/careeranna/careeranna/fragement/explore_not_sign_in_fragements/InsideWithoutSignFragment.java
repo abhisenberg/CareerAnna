@@ -428,7 +428,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                                         Category.getString("exam_id"),
                                         Category.getString("discount")
                                         , "",
-                                        Category.getString("video_url").replace("\\", "")));
+                                        Category.getString("video_url").replace("\\", ""),
+                                        "Paid",
+                                        Category.getString("price")
+                                        )
+                                );
                                 courses.get(i).setType("Paid");
                             }
                         } catch (JSONException e) {

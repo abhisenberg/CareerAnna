@@ -74,7 +74,10 @@
         <activity
             android:name=".activity.PasswordReset"
             android:label="Password Reset" />
-        <activity android:name=".activity.PurchaseCourseDetail" />
+        <activity android:name=".activity.PurchaseCourseDetail"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout"
+            />
         <activity android:name=".activity.PaytmPayment" />
         <activity android:name=".ExampPrepParticular" />
         <activity
