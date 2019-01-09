@@ -3,8 +3,9 @@
     package="com.careeranna.careeranna">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 
     <application
         android:allowBackup="true"
@@ -61,6 +62,8 @@
             android:label="Pdf View"
             android:configChanges="orientation|screenSize|screenLayout"
             />
+        <service android:name=".service.VideoService" />
+
         <activity
             android:name=".activity.ParticularArticleActivity"
             android:label="Article" />
@@ -74,7 +77,8 @@
         <activity
             android:name=".activity.PasswordReset"
             android:label="Password Reset" />
-        <activity android:name=".activity.PurchaseCourseDetail" />
+        <activity android:name=".activity.PurchaseCourseDetail"
+            android:configChanges="orientation|screenSize|screenLayout"/>
         <activity android:name=".activity.PaytmPayment" />
         <activity android:name=".ExampPrepParticular" />
         <activity
@@ -96,6 +100,7 @@
         <activity
             android:name=".activity.ExploreNotSignActivity"
             android:label="Explore" />
+        <activity android:name=".activity.PurchaseCourseDetail2" />
     </application>
 
 </manifest>

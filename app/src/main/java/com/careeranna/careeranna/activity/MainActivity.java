@@ -12,10 +12,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.BuildConfig;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.service.VideoService;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,8 +44,10 @@ import io.paperdb.Paper;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
-     *  Declaring Variables for firebase authentication
+     * Declaring Variables for firebase authentication
      */
+
+    PopupWindow popupWindow;
     FirebaseAuth mAuth;
     public static final String TAG = "MainAct";
 
@@ -79,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          *  Hiding Action Bar
          */
 
-        if(getSupportActionBar() != null)
+        if (getSupportActionBar() != null)
             getSupportActionBar().hide();
 
         /**
@@ -97,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_explore.setOnClickListener(this);
         bt_signin.setOnClickListener(this);
     }
-
 
 
     /**
@@ -123,19 +130,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Add Changing Dots Active State Accoring To Position
+     *
      * @param i ->  refers to the postion of dots according to image which is visible to user
      */
-    private void addDots(int i){
+    private void addDots(int i) {
         dotsLayout.removeAllViews();
         TextView[] dots = new TextView[3];
 
-        for(int x=0; x<dots.length; x++){
+        for (int x = 0; x < dots.length; x++) {
             dots[x] = new TextView(this);
             dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
             dots[x].setTextSize(30);
             dots[x].setTextColor(getResources().getColor(R.color.light_gray));
 
-            Log.d(TAG, "addDots: "+x);
+            Log.d(TAG, "addDots: " + x);
             dotsLayout.addView(dots[x]);
         }
 
@@ -145,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Click Events For Explore And Sign up button
+     *
      * @param view
      */
     @Override
@@ -156,16 +165,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.bt_explore:
-                Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
-                startActivity(openExplorePage);
+
+               // showPopUp();
+                startService(new Intent(this, VideoService.class));
+/*                Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
+                startActivity(openExplorePage);*/
                 break;
         }
     }
 
     /**
-     *  Checking user count of open the app without sign up
-     *  and also checking if the user is login before and not sign out then redirect to dashboard if login
-     *  Also Checking Version Update
+     * Checking user count of open the app without sign up
+     * and also checking if the user is login before and not sign out then redirect to dashboard if login
+     * Also Checking Version Update
      */
 
     @Override
@@ -177,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //TODO: Uncomment this line when publishing updates to play store
         checkUpdates();
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
+        if (cache != null && !cache.isEmpty()) {
             startActivity(new Intent(this, MyCourses.class));
             finish();
         }
@@ -185,8 +197,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *  Checking the version of the app with the playstore version
-     *  if the version is same no dialog if the version is older giving update dialog and redirect to playstore
+     * Checking the version of the app with the playstore version
+     * if the version is same no dialog if the version is older giving update dialog and redirect to playstore
      */
 
     private void checkUpdates() {
@@ -203,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             JSONObject spo = new JSONObject(response);
                             versionUpdate[0] = spo.getString("version_name");
                             String versionName = BuildConfig.VERSION_NAME;
-                            if(!versionUpdate[0].equals(versionName)) {
+                            if (!versionUpdate[0].equals(versionName)) {
                                 alertDialogForUpdate();
                             }
                         } catch (JSONException e) {
@@ -247,6 +259,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public void showPopUp() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View view = layoutInflater.inflate(R.layout.view_icon, null);
+
+        popupWindow = new PopupWindow(view,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        Button close = view.findViewById(R.id.close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.showAsDropDown(close, 50, -30);
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+
+            int mxX, myY;
+            int offSetX, offSetY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        mxX = (int) event.getX();
+                        myY = (int) event.getY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        offSetX = (int) event.getRawX() - mxX;
+                        offSetY = (int) event.getRawY() - myY;
+
+                        popupWindow.update(offSetX, offSetY, -1, -1, true);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 }
