@@ -105,7 +105,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     Menu menu;
 
-    int fragement_id;
+    int fragement_id = 3;
 
     LinearLayout linearLayout;
 
@@ -1386,6 +1386,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 finish();
                 break;
         }
+    }
+
+    public void changeInternet() {
+        frameLayout.setVisibility(View.GONE);
+        fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
     }
 }
 

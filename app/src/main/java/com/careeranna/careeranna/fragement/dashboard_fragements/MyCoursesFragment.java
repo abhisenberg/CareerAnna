@@ -176,9 +176,16 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                            closeKeyboard();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
                 tempCourse = new ArrayList<>();
                 for(CourseWithLessData courseWithLessData: course) {
-                    if(courseWithLessData.getCourse_name().toLowerCase().contains(query)) {
+                    if(courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
                         tempCourse.add(courseWithLessData);
                     }
                 }
@@ -187,12 +194,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
                 myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
                 mRecyclerView.setAdapter(myCoursesAdapterNew);
                 myCoursesAdapterNew.setOnItemClicklistener(MyCoursesFragment.this);
-                closeKeyboard();
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
                 return true;
             }
         });
