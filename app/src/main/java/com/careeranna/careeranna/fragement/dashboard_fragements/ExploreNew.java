@@ -4,8 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.PurchaseCourseDetail2;
@@ -31,6 +36,7 @@ import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.adapter.TrendingVideosAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.fragement.NoInternetFragement;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
@@ -265,11 +271,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
                 if (recyclerView1.getCurrentPosition() > 0) {
                     arrow_l_l.setVisibility(View.VISIBLE);
-                } else if(recyclerView1.getCurrentPosition()+2 == freeVideos.size()) {
+                } else if (recyclerView1.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.VISIBLE);
-                } else if(recyclerView1.getCurrentPosition()+1 == freeVideos.size()) {
+                } else if (recyclerView1.getCurrentPosition() + 1 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.INVISIBLE);
-                } else if(recyclerView1.getCurrentPosition() == 0 ) {
+                } else if (recyclerView1.getCurrentPosition() == 0) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
                 int childCount = recyclerView1.getChildCount();
@@ -318,11 +324,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
                 if (freeCorse.getCurrentPosition() > 0) {
                     arrow_f_l.setVisibility(View.VISIBLE);
-                } else if(freeCorse.getCurrentPosition()+2 == freecourse.size()) {
+                } else if (freeCorse.getCurrentPosition() + 2 == freecourse.size()) {
                     arrow_f_r.setVisibility(View.VISIBLE);
-                } else if(freeCorse.getCurrentPosition()+1 == freecourse.size()) {
+                } else if (freeCorse.getCurrentPosition() + 1 == freecourse.size()) {
                     arrow_f_r.setVisibility(View.INVISIBLE);
-                } else if(freeCorse.getCurrentPosition() == 0 ) {
+                } else if (freeCorse.getCurrentPosition() == 0) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
                 int childCount = freeCorse.getChildCount();
@@ -371,11 +377,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
                 if (paidCourse.getCurrentPosition() > 0) {
                     arrow_p_l.setVisibility(View.VISIBLE);
-                } else if(paidCourse.getCurrentPosition()+2 == freeVideos.size()) {
+                } else if (paidCourse.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_p_r.setVisibility(View.VISIBLE);
-                } else if(paidCourse.getCurrentPosition()+1 == freeVideos.size()) {
+                } else if (paidCourse.getCurrentPosition() + 1 == freeVideos.size()) {
                     arrow_p_r.setVisibility(View.INVISIBLE);
-                } else if(paidCourse.getCurrentPosition() == 0 ) {
+                } else if (paidCourse.getCurrentPosition() == 0) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
                 int childCount = paidCourse.getChildCount();
@@ -424,11 +430,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
                 if (trending.getCurrentPosition() > 0) {
                     arrow_t_l.setVisibility(View.VISIBLE);
-                } else if(trending.getCurrentPosition()+2 == trendingvVideos.size()) {
+                } else if (trending.getCurrentPosition() + 2 == trendingvVideos.size()) {
                     arrow_t_r.setVisibility(View.VISIBLE);
-                } else if(trending.getCurrentPosition()+1 == trendingvVideos.size()) {
+                } else if (trending.getCurrentPosition() + 1 == trendingvVideos.size()) {
                     arrow_t_r.setVisibility(View.INVISIBLE);
-                } else if(trending.getCurrentPosition() == 0 ) {
+                } else if (trending.getCurrentPosition() == 0) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
                 int childCount = trending.getChildCount();
@@ -562,22 +568,37 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     @Override
     public void onItemClick1(String type, int position) {
-
-        if (type.equals("Free")) {
-            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
-        }
-        if (type.equals("Paid")) {
-            startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+        if (amIConnect()) {
+            if (type.equals("Free")) {
+                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
+            }
+            if (type.equals("Paid")) {
+                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+            }
+        } else {
+            ((MyCourses) getActivity()).changeInternet();
         }
     }
 
     @Override
     public void onItemClick1(int position, String type) {
-        if (type.equals("Trending")) {
-            startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
+        if (amIConnect()) {
+            if (type.equals("Trending")) {
+                startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
+            }
+            if (type.equals("Latest")) {
+                startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
+            }
+        } else {
+            ((MyCourses) getActivity()).changeInternet();
         }
-        if (type.equals("Latest")) {
-            startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
-        }
+    }
+
+    private boolean amIConnect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
     }
 }
