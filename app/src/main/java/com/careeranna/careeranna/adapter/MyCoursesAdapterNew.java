@@ -58,10 +58,17 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
         //set view to INVISIBLE before animate
         Random rand = new Random();
         int random  = rand.nextInt(100);
-        Glide.with(mContext)
-                .load("https://www.careeranna.com/"+course.get(position).getCourse_imageURL())
-                .into(viewHolder.imageView);
-        viewHolder.textView.setText(course.get(position).getCourse_name());
+        if(course.get(position).getCourse_imageURL() != null && !course.get(position).getCourse_imageURL().isEmpty()) {
+            if(!course.get(position).getCourse_imageURL().contains("https")) {
+                Glide.with(mContext)
+                        .load("https://www.careeranna.com/"+course.get(position).getCourse_imageURL())
+                        .into(viewHolder.imageView);
+            } else {
+                Glide.with(mContext)
+                        .load(course.get(position).getCourse_imageURL())
+                        .into(viewHolder.imageView);
+            }
+        }viewHolder.textView.setText(course.get(position).getCourse_name());
         viewHolder.progressBar.setProgress(random);
         viewHolder.tv.setText(random+"%");
         if(random <= 20) {
