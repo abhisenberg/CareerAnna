@@ -166,10 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.bt_explore:
 
-               // showPopUp();
-                startService(new Intent(this, VideoService.class));
-/*                Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
-                startActivity(openExplorePage);*/
+//                startService(new Intent(this, VideoService.class));
+                Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
+                startActivity(openExplorePage);
                 break;
         }
     }
@@ -261,52 +260,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alert.show();
     }
 
-    public void showPopUp() {
-
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-
-        View view = layoutInflater.inflate(R.layout.view_icon, null);
-
-        popupWindow = new PopupWindow(view,
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        Button close = view.findViewById(R.id.close);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.showAsDropDown(close, 50, -30);
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-
-            int mxX, myY;
-            int offSetX, offSetY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()) {
-
-                    case MotionEvent.ACTION_DOWN:
-                        mxX = (int) event.getX();
-                        myY = (int) event.getY();
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        offSetX = (int) event.getRawX() - mxX;
-                        offSetY = (int) event.getRawY() - myY;
-
-                        popupWindow.update(offSetX, offSetY, -1, -1, true);
-                        break;
-                }
-                return true;
-            }
-        });
-    }
 
 }

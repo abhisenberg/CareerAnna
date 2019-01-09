@@ -119,9 +119,8 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position == 0) {
                     arrow_trending_left.setVisibility(View.VISIBLE);
                 }
-                position += 1;
-                trending.smoothScrollToPosition(position);
-                if(position+1 == trendingvVideos.size()) {
+                trending.smoothScrollToPosition(position+1);
+                if(position+2 == trendingvVideos.size()) {
                     arrow_trending_right.setVisibility(View.INVISIBLE);
                 }
             }
@@ -134,8 +133,10 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position == 1) {
                     arrow_trending_left.setVisibility(View.INVISIBLE);
                 }
-                position -= 1;
-                trending.smoothScrollToPosition(position);
+                if(position+1 == trendingvVideos.size()) {
+                    arrow_trending_right.setVisibility(View.VISIBLE);
+                }
+                trending.smoothScrollToPosition(position-1);
             }
         });
 
@@ -146,9 +147,8 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_latest == 0) {
                     arrow_latest_left.setVisibility(View.VISIBLE);
                 }
-                position_latest += 1;
-                latest_recycler.smoothScrollToPosition(position_latest);
-                if(position_latest+1 == freeVideos.size()) {
+                latest_recycler.smoothScrollToPosition(position_latest+1);
+                if(position_latest+2 == freeVideos.size()) {
                     arrow_latest_right.setVisibility(View.INVISIBLE);
                 }
             }
@@ -161,8 +161,10 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_latest == 1) {
                     arrow_latest_left.setVisibility(View.INVISIBLE);
                 }
-                position_latest -= 1;
-                latest_recycler.smoothScrollToPosition(position_latest);
+                if(position+1 == trendingvVideos.size()) {
+                    arrow_trending_right.setVisibility(View.VISIBLE);
+                }
+                latest_recycler.smoothScrollToPosition(position_latest-1);
             }
         });
 
@@ -174,8 +176,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_free == 0) {
                     arrow_free_left.setVisibility(View.VISIBLE);
                 }
-                position_free += 1;
-                free_course_recyler.smoothScrollToPosition(position_free);
+                Log.i("position", position_free+" : "+ freecourse.size());
+                if(position_free+2 == freecourse.size()){
+                    arrow_free_right.setVisibility(View.INVISIBLE);
+                }
+                free_course_recyler.smoothScrollToPosition(position_free+1);
             }
         });
 
@@ -186,8 +191,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_free == 1) {
                     arrow_free_left.setVisibility(View.INVISIBLE);
                 }
-                position_free -= 1;
-                free_course_recyler.smoothScrollToPosition(position_free);
+                free_course_recyler.smoothScrollToPosition(position_free-1);
             }
         });
 
@@ -198,8 +202,10 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_paid == 0) {
                     arrow_paid_left.setVisibility(View.VISIBLE);
                 }
-                position_paid += 1;
-                paid_course_recyler.smoothScrollToPosition(position_paid);
+                paid_course_recyler.smoothScrollToPosition(position_paid+1);
+                if(position_paid+2 == courses.size()) {
+                    arrow_paid_right.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -210,8 +216,10 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
                 if(position_paid == 1) {
                     arrow_paid_left.setVisibility(View.INVISIBLE);
                 }
-                position_paid -= 1;
-                paid_course_recyler.smoothScrollToPosition(position_paid);
+                if(position_paid+1 == courses.size()) {
+                    arrow_paid_right.setVisibility(View.VISIBLE);
+                }
+                paid_course_recyler.smoothScrollToPosition(position_paid-1);
             }
         });
 
@@ -228,6 +236,15 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                if(latest_recycler.getCurrentPosition() == 1 ) {
+                        arrow_latest_left.setVisibility(View.VISIBLE);
+                } else if(latest_recycler.getCurrentPosition()+2 == freeVideos.size()) {
+                    arrow_latest_right.setVisibility(View.VISIBLE);
+                } else if(latest_recycler.getCurrentPosition()+1 == freeVideos.size()) {
+                    arrow_latest_right.setVisibility(View.INVISIBLE);
+                } else if(latest_recycler.getCurrentPosition() == 0 ) {
+                    arrow_latest_left.setVisibility(View.INVISIBLE);
+                }
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
                 int childCount = latest_recycler.getChildCount();
                 int width = latest_recycler.getChildAt(0).getWidth();
@@ -273,6 +290,16 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(free_course_recyler.getCurrentPosition() == 1 ) {
+                    arrow_free_left.setVisibility(View.VISIBLE);
+                } else if(free_course_recyler.getCurrentPosition()+2 == freecourse.size()) {
+                    arrow_free_right.setVisibility(View.VISIBLE);
+                } else if(free_course_recyler.getCurrentPosition()+1 == freecourse.size()) {
+                    arrow_free_right.setVisibility(View.INVISIBLE);
+                } else if(free_course_recyler.getCurrentPosition() == 0 ) {
+                    arrow_free_left.setVisibility(View.INVISIBLE);
+                }
+//
                 int childCount = free_course_recyler.getChildCount();
                 int width = free_course_recyler.getChildAt(0).getWidth();
                 int padding = (free_course_recyler.getWidth() - width) / 2;
@@ -317,6 +344,16 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
+                if(paid_course_recyler.getCurrentPosition() == 1 ) {
+                    arrow_paid_left.setVisibility(View.VISIBLE);
+                } else if(paid_course_recyler.getCurrentPosition()+2 == courses.size()) {
+                    arrow_paid_right.setVisibility(View.VISIBLE);
+                } else if(paid_course_recyler.getCurrentPosition()+1 == courses.size()) {
+                    arrow_paid_right.setVisibility(View.INVISIBLE);
+                } else if(paid_course_recyler.getCurrentPosition() == 0 ) {
+                    arrow_paid_left.setVisibility(View.INVISIBLE);
+                }
+//
                 int childCount = paid_course_recyler.getChildCount();
                 int width = paid_course_recyler.getChildAt(0).getWidth();
                 int padding = (paid_course_recyler.getWidth() - width) / 2;

@@ -33,6 +33,7 @@ import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
 import com.careeranna.careeranna.data.Banner;
 import com.careeranna.careeranna.data.UrlConstants;
+import com.careeranna.careeranna.user.Register;
 import com.careeranna.careeranna.user.SignUp;
 
 import org.json.JSONArray;
@@ -341,7 +342,13 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         builder.setCancelable(false);
 
         builder.setMessage(getString(R.string.open_browser_limit_reached))
-                .setPositiveButton("Sign Up", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ExploreNotSignActivity.this, Register.class));
+                    }
+                })
+                .setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(ExploreNotSignActivity.this, SignUp.class));

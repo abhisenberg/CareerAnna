@@ -119,7 +119,7 @@
     <string name="loading_subcategory">Loading subcategory...</string>
     <string name="loading_courses">Loading courses...</string>
     <string name="loading_your_courses">Loading your courses...</string>
-    <string name="open_browser_limit_reached">You have reached your limit of open browsing. Please sign up for free to continue accessing the app.</string>
+    <string name="open_browser_limit_reached">You have reached your limit of open browsing. Please sign up/ sign in for free to continue accessing the app.</string>
     <string name="forget_pw_enter_email">Please enter your registered email address</string>
     <string name="loading_premium_courses">Loading Premium courses, please wait... </string>
     <string name="loading_free_courses">Loading free courses, please wait... </string>
