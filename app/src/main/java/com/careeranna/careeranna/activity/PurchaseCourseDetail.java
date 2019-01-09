@@ -53,6 +53,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
+import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -585,26 +586,26 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
 
-            if (!mUnits.isEmpty()) {
-                if (!mUnits.get(0).topics.isEmpty()) {
-                    if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
-                        playVideo(mUnits.get(0).topics.get(0).getVideos());
-                    }
-                }
-            }
+//            if (!mUnits.isEmpty()) {
+//                if (!mUnits.get(0).topics.isEmpty()) {
+//                    if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+//                        playVideo(mUnits.get(0).topics.get(0).getVideos());
+//                    }
+//                }
+//            }
             listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
             expandableListView.setAdapter(listAdapter);
         }
 
     }
 
-    private void playVideo(String videoUrl) {
-        PlaylistItem playlistItem = new PlaylistItem.Builder()
-                .file(videoUrl)
-                .build();
-        playerView.load(playlistItem);
-        playerView.play();
-    }
+//    private void playVideo(String videoUrl) {
+//        PlaylistItem playlistItem = new PlaylistItem.Builder()
+//                .file(videoUrl)
+//                .build();
+//        playerView.load(playlistItem);
+//        playerView.play();
+//    }
 
     public void paidCourseCheckout(final String price){
         Dialog dialog = new Dialog(this);
