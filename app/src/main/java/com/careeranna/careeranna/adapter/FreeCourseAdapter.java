@@ -63,7 +63,8 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
                 "https://www.careeranna.com/uploads/thumbnail_images/XAT_02.jpg",
                 "https://www.careeranna.com/uploads/thumbnail_images/TISSNET.jpg",
                 "https://www.careeranna.com/uploads/thumbnail_images/SNAP.jpg",
-                "https://www.careeranna.com/uploads/thumbnail_images/MICAT.jpg"
+                "https://www.careeranna.com/uploads/thumbnail_images/MICAT.jpg",
+                "https://www.careeranna.com/uploads/thumbnail_images/GK.jpg"
         };
 
         String courseName = freeVideos.get(i).getName();
@@ -79,6 +80,8 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
             courseThumbnailURL = thumbnail_URLs[3];
         } else if (courseName.contains("MICAT")){
             courseThumbnailURL = thumbnail_URLs[4];
+        } else if (courseName.contains("GK")){
+            courseThumbnailURL = thumbnail_URLs[5];
         }
 
         Glide
