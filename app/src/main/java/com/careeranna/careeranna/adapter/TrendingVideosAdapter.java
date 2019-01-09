@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +46,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
                 viewHolder.tags.setText("Cat");
             }
         }
+        viewHolder.ratingBar.setRating(4f);
     }
 
     @Override
@@ -66,12 +68,11 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
         this.mContext = mContext;
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
         TextView title, rating, views, duration, tags;
+        RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +83,7 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
             rating = itemView.findViewById(R.id.ratings);
             views = itemView.findViewById(R.id.views);
             tags = itemView.findViewById(R.id.tags);
+            ratingBar = itemView.findViewById(R.id.ratingBar_freeVideos);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

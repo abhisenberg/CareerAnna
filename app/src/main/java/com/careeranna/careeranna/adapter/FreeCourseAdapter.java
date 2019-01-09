@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.media.Rating;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -83,6 +85,8 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
                 .with(mContext)
                 .load(Uri.parse(courseThumbnailURL))
                 .into(viewHolder.imageView);
+
+        viewHolder.ratingBar.setRating(4f);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
 
         TextView name;
 
-        Button go_inside;
+        RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -104,6 +108,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
 
             imageView = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
+            ratingBar = itemView.findViewById(R.id.ratingBar_freeCourse);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

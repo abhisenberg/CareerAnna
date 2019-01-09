@@ -1,21 +1,29 @@
 package com.careeranna.careeranna.activity;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -28,10 +36,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
+import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ExpandableListAdapterForNestedScroll;
-import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.OrderedCourse;
@@ -44,10 +51,8 @@ import com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll;
 import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.longtailvideo.jwplayer.JWPlayerView;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
-import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +67,6 @@ import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -84,7 +88,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     FloatingActionButton addTocart;
 
-    private JWPlayerView playerView;
+//    JWPlayerView playerView;
+
+    AppBarLayout appBarLayout;
+
 
     ArrayList<OrderedCourse> orderedCourse;
 
@@ -118,10 +125,14 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     ExpandableListViewForNestedScroll expandableListView;
 
+    WebView webView;
+
+    ImageView iv_demoCourseImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchase_course_detail_2);
+        setContentView(R.layout.activity_purchase_course_detail_3);
 
         Paper.init(this);
 
@@ -134,13 +145,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         tv_striked_cost = findViewById(R.id.course_striked_cost);
         tv_instructor_name = findViewById(R.id.course_instructor);
         ratingBar = findViewById(R.id.course_rating_bar);
+        webView = findViewById(R.id.wv_demoVideo);
+        appBarLayout = findViewById(R.id.app_bar_layout);
+        iv_demoCourseImage = findViewById(R.id.iv_demoCourseImage);
 
         expandableListView = findViewById(R.id.purchaseCourse_expandableUnit);
         progressBar = findViewById(R.id.progress_bar_course);
 //        price = findViewById(R.id.course_price);
-        playerView =  (JWPlayerView) findViewById(R.id.playerView);
 
-        new KeepScreenOnHandler(playerView, PurchaseCourseDetail.this.getWindow());
+//        playerView =  findViewById(R.id.playerView);
 //        description = findViewById(R.id.course_description);
         addTocart = findViewById(R.id.btn_cart);
 
@@ -152,6 +165,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             /*
             DON'T FETCH UNITS HERE BECAUSE THIS IS EXAM_PREP COURSE
              */
+            Log.d(TAG, "onCreate: course is null");
             fetchUnit();
 //
             examPrep = (ExamPrep) intent.getSerializableExtra("Examp");
@@ -163,7 +177,9 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //            description.append("\n"+removeTags(course.getDesc()).replace("-", "\n"));
         }
 
-   //     playerView.addOnFullscreenListener(this);
+        initializeWebView();
+
+//        playerView.addOnFullscreenListener(this);
         String cart = Paper.book().read("cart");
 
         ratingBar.setRating(5f);
@@ -212,9 +228,11 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
             }
 
+//        playerView.addOnFullscreenListener(this);
+//        new KeepScreenOnHandler(playerView, getWindow());
         }
 
-        setCourse();
+        setCourseViews();
 
         addTocart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,8 +267,35 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         if(cache != null && !cache.isEmpty()) {
             user =  new Gson().fromJson(cache, User.class);
         }
+    }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private void initializeWebView(){
+        String videoURl = course.getDemo_url();
+        if(videoURl.equals("null") || videoURl.isEmpty()){
+            webView.setVisibility(View.INVISIBLE);
+            iv_demoCourseImage.setVisibility(View.VISIBLE);
 
+            Glide.with(this)
+                    .load(course.getImageUrl())
+                    .into(iv_demoCourseImage);
+            return;
+        }
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        String htmlPlayer = "<html><body style=\"margin : 0; padding : 0 \"><iframe width=\"100%\" height=\"100%\" src=\""+videoURl+
+                "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        Log.d(TAG, "demoURL: "+videoURl);
+        Log.d(TAG, "html:  "+htmlPlayer);
+        webView.loadData(htmlPlayer, "text/html", "utf-8");
     }
 
     public static String removeTags(String string) {
@@ -277,7 +322,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     @Override
     protected void onDestroy() {
-        playerView.onDestroy();
+//        playerView.onDestroy();
         super.onDestroy();
     }
 
@@ -293,42 +338,44 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     public void onConfigurationChanged(Configuration newConfig) {
         Log.d(TAG, "onConfigurationChanged "+(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE));
 
-        playerView.setFullscreen(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE, true);
+//        playerView.setFullscreen(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE, true);
         super.onConfigurationChanged(newConfig);
     }
 
 
     @Override
     protected void onPause() {
-        playerView.onPause();
+//        playerView.onPause();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        playerView.onResume();
+//        playerView.onResume();
         super.onResume();
     }
 
     @Override
     public void onBackPressed() {
-    /*    if(playerView.getFullscreen())
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        else
-    */        super.onBackPressed();
+//        if(playerView.getFullscreen())
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        else
+//            super.onBackPressed();
+        super.onBackPressed();
+
     }
 
     private void buyCourse() {
         mBuilder = new AlertDialog.Builder(this);
-        mBuilder.setTitle("Are You Sure You Want To Buy This Course");
+        mBuilder.setTitle("Are You Sure You Want To Buy This Course?");
         mBuilder.setCancelable(true);
 
         final String price;
         if(course != null ) {
-            mBuilder.setMessage("Course Name : " + course.getName() + " \n Price : " + course.getPrice());
+            mBuilder.setMessage("Course Name : " + course.getName() + " \n Price : ₹" + course.getPrice());
             price = course.getPrice();
         } else {
-            mBuilder.setMessage("Course Name : " + examPrep.getName() + " \n Price : " + examPrep.getPrice());
+            mBuilder.setMessage("Course Name : " + examPrep.getName() + " \n Price : ₹" + examPrep.getPrice());
             price = examPrep.getPrice();
         }
         /*
@@ -422,7 +469,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     }
 
-    private void setCourse() {
+    private void setCourseViews() {
         Uri uri;
         if(course == null) {
             /*
@@ -439,12 +486,25 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
             tv_courseName.setText(course.getName());
             tv_instructor_name.setText("By Careeranna");
-            if(course.getPrice().equals("0"))
+            if(course.getPrice().equals("0")) {
                 tv_cost.setText("Free");
+                tv_discount.setText("");
+                tv_striked_cost.setText("");
+            }
             else{
                 String price = "₹"+course.getPrice();
                 tv_cost.setText(price);
+
+                Float price_before_disc = Float.valueOf(course.getPrice_before_discount());
+                Float price_after_disc  = Float.valueOf(course.getPrice());
+                Float discount = (price_before_disc - price_after_disc)*100/price_before_disc;
+                tv_discount.setText(String.format("%.2f", discount)+"% Off including taxes");
+                tv_striked_cost.setText("₹"+course.getPrice_before_discount());
+                tv_striked_cost.setPaintFlags(tv_striked_cost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
+            /*
+            Setting striked through text of price before discount
+             */
 
             getSupportActionBar().setTitle(course.getName());
         }
@@ -453,6 +513,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //        PlaylistItem playlistItem = new PlaylistItem.Builder()
 //                .file(uri.toString())
 //                .build();
+//                PlaylistItem playlistItem = new PlaylistItem.Builder()
+//                .file("http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-87.mp4")
+//                .build();
+//        playerView.load(playlistItem);
     }
 
     private void fetchUnit() {
@@ -506,25 +570,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
         ArrayList<Unit> mUnits = new ArrayList<>();
-
-//        for (String unitsname : course) {
-//            char c = unitsname.charAt(0);
-//            if(c != '$') {
-//                Unit unit = new Unit(unitsname, check);
-//                mUnits.add(unit);
-//            } else {
-//                String array[] = unitsname.split(",url");
-//                if(array.length == 1) {
-//                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), ""));
-//                } else {
-//                    mUnits.get(mUnits.size()-1).topics.add(new Topic(array[0].substring(1), array[1]));
-//                }
-//            }
-//
-//            listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
-//            expandableListView.setAdapter(listAdapter);
-//        }
-//        Log.d(TAG, "addCourseUnits: units size: "+mUnits.size());
 
         for (String unitsname : course) {
             char c = unitsname.charAt(0);

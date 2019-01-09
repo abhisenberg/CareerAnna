@@ -4,7 +4,27 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
-    private String id, name, imageUrl, category_id, price, desc, demo_url, type;
+    private String id, name, imageUrl, category_id, price, desc, demo_url, type, price_before_discount;
+
+    public String getPrice_before_discount() {
+        return price_before_discount;
+    }
+
+    public void setPrice_before_discount(String price_before_discount) {
+        this.price_before_discount = price_before_discount;
+    }
+
+    public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url, String type, String price_before_discount) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.category_id = category_id;
+        this.price = price;
+        this.desc = desc;
+        this.demo_url = demo_url;
+        this.type = type;
+        this.price_before_discount = price_before_discount;
+    }
 
     public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url) {
         this.id = id;
