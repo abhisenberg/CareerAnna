@@ -590,7 +590,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 startActivity(new Intent(context, VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
             }
         } else {
-            ((MyCourses) getActivity()).changeInternet();
+            if (getActivity() != null) {
+                ((MyCourses) getActivity()).changeInternet();
+            }
         }
     }
 

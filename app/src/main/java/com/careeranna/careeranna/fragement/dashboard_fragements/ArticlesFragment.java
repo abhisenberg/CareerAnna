@@ -1,6 +1,9 @@
 package com.careeranna.careeranna.fragement.dashboard_fragements;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -21,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.activity.ParticularArticleActivity;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ArticleAdapter;
@@ -70,7 +74,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_articles, container, false);
+        View view = inflater.inflate(R.layout.fragment_articles, container, false);
 
         progressBar = view.findViewById(R.id.progress_bar_rv);
 
@@ -95,7 +99,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true;
                 }
             }
@@ -107,27 +111,27 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                 currentItems = linearLayoutManager.getChildCount();
                 TotalItems = linearLayoutManager.getItemCount();
                 scrolledOut = linearLayoutManager.findFirstVisibleItemPosition();
-                if(!isLoading && isScrolling && (currentItems + scrolledOut == TotalItems )) {
+                if (!isLoading && isScrolling && (currentItems + scrolledOut == TotalItems)) {
 
                     isLoading = true;
                     progressBar.setVisibility(View.VISIBLE);
                     Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.loading_more_articles), Snackbar.LENGTH_SHORT).show();
                     RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                    String url = "https://careeranna.com/api/articlewithimage.php?pageno="+page;
+                    String url = "https://careeranna.com/api/articlewithimage.php?pageno=" + page;
                     page += 1;
                     articles = new ArrayList<>();
-                    StringRequest stringRequest  = new StringRequest(Request.Method.GET, url,
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     try {
                                         Log.i("url_response", response.toString());
                                         JSONArray ArticlesArray = new JSONArray(response.toString());
-                                        for(int i=0;i<ArticlesArray.length();i++) {
+                                        for (int i = 0; i < ArticlesArray.length(); i++) {
                                             JSONObject Articles = ArticlesArray.getJSONObject(i);
                                             articles.add(new Article(Articles.getString("ID"),
                                                     Articles.getString("post_title"),
-                                                    "https://www.careeranna.com/articles/wp-content/uploads/"+Articles.getString("meta_value").replace("\\",""),
+                                                    "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
                                                     Articles.getString("display_name"),
                                                     "CAT",
                                                     "",
@@ -160,8 +164,23 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     @Override
     public void onItemClick1(int position) {
-        Intent intent = new Intent(getApplicationContext(), ParticularArticleActivity.class);
-        intent.putExtra("article", mArticles.get(position));
-        getContext().startActivity(intent);
+        if (amIConnect()) {
+            Intent intent = new Intent(getApplicationContext(), ParticularArticleActivity.class);
+            intent.putExtra("article", mArticles.get(position));
+            getContext().startActivity(intent);
+        } else {
+            if (getActivity() != null) {
+                ((MyCourses) getActivity()).changeInternet();
+            }
+        }
+    }
+
+
+    private boolean amIConnect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
     }
 }

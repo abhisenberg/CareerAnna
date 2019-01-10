@@ -134,6 +134,7 @@
         <com.careeranna.careeranna.misc.TextViewEx
             android:layout_marginTop="10dp"
             android:id="@+id/article_content_1"
+            android:visibility="gone"
             android:text="@string/sample_article_content"
             android:layout_width="0dp"
             android:layout_weight="9"

@@ -29,7 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.activity.PasswordReset;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.data.User;
+import com.careeranna.careeranna.helper.ChangeLanguageDialog;
 import com.careeranna.careeranna.helper.ForgetDialog;
 import com.careeranna.careeranna.helper.InternetDialog;
 import com.facebook.AccessToken;
@@ -232,6 +234,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             }
 
         });
+
+        int language;
+
+        try {
+            language = Paper.book().read(Constants.LANGUAGE);
+            Log.d("in_try", language +" ");
+        } catch (Exception e){
+            openLanguageChangeDialog();
+        }
+
     }
 
     @Override
@@ -613,4 +625,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         return true;
     }
+
+    public void openLanguageChangeDialog(){
+        ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog(this);
+        changeLanguageDialog.showDialog();
+    }
+
 }
