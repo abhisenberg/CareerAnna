@@ -401,7 +401,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     case 3:
                         frameLayout.setVisibility(View.VISIBLE);
                         fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
-                        getSupportActionBar().setTitle("Explorer");
+                        getSupportActionBar().setTitle("Explore");
                         initializevideo();
 
                         break;
@@ -1397,7 +1397,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             case 3:
                 frameLayout.setVisibility(View.VISIBLE);
                 fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
-                getSupportActionBar().setTitle("Explorer");
+                getSupportActionBar().setTitle("Explore");
                 initializevideo();
 
                 break;
