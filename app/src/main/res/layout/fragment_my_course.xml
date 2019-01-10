@@ -45,22 +45,20 @@
 
         <android.support.v7.widget.SearchView
             android:textSize="14sp"
-        android:paddingRight="10dp"
+            android:paddingRight="10dp"
             app:iconifiedByDefault="false"
             app:queryHint="Search Your Course"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/search"
-        android:layout_marginTop="10dp"
-        android:layout_height="30dp" />
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/search"
+            android:layout_marginTop="10dp"
+            android:layout_height="30dp" />
 
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_height="match_parent"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
