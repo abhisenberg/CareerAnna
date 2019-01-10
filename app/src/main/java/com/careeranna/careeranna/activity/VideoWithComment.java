@@ -1,5 +1,6 @@
 package com.careeranna.careeranna.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -341,11 +342,10 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             if(isLandscape){
                 Log.d(TAG, "landscape 27+");
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                playerView.setFullscreen(isLandscape, true);
+                playerView.setFullscreen(true, true);
             } else {
                 Log.d(TAG, "potrait 27+");
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                playerView.setFullscreen(false, true);
             }
         } else {
             Log.d(TAG, "27- "+isLandscape);
@@ -357,6 +357,12 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     @Override
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            Log.d(TAG, "27+ onFullscreen: Went fullscreen "+fullscreenEvent.getFullscreen());
+        } else {
+            Log.d(TAG, "27- onFullscreen: Went fullscreen "+fullscreenEvent.getFullscreen());
+        }
+
         if(fullscreenEvent.getFullscreen()){
             //If fullscreen, remove the action bar
             Log.d(TAG, "onFullscreen: trying to go fullscreen");
