@@ -9,8 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/jwplayer-common-3.3.0" />
-            <option value="$PROJECT_DIR$/jwplayer-core-3.3.0" />
             <option value="$PROJECT_DIR$/sdkui" />
           </set>
         </option>

@@ -262,6 +262,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         fragmentManager = getSupportFragmentManager();
 
+        try {
+            language = Paper.book().read(Constants.LANGUAGE);
+            Log.d("in_try", language +" ");
+        } catch (Exception e){
+            language = 1;
+            Log.d("in_catch", language +" ");
+            Paper.book().write(Constants.LANGUAGE, language);
+        }
+
+
         listView = findViewById(R.id.list_menu_items);
 
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
@@ -688,6 +698,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             mUsername = user.getUser_username();
             mEmail = user.getUser_email();
         }
+
+        try {
+            language = Paper.book().read(Constants.LANGUAGE);
+            Log.d("in_try", language +" ");
+        } catch (NullPointerException e){
+            language = 1;
+            Log.d("in_catch", language +" ");
+            Paper.book().write(Constants.LANGUAGE, language);
+        }
+
     }
 
     @Override
@@ -1111,14 +1131,20 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private void initializevideo() {
 
+        trendingvVideosForExplore = new ArrayList<>();
+        freeVideosForExplore = new ArrayList<>();
+
         try {
-            language = Paper.book().read("LANGUAGE");
-        } catch (NullPointerException e){
+            language = Paper.book().read(Constants.LANGUAGE);
+            Log.d("in_try", language +" ");
+        } catch (Exception e){
             language = 1;
-            Paper.book().write("LANGUAGE", language);
+            Log.d("in_catch", language +" ");
+            Paper.book().write(Constants.LANGUAGE, language);
         }
 
-            relativeLayout.setVisibility(View.VISIBLE);
+
+        relativeLayout.setVisibility(View.VISIBLE);
 
             RequestQueue requestQueue1 = Volley.newRequestQueue(this);
             String url1 = "https://careeranna.com/api/getTrendingVideos.php?id="+String.valueOf(language);
@@ -1208,6 +1234,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private void addPaidCourse() {
 
+        coursesForExplore = new ArrayList<>();
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(this);
         String url1 = "https://careeranna.com/api/getAllCourse.php";
@@ -1258,7 +1285,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private void addFreeForExplore() {
 
-        freecourse = new ArrayList<>();
+        freecourseForExplore = new ArrayList<>();
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(this);
         String url1 = "https://careeranna.com/api/getFreeCourse.php";

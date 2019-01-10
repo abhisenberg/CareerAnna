@@ -82,6 +82,7 @@
                 android:id="@+id/webview"/>
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:id="@+id/fab_menu"
             android:src="@drawable/ic_share_black_24dp"
@@ -105,9 +106,6 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="144dp"
-            android:layout_marginEnd="163dp" />
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 </RelativeLayout>

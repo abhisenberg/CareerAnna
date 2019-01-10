@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.activity.FilterOfCategory;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.SortByCourse;
@@ -365,30 +368,30 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
                 ArrayList<SubCategory> subCategories = (ArrayList<SubCategory>) data.getSerializableExtra("category");
 
-                    if (subCategories.size() > 0) {
-                        for (SubCategory subCategory : subCategories) {
-                            if (subCategory.getCATEGORY_ID().equals(freecategory_id)) {
-                                for (Course course : tempCourse) {
-                                    if (course.getPrice().equals("0")) {
-                                        if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
-                                            tempCourse1.add(course);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        for (SubCategory subCategory : subCategories) {
-                            if (subCategory.getCATEGORY_ID().equals(id)) {
-                                for (Course course : tempCourse) {
-                                    if (!course.getPrice().equals("0")) {
-                                        if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
-                                            tempCourse1.add(course);
-                                        }
+                if (subCategories.size() > 0) {
+                    for (SubCategory subCategory : subCategories) {
+                        if (subCategory.getCATEGORY_ID().equals(freecategory_id)) {
+                            for (Course course : tempCourse) {
+                                if (course.getPrice().equals("0")) {
+                                    if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
+                                        tempCourse1.add(course);
                                     }
                                 }
                             }
                         }
                     }
+                    for (SubCategory subCategory : subCategories) {
+                        if (subCategory.getCATEGORY_ID().equals(id)) {
+                            for (Course course : tempCourse) {
+                                if (!course.getPrice().equals("0")) {
+                                    if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
+                                        tempCourse1.add(course);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse1, getApplicationContext());
                 recyclerView.setAdapter(freeCourseAdapter);
@@ -398,7 +401,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
             }
 
-            if(resultCode == Activity.RESULT_CANCELED) {
+            if (resultCode == Activity.RESULT_CANCELED) {
 
                 FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse, getApplicationContext());
                 recyclerView.setAdapter(freeCourseAdapter);
@@ -455,29 +458,34 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
     @Override
     public void onItemClick1(String type, int position) {
 
-        if (ids1.size() > 0) {
-            for (String id : ids1) {
-                if (id.equals(tempCourse.get(position).getId())) {
+        if (amIConnect()) {
+            if (ids1.size() > 0) {
+                for (String id : ids1) {
+                    if (id.equals(tempCourse.get(position).getId())) {
 
-                    builder = new android.app.AlertDialog.Builder(getContext());
-                    builder.setTitle("Already purchased");
-                    builder.setIcon(R.mipmap.ic_launcher);
-                    builder.setCancelable(false);
-                    builder.setMessage("You have already purchased this course!")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    alert.dismiss();
-                                }
-                            });
-                    alert = builder.create();
-                    alert.show();
-                    return;
+                        builder = new android.app.AlertDialog.Builder(getContext());
+                        builder.setTitle("Already purchased");
+                        builder.setIcon(R.mipmap.ic_launcher);
+                        builder.setCancelable(false);
+                        builder.setMessage("You have already purchased this course!")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alert.dismiss();
+                                    }
+                                });
+                        alert = builder.create();
+                        alert.show();
+                        return;
+                    }
                 }
             }
+            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
+        } else {
+            if (getActivity() != null) {
+                ((MyCourses) getActivity()).changeInternet();
+            }
         }
-        startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
-
     }
 
     private void closeKeyboard() {
@@ -486,6 +494,14 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
             InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    private boolean amIConnect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }
