@@ -55,6 +55,7 @@
                 />
 
             <Button
+                android:textColor="@color/colorPrimary"
                 android:id="@+id/filterSub"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -64,7 +65,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:textSize="12sp"
-                android:background="@drawable/border"
+                android:background="@drawable/border_curved_1"
                 android:drawableLeft="@drawable/ic_filter_list_black_24dp"
                 />
 

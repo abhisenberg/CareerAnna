@@ -132,6 +132,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     Button myCourses;
 
+    int language;
+
     int page = 0;
 
     ViewPager viewPager;
@@ -258,6 +260,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         Paper.init(this);
 
+        fragmentManager = getSupportFragmentManager();
+
         listView = findViewById(R.id.list_menu_items);
 
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
@@ -274,7 +278,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         your_array_list.add(new MenuList("Articles", getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
         your_array_list.add(new MenuList("Our Mentors", getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
         your_array_list.add(new MenuList("Wish List", getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
-        your_array_list.add(new MenuList("My Profile", getApplicationContext().getResources().getDrawable(R.drawable.ic_account_circle_black_24dp)));
+        your_array_list.add(new MenuList("Settings", getApplicationContext().getResources().getDrawable(R.drawable.ic_settings)));
         your_array_list.add(new MenuList("Sign Out", getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1), "#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
 
         ListViewAdapter adapter = new ListViewAdapter(this, your_array_list);
@@ -491,14 +495,20 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         /*
         LAUNCH EXPLORE FRAGMENT BY DEFAULT
          */
+
+
+        if(amIConnect()) {
         Bundle extras = getIntent().getExtras();
         Log.d(TAG, "Trying to get intent, " + (extras == null));
         if (extras != null && extras.getBoolean(Constants.OPEN_MY_COURSES_INTENT)) {
             openMyCoursesFragment();
         } else {
-            fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
             initializevideo();
+        }
+        } else {
+            frameLayout.setVisibility(View.GONE);
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
         }
 
         // Set Navigation View Information
@@ -1101,10 +1111,17 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private void initializevideo() {
 
+        try {
+            language = Paper.book().read("LANGUAGE");
+        } catch (NullPointerException e){
+            language = 1;
+            Paper.book().write("LANGUAGE", language);
+        }
+
             relativeLayout.setVisibility(View.VISIBLE);
 
             RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-            String url1 = "https://careeranna.com/api/getTrendingVideos.php";
+            String url1 = "https://careeranna.com/api/getTrendingVideos.php?id="+String.valueOf(language);
             Log.d("url_res", url1);
             StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                     new Response.Listener<String>() {
@@ -1132,7 +1149,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             }
 
                             RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
-                            String url1 = "https://careeranna.com/api/getFreeVideos.php";
+                            String url1 = "https://careeranna.com/api/getFreeVideos.php?id="+String.valueOf(language);
                             Log.d("url_res", url1);
                             StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                     new Response.Listener<String>() {
