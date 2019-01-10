@@ -213,8 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i("App", response);
                             JSONObject spo = new JSONObject(response);
                             versionUpdate[0] = spo.getString("version_name");
-                            String versionName = BuildConfig.VERSION_NAME;
-                            if (!versionUpdate[0].equals(versionName)) {
+//                            String versionName = BuildConfig.VERSION_NAME;
+                            if (!versionUpdate[0].equals("1.0.7")) {
                                 alertDialogForUpdate();
                             }
                         } catch (JSONException e) {

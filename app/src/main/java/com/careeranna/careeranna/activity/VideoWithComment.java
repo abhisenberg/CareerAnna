@@ -1,9 +1,12 @@
 package com.careeranna.careeranna.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +54,7 @@ import io.paperdb.Paper;
 
 public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener, CommentAdapter.OnItemClickListener {
 
+    public static final String TAG = "VideoWithComment";
     RecyclerView recyclerView;
 
     FreeVideos freeVideos;
@@ -330,7 +334,24 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        playerView.setFullscreen(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE, true);
+        Log.d(TAG, "onConfigurationChanged: ");
+        boolean isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        Log.d(TAG, "orientation "+isLandscape);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if(isLandscape){
+                Log.d(TAG, "landscape 27+");
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                playerView.setFullscreen(isLandscape, true);
+            } else {
+                Log.d(TAG, "potrait 27+");
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        } else {
+            Log.d(TAG, "27- "+isLandscape);
+            playerView.setFullscreen(isLandscape, true);
+        }
+
         super.onConfigurationChanged(newConfig);
     }
 
@@ -338,8 +359,11 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
         if(fullscreenEvent.getFullscreen()){
             //If fullscreen, remove the action bar
+            Log.d(TAG, "onFullscreen: trying to go fullscreen");
+
         } else {
             //If not fullscreen, show the action bar
+            Log.d(TAG, "onFullscreen: not in fullscreen");
         }
     }
 

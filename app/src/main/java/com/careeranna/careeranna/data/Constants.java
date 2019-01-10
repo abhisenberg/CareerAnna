@@ -19,4 +19,5 @@ public class Constants {
 
     public static final String OPEN_MY_COURSES_INTENT = "openMyCourseIntent";
 
+    public static final String LANGUAGE = "LANGUAGE";
 }
