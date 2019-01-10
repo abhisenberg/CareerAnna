@@ -76,9 +76,9 @@ dependencies {
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'com.payu.india:payu-sdk:4.4.1'
     implementation 'com.payu.custombrowser:payu-custom-browser:6.1.3'
+    implementation 'com.longtailvideo.jwplayer:jwplayer-core:3.4.1'
+    implementation 'com.longtailvideo.jwplayer:jwplayer-common:3.4.1'
     implementation project(':sdkui')
-    implementation project(':jwplayer-core-3.3.0')
-    implementation project(':jwplayer-common-3.3.0')
     implementation('com.paytm:pgplussdk:1.2.3') {
         transitive = true;
     }
