@@ -96,7 +96,8 @@
             android:theme="@style/UserProfileTheme" />
         <activity
             android:name=".activity.VideoWithComment"
-            android:configChanges="orientation|screenSize|screenLayout" />
+            android:configChanges="orientation|screenLayout|screenSize"
+            />
         <activity android:name=".Exams"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity

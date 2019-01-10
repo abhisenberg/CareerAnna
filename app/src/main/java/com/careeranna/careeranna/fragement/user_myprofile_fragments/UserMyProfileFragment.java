@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Constants;
+import com.careeranna.careeranna.helper.ChangeLanguageDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +25,7 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
     public static final String TAG = "UserMyProfileFrag";
 //    Button bt_signout;
 
-    TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_tnc;
+    TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_tnc, tv_changeLanguage;
     CardView openMyCourses;
 
     public UserMyProfileFragment() {
@@ -41,12 +42,14 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
         tv_support = view.findViewById(R.id.tv_userProf_Support);
         tv_tnc = view.findViewById(R.id.tv_userProf_tnc);
         openMyCourses = view.findViewById(R.id.bt_userProf_myCourses);
+        tv_changeLanguage = view.findViewById(R.id.tv_userProf_language);
 
         openMyCourses.setOnClickListener(this);
         tv_changeNotiPref.setOnClickListener(this);
         tv_referralCode.setOnClickListener(this);
         tv_support.setOnClickListener(this);
         tv_tnc.setOnClickListener(this);
+        tv_changeLanguage.setOnClickListener(this);
         return view;
     }
 
@@ -79,6 +82,10 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
                  openMyCourses.putExtra(Constants.OPEN_MY_COURSES_INTENT, true);
                  startActivity(openMyCourses);
                 break;
+
+            case R.id.tv_userProf_language:
+                openLanguageChangeDialog();
+                break;
         }
     }
 
@@ -87,4 +94,10 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
         openLink.setData(Uri.parse(url));
         startActivity(openLink);
     }
+
+    public void openLanguageChangeDialog(){
+        ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog(getContext());
+        changeLanguageDialog.showDialog();
+    }
+
 }
