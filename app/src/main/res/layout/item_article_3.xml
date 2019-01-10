@@ -24,48 +24,84 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/article_image_1"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:scaleType="fitXY"
             />
         <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_width="0dp"
-            android:layout_weight="8"
+            android:layout_weight="6.5"
             android:orientation="vertical"
             android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/article_name_1"
             android:text="Article Heading"
             android:textColor="#000"
             android:maxLines="2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="8"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold"
             />
 
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:weightSum="10"
+            android:layout_marginTop="5dp"
             android:layout_height="match_parent">
 
-
             <LinearLayout
-                android:layout_weight="7"
+                android:layout_weight="10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@drawable/ic_calendar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                    <!--android:id="@+id/article_author_image"-->
+                    <!--android:src="@drawable/intro_pic_1"-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp" />-->
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/article_author_image_1"
+                        android:src="@drawable/ic_person_color"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:id="@+id/article_author_name_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Author Name"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textSize="12sp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
 
                 <com.github.curioustechizen.ago.RelativeTimeTextView
+                    android:drawableLeft="@drawable/ic_calendar"
                     android:id="@+id/article_created_date_1"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
                     android:layout_height="wrap_content"
                     android:text="Article Date"
                     android:textSize="12sp"
@@ -74,80 +110,42 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/arrow"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_height="12dp"
-                android:background="@android:color/transparent"
-                android:drawableRight="@drawable/ic_arrow_drop_down_grey_24dp"
-                />
 
         </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/arrow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:drawableRight="@drawable/ic_arrow_drop_down_grey_24dp"
+            />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_of_author"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
 
         <LinearLayout
+            android:layout_weight="10"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-            >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <!--<de.hdodenhof.circleimageview.CircleImageView-->
-                <!--android:id="@+id/article_author_image"-->
-                <!--android:src="@drawable/intro_pic_1"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp" />-->
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/article_author_image_1"
-                    android:src="@drawable/ic_person_color"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp" />
-
-                <TextView
-                    android:id="@+id/article_author_name_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Author Name"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="12sp"
-                    android:layout_gravity="center"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
+            android:layout_height="wrap_content">
 
         <com.careeranna.careeranna.misc.TextViewEx
-            android:visibility="gone"
+            android:layout_marginTop="10dp"
             android:id="@+id/article_content_1"
             android:text="@string/sample_article_content"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="9"
             android:layout_height="wrap_content"
             />
+
+         <View
+             android:layout_width="0dp"
+             android:layout_weight="1"
+             android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -253,7 +251,9 @@
         <!--/>-->
 
         <com.careeranna.careeranna.misc.TextViewEx
+            android:layout_marginTop="10dp"
             android:id="@+id/article_content"
+            android:layout_gravity="right"
             android:text="@string/sample_article_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

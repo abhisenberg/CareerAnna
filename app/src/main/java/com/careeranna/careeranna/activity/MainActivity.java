@@ -2,8 +2,10 @@ package com.careeranna.careeranna.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -31,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.BuildConfig;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.service.VideoService;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
@@ -213,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i("App", response);
                             JSONObject spo = new JSONObject(response);
                             versionUpdate[0] = spo.getString("version_name");
-//                            String versionName = BuildConfig.VERSION_NAME;
-                            if (!versionUpdate[0].equals("1.0.7")) {
+                            String versionName = getVersionName(MainActivity.this);
+                            if (!versionUpdate[0].equals(versionName)) {
                                 alertDialogForUpdate();
                             }
                         } catch (JSONException e) {
@@ -233,6 +236,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Alert Dialog For Update Which Will Send Him to Playstore Page
      */
+
+
+    public String getVersionName(Context ctx){
+        try {
+            return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return Constants.VERSION_NAME;
+        }
+    }
 
     private void alertDialogForUpdate() {
 

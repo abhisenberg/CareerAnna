@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.careeranna.careeranna.fragement.NoInternetFragement;
 import com.careeranna.careeranna.fragement.explore_not_sign_in_fragements.InsideWithoutSignFragment;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 
 import io.paperdb.Paper;
 
-public class ExploreNotSignActivity extends AppCompatActivity {
+public class ExploreNotSignActivity extends AppCompatActivity implements NoInternetFragement.OnFragemntClickListener{
 
     LinearLayout linearLayout;                              // Linear Layout For Dots Of Banner
 
@@ -52,7 +53,10 @@ public class ExploreNotSignActivity extends AppCompatActivity {
 
     InsideWithoutSignFragment insideWithoutSignFragment;    // Fragement Inside Explore to Show Details
 
+    NoInternetFragement noInternetFragement;
+
     FragmentManager fragmentManager;                        // Fragement Manager To Change Fragements
+
 
     ArrayList<Banner> mBanners;                             // Arraylist Of Banner For Slider
 
@@ -91,6 +95,8 @@ public class ExploreNotSignActivity extends AppCompatActivity {
 
         insideWithoutSignFragment = new InsideWithoutSignFragment();
 
+        noInternetFragement = new NoInternetFragement();
+        noInternetFragement.setOnFragementClicklistener(this);
         /**
          * Getting Fragement Manager Fron The Activity
          */
@@ -101,9 +107,15 @@ public class ExploreNotSignActivity extends AppCompatActivity {
          * Replacing Main Container With Fragment Inside Explore
          */
 
+        if(amIConnect()) {
+            frameLayout.setVisibility(View.VISIBLE);
         fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
 
         getBanner();
+        } else {
+            frameLayout.setVisibility(View.GONE);
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+        }
 
         counterForUser();       // Counter For User Accessing Explore Without Sign Up
     }
@@ -359,4 +371,11 @@ public class ExploreNotSignActivity extends AppCompatActivity {
         alert.show();
     }
 
+    @Override
+    public void onItemClick1() {
+        fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
+
+        getBanner();
+
+    }
 }

@@ -278,7 +278,9 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                                         Category.getString("exam_id"),
                                         Category.getString("discount")
                                         , "",
-                                        Category.getString("video_url").replace("\\", "")));
+                                        Category.getString("video_url").replace("\\", ""),
+                                        "Paid",
+                                        Category.getString("price")));
                             }
                             JSONArray FreeArray = jsonObject.getJSONArray("free");
                             for (int i = 0; i < FreeArray.length(); i++) {

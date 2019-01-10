@@ -61,16 +61,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int i) {
 
         if(i == 0) {
-            articleViewHolder.linearLayout.setVisibility(View.VISIBLE);
             articleViewHolder.articleContent_1.setVisibility(View.VISIBLE);
-
         }
 
         articleViewHolder.articleTitle.setText(mArticles.get(i).getName());
         articleViewHolder.articleTitle_1.setText(mArticles.get(i).getName());
         String contentShow;
-        if(mArticles.get(i).getContent().length() > 255){
-            contentShow = mArticles.get(i).getContent().substring(0 , 255)+"...";
+        if(mArticles.get(i).getContent().length() > 150){
+            contentShow = mArticles.get(i).getContent().substring(0 , 150)+"...";
         } else {
             contentShow = mArticles.get(i).getContent();
         }
@@ -86,11 +84,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 .into(articleViewHolder.articleImage_1);
 
         String authorName = mArticles.get(i).getAuthor();
-        articleViewHolder.articleAuthor.setText(authorName);
+        articleViewHolder.articleAuthor.setText(authorName.substring(0,8) + "...");
         articleViewHolder.articleCreated.setText(mArticles.get(i).getCreated_at().substring(0, 10));
 
         String authorName1 = mArticles.get(i).getAuthor();
-        articleViewHolder.articleAuthor_1.setText(authorName1);
+        articleViewHolder.articleAuthor_1.setText(authorName1.substring(0,8) + "...");
         articleViewHolder.articleCreated_1.setText(mArticles.get(i).getCreated_at().substring(8, 10)+getMonth(Integer.valueOf(mArticles.get(i).getCreated_at().substring(5, 7)))+", "+mArticles.get(i).getCreated_at().substring(0, 4));
 
         int authorImagePath;
@@ -167,7 +165,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public ArticleViewHolder(View itemView) {
             super(itemView);
 
-            linearLayout = itemView.findViewById(R.id.linear_of_author);
             articleImage = itemView.findViewById(R.id.article_image);
             articleImage_1 = itemView.findViewById(R.id.article_image_1);
             articleTitle = itemView.findViewById(R.id.article_name);
@@ -185,7 +182,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             arrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(linearLayout.getVisibility() == View.VISIBLE) {
+                    if(articleContent_1.getVisibility() == View.VISIBLE) {
                         Drawable[] drawables = arrow.getCompoundDrawables();
                         // get left drawable.
                         Drawable rightCompoundDrawable = drawables[2];
@@ -195,7 +192,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         img.setBounds(rightCompoundDrawable.getBounds());
                         // set new drawable
                         arrow.setCompoundDrawables(null, null, img, null);
-                        linearLayout.setVisibility(View.GONE);
                         articleContent_1.setVisibility(View.GONE);
                     } else {
                         Drawable[] drawables = arrow.getCompoundDrawables();
@@ -207,7 +203,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         img.setBounds(rightCompoundDrawable.getBounds());
                         // set new drawable
                         arrow.setCompoundDrawables(null, null, img, null);
-                        linearLayout.setVisibility(View.VISIBLE);
                         articleContent_1.setVisibility(View.VISIBLE);
                     }
                 }

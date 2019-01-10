@@ -1,8 +1,11 @@
 package com.careeranna.careeranna;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.User;
+import com.careeranna.careeranna.fragement.NoInternetFragement;
 import com.careeranna.careeranna.fragement.profile_fragements.CertificateFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TestFragment;
@@ -46,7 +50,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class Exams extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Exams extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragement.OnFragemntClickListener {
 
     public static final String TAG = "Exams";
 
@@ -61,12 +65,15 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
     TutorialFragment tutorialFragment;
     NotesFragment notesFragment;
     TestFragment testFragment;
+    NoInternetFragement noInternetFragement;
 
     User user;
 
     String material;
 
     String id, name, urls;
+
+    int fragement_id;
 
     ProgressDialog progressDialog;
 
@@ -89,6 +96,8 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
         drawerLayout.addDrawerListener(mToggle);
+
+        fragement_id = R.id.tutorial;
 
         mToggle.syncState();
 
@@ -122,15 +131,23 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
         initializeFragement();
 
-        fetchUnit();
-
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
-    }
+
+        if(amIConnect()) {
+
+            fetchUnit();
+
+            fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+        }
+        }
 
 
     private void initializeFragement() {
 
+        noInternetFragement = new NoInternetFragement();
+        noInternetFragement.setOnFragementClicklistener(this);
         tutorialFragment = new TutorialFragment();
         notesFragment = new NotesFragment();
         testFragment = new TestFragment();
@@ -187,40 +204,47 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
         int id = menuItem.getItemId();
 
-        if(id == R.id.signout) {
+        fragement_id = menuItem.getItemId();
 
-            mAuth.signOut();
-            LoginManager.getInstance().logOut();
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+        if(amIConnect()) {
 
-        } else if(id == R.id.tutorial) {
+            if (id == R.id.signout) {
 
-            fetchUnit();
-            navigationView.setCheckedItem(R.id.tutorial);
-            fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
-            getSupportActionBar().setTitle("Videos");
+                mAuth.signOut();
+                LoginManager.getInstance().logOut();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
 
-        } else if(id == R.id.notes) {
+            } else if (id == R.id.tutorial) {
 
-            fetchPdf();
+                fetchUnit();
+                navigationView.setCheckedItem(R.id.tutorial);
+                fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
+                getSupportActionBar().setTitle("Videos");
 
-            navigationView.setCheckedItem(R.id.notes);
-            fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
-            getSupportActionBar().setTitle("Ebooks");
+            } else if (id == R.id.notes) {
 
-        } else if(id == R.id.test) {
+                fetchPdf();
 
-            navigationView.setCheckedItem(R.id.test);
-            fragmentManager.beginTransaction().replace(R.id.main_content,testFragment).commit();
-            getSupportActionBar().setTitle("Test");
+                navigationView.setCheckedItem(R.id.notes);
+                fragmentManager.beginTransaction().replace(R.id.main_content, notesFragment).commit();
+                getSupportActionBar().setTitle("Ebooks");
 
-        }  else if(id == R.id.goBackHome) {
+            } else if (id == R.id.test) {
 
-            startActivity(new Intent(Exams.this, MyCourses.class));
-            finish();
+                navigationView.setCheckedItem(R.id.test);
+                fragmentManager.beginTransaction().replace(R.id.main_content, testFragment).commit();
+                getSupportActionBar().setTitle("Test");
+
+            } else if (id == R.id.goBackHome) {
+
+                startActivity(new Intent(Exams.this, MyCourses.class));
+                finish();
+            }
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
 
@@ -337,6 +361,52 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
             super.onBackPressed();
     }
 
+
+    private boolean amIConnect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+    }
+
+    @Override
+    public void onItemClick1() {
+        if(fragement_id == R.id.signout) {
+
+            mAuth.signOut();
+            LoginManager.getInstance().logOut();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+
+        } else if(fragement_id == R.id.tutorial) {
+
+            fetchUnit();
+            navigationView.setCheckedItem(R.id.tutorial);
+            fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
+            getSupportActionBar().setTitle("Videos");
+
+        } else if(fragement_id == R.id.notes) {
+
+            fetchPdf();
+
+            navigationView.setCheckedItem(R.id.notes);
+            fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
+            getSupportActionBar().setTitle("Ebooks");
+
+        } else if(fragement_id == R.id.test) {
+
+            navigationView.setCheckedItem(R.id.test);
+            fragmentManager.beginTransaction().replace(R.id.main_content,testFragment).commit();
+            getSupportActionBar().setTitle("Test");
+
+        }  else if(fragement_id == R.id.goBackHome) {
+
+            startActivity(new Intent(Exams.this, MyCourses.class));
+            finish();
+        }
+
+    }
 }
 
 
