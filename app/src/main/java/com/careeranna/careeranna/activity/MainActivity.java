@@ -190,11 +190,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //TODO: Uncomment this line when publishing updates to play store
         checkUpdates();
-        String cache = Paper.book().read("user");
-        if (cache != null && !cache.isEmpty()) {
-            startActivity(new Intent(this, MyCourses.class));
-            finish();
-        }
 
     }
 
@@ -219,6 +214,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String versionName = getVersionName(MainActivity.this);
                             if (!versionUpdate[0].equals(versionName)) {
                                 alertDialogForUpdate();
+                            } else {
+                                String cache = Paper.book().read("user");
+                                if (cache != null && !cache.isEmpty()) {
+                                    startActivity(new Intent(MainActivity.this, MyCourses.class));
+                                    finish();
+                                }
                             }
                         } catch (JSONException e) {
                             Log.e("error_coce", e.getMessage());
