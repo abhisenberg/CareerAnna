@@ -2,6 +2,7 @@ package com.careeranna.careeranna.helper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
@@ -55,6 +56,7 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
     }
 
     private int getPreviousLanguage(){
+
         int lang;
 
         try {
@@ -68,6 +70,7 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
     }
 
     private void setLanguage(){
+        Log.d("ChangeLanguage", language+"");
         Paper.book().write(Constants.LANGUAGE, language);
     }
 
