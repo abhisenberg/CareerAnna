@@ -25,6 +25,8 @@
     <string name="tnc">Terms and Conditions</string>
     <string name="cert_date">Date of completion</string>
     <string name="cert_download">Download Certificate</string>
+    <string name="change_content_language">Change content language</string>
+    <string name="select_preferred_language">Select your preferred language</string>
 
     <string name="intro_slide1_title">7,83,000+ Users</string>
     <string name="intro_slide1_desc">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages.</string>

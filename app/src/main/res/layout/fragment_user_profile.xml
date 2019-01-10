@@ -44,8 +44,18 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_userProf_language"
+                android:textColor="@color/userProf_options_textColor"
+                android:text="@string/change_content_language"
+                android:textSize="16sp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
                 android:id="@+id/tv_userProf_changeNotiPref"
                 android:textColor="@color/userProf_options_textColor"
+                android:layout_marginTop="@dimen/userProf_options_margin"
                 android:text="@string/user_profile_notif_pref"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
