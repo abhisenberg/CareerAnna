@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,16 +49,20 @@
         </activity>
         <activity
             android:name=".user.SignUp"
+            android:screenOrientation="portrait"
             android:label="Sign In" />
         <activity
             android:name=".activity.MyCourses"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout"
             android:label="MyCourses" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".user.Register"
             android:label="Create An Account" />
         <activity
             android:name=".ParticularCourse"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity android:name=".Pdf"
             android:label="Pdf View"
@@ -66,32 +72,46 @@
 
         <activity
             android:name=".activity.ParticularArticleActivity"
+            android:screenOrientation="portrait"
             android:label="Article" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".ExamPrepActivity"
             android:label="Examp Prep" />
         <activity
             android:name=".MyExamPrepActivity"
+            android:screenOrientation="portrait"
             android:label="My Exam Prep" />
-        <activity android:name=".activity.Payment" />
+        <activity android:name=".activity.Payment"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.PasswordReset"
+            android:screenOrientation="portrait"
             android:label="Password Reset" />
         <activity android:name=".activity.PurchaseCourseDetail"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout"
             />
         <activity android:name=".activity.PaytmPayment" />
-        <activity android:name=".ExampPrepParticular" />
+        <activity android:name=".ExampPrepParticular"
+            android:screenOrientation="portrait"
+            />
         <activity
+            android:screenOrientation="portrait"
             android:name=".activity.FilterOfCategory"
             android:label="Filter Course" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".activity.SortByCourse"
             android:label="Sort Course" />
-        <activity android:name=".InstructorProfileActivity" />
-        <activity android:name=".InstructorsListActivity" />
+        <activity android:name=".InstructorProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstructorsListActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
+            android:screenOrientation="portrait"
             android:name=".user.MyProfile_2"
             android:theme="@style/UserProfileTheme" />
 
@@ -102,6 +122,7 @@
         <activity android:name=".Exams"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".activity.ExploreNotSignActivity"
             android:label="Explore" />
         <activity android:name=".activity.PurchaseCourseDetail2" />
