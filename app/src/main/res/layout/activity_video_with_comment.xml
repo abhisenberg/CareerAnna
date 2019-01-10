@@ -54,7 +54,6 @@
             />
 
         <Button
-            android:layout_marginTop="6dp"
             android:layout_below="@+id/videoView"
             android:id="@+id/thumbdown"
             android:background="@android:color/transparent"

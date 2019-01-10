@@ -269,7 +269,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if (recyclerView1.getCurrentPosition() > 0) {
+    /*            if (recyclerView1.getCurrentPosition() > 0) {
                     arrow_l_l.setVisibility(View.VISIBLE);
                 } else if (recyclerView1.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.VISIBLE);
@@ -278,7 +278,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (recyclerView1.getCurrentPosition() == 0) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
-                int childCount = recyclerView1.getChildCount();
+    */            int childCount = recyclerView1.getChildCount();
                 int width = recyclerView1.getChildAt(0).getWidth();
                 int padding = (recyclerView1.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
@@ -322,7 +322,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if (freeCorse.getCurrentPosition() > 0) {
+      /*          if (freeCorse.getCurrentPosition() > 0) {
                     arrow_f_l.setVisibility(View.VISIBLE);
                 } else if (freeCorse.getCurrentPosition() + 2 == freecourse.size()) {
                     arrow_f_r.setVisibility(View.VISIBLE);
@@ -331,7 +331,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (freeCorse.getCurrentPosition() == 0) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
-                int childCount = freeCorse.getChildCount();
+      */          int childCount = freeCorse.getChildCount();
                 int width = freeCorse.getChildAt(0).getWidth();
                 int padding = (freeCorse.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
@@ -375,7 +375,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if (paidCourse.getCurrentPosition() > 0) {
+        /*        if (paidCourse.getCurrentPosition() > 0) {
                     arrow_p_l.setVisibility(View.VISIBLE);
                 } else if (paidCourse.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_p_r.setVisibility(View.VISIBLE);
@@ -384,7 +384,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (paidCourse.getCurrentPosition() == 0) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
-                int childCount = paidCourse.getChildCount();
+        */        int childCount = paidCourse.getChildCount();
                 int width = paidCourse.getChildAt(0).getWidth();
                 int padding = (paidCourse.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
@@ -428,7 +428,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if (trending.getCurrentPosition() > 0) {
+       /*         if (trending.getCurrentPosition() > 0) {
                     arrow_t_l.setVisibility(View.VISIBLE);
                 } else if (trending.getCurrentPosition() + 2 == trendingvVideos.size()) {
                     arrow_t_r.setVisibility(View.VISIBLE);
@@ -437,7 +437,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (trending.getCurrentPosition() == 0) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
-                int childCount = trending.getChildCount();
+       */         int childCount = trending.getChildCount();
                 int width = trending.getChildAt(0).getWidth();
                 int padding = (trending.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
