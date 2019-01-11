@@ -22,6 +22,12 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
     2 - Hindi
     3 - Tamil
     4 - Telugu
+    5 - Bengali
+    6 - Marathi
+    7 - Kannada
+    8 - Gujarati
+    9 - Malayalam
+    10 - Punjabi
      */
 
     private Dialog dialog;
@@ -36,6 +42,10 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_content_language);
 
+//        int width = (int) (context.getResources().getDisplayMetrics().widthPixels);
+//        int height = (int) (context.getResources().getDisplayMetrics().heightPixels);
+//        dialog.getWindow().setLayout(width, height);
+
         Paper.init(context);
 
         language = getPreviousLanguage();
@@ -44,7 +54,12 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.check(getRadioButtonID());
 
-        TextView tv_cancel, tv_ok;
+        /*
+        Enable this radio group when languages are available
+         */
+        RadioGroup radioGroupComingSoon = dialog.findViewById(R.id.rg_language_group_coming_soon);
+
+        View tv_cancel, tv_ok;
         tv_cancel = dialog.findViewById(R.id.tv_cancel);
         tv_ok = dialog.findViewById(R.id.tv_ok);
         tv_cancel.setOnClickListener(this);
@@ -101,7 +116,7 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
 
             case R.id.tv_ok:
                 setLanguage();
-                Toast.makeText(context, "You can now watch videos in "+getLanguageName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getText(R.string.you_can_view_content_in_language)+" "+getLanguageName(), Toast.LENGTH_SHORT).show();
                 dialog.cancel();
                 break;
         }

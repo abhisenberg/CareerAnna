@@ -18,7 +18,7 @@
             android:layout_height="150dp" />
 
         <TextView
-            android:text="Once you complete your courses, your certificates will appear here!"
+            android:text="@string/certificates_user"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"

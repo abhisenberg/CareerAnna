@@ -53,6 +53,7 @@
             android:label="Sign In" />
         <activity
             android:name=".activity.MyCourses"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout"
             android:label="MyCourses" />

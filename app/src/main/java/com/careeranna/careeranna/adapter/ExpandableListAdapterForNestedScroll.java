@@ -11,6 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Topic;
@@ -143,6 +144,7 @@ public class ExpandableListAdapterForNestedScroll extends BaseExpandableListAdap
             public void onClick(View view) {
                 if(mListener != null) {
                     mListener.onItemClick1(parent, child);
+                    Toast.makeText(mContext, mContext.getResources().getText(R.string.buy_this_fre_course), Toast.LENGTH_LONG).show();
                 }
             }
         });
