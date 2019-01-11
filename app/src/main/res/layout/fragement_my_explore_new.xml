@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -27,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="11sp"
-            android:text="Trending"
+            android:text="@string/trending"
             />
 
         <Button
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textSize="11sp"
             android:drawableRight="@drawable/ic_open_book"
-            android:text="Free"
+            android:text="@string/free"
             />
         <Button
             android:layout_marginLeft="1dp"
@@ -54,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="11sp"
-            android:text="Latest"
+            android:text="@string/latest"
             />
         <Button
             android:layout_marginRight="1dp"
@@ -68,10 +69,49 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="11sp"
-            android:text="Premium"
+            android:text="@string/premium"
             />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.SearchView
+            android:textSize="14sp"
+            android:paddingRight="10dp"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search"
+            android:gravity="center"
+            android:layout_toLeftOf="@id/filterTrend"
+            android:layout_width="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/searchTrend"
+            android:layout_marginTop="10dp"
+            android:layout_height="30dp" />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/filterTrend"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Filter"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"
+            android:background="@drawable/border_curved_1"
+            android:drawableLeft="@drawable/ic_filter_list_black_24dp"
+            />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
