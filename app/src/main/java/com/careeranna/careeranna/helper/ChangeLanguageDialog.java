@@ -2,6 +2,7 @@ package com.careeranna.careeranna.helper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.Constants;
 
 import io.paperdb.Paper;
@@ -101,8 +103,9 @@ public class ChangeLanguageDialog implements RadioGroup.OnCheckedChangeListener,
 
             case R.id.tv_ok:
                 setLanguage();
-                Toast.makeText(context, "You can now watch videos in "+getLanguageName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "You can view content in "+getLanguageName(), Toast.LENGTH_SHORT).show();
                 dialog.cancel();
+                context.startActivity(new Intent(context, MyCourses.class));
                 break;
         }
     }

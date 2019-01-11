@@ -37,7 +37,6 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
         Glide.with(mContext).load(freeVideos.get(i).getThumbnail()).into(viewHolder.imageView);
         viewHolder.title.setText(freeVideos.get(i).getTitle());
         viewHolder.views.setText(freeVideos.get(i).getTotal_view()+" views");
-        Log.i("length", freeVideos.get(i).getDuration().length()+"");
             viewHolder.duration.setText(freeVideos.get(i).getDuration());
         if(freeVideos.get(i).getTags() != null) {
             if (!freeVideos.get(i).getTags().equals("null")) {
@@ -66,6 +65,12 @@ public class TrendingVideosAdapter extends RecyclerView.Adapter<TrendingVideosAd
     public TrendingVideosAdapter(ArrayList<FreeVideos> freeVideos, Context mContext) {
         this.freeVideos = freeVideos;
         this.mContext = mContext;
+    }
+
+    public void changeContent(ArrayList<FreeVideos> freeVideos1) {
+        freeVideos.clear();
+        freeVideos.addAll(freeVideos1);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -27,9 +27,9 @@ android {
         applicationId "com.careeranna.careeranna"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 8
+        versionCode 10
         multiDexEnabled true
-        versionName "1.0.7"
+        versionName "1.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

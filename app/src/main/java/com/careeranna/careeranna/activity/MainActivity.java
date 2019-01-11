@@ -189,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        startActivity(new Intent(this, SignUp.class));
 
         //TODO: Uncomment this line when publishing updates to play store
-        checkUpdates();
+        String cache = Paper.book().read("user");
+        if (cache != null && !cache.isEmpty()) {
+            startActivity(new Intent(MainActivity.this, MyCourses.class));
+            finish();
+        }
 
     }
 
@@ -197,82 +201,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Checking the version of the app with the playstore version
      * if the version is same no dialog if the version is older giving update dialog and redirect to playstore
      */
-
-    private void checkUpdates() {
-
-        final String[] versionUpdate = {""};
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/updateVersion.php";
-        StringRequest str = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Log.i("App", response);
-                            JSONObject spo = new JSONObject(response);
-                            versionUpdate[0] = spo.getString("version_name");
-                            String versionName = getVersionName(MainActivity.this);
-                            if (!versionUpdate[0].equals(versionName)) {
-                                alertDialogForUpdate();
-                            } else {
-                                String cache = Paper.book().read("user");
-                                if (cache != null && !cache.isEmpty()) {
-                                    startActivity(new Intent(MainActivity.this, MyCourses.class));
-                                    finish();
-                                }
-                            }
-                        } catch (JSONException e) {
-                            Log.e("error_coce", e.getMessage());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-        queue.add(str);
-
-    }
-
     /**
      * Alert Dialog For Update Which Will Send Him to Playstore Page
      */
-
-
-    public String getVersionName(Context ctx){
-        try {
-            return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return Constants.VERSION_NAME;
-        }
-    }
-
-    private void alertDialogForUpdate() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Update Available");
-        builder.setIcon(R.mipmap.ic_launcher);
-        builder.setCancelable(false);
-
-        builder.setMessage(getString(R.string.update_your_app))
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(
-                                new Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=com.careeranna.careeranna"
-                                        )
-                                )
-                        );
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
 
 }
