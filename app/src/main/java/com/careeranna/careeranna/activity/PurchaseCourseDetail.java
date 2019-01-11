@@ -599,17 +599,6 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         }
 
     }
-/*
-
-
-    private void playVideo(String videoUrl) {
-        PlaylistItem playlistItem = new PlaylistItem.Builder()
-                .file(videoUrl)
-                .build();
-        playerView.load(playlistItem);
-        playerView.play();
-    }
-*/
 
     public void paidCourseCheckout(final String price){
         Dialog dialog = new Dialog(this);

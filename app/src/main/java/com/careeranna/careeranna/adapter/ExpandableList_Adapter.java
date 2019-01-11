@@ -18,7 +18,7 @@ import com.careeranna.careeranna.data.Unit;
 
 import java.util.ArrayList;
 
-public class ExpandableList_Adapter extends BaseExpandableListAdapter {
+public class ExpandableList_Adapter extends BaseExpandableListAdapter{
 
     public static final String TAG = "ExpandableListAdapter";
 
@@ -32,6 +32,8 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
 
     private ExpandableListView expandableListView;
 
+    private TextView lastSelectedChild;
+
     public interface OnItemClickListener {
         void onItemClick1(int position, int position2);
     }
@@ -40,13 +42,13 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
         mListener = listener;
     }
 
-    public ExpandableList_Adapter(Context mContext, ArrayList<Unit> unit, ExpandableListView expandableListView) {
+    public ExpandableList_Adapter(Context mContext, ArrayList<Unit> unit, final ExpandableListView expandableListView) {
         this.mContext = mContext;
         this.unitsList = unit;
         layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.expandableListView = expandableListView;
 
-        expandableListView.setGroupIndicator(null);
+        this.expandableListView.setGroupIndicator(null);
     }
 
     @Override
@@ -125,8 +127,20 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
         Drawable icon = getChild(groupPosition,childPosition).getIcon();
 
         ImageView listChildImage = view.findViewById(R.id.iv_video_image);
-        TextView listChild = view.findViewById(R.id.tv_video_title);
+        final TextView listChild = view.findViewById(R.id.tv_video_title);
         View lineDivider = view.findViewById(R.id.line_divider_under_child);
+
+          /*
+        The first video of the course plays by default when the course if opened, hence the
+        video title is highlighted if parent = 0 and child = 0. But if another video is clicked,
+        the color of that video will be changed and the first video will be un-highlighted.
+         */
+        Log.d(TAG, "getChildView: "+groupPosition+", "+childPosition+", "+listChild.getText());
+        if(lastSelectedChild == null && (groupPosition == 0 && childPosition == 1)){
+            Log.d(TAG, "getChildView: Setting last child as: "+listChild.getText());
+            lastSelectedChild = listChild;
+            listChild.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        }
 
         if(!isLastChild){
             lineDivider.setVisibility(View.INVISIBLE);
@@ -136,13 +150,24 @@ public class ExpandableList_Adapter extends BaseExpandableListAdapter {
         listChild.setText(childText);
         listChildImage.setImageDrawable(icon);
 
-        Log.d(TAG, "getChildView: child video title = "+childText);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mListener != null) {
                     mListener.onItemClick1(parent, child);
+                    /*
+                        Highlight the current video and un-highlight the first video
+                     */
+                    ((TextView)view.findViewById(R.id.tv_video_title)).setTextColor(
+                            mContext.getResources().getColor(R.color.colorPrimary)
+                    );
+
+                    if(lastSelectedChild != null){
+                        lastSelectedChild.setTextColor(mContext.getResources().getColor(R.color.dark_gray));
+                    }
+
+                    lastSelectedChild = view.findViewById(R.id.tv_video_title);
                 }
             }
         });

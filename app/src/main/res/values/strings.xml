@@ -149,6 +149,11 @@
     <string name="click_again_to_exit">Click again to exit</string>
     <string name="oops_looks_like_we_don_t_have_any_notes_for_this_course_yet_check_back_soon">Sorry, Ebooks is not the part of this course! Check videos</string>
     <string name="oops_looks_like_we_don_t_have_any_videos_for_this_course_yet_check_back_soon">Sorry, Videos is not the part of this course! Check ebooks</string>
+    <string name="languages_coming_soon">Following languages are coming very soon!</string>
+    <string name="you_can_view_content_in_language">You can now view content in </string>
+    <string name="suggest_user">Let us know your interests so we can suggest some awesome courses for you!</string>
+    <string name="certificates_user">Once you complete your courses, your certificates will appear here!</string>
+    <string name="buy_this_fre_course">Add this course for free by clicking on the cart to view all videos!</string>
 
     <string name="articles" >Articles</string>
     <string name="trending">Trending</string>
