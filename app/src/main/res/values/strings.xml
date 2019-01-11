@@ -11,12 +11,18 @@
         <item>Direct</item>
         <item>Mail</item>
     </string-array>
+    <string name="explore">Explore</string>
     <string name="Rs">\u20B9</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="desc"><u>Description</u></string>
     <string name="ccourses"><u>Current Course</u></string>
     <string name="mycourses"><u>My Courses</u></string>
+    <string name="MBA" >MBA</string>
+    <string name="WishList">Wish List</string>
+    <string name="settings">Settings</string>
+    <string name="our_mentors">Our Mentors</string>
+    <string name="general_knowledge">General Knowledge</string>
     <string name="courses"><u>Top Courses</u></string>
     <string name="categories"><u>Categories</u></string>
     <string name="terms">By signing up you agree to our <u>Terms and Conditions </u>.</string>
@@ -148,4 +154,11 @@
     <string name="suggest_user">Let us know your interests so we can suggest some awesome courses for you!</string>
     <string name="certificates_user">Once you complete your courses, your certificates will appear here!</string>
     <string name="buy_this_fre_course">Add this course for free by clicking on the cart to view all videos!</string>
+
+    <string name="articles" >Articles</string>
+    <string name="trending">Trending</string>
+    <string name="free">Free</string>
+    <string name="latest">Latest</string>
+    <string name="premium">Premium</string>
+    <string name="my_cart">My Cart</string>
 </resources>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Career Anna</string>
+    <string name="facebook_app_id">341622293308668</string>
+    <string name="fb_login_protocol_scheme">fb341622293308668</string>
+    <string-array name="how_did">
+        <item>How did you come to know about us ?</item>
+        <item>Facebook</item>
+        <item>Referred by Friend</item>
+        <item>Google Search</item>
+        <item>Quora</item>
+        <item>Direct</item>
+        <item>Mail</item>
+    </string-array>
+    <string name="Rs">\u20B9</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="desc"><u>Description</u></string>
+    <string name="ccourses"><u>Current Course</u></string>
+    <string name="mycourses"><u>मेरे पाठ्यक्रम</u></string>
+    <string name="general_knowledge">सामान्य ज्ञान</string>
+    <string name="our_mentors">हमारे प्रशिक्षक</string>
+    <string name="courses"><u>शीर्ष पाठ्यक्रम</u></string>
+    <string name="categories"><u>Categories</u></string>
+    <string name="terms">By signing up you agree to our <u>Terms and Conditions </u>.</string>
+    <string name="create"><u>Create an account</u>.</string>
+    <string name="signup">Create an account? <u>Sign Up</u>.</string>
+    <string name="tnc">Terms and Conditions</string>
+    <string name="cert_date">Date of completion</string>
+    <string name="cert_download">Download Certificate</string>
+    <string name="change_content_language">Change content language</string>
+    <string name="select_preferred_language">Choose your preferred language</string>
+
+    <string name="intro_slide1_title">7,83,000+ Users</string>
+    <string name="intro_slide1_desc">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages.</string>
+    <string name="intro_slide2_title">Video Based Learning</string>
+    <string name="intro_slide2_desc">On Demand interactive video courses.</string>
+    <string name="intro_slide3_title">Q&amp;A from Experts</string>
+    <string name="intro_slide3_desc">Ask and Learn from experts and professionals who are passionate to help others learn.</string>
+
+    <string name="intro_subhead_1">10 Languages. 1 Platform</string>
+    <string name="intro_subhead_2">On Demand Videos by Top Educators</string>
+    <string name="intro_subhead_3">Ask Anything You Need to Know</string>
+
+    <string name="signout">साइन आउट</string>
+    <string name="signin">Sign In</string>
+    <string name="free_vid">Free Videos</string>
+    <string name="trending_vid">Trending Videos</string>
+    <string name="top_vid">Top Courses</string>
+
+    <string name="sample_article_content">The little brown fox jumped over the lazy dog.
+            The little brown fox jumped over the lazy dog. The little brown fox jumped over the lazy dog.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="courses1"><u>Courses</u></string>
+    <string name="or">------------ OR ------------</string>
+    <string name="enter_username_or_email">Enter Username or Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="mba_in_india">MBA</string>
+
+    <string name="user_profile_notif_pref">Change notification Preferences</string>
+    <string name="user_profile_support">Support</string>
+    <string name="user_profile_app_ref_code">App Referral Code</string>
+
+    <string-array name="india_states">
+        <item>Select your state</item>
+        <item>Andaman and Nicobar Islands</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chandigarh</item>
+        <item>Chhattisgarh</item>
+        <item>Dadra and Nagar Haveli</item>
+        <item>Daman and Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Lakshadweep</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Orissa</item>
+        <item>Pondicherry</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Telangana</item>
+        <item>Tripura</item>
+        <item>Uttaranchal</item>
+        <item>Uttar Pradesh</item>
+        <item>West Bengal</item>
+    </string-array>
+
+    <string name="dummy_striked_cost"><strike>₹5000</strike></string>
+    <string name="MBA" >एम.बीए</string>
+    <string name="WishList">इच्छा सूची</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="dummy_discount">90% Off including taxes</string>
+    <string name="largest_platform_to_learn_and_share_knowledge_n_in_indian_languages">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages</string>
+
+    <string name="no_course_added">Looks like you haven\'t added any courses yet!</string>
+    <string name="loading_more_articles">Loading more articles...</string>
+    <string name="enter_promocode">Please enter a valid promocode!</string>
+    <string name="promocode_already_applied">This promocode is already applied.</string>
+    <string name="promocode_checking">Checking promocode...</string>
+    <string name="promocode_invalid">Invalid promocode</string>
+    <string name="promocode_applied_on">This promocode is already applied on </string>
+
+    <string name="something_went_wrong">Oops, something went wrong, please try again!</string>
+    <string name="pay_now">Payment in progress</string>
+
+    <string name="course_delete_confirm">Are you sure you want to remove this course from the cart?</string>
+    <string name="course_deleted">Course successfully removed</string>
+    <string name="added_to_wishlist">Added to your wishlist!</string>
+    <string name="loading_subcategory">Loading subcategory...</string>
+    <string name="loading_courses">Loading courses...</string>
+    <string name="loading_your_courses">Loading your courses...</string>
+    <string name="open_browser_limit_reached">You have reached your limit of open browsing. Please sign up/ sign in for free to continue accessing the app.</string>
+    <string name="forget_pw_enter_email">Please enter your registered email address</string>
+    <string name="loading_premium_courses">Loading Premium courses, please wait... </string>
+    <string name="loading_free_courses">Loading free courses, please wait... </string>
+    <string name="loading_just_a_sec">Loading, just give us a few seconds...</string>
+    <string name="update_your_app">New version is up! Update to get new features and latest courses!</string>
+    <string name="added_to_cart">Successfully added to cart!</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="fetching_your_details">Fetching your details...</string>
+    <string name="successfully_signing_in">Successfully signing in, just a sec...</string>
+    <string name="failed_signing_in">Authentication failed!</string>
+    <string name="no_user_exists">No such user exists, please register first.</string>
+    <string name="course_already_in_cart">This course is already added in your cart.</string>
+    <string name="please_register_to_continue">Please register first to add to cart</string>
+    <string name="security_code_match">Security code successfully matched</string>
+    <string name="security_code_not_match">Security code does not match</string>
+    <string name="pw_not_match">Password does not match</string>
+    <string name="loading_notes">Loading notes</string>
+    <string name="network_error">Network error occured, please check your internet connection.</string>
+    <string name="click_again_to_exit">Click again to exit</string>
+    <string name="oops_looks_like_we_don_t_have_any_notes_for_this_course_yet_check_back_soon">Sorry, Ebooks is not the part of this course! Check videos</string>
+    <string name="oops_looks_like_we_don_t_have_any_videos_for_this_course_yet_check_back_soon">Sorry, Videos is not the part of this course! Check ebooks</string>
+
+    <string name="explore">ब्राउज़</string>
+    <string name="articles" >ब्लॉग्</string>
+    <string name="trending">ट्रेंडिंग</string>
+    <string name="free">निशुल्क</string>
+    <string name="latest">लेटेस्ट</string>
+    <string name="premium">प्रीमियम</string>
+    <string name="my_cart">मेरा कार्ट</string>
+</resources>
