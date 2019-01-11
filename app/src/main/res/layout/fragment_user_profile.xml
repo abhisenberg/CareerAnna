@@ -33,7 +33,7 @@
     <android.support.v7.widget.CardView
         app:cardElevation="2dp"
         android:layout_marginBottom="3dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -48,8 +48,7 @@
                 android:textColor="@color/userProf_options_textColor"
                 android:text="@string/change_content_language"
                 android:textSize="16sp"
-
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -58,7 +57,7 @@
                 android:layout_marginTop="@dimen/userProf_options_margin"
                 android:text="@string/user_profile_notif_pref"
                 android:textSize="16sp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -67,7 +66,7 @@
                 android:text="@string/user_profile_support"
                 android:textSize="16sp"
                 android:layout_marginTop="@dimen/userProf_options_margin"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -76,7 +75,7 @@
                 android:text="@string/user_profile_app_ref_code"
                 android:layout_marginTop="@dimen/userProf_options_margin"
                 android:textSize="16sp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -85,7 +84,7 @@
                 android:text="@string/tnc"
                 android:textSize="16sp"
                 android:layout_marginTop="@dimen/userProf_options_margin"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

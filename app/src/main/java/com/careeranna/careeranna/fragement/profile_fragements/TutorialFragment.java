@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -37,6 +38,7 @@ import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class TutorialFragment extends Fragment implements ExpandableList_Adapter.OnItemClickListener
-        ,VideoPlayerEvents.OnFullscreenListener {
+        ,VideoPlayerEvents.OnFullscreenListener{
+
+    public static final String TAG = "TutorialFragment";
 
     //    VideoView videoView;
     private JWPlayerView playerView;
@@ -87,7 +91,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
         mUnits = new ArrayList<>();
 
-        if (course.get(0).equals("No results")) {
+        if (course.size() == 0 || course.get(0).equals("No results")) {
             playerView.setVisibility(View.GONE);
             cardView.setVisibility(View.VISIBLE);
         } else {
@@ -106,6 +110,9 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                     }
                 }
 
+                /*
+                Play the first video of the course by default
+                 */
                 if (!mUnits.isEmpty()) {
                     if (!mUnits.get(0).topics.isEmpty()) {
                         if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
@@ -123,10 +130,8 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
 
     @Override
-    public void onItemClick1(int position, int position2) {
-
-        playVideo(mUnits.get(position).topics.get(position2).getVideos());
-
+    public void onItemClick1(int parent, int child) {
+        playVideo(mUnits.get(parent).topics.get(child).getVideos());
     }
 
     private void playVideo(String videoUrl) {

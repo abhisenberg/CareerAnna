@@ -34,6 +34,7 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:layout_marginRight="20dp"
+            android:choiceMode="singleChoice"
             android:layout_below="@+id/videoView"
             android:id="@+id/expandableunit" />
 
