@@ -116,4 +116,20 @@
     <string name="latest">Latest</string>
     <string name="premium">Premium</string>
     <string name="my_cart">My Cart</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="continue_with">Continue with</string>
+    <string name="or_hindi">OR</string>
+    <string name="log_in">Log In</string>
+    <string name="account">Account</string>
+    <string name="search_your_course">Search Your Course</string>
+    <string name="videos">Videos</string>
+    <string name="ebooks">E-Books</string>
+    <string name="Test">Test</string>
+    <string name="retry">Retry</string>
+    <string name="an_error_has_occured_please_try_again_by_clicking_refresh">An Error Has Occured. Please Try Again By Clicking Refresh</string>
+    <string name="refresh">Refresh</string>
 </resources>

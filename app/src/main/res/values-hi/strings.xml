@@ -25,22 +25,22 @@
     <string name="terms">By signing up you agree to our <u>Terms and Conditions </u>.</string>
     <string name="create"><u>Create an account</u>.</string>
     <string name="signup">Create an account? <u>Sign Up</u>.</string>
-    <string name="tnc">Terms and Conditions</string>
+    <string name="tnc">नियम और शर्तें</string>
     <string name="cert_date">Date of completion</string>
     <string name="cert_download">Download Certificate</string>
-    <string name="change_content_language">Change content language</string>
+    <string name="change_content_language">भाषा बदलें</string>
     <string name="select_preferred_language">Choose your preferred language</string>
 
-    <string name="intro_slide1_title">7,83,000+ Users</string>
-    <string name="intro_slide1_desc">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages.</string>
-    <string name="intro_slide2_title">Video Based Learning</string>
-    <string name="intro_slide2_desc">On Demand interactive video courses.</string>
-    <string name="intro_slide3_title">Q&amp;A from Experts</string>
-    <string name="intro_slide3_desc">Ask and Learn from experts and professionals who are passionate to help others learn.</string>
+    <string name="intro_slide1_title">7,83,000+ पाठक</string>
+    <string name="intro_slide1_desc">भारतीय भाषा में ज्ञान सीखने और साझा करने के लिए सबसे बड़ा मंच.</string>
+    <string name="intro_slide2_title">वीडियो आधारित शिक्षा</string>
+    <string name="intro_slide2_desc">इंटरएक्टिव वीडियो पाठ्यक्रमों की मांग पर।</string>
+    <string name="intro_slide3_title">विशेषज्ञों से प्रश्नोत्तर</string>
+    <string name="intro_slide3_desc">विशेषज्ञों और पेशेवरों से पूछें और जानें जो दूसरों को सीखने में मदद करने के लिए भावुक हैं।</string>
 
-    <string name="intro_subhead_1">10 Languages. 1 Platform</string>
-    <string name="intro_subhead_2">On Demand Videos by Top Educators</string>
-    <string name="intro_subhead_3">Ask Anything You Need to Know</string>
+    <string name="intro_subhead_1">10  भाषाएं. 1 प्लेटफार्म</string>
+    <string name="intro_subhead_2">शीर्ष शिक्षकों द्वारा मांग वीडियो पर</string>
+    <string name="intro_subhead_3">आपको जो भी जानना है पूछें</string>
 
     <string name="signout">साइन आउट</string>
     <string name="signin">Sign In</string>
@@ -59,8 +59,8 @@
     <string name="forgot_your_password">Forgot Your Password?</string>
     <string name="mba_in_india">MBA</string>
 
-    <string name="user_profile_notif_pref">Change notification Preferences</string>
-    <string name="user_profile_support">Support</string>
+    <string name="user_profile_notif_pref">सूचना बदलें</string>
+    <string name="user_profile_support">समर्थन</string>
     <string name="user_profile_app_ref_code">App Referral Code</string>
 
     <string-array name="india_states">
@@ -104,14 +104,14 @@
     </string-array>
 
     <string name="dummy_striked_cost"><strike>₹5000</strike></string>
-    <string name="MBA" >एम.बीए</string>
+    <string name="MBA" >एम.बी.ए</string>
     <string name="WishList">इच्छा सूची</string>
     <string name="settings">सेटिंग्स</string>
     <string name="dummy_discount">90% Off including taxes</string>
     <string name="largest_platform_to_learn_and_share_knowledge_n_in_indian_languages">Largest Platform to Learn and Share Knowledge <br />  in Indian Languages</string>
 
     <string name="no_course_added">Looks like you haven\'t added any courses yet!</string>
-    <string name="loading_more_articles">Loading more articles...</string>
+    <string name="loading_more_articles">Loading ...</string>
     <string name="enter_promocode">Please enter a valid promocode!</string>
     <string name="promocode_already_applied">This promocode is already applied.</string>
     <string name="promocode_checking">Checking promocode...</string>
@@ -124,17 +124,17 @@
     <string name="course_delete_confirm">Are you sure you want to remove this course from the cart?</string>
     <string name="course_deleted">Course successfully removed</string>
     <string name="added_to_wishlist">Added to your wishlist!</string>
-    <string name="loading_subcategory">Loading subcategory...</string>
-    <string name="loading_courses">Loading courses...</string>
-    <string name="loading_your_courses">Loading your courses...</string>
+    <string name="loading_subcategory">लोडिंग ...</string>
+    <string name="loading_courses">लोडिंग ...</string>
+    <string name="loading_your_courses">लोडिंग ...</string>
     <string name="open_browser_limit_reached">You have reached your limit of open browsing. Please sign up/ sign in for free to continue accessing the app.</string>
     <string name="forget_pw_enter_email">Please enter your registered email address</string>
-    <string name="loading_premium_courses">Loading Premium courses, please wait... </string>
-    <string name="loading_free_courses">Loading free courses, please wait... </string>
-    <string name="loading_just_a_sec">Loading, just give us a few seconds...</string>
+    <string name="loading_premium_courses">लोडिंग ... </string>
+    <string name="loading_free_courses">लोडिंग ... </string>
+    <string name="loading_just_a_sec">लोडिंग ...</string>
     <string name="update_your_app">New version is up! Update to get new features and latest courses!</string>
     <string name="added_to_cart">Successfully added to cart!</string>
-    <string name="please_wait">Please wait...</string>
+    <string name="please_wait">कृपया प्रतीक्षा करें &#8230;</string>
     <string name="fetching_your_details">Fetching your details...</string>
     <string name="successfully_signing_in">Successfully signing in, just a sec...</string>
     <string name="failed_signing_in">Authentication failed!</string>
@@ -157,4 +157,20 @@
     <string name="latest">लेटेस्ट</string>
     <string name="premium">प्रीमियम</string>
     <string name="my_cart">मेरा कार्ट</string>
+    <string name="log_in">लॉग इन</string>
+    <string name="sign_in">साइन इन</string>
+    <string name="create_an_account">अकाउंट बनाएं</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    <string name="forgot_password">पासवर्ड भूल गए?</string>
+    <string name="continue_with">जारी रखें</string>
+    <string name="or_hindi">या</string>
+    <string name="account">अकाउन्ट</string>
+    <string name="search_your_course">अपने पाठ्यक्रम खोजें</string>
+    <string name="videos">वीडियो</string>
+    <string name="ebooks">ई बुक्स</string>
+    <string name="Test">" परीक्षा"</string>
+    <string name="retry">पुन: प्रयास</string>
+    <string name="an_error_has_occured_please_try_again_by_clicking_refresh">An Error Has Occured. Please Try Again By Clicking Refresh</string>
+    <string name="refresh">Refresh</string>
 </resources>

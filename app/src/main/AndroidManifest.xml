@@ -3,8 +3,8 @@
     package="com.careeranna.careeranna">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,103 +49,122 @@
         </activity>
         <activity
             android:name=".user.SignUp"
+            android:configChanges="locale"
+            android:label="Sign In"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Sign In" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.MyCourses"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|locale"
-            android:label="MyCourses" />
-        <activity
+            android:label="MyCourses"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".user.Register"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Create An Account" />
+            android:label="Create An Account"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ParticularCourse"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity android:name=".Pdf"
-            android:label="Pdf View"
-            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize|screenLayout"
-            />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Pdf"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:label="Pdf View"
+            android:windowSoftInputMode="adjustPan" />
+
         <service android:name=".service.VideoService" />
 
         <activity
             android:name=".activity.ParticularArticleActivity"
+            android:label="Article"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Article" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".ExamPrepActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Examp Prep" />
+            android:label="Examp Prep"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MyExamPrepActivity"
+            android:label="My Exam Prep"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:label="My Exam Prep" />
-        <activity android:name=".activity.Payment"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.Payment"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.PasswordReset"
+            android:label="Password Reset"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Password Reset" />
-        <activity android:name=".activity.PurchaseCourseDetail"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.PurchaseCourseDetail"
             android:configChanges="orientation|screenSize|screenLayout"
-            />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.PaytmPayment" />
-        <activity android:name=".ExampPrepParticular"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
         <activity
+            android:name=".ExampPrepParticular"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".activity.FilterOfCategory"
-            android:label="Filter Course" />
-        <activity
+            android:label="Filter Course"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".activity.SortByCourse"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Sort Course" />
-        <activity android:name=".InstructorProfileActivity"
+            android:label="Sort Course"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".InstructorsListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".InstructorProfileActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".InstructorsListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".user.MyProfile_2"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/UserProfileTheme" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/UserProfileTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.VideoWithComment"
-            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            />
-        <activity android:name=".Exams"
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="orientation|screenSize|screenLayout" />
+            android:windowSoftInputMode="adjustPan" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_name" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/sign_in_button_color" />
+
+        <service
+            android:name=".service.MyFirebaseInstanceIDService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:name=".Exams"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".activity.ExploreNotSignActivity"
-            android:label="Explore" />
+            android:label="Explore"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.PurchaseCourseDetail2" />
+        <activity android:name=".activity.Notification"></activity>
     </application>
 
 </manifest>

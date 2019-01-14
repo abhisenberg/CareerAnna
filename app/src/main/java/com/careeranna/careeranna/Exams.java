@@ -126,7 +126,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
         setHeader();
 
-        getSupportActionBar().setTitle("Videos");
+        getSupportActionBar().setTitle(getResources().getString(R.string.videos));
         navigationView.setCheckedItem(R.id.tutorial);
 
         initializeFragement();
@@ -220,7 +220,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                 fetchUnit();
                 navigationView.setCheckedItem(R.id.tutorial);
                 fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
-                getSupportActionBar().setTitle("Videos");
+                getSupportActionBar().setTitle(getResources().getString(R.string.videos));
 
             } else if (id == R.id.notes) {
 
@@ -228,13 +228,13 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
                 navigationView.setCheckedItem(R.id.notes);
                 fragmentManager.beginTransaction().replace(R.id.main_content, notesFragment).commit();
-                getSupportActionBar().setTitle("Ebooks");
+                getSupportActionBar().setTitle(getResources().getString(R.string.ebooks));
 
             } else if (id == R.id.test) {
 
                 navigationView.setCheckedItem(R.id.test);
                 fragmentManager.beginTransaction().replace(R.id.main_content, testFragment).commit();
-                getSupportActionBar().setTitle("Test");
+                getSupportActionBar().setTitle(getResources().getString(R.string.test));
 
             } else if (id == R.id.goBackHome) {
 
@@ -384,7 +384,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
             fetchUnit();
             navigationView.setCheckedItem(R.id.tutorial);
             fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
-            getSupportActionBar().setTitle("Videos");
+            getSupportActionBar().setTitle(getResources().getString(R.string.videos));
 
         } else if(fragement_id == R.id.notes) {
 
@@ -392,13 +392,13 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
             navigationView.setCheckedItem(R.id.notes);
             fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
-            getSupportActionBar().setTitle("Ebooks");
+            getSupportActionBar().setTitle(getResources().getString(R.string.ebooks));
 
         } else if(fragement_id == R.id.test) {
 
             navigationView.setCheckedItem(R.id.test);
             fragmentManager.beginTransaction().replace(R.id.main_content,testFragment).commit();
-            getSupportActionBar().setTitle("Test");
+            getSupportActionBar().setTitle(getResources().getString(R.string.test));
 
         }  else if(fragement_id == R.id.goBackHome) {
 

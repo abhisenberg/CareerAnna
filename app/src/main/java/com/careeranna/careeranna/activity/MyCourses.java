@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Handler;
 import java.util.Locale;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -50,6 +52,7 @@ import com.bumptech.glide.Glide;
 
 import com.careeranna.careeranna.BuildConfig;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.fragement.ErrorOccuredFragement;
 import com.careeranna.careeranna.fragement.NoInternetFragement;
 import com.careeranna.careeranna.fragement.dashboard_fragements.CartFragment;
 import com.careeranna.careeranna.InstructorsListActivity;
@@ -118,6 +121,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     NoInternetFragement noInternetFragement;
     ArticlesFragment myArticleFragment;
     CategoryFragment categoryFragment;
+    ErrorOccuredFragement errorOccuredFragement;
 
     FragmentManager fragmentManager;
 
@@ -261,6 +265,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         frameLayout = findViewById(R.id.pager);
 
         noInternetFragement = new NoInternetFragement();
+        errorOccuredFragement = new ErrorOccuredFragement();
         noInternetFragement.setOnFragementClicklistener(this);
 
         relativeLayout = findViewById(R.id.relative_loading);
@@ -712,6 +717,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     public void initArticle() {
 
+        try {
+            language = Paper.book().read(Constants.LANGUAGE);
+            Log.d("in_try", language + " ");
+        } catch (NullPointerException e) {
+            language = 1;
+            Log.d("in_catch", language + " ");
+            Paper.book().write(Constants.LANGUAGE, language);
+        }
+
         mArticles = new ArrayList<>();
 
         progressDialog = new ProgressDialog(this);
@@ -723,6 +737,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "https://careeranna.com/api/articlewithimage.php";
+        if(language == 2) {
+            url = "https://www.careeranna.com/api/hindiarticleswithimage.php";
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -734,7 +751,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                 JSONObject Articles = ArticlesArray.getJSONObject(i);
                                 mArticles.add(new Article(Articles.getString("ID"),
                                         Articles.getString("post_title"),
-                                        "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
+                                        "https://www.careeranna.com/hin/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
                                         Articles.getString("display_name"),
                                         "CAT",
                                         Articles.getString("post_content"),
@@ -782,8 +799,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             Log.i("App", response);
                             JSONObject spo = new JSONObject(response);
                             versionUpdate[0] = spo.getString("version_name");
-                            String versionName = BuildConfig.VERSION_NAME;
-                            if (!versionUpdate[0].equals(versionName)) {
+                            if (!versionUpdate[0].equals(getVersionName(MyCourses.this))) {
                                 alertDialogForUpdate();
                             }
                         } catch (JSONException e) {
@@ -837,108 +853,114 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private void initializeVideo() {
 
+            if(exploreNew.isContentEmpty()) {
 
-            trendingVideosForExplore = new ArrayList<>();
-            freeVideosForExplore = new ArrayList<>();
+                trendingVideosForExplore = new ArrayList<>();
+                freeVideosForExplore = new ArrayList<>();
 
-        try {
-            language = Paper.book().read(Constants.LANGUAGE);
-            if (language == 2) {
-                setLocale("hi");
-            } else if (language == 1) {
-                setLocale("en");
-            }
-            Log.d("in_try", language + " ");
-        } catch (Exception e) {
-            language = 1;
-            Log.d("in_catch", language + " ");
-            Paper.book().write(Constants.LANGUAGE, language);
-        }
+                try {
+                    language = Paper.book().read(Constants.LANGUAGE);
+                    if (language == 2) {
+                        setLocale("hi");
+                    } else if (language == 1) {
+                        setLocale("en");
+                    }
+                    Log.d("in_try", language + " ");
+                } catch (Exception e) {
+                    language = 1;
+                    Log.d("in_catch", language + " ");
+                    Paper.book().write(Constants.LANGUAGE, language);
+                }
 
 
-        relativeLayout.setVisibility(View.VISIBLE);
+                relativeLayout.setVisibility(View.VISIBLE);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-        String url1 = "https://careeranna.com/api/getTrendingVideos.php?id=" + String.valueOf(language);
-        Log.d("url_res", url1);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Log.i("url_response", response);
-                            JSONArray VideosArray = new JSONArray(response);
-                            for (int i = 0; i < VideosArray.length(); i++) {
-                                JSONObject videos = VideosArray.getJSONObject(i);
-                                trendingVideosForExplore.add(new FreeVideos(
-                                        videos.getString("id"),
-                                        videos.getString("video_url").replace("\\", ""),
-                                        "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
-                                        videos.getString("totalViews"),
-                                        videos.getString("tags"),
-                                        videos.getString("heading"),
-                                        "Free",
-                                        videos.getString("duration")));
-                                trendingVideosForExplore.get(i).setType("Trending");
-                            }
+                RequestQueue requestQueue1 = Volley.newRequestQueue(this);
+                String url1 = "https://careeranna.com/api/getTrendingVideos.php?id=" + String.valueOf(language);
+                Log.d("url_res", url1);
+                StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    Log.i("url_response", response);
+                                    JSONArray VideosArray = new JSONArray(response);
+                                    for (int i = 0; i < VideosArray.length(); i++) {
+                                        JSONObject videos = VideosArray.getJSONObject(i);
+                                        trendingVideosForExplore.add(new FreeVideos(
+                                                videos.getString("id"),
+                                                videos.getString("video_url").replace("\\", ""),
+                                                "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
+                                                videos.getString("totalViews"),
+                                                videos.getString("tags"),
+                                                videos.getString("heading"),
+                                                "Free",
+                                                videos.getString("duration")));
+                                        trendingVideosForExplore.get(i).setType("Trending");
+                                    }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                        RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
-                        String url1 = "https://careeranna.com/api/getFreeVideos.php?id=" + String.valueOf(language);
-                        Log.d("url_res", url1);
-                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            Log.i("url_response", response);
-                                            JSONArray VideosArray = new JSONArray(response);
-                                            for (int i = 0; i < VideosArray.length(); i++) {
-                                                JSONObject videos = VideosArray.getJSONObject(i);
-                                                freeVideosForExplore.add(new FreeVideos(
-                                                        videos.getString("id"),
-                                                        videos.getString("video_url").replace("\\", ""),
-                                                        "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
-                                                        videos.getString("totalViews"),
-                                                        videos.getString("tags"),
-                                                        videos.getString("heading"),
-                                                        "Trending",
-                                                        videos.getString("duration")
-                                                ));
-                                                freeVideosForExplore.get(i).setType("Latest");
+                                RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
+                                String url1 = "https://careeranna.com/api/getFreeVideos.php?id=" + String.valueOf(language);
+                                Log.d("url_res", url1);
+                                StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    Log.i("url_response", response);
+                                                    JSONArray VideosArray = new JSONArray(response);
+                                                    for (int i = 0; i < VideosArray.length(); i++) {
+                                                        JSONObject videos = VideosArray.getJSONObject(i);
+                                                        freeVideosForExplore.add(new FreeVideos(
+                                                                videos.getString("id"),
+                                                                videos.getString("video_url").replace("\\", ""),
+                                                                "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
+                                                                videos.getString("totalViews"),
+                                                                videos.getString("tags"),
+                                                                videos.getString("heading"),
+                                                                "Trending",
+                                                                videos.getString("duration")
+                                                        ));
+                                                        freeVideosForExplore.get(i).setType("Latest");
+                                                    }
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                addPaidCourse();
                                             }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                                addPaidCourse();
+                                            }
+                                        });
 
-                                        addPaidCourse();
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                        addPaidCourse();
-                                    }
-                                });
-
-                        requestQueue1.add(stringRequest1);
+                                requestQueue1.add(stringRequest1);
 
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
 
-                        addPaidCourse();
-                    }
-                });
-            requestQueue1.add(stringRequest1);
+                                addPaidCourse();
+                            }
+                        });
+                requestQueue1.add(stringRequest1);
+            } else {
+                Log.d("size_of_arraylist", trendingVideosForExplore.size()+"");
+                exploreNew.addFree(freeVideosForExplore, trendingVideosForExplore, coursesForExplore, freecourseForExplore);
+                relativeLayout.setVisibility(View.GONE);
+            }
     }
 
 
@@ -1049,9 +1071,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                 e.printStackTrace();
                             }
 
-                            relativeLayout.setVisibility(View.GONE);
 
                             exploreNew.addFree(freeVideosForExplore, trendingVideosForExplore, coursesForExplore, freecourseForExplore);
+                            relativeLayout.setVisibility(View.GONE);
 
                         }
                     },
@@ -1059,9 +1081,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+
+                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.main_content, exploreNew).commit();
                             exploreNew.addFree(freeVideosForExplore, trendingVideosForExplore, coursesForExplore, freecourseForExplore);
                             relativeLayout.setVisibility(View.GONE);
-                            fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
                         }
                     }
             );
@@ -1138,8 +1162,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 break;
             case 3:
                 frameLayout.setVisibility(View.VISIBLE);
-                initializeVideo();
                 fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
+                initializeVideo();
                 getSupportActionBar().setTitle(getResources().getString(R.string.explore));
                 break;
 
