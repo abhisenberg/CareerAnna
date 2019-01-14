@@ -46,8 +46,9 @@
         <android.support.v7.widget.SearchView
             android:textSize="14sp"
             android:paddingRight="10dp"
+            android:focusableInTouchMode="true"
             app:iconifiedByDefault="false"
-            app:queryHint="Search Your Course"
+            app:queryHint="@string/search_your_course"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"

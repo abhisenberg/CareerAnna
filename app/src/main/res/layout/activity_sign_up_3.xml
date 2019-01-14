@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/signin_3_continueWith"
-        android:text="Continue with"
+        android:text="@string/continue_with"
         android:layout_above="@+id/bt_google_login_1"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/register_screen_fields_color"
         android:textStyle="bold"
-        android:text="OR"
+        android:text="@string/or_hindi"
         android:layout_centerInParent="true"
         />
 
@@ -230,7 +230,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/login_screen_buttons_margin"
             android:background="@drawable/edittext_boxstyle_modified_states"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="5dp"
             android:textSize="16sp" />
@@ -245,7 +245,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/login_screen_buttons_margin"
             android:background="@drawable/edittext_boxstyle_modified_states"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="5dp"
             android:textSize="15sp" />
@@ -261,14 +261,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/login_screen_buttons_margin"
             android:background="@drawable/button_signin"
-            android:text="Sign in"
+            android:text="@string/log_in"
             android:textColor="#FFF"
             android:textSize="14sp" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/tv_forgot_password_3"
-        android:text="Forgot password?"
+        android:text="@string/forgot_password"
         android:layout_below="@id/username_pw_fields"
         android:textColor="@color/dark_gray"
         android:textSize="12sp"
@@ -286,7 +286,7 @@
         android:textColor="@color/dark_gray"
         android:layout_gravity="center"
         android:textSize="14sp"
-        android:text="Create an account"
+        android:text="@string/create_an_account"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="35dp"

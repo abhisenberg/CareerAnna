@@ -2,12 +2,19 @@ package com.careeranna.careeranna.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,10 +46,14 @@ import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.service.VideoService;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import io.paperdb.Paper;
 
@@ -50,7 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Declaring Variables for firebase authentication
      */
 
+    private static final int NOTIFICATION_PERMISSION_CODE = 123;
+
     PopupWindow popupWindow;
+    int language;
+
     FirebaseAuth mAuth;
     public static final String TAG = "MainAct";
 
@@ -78,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_explore = findViewById(R.id.bt_explore);
         bt_signin = findViewById(R.id.signIn);
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                    new NotificationChannel("MyNotifications", "MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         /**
          * Initializing Paper db and retrieving firebase user
@@ -104,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /**
          *  Button Listener For Explore And Sign up Button
          */
+
+      //  requestNotificationPermission();
 
         bt_explore.setOnClickListener(this);
         bt_signin.setOnClickListener(this);
@@ -186,12 +211,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+        FirebaseMessaging.getInstance().subscribeToTopic("all").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        try {
+            language = Paper.book().read(Constants.LANGUAGE);
+            if (language == 2) {
+                setLocale("hi");
+            } else if (language == 1) {
+                setLocale("en");
+            }
+            Log.d("in_try", language + " ");
+        } catch (Exception e) {
+            language = 1;
+            Log.d("in_catch", language + " ");
+            Paper.book().write(Constants.LANGUAGE, language);
+        }
+
 //        startActivity(new Intent(this, SignUp.class));
 
         //TODO: Uncomment this line when publishing updates to play store
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
-            startActivity(new Intent(MainActivity.this, MyCourses.class));
+            startActivity(new Intent(this, MyCourses.class));
             finish();
         }
 
@@ -204,5 +250,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Alert Dialog For Update Which Will Send Him to Playstore Page
      */
+
+    private void setLocale(String lang) {
+
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        onConfigurationChanged(conf);
+    }
+
+    private void requestNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED)
+            return;
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed for the notification of the latest articles and videos")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, NOTIFICATION_PERMISSION_CODE );
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+        }
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, NOTIFICATION_PERMISSION_CODE );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == NOTIFICATION_PERMISSION_CODE ) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+
+        slideAdapter = new SlideAdapter(this);
+        introSlider.setAdapter(slideAdapter);
+        addDots(0);
+
+        bt_signin.setText(getResources().getString(R.string.sign_in));
+        bt_explore.setText(getResources().getString(R.string.explore));
+        super.onConfigurationChanged(newConfig);
+    }
 
 }

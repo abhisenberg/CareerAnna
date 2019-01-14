@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textColor="@color/white"
-            android:text="My Courses"
+            android:text="@string/mycourses"
             android:textStyle="bold"
             android:gravity="center"
             />

@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+    <TextView
+        android:textSize="13dp"
+        android:textColor="#000"
+        android:text="Testing"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        />
+    <TextView
+        android:textSize="13dp"
+        android:textColor="#000"
+        android:text="Testing is awecome"
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:layout_below="@id/title"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/text"
+        android:layout_marginTop="5dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:background="@android:color/transparent"
+        android:text="Cancel"
+        android:textColor="@color/red"
+        />
+
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:background="@android:color/transparent"
+        android:text="View"
+        android:textColor="@color/sign_in_button_color"
+        />
+
+</RelativeLayout>
