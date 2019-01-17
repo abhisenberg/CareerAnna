@@ -506,3 +506,5 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
 }
 
+
+//2f2bd2e31fefa90c596705fba473fed74bba8cbe
