@@ -45,7 +45,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.OnItemClickListener {
+public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.OnItemClickListener, View.OnClickListener
+,RecyclerViewPager.OnPageChangedListener
+{
+    public static final String TAG = "MyCourseFragment";
 
     MyCoursesAdapterNew myCoursesAdapterNew;
 
@@ -55,6 +58,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     private ArrayList<CourseWithLessData> course, tempCourse;
 
     RecyclerViewPager mRecyclerView;
+    private int rv_currentPage;
 
     public MyCoursesFragment() {
         // Required empty public constructor
@@ -79,7 +83,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
-//                updateState(scrollState);
+                super.onScrollStateChanged(recyclerView, scrollState);
             }
 
             @Override
@@ -167,10 +171,13 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
+        mRecyclerView.addOnPageChangedListener(this);
         cardView = view.findViewById(R.id.card);
+        view.findViewById(R.id.leftArrow_myCourses).setOnClickListener(this);
+        view.findViewById(R.id.rightArrow_myCourses).setOnClickListener(this);
 
         search = view.findViewById(R.id.search);
+        rv_currentPage = 0;
 
         search.setSuggestionsAdapter(null);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -227,5 +234,41 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
             getContext().startActivity(intent);
 
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.leftArrow_myCourses:
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run: left "+rv_currentPage);
+                        if(rv_currentPage != 0){
+                            mRecyclerView.smoothScrollToPosition(rv_currentPage-1);
+                        }
+                    }
+                });
+                break;
+
+            case R.id.rightArrow_myCourses:
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run: right "+rv_currentPage);
+                        if(rv_currentPage != tempCourse.size()-1){
+                            mRecyclerView.smoothScrollToPosition(rv_currentPage+1);
+                        }
+                    }
+                });
+                break;
+        }
+    }
+
+
+    @Override
+    public void OnPageChanged(int i, int i1) {
+        Log.d(TAG, "OnPageChanged: oldPage = "+i+", newPage = "+i1);
+        rv_currentPage = i1;
     }
 }
