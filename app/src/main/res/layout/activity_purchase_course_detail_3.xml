@@ -93,9 +93,29 @@
                 android:background="@drawable/list_item_shadow"
                 android:orientation="vertical" />
 
+            <android.support.design.card.MaterialCardView
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                app:cardCornerRadius="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <WebView
+                    android:id="@+id/wv_productDesc"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </WebView>
+
+            </android.support.design.card.MaterialCardView>
+
+
+
         </LinearLayout>
-
-
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -127,6 +127,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     ExpandableListViewForNestedScroll expandableListView;
 
     WebView webView;
+    WebView wv_productDescription;
 
     ImageView iv_demoCourseImage;
 
@@ -157,6 +158,8 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //        playerView =  findViewById(R.id.playerView);
 //        description = findViewById(R.id.course_description);
         addTocart = findViewById(R.id.btn_cart);
+        wv_productDescription = findViewById(R.id.wv_productDesc);
+        wv_productDescription.setVisibility(View.GONE);
 
         Intent intent = getIntent();
 
@@ -521,7 +524,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     private void fetchUnit() {
-        String id = course.getId();
+        final String id = course.getId();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading Videos .. ");
@@ -536,32 +539,88 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                     @Override
                     public void onResponse(String response) {
                         if(response.equals("No results")){
-                            response = CourseDummyData.dummyString;
+                            /*
+                            If no product description is found from this table, then try it from the other
+                            table.
+                             */
+
+                            expandableListView.setVisibility(View.GONE);
+
+                            RequestQueue requestQueue1 = Volley.newRequestQueue(PurchaseCourseDetail.this);
+                            String url = "https://careeranna.com/api/getProductDescription.php?id="+id;
+
+                            StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                                    url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            if(response.equals("null")){
+                                                /*
+                                                No description found.
+                                                 */
+                                            } else {
+                                                Log.d(TAG, "ProductDescription = "+response);
+//                                                Toast.makeText(PurchaseCourseDetail.this, response.substring(0,30), Toast.LENGTH_SHORT).show();
+
+                                                try {
+                                                    JSONArray descArray = new JSONArray(response);
+                                                    for(int i=0; i<descArray.length(); i++){
+                                                        JSONObject descObject = descArray.getJSONObject(i);
+                                                        String htmlDesc = descObject.getString("mock_test")
+                                                                +descObject.getString("prev_paper");
+                                                        htmlDesc = htmlDesc.replaceAll("<div", "<div style=\"margin-top:10px\"");
+//                                                        htmlDesc = htmlDesc.replaceAll("\">", "\">○ ");
+                                                        Log.d(TAG, "HtmlResponse: "+htmlDesc);
+
+                                                        wv_productDescription.loadData(htmlDesc, "text/html; charset=utf-8", "UTF-8");
+                                                        wv_productDescription.setVisibility(View.VISIBLE);
+
+                                                    }
+                                                } catch (JSONException e) {
+                                                    Log.d(TAG, "HtmlResponseError: ");
+                                                    e.printStackTrace();
+                                                }
+                                                progressDialog.dismiss();
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.d(TAG, "onErrorResponse_2nd try: ");
+                                        }
+                                    }
+                            );
+
+                            requestQueue1.add(stringRequest1);
+
+                        } else {
+                            ArrayList<String> course = new ArrayList<>();
+                            try {
+                                Log.d(TAG, "response = "+response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                    JSONArray jsonArray = jsonObject.getJSONArray("content");
+                                    for(int i=0;i<jsonArray.length();i++) {
+                                        course.add((String)jsonArray.get(i));
+                                    }
+                            } catch (JSONException e) {
+                                e.printStackTrace(); }
+                            /*
+                            addCourseUnit call
+                            pass the course
+                             */
+                            addCourseUnits(course);
+                            progressDialog.dismiss();
                         }
-                        ArrayList<String> course = new ArrayList<>();
-                        try {
-                            Log.d(TAG, "response = "+response);
-                            JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("content");
-                                for(int i=0;i<jsonArray.length();i++) {
-                                    course.add((String)jsonArray.get(i));
-                                }
-                        } catch (JSONException e) {
-                            e.printStackTrace(); }
-                        /*
-                        addCourseUnit call
-                        pass the course
-                         */
-                        addCourseUnits(course);
-                        progressDialog.dismiss();
+
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error.networkResponse);
-                Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "onErrorResponse: "+error.networkResponse);
+                            Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
         });
         requestQueue.add(stringRequest);
     }
@@ -572,19 +631,21 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
         ArrayList<Unit> mUnits = new ArrayList<>();
 
+        Log.d(TAG, "units size = "+mUnits.size());
         for (String unitsname : course) {
-            char c = unitsname.charAt(0);
-            if (c != '$') {
-                Unit unit = new Unit(unitsname, check);
-                mUnits.add(unit);
-            } else {
-                String array[] = unitsname.split(",url");
-                if (array.length == 1) {
-                    mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+            if(unitsname.length() > 0) {
+                char c = unitsname.charAt(0);
+                if (c != '$') {
+                    Unit unit = new Unit(unitsname, check);
+                    mUnits.add(unit);
                 } else {
-                    mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
+                    String array[] = unitsname.split(",url");
+                    if (array.length == 1) {
+                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+                    } else {
+                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
+                    }
                 }
-            }
 
 
      /*       if (!mUnits.isEmpty()) {
@@ -595,7 +656,8 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
      */       listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
-            expandableListView.setAdapter(listAdapter);
+                expandableListView.setAdapter(listAdapter);
+            }
         }
 
     }

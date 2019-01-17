@@ -1,53 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp" >
+
     <TextView
-        android:textSize="13dp"
-        android:textColor="#000"
+        android:id="@+id/notif_title"
         android:text="Testing"
-        android:id="@+id/title"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"
         />
     <TextView
+        android:id="@+id/notif_desc"
         android:textSize="13dp"
         android:textColor="#000"
         android:text="Testing is awecome"
-        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"
-        android:layout_below="@id/title"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:id="@+id/view"
         android:background="@color/colorPrimary"
-        android:layout_below="@+id/text"
         android:layout_marginTop="5dp"
         />
 
-    <Button
+    <ImageView
+        android:id="@+id/notif_image"
+        android:src="@drawable/intro_pic_1"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-        android:background="@android:color/transparent"
-        android:text="Cancel"
-        android:textColor="@color/red"
-        />
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-        android:background="@android:color/transparent"
-        android:text="View"
-        android:textColor="@color/sign_in_button_color"
-        />
-
-</RelativeLayout>
+</LinearLayout>

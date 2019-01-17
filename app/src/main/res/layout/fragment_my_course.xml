@@ -57,18 +57,50 @@
             android:layout_marginTop="10dp"
             android:layout_height="30dp" />
 
-        <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
-            android:layout_width="match_parent"
+        <LinearLayout
             android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:layout_below="@+id/search"
-            app:rvp_triggerOffset="0.6"
-            app:rvp_singlePageFling="true"
-            android:clipToPadding="false"
-            android:id="@+id/my_courses">
-        </com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager>
+            >
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/leftArrow_myCourses"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_keyboard_arrow_left_black1_24dp"
+                />
+
+            <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
+                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                app:rvp_triggerOffset="0.6"
+                android:layout_gravity="center"
+                app:rvp_singlePageFling="true"
+                android:clipToPadding="false"
+                android:id="@+id/my_courses">
+            </com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager>
+
+            <ImageView
+                android:id="@+id/rightArrow_myCourses"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_keyboard_arrow_right_black1_24dp"/>
+
+
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 
