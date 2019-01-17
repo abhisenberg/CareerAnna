@@ -24,6 +24,15 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".service.MyMessagingService"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -150,7 +159,7 @@
             android:name=".service.MyFirebaseInstanceIDService"
             android:stopWithTask="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
@@ -164,7 +173,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.PurchaseCourseDetail2" />
-        <activity android:name=".activity.Notification"></activity>
+        <activity android:name=".activity.NotificationActivity"></activity>
     </application>
 
 </manifest>

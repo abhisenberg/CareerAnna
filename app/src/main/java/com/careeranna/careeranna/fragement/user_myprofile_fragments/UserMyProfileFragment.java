@@ -62,7 +62,7 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.tv_userProf_changeNotiPref:
-                Toast.makeText(getContext(), "Notification preferences coming soon!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "NotificationActivity preferences coming soon!", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.tv_userProf_Support:

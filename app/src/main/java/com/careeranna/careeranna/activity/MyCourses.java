@@ -33,6 +33,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -75,7 +76,11 @@ import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment
 import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -366,6 +371,20 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         names = new ArrayList<>();
         urls = new ArrayList<>();
         ids = new ArrayList<>();
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if(!task.isSuccessful()){
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        String token = task.getResult().getToken();
+                        Log.d(TAG, "TOKEN IS "+token);
+                    }
+                });
 /*
 
         RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
@@ -578,6 +597,10 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
             fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).commit();
+        }
+
+        else if (id == R.id.notification_bell_icon){
+            startActivity(new Intent(this, NotificationActivity.class));
         }
 
         if (mToggle.onOptionsItemSelected(item)) {
@@ -1047,7 +1070,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             freecourseForExplore = new ArrayList<>();
 
             RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-            String url1 = "https://careeranna.com/api/getFreeCourse.php";
+            String url1 = "https://careeranna.com/api/getFreeCourse.php?id="+String.valueOf(language);
             Log.d("url_res", url1);
             StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                     new Response.Listener<String>() {

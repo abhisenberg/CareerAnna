@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/noti_image"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:src="@drawable/intro_pic_1"
+        />
+
+    <LinearLayout
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/noti_heading"
+            android:textSize="16sp"
+            android:text="Sample heading sample heading sample heading"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/noti_time"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:text="1st Jan 2018"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:background="@drawable/line"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
