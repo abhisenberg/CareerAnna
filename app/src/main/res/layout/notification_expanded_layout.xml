@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/notif_title"
+        android:text="Testing"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/notif_desc"
+        android:textSize="13dp"
+        android:textColor="#000"
+        android:text="Testing is awecome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        />
+
+    <ImageView
+        android:id="@+id/notif_image"
+        android:src="@drawable/intro_pic_1"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

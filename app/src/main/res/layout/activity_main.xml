@@ -43,7 +43,7 @@
 
 
         <Button
-            android:text="Explore"
+            android:text="@string/explore"
             android:letterSpacing="0.05"
             android:textSize="14sp"
             android:layout_weight="5"
@@ -55,7 +55,7 @@
             android:layout_height="match_parent" />
 
         <Button
-            android:text="Sign in"
+            android:text="@string/sign_in"
             android:id="@+id/signIn"
             android:textColor="#FFF"
             android:background="@drawable/intro_button"

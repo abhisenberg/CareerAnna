@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,9 +34,7 @@ import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.SortByCourse;
 import com.careeranna.careeranna.adapter.FreeCourseAdapter;
-import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
 import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.SubCategory;
 
@@ -52,11 +48,12 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnItemClickListener {
 
+    public static final String TAG = "CategoryFragment";
     ProgressDialog progressDialog;
 
     SearchView search;
 
-    private ArrayList<String> ids1;
+    private ArrayList<String> alreadyPurchasedCourses;
     private ArrayList<Course> courses;
 
     private ArrayList<Course> tempCourse, temp;
@@ -147,6 +144,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                 FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse1, getApplicationContext());
                 recyclerView.setAdapter(freeCourseAdapter);
                 freeCourseAdapter.setOnItemClicklistener(CategoryFragment.this);
+                tempCourse = tempCourse1;
 
                 return true;
             }
@@ -186,6 +184,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         final String url = "https://www.careeranna.com/api/getCourseByCategory.php?id=" + id + "&free=" + freecategory_id;
+        Log.d(TAG, "id="+id+", "+freecategory_id);
         Log.d("url_res", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -415,7 +414,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
     public void myCourse() {
 
-        ids1 = new ArrayList<>();
+        alreadyPurchasedCourses = new ArrayList<>();
 
         progressDialog = new ProgressDialog(getContext());
 
@@ -436,7 +435,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                             JSONArray coursesArray = new JSONArray(response);
                             for (int i = 0; i < coursesArray.length(); i++) {
                                 JSONObject Category = coursesArray.getJSONObject(i);
-                                ids1.add(Category.getString("product_id"));
+                                alreadyPurchasedCourses.add(Category.getString("product_id"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -459,8 +458,8 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
     public void onItemClick1(String type, int position) {
 
         if (amIConnect()) {
-            if (ids1.size() > 0) {
-                for (String id : ids1) {
+            if (alreadyPurchasedCourses.size() > 0) {
+                for (String id : alreadyPurchasedCourses) {
                     if (id.equals(tempCourse.get(position).getId())) {
 
                         builder = new android.app.AlertDialog.Builder(getContext());
@@ -480,6 +479,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                     }
                 }
             }
+            Log.d(TAG, "onItemClick1: tempCourse = "+tempCourse.get(position).getName()+", courses = "+courses.get(position).getName());
             startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
         } else {
             if (getActivity() != null) {

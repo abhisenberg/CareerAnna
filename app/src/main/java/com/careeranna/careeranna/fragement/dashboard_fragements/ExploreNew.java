@@ -128,9 +128,17 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         this.context = inflater.getContext();
 
+        freeVideos = new ArrayList<>();
+        this.trendingVideos = new ArrayList<>();
+        courses = new ArrayList<>();
+        freecourse = new ArrayList<>();
+        tempVideos = new ArrayList<>();
+
         Paper.init(context);
 
         initializeVariables(view);
+
+        initializeVideos();
 
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -156,17 +164,20 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
 
     public void addFree(ArrayList<FreeVideos> freeVideos,
-                        final ArrayList<FreeVideos> trendingVideos,
+                        final ArrayList<FreeVideos> trendingVideos1,
                         ArrayList<Course> courses,
                         ArrayList<Course> freecourse) {
 
-        this.freeVideos = freeVideos;
-        this.trendingVideos = trendingVideos;
-        this.courses = courses;
-        this.freecourse = freecourse;
-        this.tempVideos = trendingVideos;
 
-        initializeVideos();
+            this.trendingVideos.addAll(trendingVideos1);
+            trendingVideosAdapter.notifyDataSetChanged();
+            this.freeVideos.addAll(freeVideos);
+            freeVideosAdapter.notifyDataSetChanged();
+            this.courses.addAll(courses);
+            paidCourseAdapter.notifyDataSetChanged();
+            this.freecourse.addAll(freecourse);
+            freeCourseAdapter.notifyDataSetChanged();
+            this.tempVideos.addAll(trendingVideos);
 
     }
 

@@ -61,7 +61,7 @@ public class MenuList {
         this.name = name;
         this.drawable = drawable;
         this.color = "#FFF5F3F3";
-        this.insideColor = "#FF0780C9";
+        this.insideColor = "#FF29485A";
         this.gravity = Gravity.LEFT;
         this.visibility = View.VISIBLE;
     }
