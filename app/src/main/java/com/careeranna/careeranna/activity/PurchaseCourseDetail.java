@@ -434,7 +434,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     private void freeCourseCheckout() {
         progressBar.setVisibility(View.VISIBLE);
         RequestQueue requestQueue =Volley.newRequestQueue(PurchaseCourseDetail.this);
-        String url = "https://careeranna.com/api/addProduct.php?";
+        String url = "https://careeranna.com/api/addProduct.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
