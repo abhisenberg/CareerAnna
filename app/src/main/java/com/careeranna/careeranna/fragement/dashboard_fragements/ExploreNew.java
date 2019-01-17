@@ -173,9 +173,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             trendingVideosAdapter.notifyDataSetChanged();
             this.freeVideos.addAll(freeVideos);
             freeVideosAdapter.notifyDataSetChanged();
-            this.courses = courses;
+            this.courses.addAll(courses);
             paidCourseAdapter.notifyDataSetChanged();
-            this.freecourse = freecourse;
+            this.freecourse.addAll(freecourse);
             freeCourseAdapter.notifyDataSetChanged();
             this.tempVideos.addAll(trendingVideos);
 

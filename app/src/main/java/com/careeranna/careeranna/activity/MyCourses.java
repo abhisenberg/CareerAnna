@@ -91,7 +91,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragement.OnFragemntClickListener {
+public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragement.OnFragemntClickListener, ErrorOccuredFragement.OnErrorFragementClickListener {
 
     public static final String TAG = "MyCourses";
 
@@ -267,6 +267,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         noInternetFragement = new NoInternetFragement();
         errorOccuredFragement = new ErrorOccuredFragement();
         noInternetFragement.setOnFragementClicklistener(this);
+        errorOccuredFragement.setOnFragementClicklistener(this);
 
         relativeLayout = findViewById(R.id.relative_loading);
 
@@ -952,7 +953,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                             @Override
                             public void onErrorResponse(VolleyError error) {
 
-                                addPaidCourse();
+                            showErrorFragment();
                             }
                         });
                 requestQueue1.add(stringRequest1);
@@ -1006,8 +1007,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-
-                            addFreeForExplore();
+                            showErrorFragment();
                         }
                     }
             );
@@ -1081,11 +1081,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            showErrorFragment();
 
-                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.main_content, exploreNew).commit();
-                            exploreNew.addFree(freeVideosForExplore, trendingVideosForExplore, coursesForExplore, freecourseForExplore);
-                            relativeLayout.setVisibility(View.GONE);
                         }
                     }
             );
@@ -1202,6 +1199,12 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
     }
 
+    public void showErrorFragment() {
+        relativeLayout.setVisibility(View.GONE);
+        frameLayout.setVisibility(View.GONE);
+        fragmentManager.beginTransaction().replace(R.id.main_content, errorOccuredFragement).commit();
+    }
+
     public String getVersionName(Context ctx){
         try {
             return ctx.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -1211,5 +1214,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
+    @Override
+    public void onRefreshClick() {
+        changeFragmentWithNav();
+    }
 }
 
