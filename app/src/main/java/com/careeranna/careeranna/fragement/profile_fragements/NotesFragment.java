@@ -2,8 +2,6 @@ package com.careeranna.careeranna.fragement.profile_fragements;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -12,26 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.careeranna.careeranna.Pdf;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.adapter.PdfAdapter;
-import com.careeranna.careeranna.data.Topic;
-import com.careeranna.careeranna.data.Unit;
-import com.github.barteksc.pdfviewer.PDFView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -42,7 +27,7 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 
     TextView heading;
 
-    CardView cardView;
+    CardView no_pdfs_present;
 
     ArrayList<String> urls;
 
@@ -66,37 +51,63 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 
         recyclerView = view.findViewById(R.id.pdf_rv);
 
-        cardView = view.findViewById(R.id.card);
+        no_pdfs_present = view.findViewById(R.id.card);
+
+        urls = new ArrayList<>();
+        pdfs = new ArrayList<>();
 
         return view;
     }
 
-    public void addPdf(ArrayList<String> pdf, String status) {
-        this.urls = pdf;
-        this.status = status;
+//    public void addPdf(ArrayList<String> pdf, String status) {
+//        this.urls = pdf;
+//        this.status = status;
+//
+//        if(!status.equals("No pdf")) {
+//
+//            GridLayoutManager mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+//            recyclerView.setLayoutManager(mGridLayoutManager);
+//            pdfs = new ArrayList<>();
+//
+//            for(String string: urls) {
+//                string = string.replaceAll("/\\d","");
+//                string = string.replaceAll("/", " ");
+//                string = string.replaceAll("_", " ");
+//                int pos = string.indexOf(".");
+//                string = string.substring(0, pos);
+//                pdfs.add(string);
+//            }
+//
+//            PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdfs);
+//            recyclerView.setAdapter(pdfAdapter);
+//            pdfAdapter.setOnItemClicklistener(this);
+//            no_pdfs_present.setVisibility(View.GONE);
+//        } else {
+//            no_pdfs_present.setVisibility(View.VISIBLE);
+//        }
+//        heading.setText(status);
+//    }
 
-        if(!status.equals("No pdf")) {
+    public void addPDFs(ArrayList<String[]> links_and_titles, String status){
 
-            GridLayoutManager mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-            recyclerView.setLayoutManager(mGridLayoutManager);
-            pdfs = new ArrayList<>();
+        if(!status.equals("No pdf")){
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+            recyclerView.setLayoutManager(gridLayoutManager);
 
-            for(String string: urls) {
-                string = string.replaceAll("/\\d","");
-                string = string.replaceAll("/", " ");
-                string = string.replaceAll("_", " ");
-                int pos = string.indexOf(".");
-                string = string.substring(0, pos);
-                pdfs.add(string);
+            for(int i=0; i<links_and_titles.size(); i++){
+                 urls.add(links_and_titles.get(i)[0]);
+                 pdfs.add(links_and_titles.get(i)[1]);
             }
 
             PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdfs);
             recyclerView.setAdapter(pdfAdapter);
             pdfAdapter.setOnItemClicklistener(this);
-            cardView.setVisibility(View.GONE);
+            no_pdfs_present.setVisibility(View.GONE);
+
         } else {
-            cardView.setVisibility(View.VISIBLE);
+            no_pdfs_present.setVisibility(View.VISIBLE);
         }
+
         heading.setText(status);
     }
 

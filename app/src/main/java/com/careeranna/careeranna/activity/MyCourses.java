@@ -913,6 +913,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                                 }
 
                                             } catch (JSONException e) {
+                                                Log.e(TAG, "onResponse: ", e.fillInStackTrace());
                                                 e.printStackTrace();
                                             }
 

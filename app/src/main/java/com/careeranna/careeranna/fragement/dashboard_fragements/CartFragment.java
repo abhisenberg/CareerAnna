@@ -49,7 +49,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -57,6 +61,8 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemClickListener{
+
+    public static final String TAG = "CartFragment";
 
     private ArrayList<OrderedCourse> orderedCourses;
     RecyclerView recyclerView;
@@ -154,13 +160,18 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 } else {
 
                     if(!promoCodes.isEmpty()) {
+                        /*
+                        Check if the user has already applied this promo-code
+                         */
                         for(PromoCode promoCode: promoCodes) {
                             if(promoCode.getCode_name().equals(promocode_edit_tv.getText().toString())) {
                                 Toast.makeText(getContext(), getString(R.string.promocode_already_applied) , Toast.LENGTH_SHORT).show();
+                                return;
                             }
                         }
-                    }
 
+
+                    }
                     snackbar = Snackbar.make(linearLayout, getString(R.string.promocode_checking), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
 
@@ -184,7 +195,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                                         jsonObject.getString("user_id"),
                                                         jsonObject.getString("code_name"),
                                                         jsonObject.getString("discount_amount"),
-                                                        jsonObject.getString("active_status"),
+                                                        jsonObject.getString("valid_status"),
                                                         jsonObject.getString("from_date"),
                                                         jsonObject.getString("to_date"),
                                                         jsonObject.getString("product_id"),
@@ -192,12 +203,25 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                                         jsonObject.getString("min_amount"),
                                                         jsonObject.getString("for_all"));
                                         }
+
                                         boolean isApplied = false;
+
                                         for(int j=0;j<orderedCourses.size();j++) {
                                             Log.d("PromoCodeWithId", orderedCourses.get(j).getCourse_id() + ", " + promoCode.getProduct_id());
+
+                                            /*
+                                               Check if the promo-code's date is still valid
+                                            */
+                                            if(!checkPromocodeDate(promoCode.getFrom_date(), promoCode.getTo_date())){
+                                                return;
+                                            }
+
+                                            /*
+                                                Check if the promo code is available for current product
+                                             */
                                             if(orderedCourses.get(j).getCourse_id().equals(promoCode.getProduct_id())) {
                                                 promoCodes.add(promoCode);
-                                                Toast.makeText(getContext(), getString(R.string.promocode_already_applied) + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), getString(R.string.promocode_applied_on) + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
                                                 isApplied = true;
                                                 orderCourseAdapter.changePrice(j, promoCode.getDiscount_amount());
                                                 Float price_value = Float.valueOf(price.getText().toString());
@@ -422,6 +446,25 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             alertDialog = mBuilder.show();
         }
 
+    }
+
+    private boolean checkPromocodeDate(String startDateString, String endDateString){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        
+        try{
+            Date startDate = format.parse(startDateString);
+            Date endDate = format.parse(endDateString);
+            Date currentDate = new Date();
+
+            if(!(currentDate.after(startDate) && currentDate.before(endDate))){
+                Log.d(TAG, "Promocode date not valid!");
+                Toast.makeText(getContext(), getResources().getText(R.string.promocode_date_expired), Toast.LENGTH_SHORT).show();
+            } else return true;
+
+        } catch (ParseException e){
+            Toast.makeText(getActivity(), getResources().getText(R.string.promocode_date_parse_failed), Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     @Override

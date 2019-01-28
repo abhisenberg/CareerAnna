@@ -33,6 +33,7 @@ import com.careeranna.careeranna.data.FreeVideos;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -42,13 +43,15 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItemClickListener, FreeCourseAdapter.OnItemClickListener {
 
-    ArrayList<FreeVideos> freeVideos, trendingVideos, tempVideos, templatestVideos;
+    public static final String TAG = "ExploreNew";
 
-    ArrayList<Course> paidCourses, freeCourses;
+    ArrayList<FreeVideos> freeVideos, trendingVideos, tempVideos, tempLatestVideos;
+
+    ArrayList<Course> paidCourses, freeCourses, tempPaidCourses, tempFreeCourses;
 
     int language;
 
-    CardView loading_card, no_search;
+    CardView loading_card, zero_search_results;
 
     SearchView searchTrends;
 
@@ -58,9 +61,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     TrendingVideosAdapter freeVideosAdapter;
 
-    RecyclerViewPager trending, latest, freeCourse, paidCourse;
+    RecyclerViewPager trendingVideosRVP, latestVideosRVP, freeCourseRVP, paidCoursesRVP;
 
-    Button trending_btn, latest_btn, free_btn, premium_btn;
+    Button trending_btn, latest_btn, freeCourses_btn, premiumCourses_btn;
 
     public static int position = 0, position_latest = 0;
 
@@ -95,17 +98,17 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         loading_card = view.findViewById(R.id.loading_card);
 
-        trending = view.findViewById(R.id.trending_rv);
-        latest = view.findViewById(R.id.latest_rv);
-        freeCourse = view.findViewById(R.id.free_course_rv);
-        paidCourse = view.findViewById(R.id.paid_courses_rv);
+        trendingVideosRVP = view.findViewById(R.id.trending_rv);
+        latestVideosRVP = view.findViewById(R.id.latest_rv);
+        freeCourseRVP = view.findViewById(R.id.free_course_rv);
+        paidCoursesRVP = view.findViewById(R.id.paid_courses_rv);
 
         searchTrends = view.findViewById(R.id.searchTrend);
 
         trending_btn = view.findViewById(R.id.trending);
         latest_btn = view.findViewById(R.id.latest);
-        free_btn = view.findViewById(R.id.free);
-        premium_btn = view.findViewById(R.id.premium);
+        freeCourses_btn = view.findViewById(R.id.free);
+        premiumCourses_btn = view.findViewById(R.id.premium);
 
         arrow_t_l = view.findViewById(R.id.arrow_t_l);
         arrow_t_r = view.findViewById(R.id.arrow_t_r);
@@ -119,7 +122,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_l = view.findViewById(R.id.arrow_p_l);
         arrow_p_r = view.findViewById(R.id.arrow_p_r);
 
-        no_search = view.findViewById(R.id.no_record_card);
+        zero_search_results = view.findViewById(R.id.no_record_card);
     }
 
     @Override
@@ -131,13 +134,17 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         this.context = inflater.getContext();
 
+
         if (freeVideos == null && trendingVideos == null && paidCourses == null && freeCourses == null && tempVideos == null) {
             freeVideos = new ArrayList<>();
             trendingVideos = new ArrayList<>();
             paidCourses = new ArrayList<>();
             freeCourses = new ArrayList<>();
+
             tempVideos = new ArrayList<>();
-            templatestVideos = new ArrayList<>();
+            tempLatestVideos = new ArrayList<>();
+            tempPaidCourses = new ArrayList<>();
+            tempFreeCourses = new ArrayList<>();
         }
         Paper.init(context);
 
@@ -160,25 +167,25 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         }
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        trending.setLayoutManager(linearLayoutManager1);
+        trendingVideosRVP.setLayoutManager(linearLayoutManager1);
 
-        latest.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        latestVideosRVP.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
-        freeCourse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        freeCourseRVP.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
-        paidCourse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        paidCoursesRVP.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
         trendingVideosAdapter = new TrendingVideosAdapter(trendingVideos, context);
-        trending.setAdapter(trendingVideosAdapter);
+        trendingVideosRVP.setAdapter(trendingVideosAdapter);
 
         freeVideosAdapter = new TrendingVideosAdapter(freeVideos, context);
-        latest.setAdapter(freeVideosAdapter);
+        latestVideosRVP.setAdapter(freeVideosAdapter);
 
         paidCourseAdapter = new FreeCourseAdapter(paidCourses, context);
-        paidCourse.setAdapter(paidCourseAdapter);
+        paidCoursesRVP.setAdapter(paidCourseAdapter);
 
         freeCourseAdapter = new FreeCourseAdapter(freeCourses, context);
-        freeCourse.setAdapter(freeCourseAdapter);
+        freeCourseRVP.setAdapter(freeCourseAdapter);
 
         paidCourseAdapter.setOnItemClicklistener(ExploreNew.this);
         freeVideosAdapter.setOnItemClicklistener(ExploreNew.this);
@@ -195,6 +202,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                         ArrayList<Course> paidCourses,
                         ArrayList<Course> freeCourses) {
 
+        Log.d(TAG, "addFree: Size of trendingVideos: "+trendingVideos1.size());
 
         this.trendingVideos.addAll(trendingVideos1);
         trendingVideosAdapter.notifyDataSetChanged();
@@ -204,8 +212,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         paidCourseAdapter.notifyDataSetChanged();
         this.freeCourses.addAll(freeCourses);
         freeCourseAdapter.notifyDataSetChanged();
-        this.tempVideos.addAll(trendingVideos);
-        this.templatestVideos.addAll(this.freeVideos);
+
+        this.tempVideos.addAll(trendingVideos1);
+        this.tempLatestVideos.addAll(freeVideos);
+        this.tempFreeCourses.addAll(freeCourses);
+        this.tempPaidCourses.addAll(paidCourses);
+
 
         initializeVideos();
 
@@ -213,11 +225,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     private void initializeVideos() {
 
-        latest.setFlingFactor(0.1f);
-        latest.fling(1, 1);
-        latest.setVerticalFadingEdgeEnabled(true);
+        latestVideosRVP.setFlingFactor(0.1f);
+        latestVideosRVP.fling(1, 1);
+        latestVideosRVP.setVerticalFadingEdgeEnabled(true);
 
-        latest.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        latestVideosRVP.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             @NonNull
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
@@ -227,21 +239,21 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-    /*            if (latest.getCurrentPosition() > 0) {
+    /*            if (latestVideosRVP.getCurrentPosition() > 0) {
                     arrow_l_l.setVisibility(View.VISIBLE);
-                } else if (latest.getCurrentPosition() + 2 == freeVideos.size()) {
+                } else if (latestVideosRVP.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.VISIBLE);
-                } else if (latest.getCurrentPosition() + 1 == freeVideos.size()) {
+                } else if (latestVideosRVP.getCurrentPosition() + 1 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.INVISIBLE);
-                } else if (latest.getCurrentPosition() == 0) {
+                } else if (latestVideosRVP.getCurrentPosition() == 0) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
     */
 
                 try {
-                    int childCount = latest.getChildCount();
-                    int width = latest.getChildAt(0).getWidth();
-                    int padding = (latest.getWidth() - width) / 2;
+                    int childCount = latestVideosRVP.getChildCount();
+                    int width = latestVideosRVP.getChildAt(0).getWidth();
+                    int padding = (latestVideosRVP.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                     for (int j = 0; j < childCount; j++) {
@@ -273,11 +285,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             }
         });
 
-        freeCourse.setFlingFactor(0.1f);
-        freeCourse.fling(1, 1);
-        freeCourse.setVerticalFadingEdgeEnabled(true);
+        freeCourseRVP.setFlingFactor(0.1f);
+        freeCourseRVP.fling(1, 1);
+        freeCourseRVP.setVerticalFadingEdgeEnabled(true);
 
-        freeCourse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        freeCourseRVP.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -286,22 +298,22 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-      /*          if (freeCourse.getCurrentPosition() > 0) {
+      /*          if (freeCourseRVP.getCurrentPosition() > 0) {
                     arrow_f_l.setVisibility(View.VISIBLE);
-                } else if (freeCourse.getCurrentPosition() + 2 == freecourse.size()) {
+                } else if (freeCourseRVP.getCurrentPosition() + 2 == freecourse.size()) {
                     arrow_f_r.setVisibility(View.VISIBLE);
-                } else if (freeCourse.getCurrentPosition() + 1 == freecourse.size()) {
+                } else if (freeCourseRVP.getCurrentPosition() + 1 == freecourse.size()) {
                     arrow_f_r.setVisibility(View.INVISIBLE);
-                } else if (freeCourse.getCurrentPosition() == 0) {
+                } else if (freeCourseRVP.getCurrentPosition() == 0) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
 
 
       */
                 try {
-                    int childCount = freeCourse.getChildCount();
-                    int width = freeCourse.getChildAt(0).getWidth();
-                    int padding = (freeCourse.getWidth() - width) / 2;
+                    int childCount = freeCourseRVP.getChildCount();
+                    int width = freeCourseRVP.getChildAt(0).getWidth();
+                    int padding = (freeCourseRVP.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                     for (int j = 0; j < childCount; j++) {
@@ -331,11 +343,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             }
         });
 
-        paidCourse.setFlingFactor(0.1f);
-        paidCourse.fling(1, 1);
-        paidCourse.setVerticalFadingEdgeEnabled(true);
+        paidCoursesRVP.setFlingFactor(0.1f);
+        paidCoursesRVP.fling(1, 1);
+        paidCoursesRVP.setVerticalFadingEdgeEnabled(true);
 
-        paidCourse.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        paidCoursesRVP.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -344,22 +356,22 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-        /*        if (paidCourse.getCurrentPosition() > 0) {
+        /*        if (paidCoursesRVP.getCurrentPosition() > 0) {
                     arrow_p_l.setVisibility(View.VISIBLE);
-                } else if (paidCourse.getCurrentPosition() + 2 == freeVideos.size()) {
+                } else if (paidCoursesRVP.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_p_r.setVisibility(View.VISIBLE);
-                } else if (paidCourse.getCurrentPosition() + 1 == freeVideos.size()) {
+                } else if (paidCoursesRVP.getCurrentPosition() + 1 == freeVideos.size()) {
                     arrow_p_r.setVisibility(View.INVISIBLE);
-                } else if (paidCourse.getCurrentPosition() == 0) {
+                } else if (paidCoursesRVP.getCurrentPosition() == 0) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
 
 
         */
                 try {
-                    int childCount = paidCourse.getChildCount();
-                    int width = paidCourse.getChildAt(0).getWidth();
-                    int padding = (paidCourse.getWidth() - width) / 2;
+                    int childCount = paidCoursesRVP.getChildCount();
+                    int width = paidCoursesRVP.getChildAt(0).getWidth();
+                    int padding = (paidCoursesRVP.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
                     for (int j = 0; j < childCount; j++) {
@@ -391,11 +403,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             }
         });
 
-        trending.setFlingFactor(0.1f);
-        trending.fling(1, 1);
-        trending.setVerticalFadingEdgeEnabled(true);
+        trendingVideosRVP.setFlingFactor(0.1f);
+        trendingVideosRVP.fling(1, 1);
+        trendingVideosRVP.setVerticalFadingEdgeEnabled(true);
 
-        trending.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        trendingVideosRVP.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
@@ -404,21 +416,21 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if (trending.getCurrentPosition() > 0) {
+                if (trendingVideosRVP.getCurrentPosition() > 0) {
                     arrow_t_l.setVisibility(View.VISIBLE);
-                } else if (trending.getCurrentPosition() + 2 == trendingVideos.size()) {
+                } else if (trendingVideosRVP.getCurrentPosition() + 2 == trendingVideos.size()) {
                     arrow_t_r.setVisibility(View.VISIBLE);
-                } else if (trending.getCurrentPosition() + 1 == trendingVideos.size()) {
+                } else if (trendingVideosRVP.getCurrentPosition() + 1 == trendingVideos.size()) {
                     arrow_t_r.setVisibility(View.INVISIBLE);
-                } else if (trending.getCurrentPosition() == 0) {
+                } else if (trendingVideosRVP.getCurrentPosition() == 0) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
 
                 try {
 
-                    int childCount = trending.getChildCount();
-                    int width = trending.getChildAt(0).getWidth();
-                    int padding = (trending.getWidth() - width) / 2;
+                    int childCount = trendingVideosRVP.getChildCount();
+                    int width = trendingVideosRVP.getChildAt(0).getWidth();
+                    int padding = (trendingVideosRVP.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
                     for (int j = 0; j < childCount; j++) {
                         View v = recyclerView.getChildAt(j);
@@ -462,16 +474,19 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                if (trendingCard.getVisibility() == VISIBLE) {
+                zero_search_results.setVisibility(View.GONE);
 
+                if (trendingCard.getVisibility() == VISIBLE) {
+                    /*
+                    trendingVideos is the array list present in trendingCard view.
+                     */
                     trendingVideos.clear();
 
-                    no_search.setVisibility(View.GONE);
                     if (newText.length() > 0) {
 
-                        for (FreeVideos freeVideos1 : tempVideos) {
-                            if (freeVideos1.getTitle().trim().toLowerCase().contains(newText.trim())) {
-                                trendingVideos.add(freeVideos1);
+                        for (FreeVideos currentFreeVideo : tempVideos) {
+                            if (currentFreeVideo.getTitle().trim().toLowerCase().contains(newText.trim())) {
+                                trendingVideos.add(currentFreeVideo);
                             }
                         }
 
@@ -481,26 +496,27 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
                         trendingVideos.addAll(tempVideos);
                         trendingVideosAdapter.notifyDataSetChanged();
-                        trending.scrollToPosition(0);
+                        trendingVideosRVP.scrollToPosition(0);
                     }
 
                     if (trendingVideos != null) {
                         if (trendingVideos.size() == 0) {
-                            no_search.setVisibility(View.VISIBLE);
+                            zero_search_results.setVisibility(View.VISIBLE);
                         } else {
-                            trending.scrollToPosition(0);
+                            trendingVideosRVP.scrollToPosition(0);
                         }
                     }
                 } else if (latestCard.getVisibility() == VISIBLE) {
-
+                    /*
+                    freeVideos is the arraylist that is present in the latestCard view.
+                     */
                     freeVideos.clear();
 
-                    no_search.setVisibility(View.GONE);
                     if (newText.length() > 0) {
 
-                        for (FreeVideos freeVideos1 : templatestVideos) {
-                            if (freeVideos1.getTitle().trim().toLowerCase().contains(newText.trim())) {
-                                freeVideos.add(freeVideos1);
+                        for (FreeVideos CurrentLatestVideo : tempLatestVideos) {
+                            if (CurrentLatestVideo.getTitle().trim().toLowerCase().contains(newText.trim())) {
+                                freeVideos.add(CurrentLatestVideo);
                             }
                         }
 
@@ -508,23 +524,75 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
                     } else {
 
-                        freeVideos.addAll(templatestVideos);
+                        freeVideos.addAll(tempLatestVideos);
                         freeVideosAdapter.notifyDataSetChanged();
                     }
 
                     if (freeVideos != null) {
                         if (freeVideos.size() == 0) {
-                            no_search.setVisibility(View.VISIBLE);
+                            zero_search_results.setVisibility(View.VISIBLE);
                         } else {
-                            latest.scrollToPosition(0);
+                            latestVideosRVP.scrollToPosition(0);
                         }
                     }
+
+                } else if (premiumCard.getVisibility() == VISIBLE){
+
+                    paidCourses.clear();
+
+                    if(newText.length() > 0) {
+                        for(Course currentCourse : tempPaidCourses){
+                            if(currentCourse.getName().trim().toLowerCase().contains(newText.trim())){
+                                paidCourses.add(currentCourse);
+                            }
+                        }
+
+                        paidCourseAdapter.notifyDataSetChanged();
+
+                    } else {
+                        paidCourses.addAll(tempPaidCourses);
+                        paidCourseAdapter.notifyDataSetChanged();
+                    }
+
+                    if(paidCourses != null){
+                        if(paidCourses.size() == 0){
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            paidCoursesRVP.scrollToPosition(0);
+                        }
+                    }
+
+                } else if (freeCard.getVisibility() == VISIBLE){
+                    freeCourses.clear();
+
+                    if(newText.length() > 0){
+                        for(Course currentCourse: tempFreeCourses){
+                            if(currentCourse.getName().trim().toLowerCase().contains(newText.trim())){
+                                freeCourses.add(currentCourse);
+                            }
+                        }
+
+                        freeCourseAdapter.notifyDataSetChanged();
+
+                    } else {
+                        freeCourses.addAll(tempFreeCourses);
+                        freeCourseAdapter.notifyDataSetChanged();
+                    }
+
+                    if(freeCourses != null){
+                        if(freeCourses.size() == 0){
+                            zero_search_results.setVisibility(VISIBLE);
+                        } else {
+                            paidCoursesRVP.scrollToPosition(0);
+                        }
+                    }
+
                 }
+
                 return true;
             }
         });
     }
-
 
     @Override
     public void onItemClick1(String type, int position) {
@@ -582,12 +650,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_t_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position = trending.getCurrentPosition();
+                position = trendingVideosRVP.getCurrentPosition();
                 if (position == 0) {
                     arrow_t_l.setVisibility(View.VISIBLE);
                 }
                 position += 1;
-                trending.smoothScrollToPosition(position);
+                trendingVideosRVP.smoothScrollToPosition(position);
                 if (position + 1 == trendingVideos.size()) {
                     arrow_t_r.setVisibility(View.INVISIBLE);
                 }
@@ -597,24 +665,24 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_t_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position = trending.getCurrentPosition();
+                position = trendingVideosRVP.getCurrentPosition();
                 if (position == 1) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
                 position -= 1;
-                trending.smoothScrollToPosition(position);
+                trendingVideosRVP.smoothScrollToPosition(position);
             }
         });
 
         arrow_l_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_latest = latest.getCurrentPosition();
+                position_latest = latestVideosRVP.getCurrentPosition();
                 if (position_latest == 0) {
                     arrow_l_l.setVisibility(View.VISIBLE);
                 }
                 position_latest += 1;
-                latest.smoothScrollToPosition(position_latest);
+                latestVideosRVP.smoothScrollToPosition(position_latest);
                 if (position_latest + 1 == freeVideos.size()) {
                     arrow_l_r.setVisibility(View.INVISIBLE);
                 }
@@ -624,12 +692,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_l_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_latest = latest.getCurrentPosition();
+                position_latest = latestVideosRVP.getCurrentPosition();
                 if (position_latest == 1) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
                 position_latest -= 1;
-                latest.smoothScrollToPosition(position_latest);
+                latestVideosRVP.smoothScrollToPosition(position_latest);
             }
         });
 
@@ -637,108 +705,118 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_f_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_free = freeCourse.getCurrentPosition();
+                position_free = freeCourseRVP.getCurrentPosition();
                 if (position_free == 0) {
                     arrow_f_l.setVisibility(View.VISIBLE);
                 }
                 position_free += 1;
-                freeCourse.smoothScrollToPosition(position_free);
+                freeCourseRVP.smoothScrollToPosition(position_free);
             }
         });
 
         arrow_f_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_free = freeCourse.getCurrentPosition();
+                position_free = freeCourseRVP.getCurrentPosition();
                 if (position_free == 1) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
                 position_free -= 1;
-                freeCourse.smoothScrollToPosition(position_free);
+                freeCourseRVP.smoothScrollToPosition(position_free);
             }
         });
 
         arrow_p_r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_paid = paidCourse.getCurrentPosition();
+                position_paid = paidCoursesRVP.getCurrentPosition();
                 if (position_paid == 0) {
                     arrow_p_l.setVisibility(View.VISIBLE);
                 }
                 position_paid += 1;
-                paidCourse.smoothScrollToPosition(position_paid);
+                paidCoursesRVP.smoothScrollToPosition(position_paid);
             }
         });
 
         arrow_p_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position_paid = paidCourse.getCurrentPosition();
+                position_paid = paidCoursesRVP.getCurrentPosition();
                 if (position_paid == 1) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
                 position_paid -= 1;
-                paidCourse.smoothScrollToPosition(position_paid);
+                paidCoursesRVP.smoothScrollToPosition(position_paid);
             }
         });
     }
 
     private void hidingRecycler() {
-
+        /*
+        This function is for toggling between the fragments, and only showing the fragments
+        of the selected item.
+         */
 
         trending_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                relativeLayout.setVisibility(View.VISIBLE);
+                /*
+                Show all items
+                 */
+                trendingVideos.addAll(tempVideos);
+                trendingVideosAdapter.notifyDataSetChanged();
                 changeButtonColorAndText(0);
+
             }
         });
 
         latest_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                relativeLayout.setVisibility(VISIBLE);
+                freeVideos.addAll(tempLatestVideos);
+                freeVideosAdapter.notifyDataSetChanged();
                 changeButtonColorAndText(2);
             }
         });
 
-        free_btn.setOnClickListener(new View.OnClickListener() {
+        freeCourses_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                relativeLayout.setVisibility(GONE);
+                freeCourses.addAll(tempFreeCourses);
+                freeCourseAdapter.notifyDataSetChanged();
                 changeButtonColorAndText(1);
             }
         });
 
-        premium_btn.setOnClickListener(new View.OnClickListener() {
+        premiumCourses_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                relativeLayout.setVisibility(GONE);
+                paidCourses.addAll(tempPaidCourses);
+                paidCourseAdapter.notifyDataSetChanged();
                 changeButtonColorAndText(3);
             }
         });
+
+        relativeLayout.setVisibility(VISIBLE);
     }
 
 
     private void changeButtonColorAndText(int i) {
 
-        premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        premiumCourses_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        premium_btn.setTypeface(null, Typeface.NORMAL);
+        freeCourses_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        premiumCourses_btn.setTypeface(null, Typeface.NORMAL);
         latest_btn.setTypeface(null, Typeface.NORMAL);
-        free_btn.setTypeface(null, Typeface.NORMAL);
+        freeCourses_btn.setTypeface(null, Typeface.NORMAL);
         trending_btn.setTypeface(null, Typeface.NORMAL);
 
         trendingCard.setVisibility(View.GONE);
         freeCard.setVisibility(View.GONE);
         latestCard.setVisibility(View.GONE);
         premiumCard.setVisibility(View.GONE);
-        no_search.setVisibility(View.GONE);
+        zero_search_results.setVisibility(View.GONE);
         searchTrends.setQuery("", false);
         searchTrends.clearFocus();
 
@@ -746,19 +824,20 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             trendingCard.setVisibility(View.VISIBLE);
             trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
             trending_btn.setTypeface(null, Typeface.BOLD);
+
         } else if (i == 1) {
 
             freeCard.setVisibility(View.VISIBLE);
-            free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
-            free_btn.setTypeface(null, Typeface.BOLD);
+            freeCourses_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            freeCourses_btn.setTypeface(null, Typeface.BOLD);
         } else if (i == 2) {
             latestCard.setVisibility(View.VISIBLE);
             latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
             latest_btn.setTypeface(null, Typeface.BOLD);
         } else if (i == 3) {
             premiumCard.setVisibility(View.VISIBLE);
-            premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
-            premium_btn.setTypeface(null, Typeface.BOLD);
+            premiumCourses_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            premiumCourses_btn.setTypeface(null, Typeface.BOLD);
         }
 
     }
