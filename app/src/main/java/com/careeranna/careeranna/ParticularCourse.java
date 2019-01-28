@@ -274,33 +274,47 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://careeranna.com/apicoursePdf.php?id="+id;
+        String url = "http://careeranna.com/api/getPdfWithHeading.php?id="+id;
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String status = "No pdf";
-                        try {
-                            Log.i("pdf", response);
-                            JSONObject jsonObject = new JSONObject(response);
-                            material = jsonObject.getString("material_file");
-                            if(!material.equals("null")) {
-                                status = "Select Pdf from Below !";
+                        if(!response.equals("No results")) {
+                            String status = "No pdf";
+                            ArrayList<String[]> pdf_links_and_titles = new ArrayList<String[]>();
+
+                            try {
+                                Log.i("pdf", response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray pdfs_links_json = jsonObject.getJSONArray("pdfs");
+                                JSONArray pdfs_title_json = jsonObject.getJSONArray("materials");
+
+                                for(int i=0; i<pdfs_links_json.length(); i++){
+                                    /*
+                                    The first element of the array link_and_title is the link of the pdf and the second element
+                                    is the title of the pdf.
+                                     */
+                                    String[] link_and_title = new String[2];
+                                    link_and_title[0] = pdfs_links_json.getString(i);
+                                    link_and_title[1] = pdfs_title_json.getString(i);
+                                    pdf_links_and_titles.add(link_and_title);
+                                }
+
+                                if(!pdf_links_and_titles.isEmpty()){
+                                    status = "Select your notes from here:";
+                                }
+
+                            } catch (JSONException e) {
+                                Log.d(TAG, "onResponse: Cannot parse");
+                                e.printStackTrace();
+                                status = "No Pdf";
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            material = "No Pdf";
-                            status = "No Pdf";
+                            progressDialog.dismiss();
+
+                            notesFragment.addPDFs(pdf_links_and_titles, status);
                         }
-                        progressDialog.dismiss();
-                        ArrayList<String> pdfs = new ArrayList<>();
-                        String[] pdfs1 = material.split(",");
-                        for(String pdf : pdfs1) {
-                            pdfs.add(pdf);
-                        }
-                        notesFragment.addPdf(pdfs, status);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -309,6 +323,39 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
                 progressDialog.dismiss();
             }
         });
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+//                url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        String status = "No pdf";
+//                        try {
+//                            Log.i("pdf", response);
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            material = jsonObject.getString("material_file");
+//                            if(!material.equals("null")) {
+//                                status = "Select your notes from here:";
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            material = "No Pdf";
+//                            status = "No Pdf";
+//                        }
+//                        progressDialog.dismiss();
+//                        ArrayList<String> pdfs = new ArrayList<>();
+//                        String[] pdfs1 = material.split(",");
+//                        for(String pdf : pdfs1) {
+//                            pdfs.add(pdf);
+//                        }
+//                        notesFragment.addPdf(pdfs, status);
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(ParticularCourse.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//            }
+//        });
         requestQueue.add(stringRequest);
     }
 

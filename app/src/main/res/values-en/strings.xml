@@ -18,6 +18,7 @@
     <string name="desc"><u>Description</u></string>
     <string name="ccourses"><u>Current Course</u></string>
     <string name="mycourses"><u>My Courses</u></string>
+    <string name="mycourses_without_underline">My Courses</string>
     <string name="MBA" >MBA</string>
     <string name="general_knowledge">General Knowledge</string>
     <string name="our_mentors">Our Mentors</string>
@@ -76,6 +77,7 @@
     <string name="promocode_checking">Checking promocode...</string>
     <string name="promocode_invalid">Invalid promocode</string>
     <string name="promocode_applied_on">This promocode is already applied on </string>
+    <string name="promocode_date_expired">Sorry, this promocode has expired!</string>
 
     <string name="something_went_wrong">Oops, something went wrong, please try again!</string>
     <string name="pay_now">Payment in progress</string>

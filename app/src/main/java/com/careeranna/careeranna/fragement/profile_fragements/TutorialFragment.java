@@ -111,16 +111,18 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         } else {
 
             for (String unitsname : course) {
-                char c = unitsname.charAt(0);
-                if (c != '$') {
-                    Unit unit = new Unit(unitsname, check);
-                    mUnits.add(unit);
-                } else {
-                    String array[] = unitsname.split(",url");
-                    if (array.length == 1) {
-                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+                if(unitsname.length() > 0){
+                    char c = unitsname.charAt(0);
+                    if (c != '$') {
+                        Unit unit = new Unit(unitsname, check);
+                        mUnits.add(unit);
                     } else {
-                        mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
+                        String array[] = unitsname.split(",url");
+                        if (array.length == 1) {
+                            mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+                        } else {
+                            mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
+                        }
                     }
                 }
 
