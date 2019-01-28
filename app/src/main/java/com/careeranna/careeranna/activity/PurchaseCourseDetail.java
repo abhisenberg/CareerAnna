@@ -1,4 +1,5 @@
 package com.careeranna.careeranna.activity;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -71,7 +72,7 @@ import io.paperdb.Paper;
 import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener{
+public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener {
 
     public static final String TAG = "PurchaseCourseDetail";
 
@@ -79,8 +80,8 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     private static final Pattern REMOVE_TAGS1 = Pattern.compile("&.+;");
 
-    TextView tv_courseName, tv_instructor_name , tv_star_rating, tv_user_ratings, tv_cost, tv_striked_cost,
-    tv_discount, tv_enrollments;
+    TextView tv_courseName, tv_instructor_name, tv_star_rating, tv_user_ratings, tv_cost, tv_striked_cost,
+            tv_discount, tv_enrollments;
 
     RatingBar ratingBar;
 //    TextView price,desc,name;
@@ -165,7 +166,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
         course = (Course) intent.getSerializableExtra("Course");
 
-        if(course == null) {
+        if (course == null) {
             /*
             DON'T FETCH UNITS HERE BECAUSE THIS IS EXAM_PREP COURSE
              */
@@ -176,7 +177,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //            description.append("\n"+removeTags(examPrep.getDesc()).replace("-", "\n"));
 
         } else {
-            Log.d(TAG, "Course id =  "+course.getId());
+            Log.d(TAG, "Course id =  " + course.getId());
             fetchUnit();
 //            description.append("\n"+removeTags(course.getDesc()).replace("-", "\n"));
         }
@@ -190,7 +191,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         /*
         TODO: Change the color of the stars
          */
-        if(cart != null && !cart.isEmpty()) {
+        if (cart != null && !cart.isEmpty()) {
 
             Log.i("details", cart);
 
@@ -212,7 +213,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
 
-            if(isAvailable) {
+            if (isAvailable) {
 
                 builder = new android.app.AlertDialog.Builder(PurchaseCourseDetail.this);
                 builder.setTitle("Already In The Cart");
@@ -242,7 +243,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             @Override
             public void onClick(View view) {
                 String cache = Paper.book().read("user");
-                if(cache != null && !cache.isEmpty()) {
+                if (cache != null && !cache.isEmpty()) {
                 } else {
                     Toast.makeText(PurchaseCourseDetail.this, getString(R.string.please_register_to_continue), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(PurchaseCourseDetail.this, SignUp.class));
@@ -252,13 +253,13 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 If course if free, directly go to freeCourseCheckout()
                 if it is paid, then go to buyCourse()
                  */
-                if(course != null){
-                    if(course.getPrice().equals("0")){
+                if (course != null) {
+                    if (course.getPrice().equals("0")) {
                         freeCourseCheckout();
                     } else
                         buyCourse();
                 } else {
-                    if(examPrep.getPrice().equals("0")){
+                    if (examPrep.getPrice().equals("0")) {
                         freeCourseCheckout();
                     } else
                         buyCourse();
@@ -268,15 +269,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
 
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
-            user =  new Gson().fromJson(cache, User.class);
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
         }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void initializeWebView(){
+    private void initializeWebView() {
         String videoURl = course.getDemo_url();
-        if(videoURl.equals("null") || videoURl.isEmpty()){
+        if (videoURl.equals("null") || videoURl.isEmpty()) {
             webView.setVisibility(View.INVISIBLE);
             iv_demoCourseImage.setVisibility(View.VISIBLE);
 
@@ -295,10 +296,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        String htmlPlayer = "<html><body style=\"margin : 0; padding : 0 \"><iframe width=\"100%\" height=\"100%\" src=\""+videoURl+
+        String htmlPlayer = "<html><body style=\"margin : 0; padding : 0 \"><iframe width=\"100%\" height=\"100%\" src=\"" + videoURl +
                 "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
-        Log.d(TAG, "demoURL: "+videoURl);
-        Log.d(TAG, "html:  "+htmlPlayer);
+        Log.d(TAG, "demoURL: " + videoURl);
+        Log.d(TAG, "html:  " + htmlPlayer);
         webView.loadData(htmlPlayer, "text/html", "utf-8");
     }
 
@@ -316,7 +317,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     @Override
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
-        if(fullscreenEvent.getFullscreen()){
+        if (fullscreenEvent.getFullscreen()) {
             //If fullscreen, remove action bar
         } else {
             //If not fullscreen, show action bar
@@ -333,14 +334,14 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     private void showActionBar() {
         Log.d(TAG, "showActionBar: ");
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.show();
         }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Log.d(TAG, "onConfigurationChanged "+(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE));
+        Log.d(TAG, "onConfigurationChanged " + (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE));
 
 //        playerView.setFullscreen(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE, true);
         super.onConfigurationChanged(newConfig);
@@ -375,7 +376,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         mBuilder.setCancelable(true);
 
         final String price;
-        if(course != null ) {
+        if (course != null) {
             mBuilder.setMessage("Course Name : " + course.getName() + " \n Price : ₹" + course.getPrice());
             price = course.getPrice();
         } else {
@@ -400,24 +401,25 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         mBuilder.setNegativeButton("Add To Cart", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String cart = Paper.book().read("cart");;
+                String cart = Paper.book().read("cart");
 
                 /*
                 If the cart is not null, we extract the already stored cart contents and add our new course
                 in the cart.
                  */
-                if(cart != null && !cart.isEmpty()) {
+                if (cart != null && !cart.isEmpty()) {
 
-                    Log.i( "details",   cart);
+                    Log.i("details", cart);
                     Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<String>>() {
+                    }.getType();
                     ArrayList<String> arrayList = gson.fromJson(cart, type);
                     String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id();
                     arrayList.add(courseString);
                     Paper.book().write("cart", new Gson().toJson(arrayList));
                 } else {
 
-                    String courseString = course.getId()+","+course.getPrice()+","+course.getImageUrl()+","+course.getName()+","+course.getCategory_id();
+                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id();
                     ArrayList<String> array = new ArrayList<>();
                     array.add(courseString);
                     Paper.book().write("cart", new Gson().toJson(array));
@@ -433,7 +435,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     private void freeCourseCheckout() {
         progressBar.setVisibility(View.VISIBLE);
-        RequestQueue requestQueue =Volley.newRequestQueue(PurchaseCourseDetail.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(PurchaseCourseDetail.this);
         String url = "https://careeranna.com/api/addProduct.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -454,9 +456,9 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 // Posting params to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("user", user.getUser_id());
-                if(course != null ) {
+                if (course != null) {
                     params.put("product", course.getId());
-                    params.put("category","15");
+                    params.put("category", "15");
                     params.put("name", course.getName());
                     params.put("image", course.getImageUrl());
                 } else {
@@ -475,13 +477,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
     private void setCourseViews() {
         Uri uri;
-        if(course == null) {
+        if (course == null) {
             /*
             Check whether the course type is a video based course or
             exam prep. if "course" is null, it is exam prep.
              */
             uri = Uri.parse(examPrep.getDemo_url());
-            getSupportActionBar().setTitle(examPrep.getName());
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(examPrep.getName());
+            }
         } else {
             /*
             If "course" is not null, it is video based course.
@@ -490,27 +494,28 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
             tv_courseName.setText(course.getName());
             tv_instructor_name.setText("By Careeranna");
-            if(course.getPrice().equals("0")) {
+            if (course.getPrice().equals("0")) {
                 tv_cost.setText("Free");
                 tv_discount.setText("");
                 tv_striked_cost.setText("");
-            }
-            else{
-                String price = "₹"+course.getPrice();
+            } else {
+                String price = "₹" + course.getPrice();
                 tv_cost.setText(price);
 
                 Float price_before_disc = Float.valueOf(course.getPrice_before_discount());
-                Float price_after_disc  = Float.valueOf(course.getPrice());
-                Float discount = (price_before_disc - price_after_disc)*100/price_before_disc;
-                tv_discount.setText(String.format("%.2f", discount)+"% Off including taxes");
-                tv_striked_cost.setText("₹"+course.getPrice_before_discount());
+                Float price_after_disc = Float.valueOf(course.getPrice());
+                Float discount = (price_before_disc - price_after_disc) * 100 / price_before_disc;
+                tv_discount.setText(String.format("%.2f", discount) + "% Off including taxes");
+                tv_striked_cost.setText("₹" + course.getPrice_before_discount());
                 tv_striked_cost.setPaintFlags(tv_striked_cost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
             /*
             Setting striked through text of price before discount
              */
 
-            getSupportActionBar().setTitle(course.getName());
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(course.getName());
+            }
         }
 
 
@@ -531,14 +536,14 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
+        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id=" + id;
         Log.i("urlInsidePurchaseCourse", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response.equals("No results")){
+                        if (response.equals("No results")) {
                             /*
                             If no product description is found from this table, then try it from the other
                             table.
@@ -547,30 +552,30 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                             expandableListView.setVisibility(View.GONE);
 
                             RequestQueue requestQueue1 = Volley.newRequestQueue(PurchaseCourseDetail.this);
-                            String url = "https://careeranna.com/api/getProductDescription.php?id="+id;
+                            String url = "https://careeranna.com/api/getProductDescription.php?id=" + id;
 
                             StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
                                     url,
                                     new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
-                                            if(response.equals("null")){
+                                            if (response.equals("null")) {
                                                 /*
                                                 No description found.
                                                  */
                                             } else {
-                                                Log.d(TAG, "ProductDescription = "+response);
+                                                Log.d(TAG, "ProductDescription = " + response);
 //                                                Toast.makeText(PurchaseCourseDetail.this, response.substring(0,30), Toast.LENGTH_SHORT).show();
 
                                                 try {
                                                     JSONArray descArray = new JSONArray(response);
-                                                    for(int i=0; i<descArray.length(); i++){
+                                                    for (int i = 0; i < descArray.length(); i++) {
                                                         JSONObject descObject = descArray.getJSONObject(i);
                                                         String htmlDesc = descObject.getString("mock_test")
-                                                                +descObject.getString("prev_paper");
+                                                                + descObject.getString("prev_paper");
                                                         htmlDesc = htmlDesc.replaceAll("<div", "<div style=\"margin-top:10px\"");
 //                                                        htmlDesc = htmlDesc.replaceAll("\">", "\">○ ");
-                                                        Log.d(TAG, "HtmlResponse: "+htmlDesc);
+                                                        Log.d(TAG, "HtmlResponse: " + htmlDesc);
 
                                                         wv_productDescription.loadData(htmlDesc, "text/html; charset=utf-8", "UTF-8");
                                                         wv_productDescription.setVisibility(View.VISIBLE);
@@ -597,14 +602,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                         } else {
                             ArrayList<String> course = new ArrayList<>();
                             try {
-                                Log.d(TAG, "response = "+response);
+                                Log.d(TAG, "response = " + response);
                                 JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray = jsonObject.getJSONArray("content");
-                                    for(int i=0;i<jsonArray.length();i++) {
-                                        course.add((String)jsonArray.get(i));
-                                    }
+                                JSONArray jsonArray = jsonObject.getJSONArray("content");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    course.add((String) jsonArray.get(i));
+                                }
                             } catch (JSONException e) {
-                                e.printStackTrace(); }
+                                e.printStackTrace();
+                            }
                             /*
                             addCourseUnit call
                             pass the course
@@ -615,25 +621,25 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 
                     }
                 }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onErrorResponse: "+error.networkResponse);
-                            Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: " + error.networkResponse);
+                Toast.makeText(PurchaseCourseDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
         });
         requestQueue.add(stringRequest);
     }
 
     public void addCourseUnits(ArrayList<String> course) {
-        Log.d(TAG, "addCourseUnits: "+course.size());
+        Log.d(TAG, "addCourseUnits: " + course.size());
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
         ArrayList<Unit> mUnits = new ArrayList<>();
 
-        Log.d(TAG, "units size = "+mUnits.size());
+        Log.d(TAG, "units size = " + mUnits.size());
         for (String unitsname : course) {
-            if(unitsname.length() > 0) {
+            if (unitsname.length() > 0) {
                 char c = unitsname.charAt(0);
                 if (c != '$') {
                     Unit unit = new Unit(unitsname, check);
@@ -655,14 +661,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                     }
                 }
             }
-     */       listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
+     */
+                listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
                 expandableListView.setAdapter(listAdapter);
             }
         }
 
     }
 
-    public void paidCourseCheckout(final String price){
+    public void paidCourseCheckout(final String price) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_payment_layout);
         dialog.setTitle(getString(R.string.pay_now));

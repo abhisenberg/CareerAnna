@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,6 +44,8 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
     RecyclerView recyclerView;
     ArticleAdapter articleAdapter;
 
+    int language = 1;
+
     Boolean isScrolling = false;
 
     ProgressBar progressBar;
@@ -53,19 +54,21 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     LinearLayoutManager linearLayoutManager;
 
-    int page = 1;
+    int page = 2;
 
     Boolean isLoading = false;
 
+    Boolean isEnded = false;
+
     ArrayList<Article> articles;
-    ;
 
     public ArticlesFragment() {
         // Required empty public constructor
     }
 
-    public void setmArticles(ArrayList<Article> articles) {
+    public void setmArticles(ArrayList<Article> articles, int language) {
 
+        this.language = language;
         mArticles.addAll(articles);
         populateArticles();
     }
@@ -111,52 +114,68 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                 currentItems = linearLayoutManager.getChildCount();
                 TotalItems = linearLayoutManager.getItemCount();
                 scrolledOut = linearLayoutManager.findFirstVisibleItemPosition();
-                if (!isLoading && isScrolling && (currentItems + scrolledOut == TotalItems)) {
+                if (!isEnded) {
+                    if (!isLoading && isScrolling && (currentItems + scrolledOut == TotalItems)) {
 
-                    isLoading = true;
-                    progressBar.setVisibility(View.VISIBLE);
-                    Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.loading_more_articles), Snackbar.LENGTH_SHORT).show();
-                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                    String url = "https://careeranna.com/api/articlewithimage.php?pageno=" + page;
-                    page += 1;
-                    articles = new ArrayList<>();
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        Log.i("url_response", response.toString());
-                                        JSONArray ArticlesArray = new JSONArray(response.toString());
-                                        for (int i = 0; i < ArticlesArray.length(); i++) {
-                                            JSONObject Articles = ArticlesArray.getJSONObject(i);
-                                            articles.add(new Article(Articles.getString("ID"),
-                                                    Articles.getString("post_title"),
-                                                    "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
-                                                    Articles.getString("display_name"),
-                                                    "CAT",
-                                                    "",
-                                                    Articles.getString("post_date")));
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                        isLoading = true;
+                        progressBar.setVisibility(View.VISIBLE);
+                        if (getActivity() != null) {
+                            Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.loading_more_articles), Snackbar.LENGTH_SHORT).show();
+                        }
+                        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                        String url = "https://careeranna.com/api/articlewithimage.php?pageno=" + page;
+                        if (language == 2) {
+                            url = "https://www.careeranna.com/api/hindiarticleswithimage.php?pageno=" + page;
+                        }
+                        page += 1;
+                        articles = new ArrayList<>();
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                            try {
+                                                Log.i("url_response", response.toString());
+                                                    JSONArray ArticlesArray = new JSONArray(response.toString());
+                                                    if(ArticlesArray.length() > 0) {
+                                                    for (int i = 0; i < ArticlesArray.length(); i++) {
+                                                        JSONObject Articles = ArticlesArray.getJSONObject(i);
+                                                        articles.add(new Article(Articles.getString("ID"),
+                                                                Articles.getString("post_title"),
+                                                                "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
+                                                                Articles.getString("display_name"),
+                                                                "CAT",
+                                                                "",
+                                                                Articles.getString("post_date")));
+                                                    }
+                                                }  else {
+                                                    Log.d("Results", "results Ended");
+                                                    isEnded = true;
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        isLoading = false;
+                                        articleAdapter.addArticles(articles);
+                                        articleAdapter.notifyDataSetChanged();
+                                        progressBar.setVisibility(View.GONE);
                                     }
-                                    isLoading = false;
-                                    articleAdapter.addArticles(articles);
-                                    articleAdapter.notifyDataSetChanged();
-                                    progressBar.setVisibility(View.GONE);
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        progressBar.setVisibility(View.GONE);
+                                        isLoading = false;
+                                    }
                                 }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    progressBar.setVisibility(View.GONE);
-                                    isLoading = false;
-                                }
-                            }
-                    );
+                        );
 
-                    requestQueue.add(stringRequest);
+                        requestQueue.add(stringRequest);
 
+                    }
+                } else {
+                    if (getActivity() != null) {
+                        Snackbar.make(getActivity().findViewById(R.id.main_content), "No More Articles Left!", Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -165,9 +184,11 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
     @Override
     public void onItemClick1(int position) {
         if (amIConnect()) {
-            Intent intent = new Intent(getApplicationContext(), ParticularArticleActivity.class);
-            intent.putExtra("article", mArticles.get(position));
-            getContext().startActivity(intent);
+            if (getContext() != null) {
+                Intent intent = new Intent(getApplicationContext(), ParticularArticleActivity.class);
+                intent.putExtra("article", mArticles.get(position));
+                getContext().startActivity(intent);
+            }
         } else {
             if (getActivity() != null) {
                 ((MyCourses) getActivity()).changeInternet();
@@ -178,9 +199,11 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     private boolean amIConnect() {
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-
+        if (getActivity() != null) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
     }
 }

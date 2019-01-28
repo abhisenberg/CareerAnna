@@ -177,4 +177,5 @@
     <string name="retry">Retry</string>
     <string name="an_error_has_occured_please_try_again_by_clicking_refresh">An Error Has Occured. Please Try Again By Clicking Refresh</string>
     <string name="refresh">Refresh</string>
+    <string name="no_record_found">No Record Found ! \n Search Again</string>
 </resources>

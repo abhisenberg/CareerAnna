@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -68,13 +69,17 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     EditText comment_tv;
 
-    String id;
+    String id = "";
+
+    TextView views, likes, unlikes;
+
+    Button up;
 
     User user;
 
     RelativeLayout relativeLayout;
 
-    String mUsername, profile_pic_url, mEmail;
+    String mUsername = "", profile_pic_url = "", mEmail = "";
 
     Button addComment, cancel;
 
@@ -87,18 +92,18 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_with_comment);
 
-        comments = new ArrayList<>();
-
-        relativeLayout = findViewById(R.id.rel);
-
-        comment_tv = findViewById(R.id.addComment);
-
-        addComment = findViewById(R.id.reply);
-
         Paper.init(this);
 
-
+        relativeLayout = findViewById(R.id.rel);
+        comment_tv = findViewById(R.id.addComment);
+        addComment = findViewById(R.id.reply);
         image = findViewById(R.id.image);
+        cancel = findViewById(R.id.cancel);
+        views = findViewById(R.id.views);
+        up = findViewById(R.id.up);
+        unlikes = findViewById(R.id.dislikes);
+
+        comments = new ArrayList<>();
 
         user = null;
 
@@ -135,14 +140,15 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             @Override
             public void afterTextChanged(Editable s) {
 
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+                if(getWindow() != null ) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                }
             }
         });
 
-        Glide.with(this).load(profile_pic_url).into(image);
-
-        cancel = findViewById(R.id.cancel);
+        if(profile_pic_url.length() > 0) {
+            Glide.with(this).load(profile_pic_url).into(image);
+        }
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,13 +171,20 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         commentAdapter.setOnItemClicklistener(this);
         recyclerView.setAdapter(commentAdapter);
 
-        String url = freeVideos.getVideo_url();
+        if(freeVideos != null) {
 
-        getSupportActionBar().setTitle(freeVideos.getTitle());
+            String url = freeVideos.getVideo_url();
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(freeVideos.getTitle());
+            }
+            playVideo(url);
 
-        playVideo(url);
+            id = freeVideos.getId();
+            views.setText(freeVideos.getTotal_view() + " Views");
+            up.setText(freeVideos.getLikes());
+            unlikes.setText(freeVideos.getDislikes());
+        }
 
-        id = freeVideos.getId();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -384,7 +397,7 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             @Override
             public void onResponse(String response) {
                 Log.d("url_response", "Register Response: " + response);
-                Toast.makeText(VideoWithComment.this, response.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(VideoWithComment.this, "Comment Created Successfully!", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

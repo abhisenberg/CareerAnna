@@ -102,6 +102,8 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 
     @Override
     public void onItemClick1(int position) {
-        startActivity(new Intent(getApplicationContext(), Pdf.class).putExtra("pdf",urls.get(position)));
+        if (urls != null) {
+            startActivity(new Intent(getApplicationContext(), Pdf.class).putExtra("pdf", urls.get(position)));
+        }
     }
 }

@@ -197,9 +197,9 @@ public class MyExamPrepActivity extends AppCompatActivity {
         videoView.setVideoURI(uri);
 
         price.setText(course.getPrice());
-
-        getSupportActionBar().setTitle(course.getName());
-
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(course.getName());
+        }
     }
 
     public void hideDesc(View view) {

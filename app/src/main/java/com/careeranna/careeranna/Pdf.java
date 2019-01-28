@@ -1,7 +1,6 @@
 package com.careeranna.careeranna;
 
 import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import retrofit2.http.Url;
 
 public class Pdf extends AppCompatActivity {
 
@@ -30,7 +28,6 @@ public class Pdf extends AppCompatActivity {
         setContentView(R.layout.activity_pdf);
 
         pdfViewer = findViewById(R.id.pdf);
-
 
         if(getIntent().getStringExtra("pdf") != null) {
             pdf = getIntent().getStringExtra("pdf");
