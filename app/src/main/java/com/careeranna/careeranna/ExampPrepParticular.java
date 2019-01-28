@@ -10,4 +10,6 @@ public class ExampPrepParticular extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_examp_prep_particular);
     }
+
+    //AAA
 }
