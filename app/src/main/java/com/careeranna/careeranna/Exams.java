@@ -67,8 +67,6 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
     User user;
 
-    String material;
-
     String id, name, urls;
 
     int fragement_id;
@@ -293,11 +291,11 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
     private void fetchPdf() {
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading Materilal .. ");
+        progressDialog.setMessage("Loading the PDF, please wait... ");
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/coursePdf.php?id="+id;
+        String url = "https://www.careeranna.com/api/getPdfWithHeading.php?id="+id;
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
@@ -306,31 +304,45 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                     public void onResponse(String response) {
                         if(!response.equals("No results")) {
                             String status = "No pdf";
+                            ArrayList<String[]> pdf_links_and_titles = new ArrayList<>();
+
                             try {
                                 Log.i("pdf", response);
                                 JSONObject jsonObject = new JSONObject(response);
-                                material = jsonObject.getString("material_file");
-                                if (!material.equals("null")) {
-                                    status = "Select Pdf from Below ";
+                                JSONArray pdfs_links_json = jsonObject.getJSONArray("pdfs");
+                                JSONArray pdfs_title_json = jsonObject.getJSONArray("materials");
+
+                                Log.d(TAG, "onResponse: "+pdfs_links_json);
+
+                                for(int i=0; i<pdfs_links_json.length(); i++){
+                                    /*
+                                    The first element of the array link_and_title is the link of the pdf and the second element
+                                    is the title of the pdf.
+                                     */
+                                    String[] link_and_title = new String[2];
+                                    link_and_title[0] = pdfs_links_json.getString(i);
+                                    link_and_title[1] = pdfs_title_json.getString(i);
+                                    pdf_links_and_titles.add(link_and_title);
                                 }
+
+                                if(!pdf_links_and_titles.isEmpty()){
+                                    status = "Select your notes from here:";
+                                }
+
                             } catch (JSONException e) {
+                                Log.d(TAG, "onResponse: Cannot parse");
                                 e.printStackTrace();
-                                material = "No Pdf";
                                 status = "No Pdf";
                             }
                             progressDialog.dismiss();
-                            ArrayList<String> pdfs = new ArrayList<>();
-                            String[] pdfs1 = material.split(",");
-                            for (String pdf : pdfs1) {
-                                pdfs.add(pdf);
-                            }
-                            notesFragment.addPdf(pdfs, status);
+
+                            notesFragment.addPDFs(pdf_links_and_titles, status);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Exams.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Exams.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
