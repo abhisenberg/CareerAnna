@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +31,7 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.fragement.NoInternetFragement;
-import com.careeranna.careeranna.fragement.profile_fragements.CertificateFragment;
+import com.careeranna.careeranna.fragement.NoInternetFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TestFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TutorialFragment;
@@ -50,7 +48,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class Exams extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragement.OnFragemntClickListener {
+public class Exams extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragment.OnFragemntClickListener {
 
     public static final String TAG = "Exams";
 
@@ -65,7 +63,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
     TutorialFragment tutorialFragment;
     NotesFragment notesFragment;
     TestFragment testFragment;
-    NoInternetFragement noInternetFragement;
+    NoInternetFragment noInternetFragment;
 
     User user;
 
@@ -139,15 +137,15 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
             fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
         } else {
-            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
         }
         }
 
 
     private void initializeFragement() {
 
-        noInternetFragement = new NoInternetFragement();
-        noInternetFragement.setOnFragementClicklistener(this);
+        noInternetFragment = new NoInternetFragment();
+        noInternetFragment.setOnFragementClicklistener(this);
         tutorialFragment = new TutorialFragment();
         notesFragment = new NotesFragment();
         testFragment = new TestFragment();
@@ -242,7 +240,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                 finish();
             }
         } else {
-            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
 
         }
         drawerLayout.closeDrawer(GravityCompat.START);

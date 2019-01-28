@@ -195,7 +195,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 //            signInBtTrans.commit();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("818754991008-93r45lm5oa5d0gb54ihsd1ftppd6m60s.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

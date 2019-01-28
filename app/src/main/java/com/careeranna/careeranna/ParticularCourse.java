@@ -92,9 +92,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
 
         mToggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getSupportActionBar() != null) {
-
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -191,28 +189,33 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
             fetchUnit();
             navigationView.setCheckedItem(R.id.tutorial);
             fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
-            getSupportActionBar().setTitle("Tutorial");
-
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Tutorial");
+            }
         } else if(id == R.id.notes) {
 
             fetchPdf();
 
             navigationView.setCheckedItem(R.id.notes);
             fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
-            getSupportActionBar().setTitle("Notes");
-
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Notes");
+            }
         } else if(id == R.id.test) {
 
             navigationView.setCheckedItem(R.id.test);
             fragmentManager.beginTransaction().replace(R.id.main_content,testFragment).commit();
-            getSupportActionBar().setTitle("Test");
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Test");
+            }
 
         } else if(id == R.id.certificate) {
 
             navigationView.setCheckedItem(R.id.certificate);
             fragmentManager.beginTransaction().replace(R.id.main_content,certificateFragment).commit();
-            getSupportActionBar().setTitle("Certificate");
-
+            if(getSupportActionBar() != null ) {
+                getSupportActionBar().setTitle("Certificate");
+            }
         } else if(id == R.id.goBackHome) {
 
             startActivity(new Intent(ParticularCourse.this, MyCourses.class));

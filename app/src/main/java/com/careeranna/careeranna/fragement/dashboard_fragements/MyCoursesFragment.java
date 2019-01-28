@@ -6,35 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SnapHelper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.Exams;
 import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
-import com.careeranna.careeranna.data.Category;
-import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.CourseWithLessData;
-import com.careeranna.careeranna.data.ExamPrep;
-import com.careeranna.careeranna.helper.RecyclerViewCoursesAdapter;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import java.util.ArrayList;
@@ -46,8 +31,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * A simple {@link Fragment} subclass.
  */
 public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.OnItemClickListener, View.OnClickListener
-,RecyclerViewPager.OnPageChangedListener
-{
+        , RecyclerViewPager.OnPageChangedListener {
     public static final String TAG = "MyCourseFragment";
 
     MyCoursesAdapterNew myCoursesAdapterNew;
@@ -69,7 +53,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         this.course = course;
         this.tempCourse = course;
 
-        if(course.size() == 0) {
+        if (course.size() == 0) {
             cardView.setVisibility(View.VISIBLE);
         }
 
@@ -89,33 +73,38 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
-                int childCount = mRecyclerView.getChildCount();
-                int width = mRecyclerView.getChildAt(0).getWidth();
-                int padding = (mRecyclerView.getWidth() - width) / 2;
+
+
+                try {
+                    int childCount = mRecyclerView.getChildCount();
+                    int width = mRecyclerView.getChildAt(0).getWidth();
+                    int padding = (mRecyclerView.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
@@ -169,7 +158,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         mRecyclerView = view.findViewById(R.id.my_courses);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addOnPageChangedListener(this);
         cardView = view.findViewById(R.id.card);
@@ -183,7 +172,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                            closeKeyboard();
+                closeKeyboard();
                 return true;
             }
 
@@ -191,8 +180,8 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
             public boolean onQueryTextChange(String newText) {
 
                 tempCourse = new ArrayList<>();
-                for(CourseWithLessData courseWithLessData: course) {
-                    if(courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
+                for (CourseWithLessData courseWithLessData : course) {
+                    if (courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
                         tempCourse.add(courseWithLessData);
                     }
                 }
@@ -210,42 +199,46 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     }
 
     private void closeKeyboard() {
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if(getActivity() != null) {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
     @Override
     public void onItemClick(int position) {
 
-        if(course.get(position).getCategory_id().equals("15")) {
-            Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
-            intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
-            intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
-            intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
-            getContext().startActivity(intent);
-        } else {
-            Intent intent = new Intent(getApplicationContext(), Exams.class);
-            intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
-            intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
-            intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
-            getContext().startActivity(intent);
+        if (getContext() != null) {
+            if (course.get(position).getCategory_id().equals("15")) {
+                Intent intent = new Intent(getApplicationContext(), ParticularCourse.class);
+                intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
+                intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
+                intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
+                getContext().startActivity(intent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), Exams.class);
+                intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
+                intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
+                intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
+                getContext().startActivity(intent);
 
+            }
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.leftArrow_myCourses:
                 mRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG, "run: left "+rv_currentPage);
-                        if(rv_currentPage != 0){
-                            mRecyclerView.smoothScrollToPosition(rv_currentPage-1);
+                        Log.d(TAG, "run: left " + rv_currentPage);
+                        if (rv_currentPage != 0) {
+                            mRecyclerView.smoothScrollToPosition(rv_currentPage - 1);
                         }
                     }
                 });
@@ -255,9 +248,9 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
                 mRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG, "run: right "+rv_currentPage);
-                        if(rv_currentPage != tempCourse.size()-1){
-                            mRecyclerView.smoothScrollToPosition(rv_currentPage+1);
+                        Log.d(TAG, "run: right " + rv_currentPage);
+                        if (rv_currentPage != tempCourse.size() - 1) {
+                            mRecyclerView.smoothScrollToPosition(rv_currentPage + 1);
                         }
                     }
                 });
@@ -268,7 +261,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
     @Override
     public void OnPageChanged(int i, int i1) {
-        Log.d(TAG, "OnPageChanged: oldPage = "+i+", newPage = "+i1);
+        Log.d(TAG, "OnPageChanged: oldPage = " + i + ", newPage = " + i1);
         rv_currentPage = i1;
     }
 }

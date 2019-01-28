@@ -39,6 +39,7 @@ public class PasswordReset extends AppCompatActivity {
 
     RelativeLayout relativeLayout;
 
+    String pass, confirmPass;
     ProgressBar progressBar;
 
     @Override
@@ -71,7 +72,7 @@ public class PasswordReset extends AppCompatActivity {
         verifyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(code.equals(verificationCode.getText().toString())) {
+                if (code.equals(verificationCode.getText().toString())) {
                     Snackbar.make(relativeLayout, getString(R.string.security_code_match), Snackbar.LENGTH_SHORT).show();
                     newPassword.setEnabled(true);
                     sendNewPassword.setEnabled(true);
@@ -82,41 +83,50 @@ public class PasswordReset extends AppCompatActivity {
             }
         });
 
-        confirmPassword.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if (confirmPassword.getEditText() != null) {
+            confirmPassword.getEditText().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String password = newPassword.getEditText().getText().toString();
-                if(s.length()>0 && password.length()>0) {
-                    if(!s.equals(password)) {
-                        Snackbar.make(relativeLayout, getString(R.string.pw_not_match), Snackbar.LENGTH_SHORT).show();
-                    }
                 }
 
-            }
-        });
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(newPassword.getEditText() != null) {
+                        String password = newPassword.getEditText().getText().toString();
+                        if (s.length() > 0 && password.length() > 0) {
+                            if (!s.equals(password)) {
+                                Snackbar.make(relativeLayout, getString(R.string.pw_not_match), Snackbar.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
         sendNewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String pass = newPassword.getEditText().getText().toString();
+                pass = "";
+                if (confirmPassword.getEditText() != null) {
+                    confirmPass = confirmPassword.getEditText().toString();
+                }
+                if (newPassword.getEditText() != null) {
+                    pass = newPassword.getEditText().getText().toString();
+                }
                 if (pass.isEmpty()) {
                     Snackbar.make(relativeLayout, "Password Could Not Be Empty !", Snackbar.LENGTH_SHORT).show();
                 } else if (pass.length() < 8) {
                     Snackbar.make(relativeLayout, "Password Length Should Be Greater Than 7", Snackbar.LENGTH_SHORT).show();
-                } else if (pass.equals(confirmPassword.getEditText().getText())) {
+                } else if (pass.equals(confirmPass)) {
                     confirmPassword.setError(getString(R.string.pw_not_match));
                     Snackbar.make(relativeLayout, getString(R.string.pw_not_match), Snackbar.LENGTH_SHORT).show();
-                }else {
+                } else {
                     snackbar = Snackbar.make(relativeLayout, "Changing password, please wait...", Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
                     progressBar.setVisibility(View.VISIBLE);

@@ -47,6 +47,7 @@
             android:textSize="14sp"
             android:paddingRight="10dp"
             android:focusableInTouchMode="true"
+            android:focusable="false"
             app:iconifiedByDefault="false"
             app:queryHint="@string/search_your_course"
             android:gravity="center"

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.profile_fragements.TutorialFragment">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,6 +18,17 @@
         <!--android:layout_below="@id/unitText"-->
         <!--android:layout_marginTop="10dp"-->
         <!--/>-->
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/intro_pic_1_indian_languages"
+            android:elevation="10dp"
+            android:scaleType="fitXY"
+            />
+
         <com.longtailvideo.jwplayer.JWPlayerView
             android:id="@+id/videoView"
             android:layout_width="match_parent"

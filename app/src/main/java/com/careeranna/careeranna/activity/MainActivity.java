@@ -2,17 +2,13 @@ package com.careeranna.careeranna.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -21,37 +17,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.careeranna.careeranna.BuildConfig;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Constants;
-import com.careeranna.careeranna.service.VideoService;
 import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -85,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
+        /*
          * Initializing Layout Variables
          */
 
@@ -102,21 +84,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             notificationManager.createNotificationChannel(channel);
         }
 
-        /**
+        /*
          * Initializing Paper db and retrieving firebase user
          */
 
         mAuth = FirebaseAuth.getInstance();
         Paper.init(this);
 
-        /**
+        /*
          *  Hiding Action Bar
          */
 
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
 
-        /**
+        /*
          *  Slider For App Landing Page Images
          */
 
@@ -124,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         introSlider.setAdapter(slideAdapter);
         addDots(0);
 
-        /**
+        /*
          *  Button Listener For Explore And Sign up Button
          */
 
@@ -179,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
+    /*
      * Click Events For Explore And Sign up button
      *
      * @param view
@@ -243,11 +225,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /**
+    /*
      * Checking the version of the app with the playstore version
      * if the version is same no dialog if the version is older giving update dialog and redirect to playstore
      */
-    /**
+    /*
      * Alert Dialog For Update Which Will Send Him to Playstore Page
      */
 

@@ -8,13 +8,14 @@
     android:background="#fff"
     tools:context=".activity.VideoWithComment">
 
+
     <com.longtailvideo.jwplayer.JWPlayerView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:id="@+id/linear_rv"
@@ -23,11 +24,9 @@
         android:layout_below="@id/videoView">
 
         <TextView
-            android:layout_below="@+id/videoView"
             android:id="@+id/views"
             android:textColor="@color/black"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="100 Views"
             android:layout_marginLeft="10dp"
@@ -40,40 +39,37 @@
 
         <Button
             android:background="@android:color/transparent"
-            android:layout_below="@+id/videoView"
             android:id="@+id/up"
             android:textColor="@color/black"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:text="20"
-            android:gravity="center_vertical"
-            android:drawablePadding="5dp"
             android:layout_toLeftOf="@id/thumbdown"
             android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
             />
 
         <Button
-            android:layout_below="@+id/videoView"
             android:id="@+id/thumbdown"
             android:background="@android:color/transparent"
             android:textColor="@color/black"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/dislikes"
             android:drawableLeft="@drawable/ic_thumbs_down_silhouette"
             />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:textColor="@color/black"
+            android:id="@+id/dislikes"
             android:text="0"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout
