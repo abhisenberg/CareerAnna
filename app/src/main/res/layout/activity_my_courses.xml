@@ -17,8 +17,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -53,7 +52,7 @@
 
     </LinearLayout>
 
-        <RelativeLayout
+    <RelativeLayout
             android:visibility="gone"
             android:id="@+id/relative_loading"
             android:background="#919090"
@@ -78,11 +77,6 @@
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:src="@mipmap/ic_launcher"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp" />
 
                         <TextView
                             android:layout_gravity="center"

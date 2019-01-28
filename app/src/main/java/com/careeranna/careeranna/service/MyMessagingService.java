@@ -29,18 +29,20 @@ public class MyMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d(TAG, "onMessageReceived: "+remoteMessage.getNotification().getBody());
-        Paper.init(getApplicationContext());
+        if(remoteMessage.getNotification() != null) {
+            Log.d(TAG, "onMessageReceived: " + remoteMessage.getNotification().getBody());
+            Paper.init(getApplicationContext());
 
-        com.careeranna.careeranna.data.Notification currentNotif = new com.careeranna.careeranna.data.Notification(
-            remoteMessage.getData().get("title"),
-            remoteMessage.getData().get("body"),
-            remoteMessage.getData().get("img_url"),
-            remoteMessage.getData().get("type"),
-            remoteMessage.getData().get("id")
-        );
+            com.careeranna.careeranna.data.Notification currentNotif = new com.careeranna.careeranna.data.Notification(
+                    remoteMessage.getData().get("title"),
+                    remoteMessage.getData().get("body"),
+                    remoteMessage.getData().get("img_url"),
+                    remoteMessage.getData().get("type"),
+                    remoteMessage.getData().get("id")
+            );
 
-        addNotificationToList(currentNotif);
+            addNotificationToList(currentNotif);
+        }
 //        showNotification(currentNotif);
     }
 

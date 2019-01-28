@@ -42,7 +42,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * Fragment For Explore WithOut Sign Up
  */
-public class InsideWithoutSignFragment extends Fragment  implements TrendingVideosAdapter.OnItemClickListener, FreeCourseAdapter.OnItemClickListener{
+public class InsideWithoutSignFragment extends Fragment implements TrendingVideosAdapter.OnItemClickListener, FreeCourseAdapter.OnItemClickListener {
 
     ArrayList<FreeVideos> freeVideos, trendingvVideos;
 
@@ -62,9 +62,9 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
     ProgressDialog progressDialog;
 
-    ImageView arrow_trending_left,arrow_trending_right,arrow_latest_right, arrow_latest_left;
+    ImageView arrow_trending_left, arrow_trending_right, arrow_latest_right, arrow_latest_left;
 
-    ImageView arrow_paid_left,arrow_paid_right,arrow_free_right, arrow_free_left;
+    ImageView arrow_paid_left, arrow_paid_right, arrow_free_right, arrow_free_left;
 
     CardView trendingCard, premiumCard, freeCard, latestCard;
 
@@ -77,7 +77,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_inside_without_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_inside_without_sign_in, container, false);
         trending = view.findViewById(R.id.trending_rv);
 
         latest_recycler = view.findViewById(R.id.latest_rv);
@@ -85,7 +85,7 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
         free_course_recyler = view.findViewById(R.id.free_course_rv);
 
         paid_course_recyler = view.findViewById(R.id.paid_courses_rv);
-        
+
         arrow_trending_left = view.findViewById(R.id.arrow_t_l);
         arrow_trending_right = view.findViewById(R.id.arrow_t_r);
 
@@ -116,11 +116,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position = trending.getCurrentPosition();
-                if(position == 0) {
+                if (position == 0) {
                     arrow_trending_left.setVisibility(View.VISIBLE);
                 }
-                trending.smoothScrollToPosition(position+1);
-                if(position+2 == trendingvVideos.size()) {
+                trending.smoothScrollToPosition(position + 1);
+                if (position + 2 == trendingvVideos.size()) {
                     arrow_trending_right.setVisibility(View.INVISIBLE);
                 }
             }
@@ -130,13 +130,13 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position = trending.getCurrentPosition();
-                if(position == 1) {
+                if (position == 1) {
                     arrow_trending_left.setVisibility(View.INVISIBLE);
                 }
-                if(position+1 == trendingvVideos.size()) {
+                if (position + 1 == trendingvVideos.size()) {
                     arrow_trending_right.setVisibility(View.VISIBLE);
                 }
-                trending.smoothScrollToPosition(position-1);
+                trending.smoothScrollToPosition(position - 1);
             }
         });
 
@@ -144,11 +144,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_latest = latest_recycler.getCurrentPosition();
-                if(position_latest == 0) {
+                if (position_latest == 0) {
                     arrow_latest_left.setVisibility(View.VISIBLE);
                 }
-                latest_recycler.smoothScrollToPosition(position_latest+1);
-                if(position_latest+2 == freeVideos.size()) {
+                latest_recycler.smoothScrollToPosition(position_latest + 1);
+                if (position_latest + 2 == freeVideos.size()) {
                     arrow_latest_right.setVisibility(View.INVISIBLE);
                 }
             }
@@ -158,13 +158,13 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_latest = latest_recycler.getCurrentPosition();
-                if(position_latest == 1) {
+                if (position_latest == 1) {
                     arrow_latest_left.setVisibility(View.INVISIBLE);
                 }
-                if(position+1 == trendingvVideos.size()) {
+                if (position + 1 == trendingvVideos.size()) {
                     arrow_trending_right.setVisibility(View.VISIBLE);
                 }
-                latest_recycler.smoothScrollToPosition(position_latest-1);
+                latest_recycler.smoothScrollToPosition(position_latest - 1);
             }
         });
 
@@ -173,14 +173,14 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_free = free_course_recyler.getCurrentPosition();
-                if(position_free == 0) {
+                if (position_free == 0) {
                     arrow_free_left.setVisibility(View.VISIBLE);
                 }
-                Log.i("position", position_free+" : "+ freecourse.size());
-                if(position_free+2 == freecourse.size()){
+                Log.i("position", position_free + " : " + freecourse.size());
+                if (position_free + 2 == freecourse.size()) {
                     arrow_free_right.setVisibility(View.INVISIBLE);
                 }
-                free_course_recyler.smoothScrollToPosition(position_free+1);
+                free_course_recyler.smoothScrollToPosition(position_free + 1);
             }
         });
 
@@ -188,10 +188,10 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_free = free_course_recyler.getCurrentPosition();
-                if(position_free == 1) {
+                if (position_free == 1) {
                     arrow_free_left.setVisibility(View.INVISIBLE);
                 }
-                free_course_recyler.smoothScrollToPosition(position_free-1);
+                free_course_recyler.smoothScrollToPosition(position_free - 1);
             }
         });
 
@@ -199,11 +199,11 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_paid = paid_course_recyler.getCurrentPosition();
-                if(position_paid == 0) {
+                if (position_paid == 0) {
                     arrow_paid_left.setVisibility(View.VISIBLE);
                 }
-                paid_course_recyler.smoothScrollToPosition(position_paid+1);
-                if(position_paid+2 == courses.size()) {
+                paid_course_recyler.smoothScrollToPosition(position_paid + 1);
+                if (position_paid + 2 == courses.size()) {
                     arrow_paid_right.setVisibility(View.INVISIBLE);
                 }
             }
@@ -213,13 +213,13 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onClick(View v) {
                 position_paid = paid_course_recyler.getCurrentPosition();
-                if(position_paid == 1) {
+                if (position_paid == 1) {
                     arrow_paid_left.setVisibility(View.INVISIBLE);
                 }
-                if(position_paid+1 == courses.size()) {
+                if (position_paid + 1 == courses.size()) {
                     arrow_paid_right.setVisibility(View.VISIBLE);
                 }
-                paid_course_recyler.smoothScrollToPosition(position_paid-1);
+                paid_course_recyler.smoothScrollToPosition(position_paid - 1);
             }
         });
 
@@ -236,43 +236,48 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                if(latest_recycler.getCurrentPosition() == 1 ) {
-                        arrow_latest_left.setVisibility(View.VISIBLE);
-                } else if(latest_recycler.getCurrentPosition()+2 == freeVideos.size()) {
+                if (latest_recycler.getCurrentPosition() == 1) {
+                    arrow_latest_left.setVisibility(View.VISIBLE);
+                } else if (latest_recycler.getCurrentPosition() + 2 == freeVideos.size()) {
                     arrow_latest_right.setVisibility(View.VISIBLE);
-                } else if(latest_recycler.getCurrentPosition()+1 == freeVideos.size()) {
+                } else if (latest_recycler.getCurrentPosition() + 1 == freeVideos.size()) {
                     arrow_latest_right.setVisibility(View.INVISIBLE);
-                } else if(latest_recycler.getCurrentPosition() == 0 ) {
+                } else if (latest_recycler.getCurrentPosition() == 0) {
                     arrow_latest_left.setVisibility(View.INVISIBLE);
                 }
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                int childCount = latest_recycler.getChildCount();
-                int width = latest_recycler.getChildAt(0).getWidth();
-                int padding = (latest_recycler.getWidth() - width) / 2;
+
+                try {
+                    int childCount = latest_recycler.getChildCount();
+                    int width = latest_recycler.getChildAt(0).getWidth();
+                    int padding = (latest_recycler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
@@ -290,43 +295,48 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if(free_course_recyler.getCurrentPosition() == 1 ) {
+                if (free_course_recyler.getCurrentPosition() == 1) {
                     arrow_free_left.setVisibility(View.VISIBLE);
-                } else if(free_course_recyler.getCurrentPosition()+2 == freecourse.size()) {
+                } else if (free_course_recyler.getCurrentPosition() + 2 == freecourse.size()) {
                     arrow_free_right.setVisibility(View.VISIBLE);
-                } else if(free_course_recyler.getCurrentPosition()+1 == freecourse.size()) {
+                } else if (free_course_recyler.getCurrentPosition() + 1 == freecourse.size()) {
                     arrow_free_right.setVisibility(View.INVISIBLE);
-                } else if(free_course_recyler.getCurrentPosition() == 0 ) {
+                } else if (free_course_recyler.getCurrentPosition() == 0) {
                     arrow_free_left.setVisibility(View.INVISIBLE);
                 }
 //
-                int childCount = free_course_recyler.getChildCount();
-                int width = free_course_recyler.getChildAt(0).getWidth();
-                int padding = (free_course_recyler.getWidth() - width) / 2;
+
+                try {
+                    int childCount = free_course_recyler.getChildCount();
+                    int width = free_course_recyler.getChildAt(0).getWidth();
+                    int padding = (free_course_recyler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
@@ -344,43 +354,47 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                if(paid_course_recyler.getCurrentPosition() == 1 ) {
+                if (paid_course_recyler.getCurrentPosition() == 1) {
                     arrow_paid_left.setVisibility(View.VISIBLE);
-                } else if(paid_course_recyler.getCurrentPosition()+2 == courses.size()) {
+                } else if (paid_course_recyler.getCurrentPosition() + 2 == courses.size()) {
                     arrow_paid_right.setVisibility(View.VISIBLE);
-                } else if(paid_course_recyler.getCurrentPosition()+1 == courses.size()) {
+                } else if (paid_course_recyler.getCurrentPosition() + 1 == courses.size()) {
                     arrow_paid_right.setVisibility(View.INVISIBLE);
-                } else if(paid_course_recyler.getCurrentPosition() == 0 ) {
+                } else if (paid_course_recyler.getCurrentPosition() == 0) {
                     arrow_paid_left.setVisibility(View.INVISIBLE);
                 }
 //
-                int childCount = paid_course_recyler.getChildCount();
-                int width = paid_course_recyler.getChildAt(0).getWidth();
-                int padding = (paid_course_recyler.getWidth() - width) / 2;
+
+                try {
+                    int childCount = paid_course_recyler.getChildCount();
+                    int width = paid_course_recyler.getChildAt(0).getWidth();
+                    int padding = (paid_course_recyler.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
                 }
             }
         });
@@ -398,33 +412,37 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
 //                mPositionText.setText("First: " + trendingPager.getFirstVisiblePosition());
-                int childCount = trending.getChildCount();
-                int width = trending.getChildAt(0).getWidth();
-                int padding = (trending.getWidth() - width) / 2;
+
+                try {
+                    int childCount = trending.getChildCount();
+                    int width = trending.getChildAt(0).getWidth();
+                    int padding = (trending.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
                 }
             }
         });
@@ -437,139 +455,143 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         courses = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        if(getContext() != null) {
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage(getString(R.string.loading_premium_courses));
-        progressDialog.show();
+            progressDialog.setMessage(getString(R.string.loading_premium_courses));
+            progressDialog.show();
 
-        progressDialog.setCancelable(false);
+            progressDialog.setCancelable(false);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
-                UrlConstants.FETCH_PREMIUM_COURSE,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
+            RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                    UrlConstants.FETCH_PREMIUM_COURSE,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-                            courses = new ArrayList<>();
+                                courses = new ArrayList<>();
 
-                            Log.i("url_response", response.toString());
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray CategoryArray = jsonObject.getJSONArray("paid");
-                            for (int i = 0; i < 20; i++) {
-                                JSONObject Category = CategoryArray.getJSONObject(i);
-                                courses.add(new Course(Category.getString("product_id"),
-                                        Category.getString("course_name"),
-                                        "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
-                                        Category.getString("exam_id"),
-                                        Category.getString("discount")
-                                        , "",
-                                        Category.getString("video_url").replace("\\", ""),
-                                        "Paid",
-                                        Category.getString("price")
-                                        )
-                                );
-                                courses.get(i).setType("Paid");
+                                Log.i("url_response", response.toString());
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray CategoryArray = jsonObject.getJSONArray("paid");
+                                for (int i = 0; i < 20; i++) {
+                                    JSONObject Category = CategoryArray.getJSONObject(i);
+                                    courses.add(new Course(Category.getString("product_id"),
+                                                    Category.getString("course_name"),
+                                                    "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
+                                                    Category.getString("exam_id"),
+                                                    Category.getString("discount")
+                                                    , "",
+                                                    Category.getString("video_url").replace("\\", ""),
+                                                    "Paid",
+                                                    Category.getString("price")
+                                            )
+                                    );
+                                    courses.get(i).setType("Paid");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                            FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+
+                            paid_course_recyler.setAdapter(freeCourseAdapter);
+
+                            freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
+
+                            progressDialog.dismiss();
+
+                            addFree();
                         }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+                            FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
 
-                        paid_course_recyler.setAdapter(freeCourseAdapter);
+                            paid_course_recyler.setAdapter(freeCourseAdapter);
 
-                        freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
+                            freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
-                        progressDialog.dismiss();
+                            progressDialog.dismiss();
 
-                        addFree();
+                            addFree();
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+            );
 
-                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
-
-                        paid_course_recyler.setAdapter(freeCourseAdapter);
-
-                        freeCourseAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
-
-                        progressDialog.dismiss();
-
-                        addFree();
-                    }
-                }
-        );
-
-        requestQueue1.add(stringRequest1);
+            requestQueue1.add(stringRequest1);
+        }
     }
 
 
     private void addFree() {
 
-        freecourse = new ArrayList<>();
+        if(getContext() != null) {
+            freecourse = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setMessage(getString(R.string.loading_free_courses));
-        progressDialog.show();
+            progressDialog.setMessage(getString(R.string.loading_free_courses));
+            progressDialog.show();
 
-        progressDialog.setCancelable(false);
+            progressDialog.setCancelable(false);
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
-                UrlConstants.FETCH_FREE_COURSE,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
+            RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                    UrlConstants.FETCH_FREE_COURSE,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-                            Log.i("url_response", response.toString());
-                            JSONArray CategoryArray = new JSONArray(response.toString());
-                            for (int i = 0; i < CategoryArray.length(); i++) {
-                                JSONObject Category = CategoryArray.getJSONObject(i);
-                                freecourse.add(new Course(Category.getString("course_id"),
-                                        Category.getString("name"),
-                                        "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
-                                        Category.getString("eid"),
-                                        "0"
-                                        , "meta_description",""));
-                                freecourse.get(i).setType("Free");
+                                Log.i("url_response", response.toString());
+                                JSONArray CategoryArray = new JSONArray(response.toString());
+                                for (int i = 0; i < CategoryArray.length(); i++) {
+                                    JSONObject Category = CategoryArray.getJSONObject(i);
+                                    freecourse.add(new Course(Category.getString("course_id"),
+                                            Category.getString("name"),
+                                            "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
+                                            Category.getString("eid"),
+                                            "0"
+                                            , "meta_description", ""));
+                                    freecourse.get(i).setType("Free");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                            progressDialog.dismiss();
+
+
+                            FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+
+                            free_course_recyler.setAdapter(freeCourseAdapter1);
+
+                            freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
+
                         }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressDialog.dismiss();
 
-                        progressDialog.dismiss();
+                            FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
 
+                            free_course_recyler.setAdapter(freeCourseAdapter1);
 
-                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
+                            freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
-                        free_course_recyler.setAdapter(freeCourseAdapter1);
-
-                        freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
-
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
+            );
 
-                        FreeCourseAdapter freeCourseAdapter1 = new FreeCourseAdapter(freecourse, getApplicationContext());
-
-                        free_course_recyler.setAdapter(freeCourseAdapter1);
-
-                        freeCourseAdapter1.setOnItemClicklistener(InsideWithoutSignFragment.this);
-
-                    }
-                }
-        );
-
-        requestQueue1.add(stringRequest1);
+            requestQueue1.add(stringRequest1);
+        }
     }
 
 
@@ -579,14 +601,14 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         trendingvVideos = new ArrayList<>();
 
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         trending.setLayoutManager(linearLayoutManager1);
 
-        latest_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        latest_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        free_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        free_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        paid_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        paid_course_recyler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
         initalizeVideo();
     }
@@ -597,119 +619,127 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
 
         trendingvVideos = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        if(getContext() != null) {
 
-        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
-        progressDialog.show();
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setCancelable(false);
+            progressDialog.setMessage(getString(R.string.loading_just_a_sec));
+            progressDialog.show();
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest1  = new StringRequest(Request.Method.GET,
-                UrlConstants.FETCH_TRENDING_VIDEOS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Log.i("url_response", response);
-                            JSONArray VideosArray = new JSONArray(response);
-                            for(int i=0;i<VideosArray.length();i++) {
-                                JSONObject videos = VideosArray.getJSONObject(i);
-                                trendingvVideos.add(new FreeVideos(
-                                        videos.getString("id"),
-                                        videos.getString("video_url").replace("\\",""),
-                                        "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
-                                        videos.getString("totalViews"),
-                                        videos.getString("tags"),
-                                        videos.getString("heading"),
-                                        "Free",
-                                        videos.getString("duration")));
-                                trendingvVideos.get(i).setType("Trending");
+            progressDialog.setCancelable(false);
+
+            RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                    UrlConstants.FETCH_TRENDING_VIDEOS,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Log.i("url_response", response);
+                                JSONArray VideosArray = new JSONArray(response);
+                                for (int i = 0; i < VideosArray.length(); i++) {
+                                    JSONObject videos = VideosArray.getJSONObject(i);
+                                    trendingvVideos.add(new FreeVideos(
+                                            videos.getString("id"),
+                                            videos.getString("video_url").replace("\\", ""),
+                                            "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
+                                            videos.getString("totalViews"),
+                                            videos.getString("tags"),
+                                            videos.getString("heading"),
+                                            "Free",
+                                            videos.getString("duration"),
+                                            videos.getString("likes"),
+                                            videos.getString("dislikes")));
+                                    trendingvVideos.get(i).setType("Trending");
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
+                            trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
 
-                        trendingVideosAdapter = new TrendingVideosAdapter(trendingvVideos, getApplicationContext());
+                            trending.setAdapter(trendingVideosAdapter);
 
-                        trending.setAdapter(trendingVideosAdapter);
+                            trendingVideosAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
 
-                        trendingVideosAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
+                            progressDialog.dismiss();
 
-                        progressDialog.dismiss();
+                            if(getContext() != null) {
+                                progressDialog = new ProgressDialog(getContext());
 
-                        progressDialog = new ProgressDialog(getContext());
+                                progressDialog.setMessage(getString(R.string.loading_just_a_sec));
+                                progressDialog.show();
 
-                        progressDialog.setMessage(getString(R.string.loading_just_a_sec));
-                        progressDialog.show();
+                                progressDialog.setCancelable(false);
 
-                        progressDialog.setCancelable(false);
+                                RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+                                StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                                        UrlConstants.FETCH_FREE_VIDEOS,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    Log.i("url_response", response);
+                                                    JSONArray VideosArray = new JSONArray(response);
+                                                    for (int i = 0; i < VideosArray.length(); i++) {
+                                                        JSONObject videos = VideosArray.getJSONObject(i);
+                                                        freeVideos.add(new FreeVideos(
+                                                                videos.getString("id"),
+                                                                videos.getString("video_url").replace("\\", ""),
+                                                                "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
+                                                                videos.getString("totalViews"),
+                                                                videos.getString("tags"),
+                                                                videos.getString("heading"),
+                                                                "Trending",
+                                                                videos.getString("duration"),
+                                                                videos.getString("likes"),
+                                                                videos.getString("dislikes")
+                                                        ));
+                                                        freeVideos.get(i).setType("Latest");
+                                                    }
 
-                        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-                        StringRequest stringRequest1  = new StringRequest(Request.Method.GET,
-                                UrlConstants.FETCH_FREE_VIDEOS,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            Log.i("url_response", response);
-                                            JSONArray VideosArray = new JSONArray(response);
-                                            for(int i=0;i<VideosArray.length();i++) {
-                                                JSONObject videos = VideosArray.getJSONObject(i);
-                                                freeVideos.add(new FreeVideos(
-                                                        videos.getString("id"),
-                                                        videos.getString("video_url").replace("\\",""),
-                                                        "https://www.careeranna.com/thumbnail/" +videos.getString("thumbnail"),
-                                                        videos.getString("totalViews"),
-                                                        videos.getString("tags"),
-                                                        videos.getString("heading"),
-                                                        "Trending",
-                                                        videos.getString("duration")
-                                                ));
-                                                freeVideos.get(i).setType("Latest");
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
+
+                                                latest_recycler.setAdapter(freeVideosAdapter);
+
+                                                freeVideosAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
+
+                                                progressDialog.dismiss();
+
+                                                addpaid_course_recyler();
                                             }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                                addpaid_course_recyler();
+                                                progressDialog.dismiss();
+                                            }
+                                        });
 
-                                        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, getApplicationContext());
+                                requestQueue1.add(stringRequest1);
+                            }
 
-                                        latest_recycler.setAdapter(freeVideosAdapter);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                                        freeVideosAdapter.setOnItemClicklistener(InsideWithoutSignFragment.this);
+                            addpaid_course_recyler();
+                            progressDialog.dismiss();
+                        }
+                    });
 
-                                        progressDialog.dismiss();
-
-                                        addpaid_course_recyler();
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                        addpaid_course_recyler();
-                                        progressDialog.dismiss();
-                                    }
-                                });
-
-                        requestQueue1.add(stringRequest1);
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        addpaid_course_recyler();
-                        progressDialog.dismiss();
-                    }
-                });
-
-        requestQueue1.add(stringRequest1);
+            requestQueue1.add(stringRequest1);
+        }
 
     }
 
@@ -791,20 +821,20 @@ public class InsideWithoutSignFragment extends Fragment  implements TrendingVide
     @Override
     public void onItemClick1(String type, int position) {
 
-        if(type.equals("Free")) {
+        if (type.equals("Free")) {
             startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
         }
-        if(type.equals("Paid")) {
+        if (type.equals("Paid")) {
             startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
         }
     }
 
     @Override
     public void onItemClick1(int position, String type) {
-        if(type.equals("Trending")) {
+        if (type.equals("Trending")) {
             startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", trendingvVideos.get(position)));
         }
-        if(type.equals("Latest")) {
+        if (type.equals("Latest")) {
             startActivity(new Intent(getApplicationContext(), VideoWithComment.class).putExtra("videos", freeVideos.get(position)));
         }
     }

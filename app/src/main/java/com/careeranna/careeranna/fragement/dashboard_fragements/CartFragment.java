@@ -48,7 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -87,8 +86,6 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
     Button checkout, apply_promo;
 
     Dialog dialog;
-
-    EditText promo;
 
     TextView price;
 
@@ -129,15 +126,12 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
         arrayListWish = new ArrayList<>();
 
-        Paper.init(getContext());
-
+        if(getContext() != null) {
+            Paper.init(getContext());
+        }
         cardTotalPriceCheckout = view.findViewById(R.id.card1);
 
         checkout = view.findViewById(R.id.checkout1);
-
-        promo = view.findViewById(R.id.promo);
-
-        relativeLayout = view.findViewById(R.id.layout);
 
         cardNoCourseAdded = view.findViewById(R.id.card);
 
@@ -150,24 +144,24 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
         apply_promo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                if(getContext() != null) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
 
                 if(promocode_edit_tv.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), getString(R.string.enter_promocode) , Toast.LENGTH_SHORT).show();
-                    return;
                 } else {
 
                     if(!promoCodes.isEmpty()) {
                         for(PromoCode promoCode: promoCodes) {
                             if(promoCode.getCode_name().equals(promocode_edit_tv.getText().toString())) {
                                 Toast.makeText(getContext(), getString(R.string.promocode_already_applied) , Toast.LENGTH_SHORT).show();
-                                return;
                             }
                         }
                     }
 
-                    snackbar = Snackbar.make(relativeLayout, getString(R.string.promocode_checking), Snackbar.LENGTH_INDEFINITE);
+                    snackbar = Snackbar.make(linearLayout, getString(R.string.promocode_checking), Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
 
                     final String promocode =promocode_edit_tv.getText().toString();
@@ -214,7 +208,6 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                         }
                                         if(!isApplied) {
                                             Toast.makeText(getContext(), getString(R.string.promocode_invalid) , Toast.LENGTH_SHORT).show();
-                                            return;
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -226,7 +219,6 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                 public void onErrorResponse(VolleyError error) {
                                     snackbar.dismiss();
                                     Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                                    return;
                                 }
                             }
                     );
@@ -245,12 +237,6 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             orderedCourses = new ArrayList<>();
 
             if (cart != null && !cart.isEmpty()) {
-
-                if (cache != null && !cache.isEmpty()) {
-
-                    user = new Gson().fromJson(cache, User.class);
-
-                }
 
                 Log.d("cart_details", cart);
 
@@ -288,44 +274,47 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 @Override
                 public void onClick(View v) {
 
-                    dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.custom_payment_layout);
-                    dialog.setTitle(getString(R.string.pay_now));
+                    if(getContext() != null) {
 
-                    Button paytm, payu;
+                        dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.custom_payment_layout);
+                        dialog.setTitle(getString(R.string.pay_now));
 
-                    TextView price = dialog.findViewById(R.id.price);
+                        Button paytm, payu;
 
-                    TextView email = dialog.findViewById(R.id.email);
+                        TextView price = dialog.findViewById(R.id.price);
 
-                    price.setText(String.valueOf(grand_total));
+                        TextView email = dialog.findViewById(R.id.email);
 
-                    email.setText(user.getUser_email());
+                        price.setText(String.valueOf(grand_total));
 
-                    paytm = (Button) dialog.findViewById(R.id.paytm);
-                    payu = (Button) dialog.findViewById(R.id.payu);
+                        email.setText(user.getUser_email());
 
-                    paytm.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        paytm = (Button) dialog.findViewById(R.id.paytm);
+                        payu = (Button) dialog.findViewById(R.id.payu);
 
-                            intent = new Intent(getContext(), PaytmPayment.class);
-                            intent.putExtra("price", grand_total);
-                            startActivity(intent);
-                        }
-                    });
+                        paytm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                    payu.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                                intent = new Intent(getContext(), PaytmPayment.class);
+                                intent.putExtra("price", grand_total);
+                                startActivity(intent);
+                            }
+                        });
 
-                            intent = new Intent(getContext(), Payment.class);
-                            intent.putExtra("price", grand_total);
-                            startActivity(intent);
-                        }
-                    });
+                        payu.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                    dialog.show();
+                                intent = new Intent(getContext(), Payment.class);
+                                intent.putExtra("price", grand_total);
+                                startActivity(intent);
+                            }
+                        });
+
+                        dialog.show();
+                    }
                 }
             });
 
@@ -366,70 +355,72 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
     private void removeAlert(final int pos) {
 
-        mBuilder = new AlertDialog.Builder(getContext());
-        mBuilder.setTitle("Course Deletion");
-        mBuilder.setCancelable(false);
-        mBuilder.setMessage(getString(R.string.course_delete_confirm));
-        mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                orderedCourse = orderedCourses.get(pos);
-                orderCourseAdapter.remove(pos);
+        if(getContext() != null) {
+            mBuilder = new AlertDialog.Builder(getContext());
+            mBuilder.setTitle("Course Deletion");
+            mBuilder.setCancelable(false);
+            mBuilder.setMessage(getString(R.string.course_delete_confirm));
+            mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    orderedCourse = orderedCourses.get(pos);
+                    orderCourseAdapter.remove(pos);
 
-                myCourse = arrayList.get(pos);
-                arrayList.remove(pos);
+                    myCourse = arrayList.get(pos);
+                    arrayList.remove(pos);
 
-                Paper.book().write("cart", new Gson().toJson(arrayList));
+                    Paper.book().write("cart", new Gson().toJson(arrayList));
 
-                if(orderedCourses.size() == 0) {
-                    cardNoCourseAdded.setVisibility(View.VISIBLE);
+                    if (orderedCourses.size() == 0) {
+                        cardNoCourseAdded.setVisibility(View.VISIBLE);
 
-                    cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
-                } else {
+                        cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
+                    } else {
 
-                    cardNoCourseAdded.setVisibility(View.INVISIBLE);
-                    cardTotalPriceCheckout.setVisibility(View.VISIBLE);
-                }
-                snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
-                snackbar.show();
-                snackbar.setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        arrayList.add(myCourse);
-                        orderedCourses.add(orderedCourse);
-                        orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
-                        recyclerView.setAdapter(orderCourseAdapter);
-                        orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
-                        recyclerView.smoothScrollToPosition(0);
-
-                        Paper.book().write("cart", new Gson().toJson(arrayList));
-
-                        if(orderedCourses.size() == 0) {
-                            cardNoCourseAdded.setVisibility(View.VISIBLE);
-
-                            cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
-                        } else {
-
-                            cardNoCourseAdded.setVisibility(View.INVISIBLE);
-
-                            cardTotalPriceCheckout.setVisibility(View.VISIBLE);
-
-                        }
+                        cardNoCourseAdded.setVisibility(View.INVISIBLE);
+                        cardTotalPriceCheckout.setVisibility(View.VISIBLE);
                     }
-                });
-            }
-        });
-        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-                orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
-                recyclerView.setAdapter(orderCourseAdapter);
-                orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
-                recyclerView.smoothScrollToPosition(0);
-            }
-        });
-        alertDialog = mBuilder.show();
+                    snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                    snackbar.setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            arrayList.add(myCourse);
+                            orderedCourses.add(orderedCourse);
+                            orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
+                            recyclerView.setAdapter(orderCourseAdapter);
+                            orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
+                            recyclerView.smoothScrollToPosition(0);
+
+                            Paper.book().write("cart", new Gson().toJson(arrayList));
+
+                            if (orderedCourses.size() == 0) {
+                                cardNoCourseAdded.setVisibility(View.VISIBLE);
+
+                                cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
+                            } else {
+
+                                cardNoCourseAdded.setVisibility(View.INVISIBLE);
+
+                                cardTotalPriceCheckout.setVisibility(View.VISIBLE);
+
+                            }
+                        }
+                    });
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                    orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
+                    recyclerView.setAdapter(orderCourseAdapter);
+                    orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            });
+            alertDialog = mBuilder.show();
+        }
 
     }
 

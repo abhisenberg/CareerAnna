@@ -76,12 +76,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long millis = date.getTime();
-
-        viewHolder.relativeTimeTextView.setReferenceTime(millis);
+        if(date != null) {
+            long millis = date.getTime();
+            viewHolder.relativeTimeTextView.setReferenceTime(millis);
+        }
 
         if(comments.get(i).getName() != null){
-            name = comments.get(i).getName().substring(0,1).toUpperCase();
+            if(comments.get(i).getName().length() == 0) {
+                name = "G";
+            } else {
+                name = comments.get(i).getName().substring(0, 1).toUpperCase();
+            }
         }
 
         viewHolder.image.setText(name);
@@ -124,7 +129,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     if(mListener != null) {
 
                         Comment comment1 = new Comment();
-                        comment1.setName(user.getUser_username());
+                        if(user != null) {
+                            comment1.setName(user.getUser_username());
+                        }
                         comment1.setComment_body(viewHolder.editText.getText().toString());
                         comments.get(i).getComments().add(comment1);
                         final CommentChildAdapter commentAdapter = new CommentChildAdapter(comments.get(i).getComments(), context);

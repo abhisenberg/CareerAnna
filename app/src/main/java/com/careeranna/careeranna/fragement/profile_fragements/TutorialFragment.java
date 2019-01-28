@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,12 @@ import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Topic;
 import com.careeranna.careeranna.data.Unit;
 import com.longtailvideo.jwplayer.JWPlayerView;
+import com.longtailvideo.jwplayer.events.BeforePlayEvent;
+import com.longtailvideo.jwplayer.events.BufferChangeEvent;
+import com.longtailvideo.jwplayer.events.BufferEvent;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
+import com.longtailvideo.jwplayer.events.PlayEvent;
+import com.longtailvideo.jwplayer.events.listeners.AdvertisingEvents;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
 import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 
@@ -43,11 +49,12 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class TutorialFragment extends Fragment implements ExpandableList_Adapter.OnItemClickListener
-        ,VideoPlayerEvents.OnFullscreenListener{
+        , VideoPlayerEvents.OnFullscreenListener {
 
     public static final String TAG = "TutorialFragment";
 
@@ -59,6 +66,8 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
     ExpandableListView listView;
     ExpandableList_Adapter listAdapter;
     ArrayList<Unit> mUnits;
+
+    ImageView imageView;
 
 
     public TutorialFragment() {
@@ -72,7 +81,12 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         View view = inflater.inflate(R.layout.fragment_tutorial, container, false);
 
         playerView = view.findViewById(R.id.videoView);
-        new KeepScreenOnHandler(playerView, getActivity().getWindow());
+        imageView = view.findViewById(R.id.image_view);
+        if (getActivity() != null) {
+            if (getActivity().getWindow() != null) {
+                new KeepScreenOnHandler(playerView, getActivity().getWindow());
+            }
+        }
         /*
         Playing a sample video in the starting, this statement should be removed before
         finalizing the app.
@@ -92,7 +106,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         mUnits = new ArrayList<>();
 
         if (course.size() == 0 || course.get(0).equals("No results")) {
-            playerView.setVisibility(View.GONE);
+            playerView.setVisibility(GONE);
             cardView.setVisibility(View.VISIBLE);
         } else {
 
@@ -139,6 +153,20 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 .file(videoUrl)
                 .build();
         playerView.load(playlistItem);
+        playerView.play();
+        playerView.addOnBeforePlayListener(new AdvertisingEvents.OnBeforePlayListener() {
+            @Override
+            public void onBeforePlay(BeforePlayEvent beforePlayEvent) {
+                Log.d("Loading_Videos", "Loading");
+            }
+        });
+        playerView.addOnPlayListener(new VideoPlayerEvents.OnPlayListener() {
+            @Override
+            public void onPlay(PlayEvent playEvent) {
+                Log.d("Playing_videos", "playing");
+                imageView.setVisibility(GONE);
+            }
+        });
     }
 
     @Override
@@ -169,10 +197,14 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
     public void onFullscreen(FullscreenEvent fullscreenEvent) {
         if (fullscreenEvent.getFullscreen()) {
             //If fullscreen, remove the action bar
-            ((ParticularCourse) getActivity()).removeActionBar();
+            if (getActivity() != null) {
+                ((ParticularCourse) getActivity()).removeActionBar();
+            }
         } else {
             //If not fullscreen, show the action bar
-            ((ParticularCourse) getActivity()).showActionBar();
+            if (getActivity() != null) {
+                ((ParticularCourse) getActivity()).showActionBar();
+            }
         }
     }
 

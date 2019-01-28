@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -28,7 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.careeranna.careeranna.fragement.NoInternetFragement;
+import com.careeranna.careeranna.fragement.NoInternetFragment;
 import com.careeranna.careeranna.fragement.explore_not_sign_in_fragements.InsideWithoutSignFragment;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
@@ -45,7 +44,7 @@ import java.util.ArrayList;
 
 import io.paperdb.Paper;
 
-public class ExploreNotSignActivity extends AppCompatActivity implements NoInternetFragement.OnFragemntClickListener{
+public class ExploreNotSignActivity extends AppCompatActivity implements NoInternetFragment.OnFragemntClickListener{
 
     LinearLayout linearLayout;                              // Linear Layout For Dots Of Banner
 
@@ -53,7 +52,7 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
 
     InsideWithoutSignFragment insideWithoutSignFragment;    // Fragement Inside Explore to Show Details
 
-    NoInternetFragement noInternetFragement;
+    NoInternetFragment noInternetFragment;
 
     FragmentManager fragmentManager;                        // Fragement Manager To Change Fragements
 
@@ -95,8 +94,8 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
 
         insideWithoutSignFragment = new InsideWithoutSignFragment();
 
-        noInternetFragement = new NoInternetFragement();
-        noInternetFragement.setOnFragementClicklistener(this);
+        noInternetFragment = new NoInternetFragment();
+        noInternetFragment.setOnFragementClicklistener(this);
         /**
          * Getting Fragement Manager Fron The Activity
          */
@@ -114,7 +113,7 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
         getBanner();
         } else {
             frameLayout.setVisibility(View.GONE);
-            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragement).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
         }
 
         counterForUser();       // Counter For User Accessing Explore Without Sign Up

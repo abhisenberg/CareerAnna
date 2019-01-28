@@ -46,9 +46,11 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
         viewHolder.itemView.setTag(i);
+
+        final int position = i;
 
         viewHolder.name.setText(mOrdered.get(i).getName());
         viewHolder.price.setText(mOrdered.get(i).getPrice());
@@ -58,7 +60,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 if(mListener != null) {
-                    int position = i;
                     if(position != RecyclerView.NO_POSITION) {
                         mListener.onItemClick1(position, "remove");
                     }
@@ -70,7 +71,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 if(mListener != null) {
-                    int position = i;
                     if(position != RecyclerView.NO_POSITION) {
                         mListener.onItemClick1(position, "wish");
                     }

@@ -50,10 +50,11 @@ public class CommentChildAdapter  extends RecyclerView.Adapter<CommentChildAdapt
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long millis = date.getTime();
+        if(date != null) {
+            long millis = date.getTime();
 
-        viewHolder.relativeTimeTextView.setReferenceTime(millis);
-
+            viewHolder.relativeTimeTextView.setReferenceTime(millis);
+        }
         if(comments.get(i).getName() != null){
             name = comments.get(i).getName().substring(0,1).toUpperCase();
         }

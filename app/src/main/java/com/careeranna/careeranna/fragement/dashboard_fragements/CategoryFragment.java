@@ -62,6 +62,8 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
     RecyclerView recyclerView;
 
+    FreeCourseAdapter freeCourseAdapter;
+
     ArrayList<FreeVideos> freeVideos;
 
     String id, user_id, freecategory_id;
@@ -111,19 +113,6 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         search.setSuggestionsAdapter(null);
 
-        search.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-
-                FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse, getApplicationContext());
-                recyclerView.setAdapter(freeCourseAdapter);
-                freeCourseAdapter.setOnItemClicklistener(CategoryFragment.this);
-
-                closeKeyboard();
-                return true;
-            }
-        });
-
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -134,17 +123,37 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                ArrayList<Course> tempCourse1 = new ArrayList<>();
-                for (Course courseWithLessData : tempCourse) {
-                    if (courseWithLessData.getName().toLowerCase().contains(newText)) {
-                        tempCourse1.add(courseWithLessData);
+                courses.clear();
+
+                for (SubCategory subCategory : subCategories) {
+                    if (subCategory.getCATEGORY_ID().equals(id)) {
+                        for (Course course : tempCourse) {
+                            if (!course.getPrice().equals("0")) {
+                                if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
+                                    if (course.getName().toLowerCase().contains(newText)) {
+                                        courses.add(course);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
-                FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse1, getApplicationContext());
-                recyclerView.setAdapter(freeCourseAdapter);
-                freeCourseAdapter.setOnItemClicklistener(CategoryFragment.this);
-                tempCourse = tempCourse1;
+                for (SubCategory subCategory : subCategoriesfree) {
+                    if (subCategory.getCATEGORY_ID().equals(freecategory_id)) {
+                        for (Course course : tempCourse) {
+                            if (course.getPrice().equals("0")) {
+                                if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
+                                    if (course.getName().toLowerCase().contains(newText)) {
+                                        courses.add(course);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                freeCourseAdapter.notifyDataSetChanged();
 
                 return true;
             }
@@ -175,64 +184,67 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
             }
         });
 
-        progressDialog = new ProgressDialog(getContext());
+        if(getContext() != null) {
 
-        progressDialog.setMessage(getString(R.string.loading_subcategory));
-        progressDialog.show();
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setCancelable(false);
+            progressDialog.setMessage(getString(R.string.loading_subcategory));
+            progressDialog.show();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        final String url = "https://www.careeranna.com/api/getCourseByCategory.php?id=" + id + "&free=" + freecategory_id;
-        Log.d(TAG, "id="+id+", "+freecategory_id);
-        Log.d("url_res", url);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        ArrayList<String> subcategories = new ArrayList<>();
-                        try {
-                            Log.i("url_response", response.toString());
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray SubCategoryArray = jsonObject.getJSONArray("paid");
-                            for (int i = 0; i < SubCategoryArray.length(); i++) {
-                                JSONObject Category = SubCategoryArray.getJSONObject(i);
-                                subcategories.add(Category.getString("EXAM_NAME"));
-                                subCategories.add(new SubCategory(Category.getString("EXAM_NAME_ID"),
-                                        Category.getString("EXAM_NAME"),
-                                        Category.getString("CATEGORY_ID"),
-                                        Category.getString("ACTIVE_STATUS")));
+            progressDialog.setCancelable(false);
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            final String url = "https://www.careeranna.com/api/getCourseByCategory.php?id=" + id + "&free=" + freecategory_id;
+            Log.d(TAG, "id=" + id + ", " + freecategory_id);
+            Log.d("url_res", url);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            ArrayList<String> subcategories = new ArrayList<>();
+                            try {
+                                Log.i("url_response", response.toString());
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray SubCategoryArray = jsonObject.getJSONArray("paid");
+                                for (int i = 0; i < SubCategoryArray.length(); i++) {
+                                    JSONObject Category = SubCategoryArray.getJSONObject(i);
+                                    subcategories.add(Category.getString("EXAM_NAME"));
+                                    subCategories.add(new SubCategory(Category.getString("EXAM_NAME_ID"),
+                                            Category.getString("EXAM_NAME"),
+                                            Category.getString("CATEGORY_ID"),
+                                            Category.getString("ACTIVE_STATUS")));
+                                }
+                                JSONArray SubCategoryArray1 = jsonObject.getJSONArray("free");
+                                for (int i = 0; i < SubCategoryArray1.length(); i++) {
+                                    JSONObject Category = SubCategoryArray1.getJSONObject(i);
+                                    subcategories.add(Category.getString("name"));
+                                    subCategoriesfree.add(new SubCategory(Category.getString("eid"),
+                                            Category.getString("name"),
+                                            Category.getString("cid"),
+                                            Category.getString("status")));
+                                }
+                                subCategories.addAll(subCategoriesfree);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            JSONArray SubCategoryArray1 = jsonObject.getJSONArray("free");
-                            for (int i = 0; i < SubCategoryArray1.length(); i++) {
-                                JSONObject Category = SubCategoryArray1.getJSONObject(i);
-                                subcategories.add(Category.getString("name"));
-                                subCategoriesfree.add(new SubCategory(Category.getString("eid"),
-                                        Category.getString("name"),
-                                        Category.getString("cid"),
-                                        Category.getString("status")));
-                            }
-                            subCategories.addAll(subCategoriesfree);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                            progressDialog.dismiss();
+
+                            populateCourse();
                         }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                        progressDialog.dismiss();
+                            progressDialog.dismiss();
 
-                        populateCourse();
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+            );
 
-                        progressDialog.dismiss();
-
-                    }
-                }
-        );
-
-        requestQueue.add(stringRequest);
+            requestQueue.add(stringRequest);
+        }
 
         freeVideos = new ArrayList<>();
 
@@ -240,7 +252,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+        freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
 
         recyclerView.setAdapter(freeCourseAdapter);
 
@@ -251,109 +263,111 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
     private void populateCourse() {
 
-        progressDialog = new ProgressDialog(getContext());
+        if(getContext() != null) {
 
-        progressDialog.setMessage(getString(R.string.loading_courses));
-        progressDialog.show();
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setCancelable(false);
+            progressDialog.setMessage(getString(R.string.loading_courses));
+            progressDialog.show();
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        String url1 = "https://careeranna.com/api/getAllCourse.php";
-        Log.d("url_res", url1);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
+            progressDialog.setCancelable(false);
 
-                            courses = new ArrayList<>();
+            RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+            String url1 = "https://careeranna.com/api/getAllCourse.php";
+            Log.d("url_res", url1);
+            StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-                            Log.i("url_response", response.toString());
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray CategoryArray = jsonObject.getJSONArray("paid");
-                            for (int i = 0; i < CategoryArray.length(); i++) {
-                                JSONObject Category = CategoryArray.getJSONObject(i);
-                                courses.add(new Course(Category.getString("product_id"),
-                                        Category.getString("course_name"),
-                                        "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
-                                        Category.getString("exam_id"),
-                                        Category.getString("discount")
-                                        , "",
-                                        Category.getString("video_url").replace("\\", ""),
-                                        "Paid",
-                                        Category.getString("price")));
+                                courses = new ArrayList<>();
+                                tempCourse = new ArrayList<>();
+
+                                Log.i("url_response", response.toString());
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray CategoryArray = jsonObject.getJSONArray("paid");
+                                for (int i = 0; i < CategoryArray.length(); i++) {
+                                    JSONObject Category = CategoryArray.getJSONObject(i);
+                                    tempCourse.add(new Course(Category.getString("product_id"),
+                                            Category.getString("course_name"),
+                                            "https://www.careeranna.com/" + Category.getString("product_image").replace("\\", ""),
+                                            Category.getString("exam_id"),
+                                            Category.getString("discount")
+                                            , "",
+                                            Category.getString("video_url").replace("\\", ""),
+                                            "Paid",
+                                            Category.getString("price")));
+                                }
+                                JSONArray FreeArray = jsonObject.getJSONArray("free");
+                                for (int i = 0; i < FreeArray.length(); i++) {
+                                    JSONObject Category = FreeArray.getJSONObject(i);
+                                    tempCourse.add(new Course(Category.getString("course_id"),
+                                            Category.getString("name"),
+                                            "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
+                                            Category.getString("examIds"),
+                                            "0"
+                                            , "",
+                                            ""));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            JSONArray FreeArray = jsonObject.getJSONArray("free");
-                            for (int i = 0; i < FreeArray.length(); i++) {
-                                JSONObject Category = FreeArray.getJSONObject(i);
-                                temp.add(new Course(Category.getString("course_id"),
-                                        Category.getString("name"),
-                                        "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
-                                        Category.getString("examIds"),
-                                        "0"
-                                        , "",
-                                        ""));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
-                        progressDialog.dismiss();
+                            progressDialog.dismiss();
 
-                        tempCourse = new ArrayList<>();
-
-                        for (SubCategory subCategory : subCategories) {
-                            if (subCategory.getCATEGORY_ID().equals(id)) {
-                                for (Course course : courses) {
-                                    if (!course.getPrice().equals("0")) {
-                                        if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
-                                            tempCourse.add(course);
+                            for (SubCategory subCategory : subCategories) {
+                                if (subCategory.getCATEGORY_ID().equals(id)) {
+                                    for (Course course : tempCourse) {
+                                        if (!course.getPrice().equals("0")) {
+                                            if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
+                                                courses.add(course);
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        for (SubCategory subCategory : subCategoriesfree) {
-                            if (subCategory.getCATEGORY_ID().equals(freecategory_id)) {
-                                for (Course course : temp) {
-                                    if (course.getPrice().equals("0")) {
-                                        if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
-                                            tempCourse.add(course);
+                            for (SubCategory subCategory : subCategoriesfree) {
+                                if (subCategory.getCATEGORY_ID().equals(freecategory_id)) {
+                                    for (Course course : tempCourse) {
+                                        if (course.getPrice().equals("0")) {
+                                            if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
+                                                courses.add(course);
+                                            }
                                         }
                                     }
                                 }
                             }
+
+                            freeCourseAdapter = new FreeCourseAdapter(courses, getApplicationContext());
+
+                            recyclerView.setAdapter(freeCourseAdapter);
+
+                            if (tempCourse.size() == 0) {
+                                cardView.setVisibility(View.VISIBLE);
+                                filterSub.setEnabled(false);
+                                sortSub.setEnabled(false);
+
+                            } else {
+                                cardView.setVisibility(View.INVISIBLE);
+                                myCourse();
+                            }
+
+
+                            freeCourseAdapter.setOnItemClicklistener(CategoryFragment.this);
                         }
-
-                        FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse, getApplicationContext());
-
-                        recyclerView.setAdapter(freeCourseAdapter);
-
-                        if (tempCourse.size() == 0) {
-                            cardView.setVisibility(View.VISIBLE);
-                            filterSub.setEnabled(false);
-                            sortSub.setEnabled(false);
-
-                        } else {
-                            cardView.setVisibility(View.INVISIBLE);
-                            myCourse();
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressDialog.dismiss();
                         }
-
-
-                        freeCourseAdapter.setOnItemClicklistener(CategoryFragment.this);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                    }
-                }
-        );
+            );
 
-        requestQueue1.add(stringRequest1);
+            requestQueue1.add(stringRequest1);
+        }
 
     }
 
@@ -363,7 +377,8 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         if (requestCode == 111) {
 
             if (resultCode == Activity.RESULT_OK) {
-                ArrayList<Course> tempCourse1 = new ArrayList<>();
+
+                courses.clear();
 
                 ArrayList<SubCategory> subCategories = (ArrayList<SubCategory>) data.getSerializableExtra("category");
 
@@ -373,7 +388,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                             for (Course course : tempCourse) {
                                 if (course.getPrice().equals("0")) {
                                     if (course.getCategory_id().contains(subCategory.getEXAM_NAME_ID())) {
-                                        tempCourse1.add(course);
+                                        courses.add(course);
                                     }
                                 }
                             }
@@ -384,7 +399,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                             for (Course course : tempCourse) {
                                 if (!course.getPrice().equals("0")) {
                                     if (course.getCategory_id().equals(subCategory.getEXAM_NAME_ID())) {
-                                        tempCourse1.add(course);
+                                        courses.add(course);
                                     }
                                 }
                             }
@@ -392,21 +407,16 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                     }
                 }
 
-                FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse1, getApplicationContext());
-                recyclerView.setAdapter(freeCourseAdapter);
+                freeCourseAdapter.notifyDataSetChanged();
 
                 Toast.makeText(getApplicationContext(), "List Updated", Toast.LENGTH_SHORT).show();
-                freeCourseAdapter.setOnItemClicklistener(this);
 
             }
 
             if (resultCode == Activity.RESULT_CANCELED) {
 
-                FreeCourseAdapter freeCourseAdapter = new FreeCourseAdapter(tempCourse, getApplicationContext());
-                recyclerView.setAdapter(freeCourseAdapter);
 
                 Toast.makeText(getApplicationContext(), "Filter Cancelled", Toast.LENGTH_SHORT).show();
-                freeCourseAdapter.setOnItemClicklistener(this);
             }
         }
 
@@ -416,42 +426,46 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
 
         alreadyPurchasedCourses = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getContext());
+        if (getContext() != null) {
 
-        progressDialog.setMessage(getString(R.string.loading_your_courses));
-        progressDialog.show();
+            progressDialog = new ProgressDialog(getContext());
 
-        progressDialog.setCancelable(false);
+            progressDialog.setMessage(getString(R.string.loading_your_courses));
+            progressDialog.show();
 
-        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-        final String url1 = "https://careeranna.com/api/getMyCourse.php?user=" + user_id;
-        Log.d("url_res", url1);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Log.i("url_response", response.toString());
-                            JSONArray coursesArray = new JSONArray(response);
-                            for (int i = 0; i < coursesArray.length(); i++) {
-                                JSONObject Category = coursesArray.getJSONObject(i);
-                                alreadyPurchasedCourses.add(Category.getString("product_id"));
+            progressDialog.setCancelable(false);
+
+
+            RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+            final String url1 = "https://careeranna.com/api/getMyCourse.php?user=" + user_id;
+            Log.d("url_res", url1);
+            StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Log.i("url_response", response.toString());
+                                JSONArray coursesArray = new JSONArray(response);
+                                for (int i = 0; i < coursesArray.length(); i++) {
+                                    JSONObject Category = coursesArray.getJSONObject(i);
+                                    alreadyPurchasedCourses.add(Category.getString("product_id"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            progressDialog.dismiss();
                         }
-                        progressDialog.dismiss();
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressDialog.dismiss();
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                    }
-                }
-        );
+            );
 
-        requestQueue1.add(stringRequest1);
+            requestQueue1.add(stringRequest1);
+        }
     }
 
     @Override
@@ -460,7 +474,7 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
         if (amIConnect()) {
             if (alreadyPurchasedCourses.size() > 0) {
                 for (String id : alreadyPurchasedCourses) {
-                    if (id.equals(tempCourse.get(position).getId())) {
+                    if (id.equals(courses.get(position).getId())) {
 
                         builder = new android.app.AlertDialog.Builder(getContext());
                         builder.setTitle("Already purchased");
@@ -479,8 +493,8 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
                     }
                 }
             }
-            Log.d(TAG, "onItemClick1: tempCourse = "+tempCourse.get(position).getName()+", courses = "+courses.get(position).getName());
-            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", tempCourse.get(position)));
+            Log.d(TAG, "onItemClick1: tempCourse = " + courses.get(position).getName() + ", courses = " + courses.get(position).getName());
+            startActivity(new Intent(getApplicationContext(), PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
         } else {
             if (getActivity() != null) {
                 ((MyCourses) getActivity()).changeInternet();
@@ -489,19 +503,24 @@ public class CategoryFragment extends Fragment implements FreeCourseAdapter.OnIt
     }
 
     private void closeKeyboard() {
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (getActivity() != null) {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
 
     private boolean amIConnect() {
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (getActivity() != null) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return true;
     }
 
 }

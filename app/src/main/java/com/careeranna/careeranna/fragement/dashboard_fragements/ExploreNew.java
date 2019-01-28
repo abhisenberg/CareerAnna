@@ -1,12 +1,12 @@
 package com.careeranna.careeranna.fragement.dashboard_fragements;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,17 +37,18 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItemClickListener, FreeCourseAdapter.OnItemClickListener {
 
-    ArrayList<FreeVideos> freeVideos, trendingVideos, tempVideos;
+    ArrayList<FreeVideos> freeVideos, trendingVideos, tempVideos, templatestVideos;
 
-    ArrayList<Course> courses, freecourse;
+    ArrayList<Course> paidCourses, freeCourses;
 
     int language;
 
-    CardView loading_card;
+    CardView loading_card, no_search;
 
     SearchView searchTrends;
 
@@ -118,9 +119,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         arrow_p_l = view.findViewById(R.id.arrow_p_l);
         arrow_p_r = view.findViewById(R.id.arrow_p_r);
 
+        no_search = view.findViewById(R.id.no_record_card);
     }
 
     @Override
+    @NonNull
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -128,20 +131,17 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         this.context = inflater.getContext();
 
-        freeVideos = new ArrayList<>();
-        this.trendingVideos = new ArrayList<>();
-        courses = new ArrayList<>();
-        freecourse = new ArrayList<>();
-        tempVideos = new ArrayList<>();
-
+        if (freeVideos == null && trendingVideos == null && paidCourses == null && freeCourses == null && tempVideos == null) {
+            freeVideos = new ArrayList<>();
+            trendingVideos = new ArrayList<>();
+            paidCourses = new ArrayList<>();
+            freeCourses = new ArrayList<>();
+            tempVideos = new ArrayList<>();
+            templatestVideos = new ArrayList<>();
+        }
         Paper.init(context);
 
         initializeVariables(view);
-
-        initializeVideos();
-
-        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         hidingRecycler();
 
@@ -150,7 +150,7 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         try {
             language = Paper.book().read(Constants.LANGUAGE);
             Log.d("in_try", language + " ");
-            if(language != 1) {
+            if (language != 1) {
                 relativeLayout.setVisibility(GONE);
             }
         } catch (NullPointerException e) {
@@ -158,30 +158,6 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             Log.d("in_catch", language + " ");
             Paper.book().write(Constants.LANGUAGE, language);
         }
-
-        return view;
-    }
-
-
-    public void addFree(ArrayList<FreeVideos> freeVideos,
-                        final ArrayList<FreeVideos> trendingVideos1,
-                        ArrayList<Course> courses,
-                        ArrayList<Course> freecourse) {
-
-
-            this.trendingVideos.addAll(trendingVideos1);
-            trendingVideosAdapter.notifyDataSetChanged();
-            this.freeVideos.addAll(freeVideos);
-            freeVideosAdapter.notifyDataSetChanged();
-            this.courses.addAll(courses);
-            paidCourseAdapter.notifyDataSetChanged();
-            this.freecourse.addAll(freecourse);
-            freeCourseAdapter.notifyDataSetChanged();
-            this.tempVideos.addAll(trendingVideos);
-
-    }
-
-    private void initializeVideos() {
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         trending.setLayoutManager(linearLayoutManager1);
@@ -198,10 +174,10 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         freeVideosAdapter = new TrendingVideosAdapter(freeVideos, context);
         latest.setAdapter(freeVideosAdapter);
 
-        paidCourseAdapter = new FreeCourseAdapter(courses, context);
+        paidCourseAdapter = new FreeCourseAdapter(paidCourses, context);
         paidCourse.setAdapter(paidCourseAdapter);
 
-        freeCourseAdapter = new FreeCourseAdapter(freecourse, context);
+        freeCourseAdapter = new FreeCourseAdapter(freeCourses, context);
         freeCourse.setAdapter(freeCourseAdapter);
 
         paidCourseAdapter.setOnItemClicklistener(ExploreNew.this);
@@ -209,12 +185,41 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
         freeCourseAdapter.setOnItemClicklistener(ExploreNew.this);
 
+
+        return view;
+    }
+
+
+    public void addFree(ArrayList<FreeVideos> freeVideos,
+                        final ArrayList<FreeVideos> trendingVideos1,
+                        ArrayList<Course> paidCourses,
+                        ArrayList<Course> freeCourses) {
+
+
+        this.trendingVideos.addAll(trendingVideos1);
+        trendingVideosAdapter.notifyDataSetChanged();
+        this.freeVideos.addAll(freeVideos);
+        freeVideosAdapter.notifyDataSetChanged();
+        this.paidCourses.addAll(paidCourses);
+        paidCourseAdapter.notifyDataSetChanged();
+        this.freeCourses.addAll(freeCourses);
+        freeCourseAdapter.notifyDataSetChanged();
+        this.tempVideos.addAll(trendingVideos);
+        this.templatestVideos.addAll(this.freeVideos);
+
+        initializeVideos();
+
+    }
+
+    private void initializeVideos() {
+
         latest.setFlingFactor(0.1f);
         latest.fling(1, 1);
         latest.setVerticalFadingEdgeEnabled(true);
 
         latest.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
+            @NonNull
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
             }
@@ -231,33 +236,39 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (latest.getCurrentPosition() == 0) {
                     arrow_l_l.setVisibility(View.INVISIBLE);
                 }
-    */          int childCount = latest.getChildCount();
-                int width = latest.getChildAt(0).getWidth();
-                int padding = (latest.getWidth() - width) / 2;
+    */
+
+                try {
+                    int childCount = latest.getChildCount();
+                    int width = latest.getChildAt(0).getWidth();
+                    int padding = (latest.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
@@ -284,33 +295,38 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (freeCourse.getCurrentPosition() == 0) {
                     arrow_f_l.setVisibility(View.INVISIBLE);
                 }
-      */          int childCount = freeCourse.getChildCount();
-                int width = freeCourse.getChildAt(0).getWidth();
-                int padding = (freeCourse.getWidth() - width) / 2;
+
+
+      */
+                try {
+                    int childCount = freeCourse.getChildCount();
+                    int width = freeCourse.getChildAt(0).getWidth();
+                    int padding = (freeCourse.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
                 }
             }
         });
@@ -337,36 +353,44 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (paidCourse.getCurrentPosition() == 0) {
                     arrow_p_l.setVisibility(View.INVISIBLE);
                 }
-        */      int childCount = paidCourse.getChildCount();
-                int width = paidCourse.getChildAt(0).getWidth();
-                int padding = (paidCourse.getWidth() - width) / 2;
+
+
+        */
+                try {
+                    int childCount = paidCourse.getChildCount();
+                    int width = paidCourse.getChildAt(0).getWidth();
+                    int padding = (paidCourse.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
+                        } else {
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
+
         trending.setFlingFactor(0.1f);
         trending.fling(1, 1);
         trending.setVerticalFadingEdgeEnabled(true);
@@ -389,55 +413,47 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                 } else if (trending.getCurrentPosition() == 0) {
                     arrow_t_l.setVisibility(View.INVISIBLE);
                 }
-                int childCount = trending.getChildCount();
-                int width = trending.getChildAt(0).getWidth();
-                int padding = (trending.getWidth() - width) / 2;
+
+                try {
+
+                    int childCount = trending.getChildCount();
+                    int width = trending.getChildAt(0).getWidth();
+                    int padding = (trending.getWidth() - width) / 2;
 //                mCountText.setText("Count: " + childCount);
+                    for (int j = 0; j < childCount; j++) {
+                        View v = recyclerView.getChildAt(j);
+                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                        float rate = 0;
 
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        if (v.getLeft() <= padding) {
+                            if (v.getLeft() >= padding - v.getWidth()) {
+                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                            } else {
+                                rate = 1;
+                            }
+                            v.setScaleY(1 - rate * 0.1f);
+                            v.setScaleX(1 - rate * 0.1f);
+
                         } else {
-                            rate = 1;
+                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                            }
+                            v.setScaleY(0.9f + rate * 0.1f);
+                            v.setScaleX(0.9f + rate * 0.1f);
                         }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
-
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
-                        }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
                     }
+                } catch (Exception e) {
+
                 }
             }
         });
-
-
-
 
         searchTrends.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                trendingVideos.clear();
-
-                for (FreeVideos freeVideos1 : tempVideos) {
-                    if (freeVideos1.getTitle().trim().toLowerCase().contains(query.trim())) {
-                        Log.d("Explore_New_Frag", freeVideos1.getTitle() +" : " + query);
-                        trendingVideos.add(freeVideos1);
-                    }
-                }
-
-                trendingVideosAdapter.changeContent(trendingVideos);
 
                 closeKeyboard();
                 return true;
@@ -446,6 +462,64 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public boolean onQueryTextChange(String newText) {
 
+                if (trendingCard.getVisibility() == VISIBLE) {
+
+                    trendingVideos.clear();
+
+                    no_search.setVisibility(View.GONE);
+                    if (newText.length() > 0) {
+
+                        for (FreeVideos freeVideos1 : tempVideos) {
+                            if (freeVideos1.getTitle().trim().toLowerCase().contains(newText.trim())) {
+                                trendingVideos.add(freeVideos1);
+                            }
+                        }
+
+                        trendingVideosAdapter.notifyDataSetChanged();
+
+                    } else {
+
+                        trendingVideos.addAll(tempVideos);
+                        trendingVideosAdapter.notifyDataSetChanged();
+                        trending.scrollToPosition(0);
+                    }
+
+                    if (trendingVideos != null) {
+                        if (trendingVideos.size() == 0) {
+                            no_search.setVisibility(View.VISIBLE);
+                        } else {
+                            trending.scrollToPosition(0);
+                        }
+                    }
+                } else if (latestCard.getVisibility() == VISIBLE) {
+
+                    freeVideos.clear();
+
+                    no_search.setVisibility(View.GONE);
+                    if (newText.length() > 0) {
+
+                        for (FreeVideos freeVideos1 : templatestVideos) {
+                            if (freeVideos1.getTitle().trim().toLowerCase().contains(newText.trim())) {
+                                freeVideos.add(freeVideos1);
+                            }
+                        }
+
+                        freeVideosAdapter.notifyDataSetChanged();
+
+                    } else {
+
+                        freeVideos.addAll(templatestVideos);
+                        freeVideosAdapter.notifyDataSetChanged();
+                    }
+
+                    if (freeVideos != null) {
+                        if (freeVideos.size() == 0) {
+                            no_search.setVisibility(View.VISIBLE);
+                        } else {
+                            latest.scrollToPosition(0);
+                        }
+                    }
+                }
                 return true;
             }
         });
@@ -456,13 +530,15 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
     public void onItemClick1(String type, int position) {
         if (amIConnect()) {
             if (type.equals("Free")) {
-                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freecourse.get(position)));
+                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freeCourses.get(position)));
             }
             if (type.equals("Paid")) {
-                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+                startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", paidCourses.get(position)));
             }
         } else {
-            ((MyCourses) getActivity()).changeInternet();
+            if (getActivity() != null) {
+                ((MyCourses) getActivity()).changeInternet();
+            }
         }
     }
 
@@ -484,10 +560,12 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
 
     private void closeKeyboard() {
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (getActivity() != null) {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
@@ -611,18 +689,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         trending_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                trendingCard.setVisibility(View.VISIBLE);
-                freeCard.setVisibility(GONE);
-                latestCard.setVisibility(GONE);
-                premiumCard.setVisibility(GONE);
-                trending_btn.setTypeface(null, Typeface.BOLD);
-                latest_btn.setTypeface(null, Typeface.NORMAL);
-                free_btn.setTypeface(null, Typeface.NORMAL);
-                premium_btn.setTypeface(null, Typeface.NORMAL);
-                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+                relativeLayout.setVisibility(View.VISIBLE);
+                changeButtonColorAndText(0);
             }
         });
 
@@ -630,19 +699,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             @Override
             public void onClick(View v) {
 
-                relativeLayout.setVisibility(GONE);
-                latestCard.setVisibility(View.VISIBLE);
-                trendingCard.setVisibility(GONE);
-                freeCard.setVisibility(GONE);
-                premiumCard.setVisibility(GONE);
-                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                latest_btn.setTypeface(null, Typeface.BOLD);
-                trending_btn.setTypeface(null, Typeface.NORMAL);
-                free_btn.setTypeface(null, Typeface.NORMAL);
-                premium_btn.setTypeface(null, Typeface.NORMAL);
+                relativeLayout.setVisibility(VISIBLE);
+                changeButtonColorAndText(2);
             }
         });
 
@@ -651,79 +709,68 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
             public void onClick(View v) {
 
                 relativeLayout.setVisibility(GONE);
-                freeCard.setVisibility(View.VISIBLE);
-                trendingCard.setVisibility(GONE);
-                latestCard.setVisibility(GONE);
-                premiumCard.setVisibility(GONE);
-                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                free_btn.setTypeface(null, Typeface.BOLD);
-                latest_btn.setTypeface(null, Typeface.NORMAL);
-                trending_btn.setTypeface(null, Typeface.NORMAL);
-                premium_btn.setTypeface(null, Typeface.NORMAL);
+                changeButtonColorAndText(1);
             }
         });
 
         premium_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 relativeLayout.setVisibility(GONE);
-                premiumCard.setVisibility(View.VISIBLE);
-                latestCard.setVisibility(GONE);
-                freeCard.setVisibility(GONE);
-                trendingCard.setVisibility(GONE);
-                premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                premium_btn.setTypeface(null, Typeface.BOLD);
-                latest_btn.setTypeface(null, Typeface.NORMAL);
-                free_btn.setTypeface(null, Typeface.NORMAL);
-                trending_btn.setTypeface(null, Typeface.NORMAL);
+                changeButtonColorAndText(3);
             }
         });
     }
 
-    public boolean isContentEmpty() {
 
-        if(freecourse != null && this.trendingVideos != null && tempVideos != null && freeVideos != null && courses != null) {
-            if (!(freecourse.isEmpty() && this.trendingVideos.isEmpty() && tempVideos.isEmpty() && freeVideos.isEmpty() && courses.isEmpty())){
-                return false;
+    private void changeButtonColorAndText(int i) {
+
+        premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        premium_btn.setTypeface(null, Typeface.NORMAL);
+        latest_btn.setTypeface(null, Typeface.NORMAL);
+        free_btn.setTypeface(null, Typeface.NORMAL);
+        trending_btn.setTypeface(null, Typeface.NORMAL);
+
+        trendingCard.setVisibility(View.GONE);
+        freeCard.setVisibility(View.GONE);
+        latestCard.setVisibility(View.GONE);
+        premiumCard.setVisibility(View.GONE);
+        no_search.setVisibility(View.GONE);
+        searchTrends.setQuery("", false);
+        searchTrends.clearFocus();
+
+        if (i == 0) {
+            trendingCard.setVisibility(View.VISIBLE);
+            trending_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            trending_btn.setTypeface(null, Typeface.BOLD);
+        } else if (i == 1) {
+
+            freeCard.setVisibility(View.VISIBLE);
+            free_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            free_btn.setTypeface(null, Typeface.BOLD);
+        } else if (i == 2) {
+            latestCard.setVisibility(View.VISIBLE);
+            latest_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            latest_btn.setTypeface(null, Typeface.BOLD);
+        } else if (i == 3) {
+            premiumCard.setVisibility(View.VISIBLE);
+            premium_btn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            premium_btn.setTypeface(null, Typeface.BOLD);
+        }
+
+    }
+
+    public boolean isEmptyArrayList() {
+
+        if (this.trendingVideos != null && this.freeCourses != null && this.paidCourses != null && this.freeVideos != null) {
+            if (this.trendingVideos.size() > 0 && this.freeCourses.size() > 0 && this.paidCourses.size() > 0 && this.freeVideos.size() > 0) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public void populate() {
-
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        trending.setLayoutManager(linearLayoutManager1);
-
-        latest.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-
-        freeCourse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-
-        paidCourse.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-
-        trendingVideosAdapter = new TrendingVideosAdapter(trendingVideos, context);
-        trending.setAdapter(trendingVideosAdapter);
-
-        freeVideosAdapter = new TrendingVideosAdapter(freeVideos, context);
-        latest.setAdapter(freeVideosAdapter);
-
-        paidCourseAdapter = new FreeCourseAdapter(courses, context);
-        paidCourse.setAdapter(paidCourseAdapter);
-
-        freeCourseAdapter = new FreeCourseAdapter(freecourse, context);
-        freeCourse.setAdapter(freeCourseAdapter);
-
-        paidCourseAdapter.setOnItemClicklistener(ExploreNew.this);
-        freeVideosAdapter.setOnItemClicklistener(ExploreNew.this);
-        trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
-        freeCourseAdapter.setOnItemClicklistener(ExploreNew.this);
-
-    }
 }
