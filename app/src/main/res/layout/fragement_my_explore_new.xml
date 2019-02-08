@@ -363,4 +363,86 @@
 
     </android.support.v7.widget.CardView>
 
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/filter_card"
+        android:elevation="20dp"
+        android:layout_centerInParent="true"
+        android:layout_width="300dp"
+        android:layout_height="150dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:id="@+id/exam_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Chose Exam Name"
+            />
+
+        <LinearLayout
+            android:id="@+id/category_linear"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/exam_label"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:layout_marginLeft="10dp"
+            android:id="@+id/gk"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:text="GK"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/upsc"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:text="UPSC"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/cat"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:text="CAT"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+
+            <Button
+                android:layout_below="@id/category_linear"
+                android:id="@+id/reset"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:text="RESET FILTERS"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:background="@color/red"
+                android:layout_height="30dp" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 </RelativeLayout>

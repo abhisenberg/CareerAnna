@@ -3,22 +3,31 @@ package com.careeranna.careeranna.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +42,14 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.CommentAdapter;
+import com.careeranna.careeranna.adapter.PlaylistAdapter;
 import com.careeranna.careeranna.data.Comment;
 import com.careeranna.careeranna.data.FreeVideos;
+import com.careeranna.careeranna.data.PlayListItem;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.longtailvideo.jwplayer.JWPlayerView;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
@@ -47,6 +59,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,26 +67,46 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener, CommentAdapter.OnItemClickListener {
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
+
+public class VideoWithComment extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener, CommentAdapter.OnItemClickListener, PlaylistAdapter.OnItemClickListener {
 
     public static final String TAG = "VideoWithComment";
     RecyclerView recyclerView;
 
+    SearchView searchView;
+
     FreeVideos freeVideos;
+
+    RelativeLayout relativeLayout1, create_relative, add_relative;
+
+    Snackbar snackbar;
+    PlaylistAdapter playlistAdapter;
+
+    ArrayList<String> playlist;
 
     private JWPlayerView playerView;
 
     CommentAdapter commentAdapter;
 
+    Button addToPlayList, createPlayList;
+
+    private boolean is_liked, is_dislike;
+
     ArrayList<Comment> comments;
 
-    EditText comment_tv;
+    EditText comment_tv, play_list_item;
 
     String id = "";
 
+    ProgressBar progressBar;
+
     TextView views, likes, unlikes;
 
-    Button up;
+    Button up, thumbdown;
+
+    boolean liked_once, dislike_once;
 
     User user;
 
@@ -83,7 +116,15 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     Button addComment, cancel;
 
+    RecyclerView playlist_rv;
+
     CircleImageView image;
+
+    RequestQueue requestQueue1;
+
+    boolean isUpdating = false;
+
+    ArrayList<PlayListItem> playlistItems, tempPlaylists;
 
     AlertDialog alert;
 
@@ -94,6 +135,8 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
         Paper.init(this);
 
+        addToPlayList = findViewById(R.id.add_to_playlist);
+        relativeLayout1 = findViewById(R.id.layout_comment);
         relativeLayout = findViewById(R.id.rel);
         comment_tv = findViewById(R.id.addComment);
         addComment = findViewById(R.id.reply);
@@ -101,11 +144,227 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
         cancel = findViewById(R.id.cancel);
         views = findViewById(R.id.views);
         up = findViewById(R.id.up);
+        thumbdown = findViewById(R.id.thumbdown);
         unlikes = findViewById(R.id.dislikes);
+
+        requestQueue1 = Volley.newRequestQueue(this);
 
         comments = new ArrayList<>();
 
         user = null;
+
+        thumbdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isUpdating) {
+                    if (!is_dislike) {
+                        if (liked_once) {
+                            changeupdatelikes("dislikeandupdatelike");
+                            Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_up_hand_symbol);
+                            img.setBounds(0, 0, 30, 30);
+                            up.setCompoundDrawables(img, null, null, null);
+                            int likes = Integer.valueOf(up.getText().toString()) - 1;
+                            up.setText(likes + "");
+                            up.setTextColor(getResources().getColor(R.color.dark_gray));
+                            is_liked = false;
+                            liked_once = false;
+                        } else {
+                            changeupdatelikes("dislike");
+                        }
+                        Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_down_silhouette_red);
+                        img.setBounds(0, 0, 30, 30);
+                        thumbdown.setCompoundDrawables(img, null, null, null);
+                        int dislikes = Integer.valueOf(unlikes.getText().toString()) + 1;
+                        unlikes.setText(dislikes + "");
+                        unlikes.setTextColor(getResources().getColor(R.color.red));
+                        is_dislike = true;
+                        dislike_once = true;
+                    } else {
+                        changeupdatelikes("notdislike");
+                        Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_down_silhouette);
+                        img.setBounds(0, 0, 30, 30);
+                        thumbdown.setCompoundDrawables(img, null, null, null);
+                        int dislikes = Integer.valueOf(unlikes.getText().toString()) - 1;
+                        unlikes.setText(dislikes + "");
+                        unlikes.setTextColor(getResources().getColor(R.color.dark_gray));
+                        is_dislike = false;
+                        dislike_once = false;
+                    }
+                }
+            }
+        });
+
+
+        addToPlayList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(VideoWithComment.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.add_to_playlist_dialog);
+
+                play_list_item = dialog.findViewById(R.id.playlist_item_name_et);
+
+                Button add_playlist = dialog.findViewById(R.id.add_btn);
+
+                searchView = dialog.findViewById(R.id.search);
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        searchView.clearFocus();
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        playlistItems.clear();
+                        for(PlayListItem playListItem: tempPlaylists) {
+                            if(playListItem.getName().toLowerCase().contains(newText.toLowerCase())) {
+                                playlistItems.add(playListItem);
+                            }
+                        }
+                        playlistAdapter.notifyDataSetChanged();
+                        return true;
+                    }
+                });
+
+                progressBar = dialog.findViewById(R.id.progress);
+
+                playlistItems = new ArrayList<>();
+
+                add_playlist.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+
+                        String url = "https://www.careeranna.com/api/addVideoIdToPlaylist.php";
+                        RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                                url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        if (response.equals("Added To Playlist")) {
+                                            play_list_item.setText("");
+                                        } else if(response.equals("Created Playlist")){
+                                            PlayListItem playListItem = new PlayListItem(play_list_item.getText().toString(), "0");
+                                            tempPlaylists.add(playListItem);
+                                            playlistAdapter.addPlayListItem(playListItem);
+                                            play_list_item.setText("");
+                                            Toast.makeText(VideoWithComment.this, response, Toast.LENGTH_SHORT).show();
+                                        }
+                                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                                        add_relative.setVisibility(View.INVISIBLE);
+                                        create_relative.setVisibility(View.VISIBLE);
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        add_relative.setVisibility(View.INVISIBLE);
+                                        create_relative.setVisibility(View.VISIBLE);
+                                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                                        Log.d("err", error.getMessage());
+                                        play_list_item.setText("");
+                                        Toast.makeText(VideoWithComment.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                                    }
+                                }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Log.d("user_id", user.getUser_id());
+                                // Posting params to login url
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("user_id", user.getUser_id());
+                                params.put("playlist_name", play_list_item.getText().toString());
+                                params.put("video_id","0");
+                                return params;
+                            }
+
+                        };
+                        if(play_list_item.getText().toString().isEmpty()) {
+                            Toast.makeText(VideoWithComment.this, "Please Enter PlayList Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if(playlist.contains(play_list_item.getText().toString())) {
+                            play_list_item.setText("");
+                            Toast.makeText(VideoWithComment.this, "PlayList Already Exists", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            requestQueue.add(stringRequest);
+                        }
+                    }
+                });
+
+                create_relative = dialog.findViewById(R.id.create_layout);
+                add_relative = dialog.findViewById(R.id.add_layout);
+                createPlayList = dialog.findViewById(R.id.create_btn);
+
+                createPlayList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        add_relative.setVisibility(View.VISIBLE);
+                        create_relative.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                playlist = new ArrayList<>();
+                fetchPlayList();
+
+                playlist_rv = dialog.findViewById(R.id.playlist_rv);
+
+                Button cancel = dialog.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isUpdating) {
+                    if (!is_liked) {
+                        if (dislike_once) {
+                            changeupdatelikes("likedandchangedislike");
+                            Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_down_silhouette);
+                            img.setBounds(0, 0, 30, 30);
+                            thumbdown.setCompoundDrawables(img, null, null, null);
+                            int dislikes = Integer.valueOf(unlikes.getText().toString()) - 1;
+                            unlikes.setText(dislikes + "");
+                            unlikes.setTextColor(getResources().getColor(R.color.dark_gray));
+                            is_dislike = false;
+                            dislike_once = false;
+                        } else {
+                            changeupdatelikes("liked");
+                        }
+                        Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_up_hand_symbol_blue);
+                        img.setBounds(0, 0, 30, 30);
+                        up.setCompoundDrawables(img, null, null, null);
+                        int likes = Integer.valueOf(up.getText().toString()) + 1;
+                        up.setText(likes + "");
+                        up.setTextColor(getResources().getColor(R.color.sign_in_button_color));
+                        is_liked = true;
+                        liked_once = true;
+                    } else {
+                        changeupdatelikes("notliked");
+                        Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_up_hand_symbol);
+                        img.setBounds(0, 0, 30, 30);
+                        up.setCompoundDrawables(img, null, null, null);
+                        int likes = Integer.valueOf(up.getText().toString()) - 1;
+                        up.setText(likes + "");
+                        up.setTextColor(getResources().getColor(R.color.dark_gray));
+                        is_liked = false;
+                        liked_once = false;
+                    }
+                }
+            }
+
+        });
 
         String cache = Paper.book().read("user");
         if(cache != null && !cache.isEmpty()) {
@@ -288,6 +547,42 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
 
     }
 
+    private void changeupdatelikes(String type) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                "https://www.careeranna.com/api/updatelikes.php?id=" + freeVideos.getId() + "&type=" + type,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("liked_response", response);
+                        snackbar.dismiss();
+                        if(response.equals("updated")) {
+                            isUpdating = false;
+                            snackbar = Snackbar.make(relativeLayout1, "Your Response is aved!", Snackbar.LENGTH_SHORT);
+                            snackbar.show();
+                        } else {
+                            isUpdating = false;
+                            snackbar = Snackbar.make(relativeLayout1, "Something Went Wrong Your Response is not saved!", Snackbar.LENGTH_SHORT);      }
+                        snackbar.show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        snackbar.dismiss();
+                        isUpdating = false;
+                        snackbar = Snackbar.make(relativeLayout1, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
+                        snackbar.show();
+
+                    }
+                });
+        if(!isUpdating) {
+            snackbar = Snackbar.make(relativeLayout1, "Please Wait Saving Response", Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            requestQueue1.add(stringRequest);
+        }
+    }
+
     private void alertDialogForComment() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -418,6 +713,100 @@ public class VideoWithComment extends AppCompatActivity implements VideoPlayerEv
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void fetchPlayList() {
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        tempPlaylists = new ArrayList<>();
+        String url = "https://www.careeranna.com/api/getMyPlaylist.php?user_id=";
+        if(user != null) {
+            url = url + user.getUser_id();
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response_from_playlist", response);
+                        if(!response.equals("No Playlist Created")) {
+                            try {
+                                JSONArray playlistArray = new JSONArray(response);
+                                JSONObject playlistItem;
+                                for(int i=0;i<playlistArray.length();i++) {
+                                    playlistItem = playlistArray.getJSONObject(i);
+                                    playlistItems.add(new PlayListItem(playlistItem.getString("playlist_name"),
+                                            playlistItem.getString("video_ids")));
+                                    tempPlaylists.add(new PlayListItem(playlistItem.getString("playlist_name"),
+                                            playlistItem.getString("video_ids")));
+
+                                }
+                                playlist_rv.setLayoutManager(new LinearLayoutManager(VideoWithComment.this));
+
+                                playlistAdapter = new PlaylistAdapter(playlistItems, VideoWithComment.this, freeVideos.getId());
+                                playlist_rv.setAdapter(playlistAdapter);
+                                playlistAdapter.setOnItemClicklistener(VideoWithComment.this);
+                                progressBar.setVisibility(View.GONE);
+                            } catch (JSONException e) {
+                                progressBar.setVisibility(View.GONE);
+                                e.printStackTrace();
+                                Toast.makeText(VideoWithComment.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(VideoWithComment.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onItemClick1(final int position) {
+
+        String url = "https://www.careeranna.com/api/addVideoIdToPlaylist.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(VideoWithComment.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("Added To Playlist")) {
+                            Toast.makeText(VideoWithComment.this, response, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(VideoWithComment.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("err", error.getMessage());
+                        Toast.makeText(VideoWithComment.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Log.d("user_id", user.getUser_id());
+                // Posting params to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", user.getUser_id());
+                params.put("playlist_name", playlistItems.get(position).getName());
+                params.put("video_id",freeVideos.getId());
+                return params;
+            }
+
+        };
         requestQueue.add(stringRequest);
 
     }

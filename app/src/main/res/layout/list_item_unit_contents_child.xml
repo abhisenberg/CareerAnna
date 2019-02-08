@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@drawable/expandable_list_view_selector"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,23 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/iv_video_image"
+            android:src="@drawable/ic_checked"
+            android:layout_width="14dp"
+            android:layout_height="14dp" />
+
         <TextView
         android:id="@+id/tv_video_title"
         android:text="Video Name"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/watched"
         android:textStyle="bold"
         android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-        <ImageView
-        android:id="@+id/iv_video_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <View
+        android:visibility="gone"
         android:id="@+id/line_divider_under_child"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"

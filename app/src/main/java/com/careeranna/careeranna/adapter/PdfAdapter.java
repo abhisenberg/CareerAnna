@@ -44,7 +44,6 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         viewHolder.pdfText.setText(mPdfs.get(i));
-
     }
 
     @Override

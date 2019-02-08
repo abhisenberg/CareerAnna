@@ -63,7 +63,9 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     RecyclerViewPager trendingVideosRVP, latestVideosRVP, freeCourseRVP, paidCoursesRVP;
 
-    Button trending_btn, latest_btn, freeCourses_btn, premiumCourses_btn;
+    Button trending_btn, latest_btn, freeCourses_btn, premiumCourses_btn, filter_btn;
+
+    Button cat, gk, upsc, reset;
 
     public static int position = 0, position_latest = 0;
 
@@ -73,9 +75,11 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
     ImageView arrow_p_l, arrow_p_r, arrow_f_r, arrow_f_l;
 
-    CardView trendingCard, premiumCard, freeCard, latestCard;
+    CardView trendingCard, premiumCard, freeCard, latestCard, filterCard;
 
     Context context;
+
+    String exam_category;
 
     RelativeLayout relativeLayout;
 
@@ -94,6 +98,8 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         freeCard = view.findViewById(R.id.free_card);
         latestCard = view.findViewById(R.id.latest_card);
 
+        filter_btn = view.findViewById(R.id.filterTrend);
+
         relativeLayout = view.findViewById(R.id.relative);
 
         loading_card = view.findViewById(R.id.loading_card);
@@ -102,8 +108,15 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         latestVideosRVP = view.findViewById(R.id.latest_rv);
         freeCourseRVP = view.findViewById(R.id.free_course_rv);
         paidCoursesRVP = view.findViewById(R.id.paid_courses_rv);
+        filterCard = view.findViewById(R.id.filter_card);
 
         searchTrends = view.findViewById(R.id.searchTrend);
+
+        exam_category = "";
+
+        cat = view.findViewById(R.id.cat);
+        gk = view.findViewById(R.id.gk);
+        upsc = view.findViewById(R.id.upsc);
 
         trending_btn = view.findViewById(R.id.trending);
         latest_btn = view.findViewById(R.id.latest);
@@ -121,6 +134,10 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
 
         arrow_p_l = view.findViewById(R.id.arrow_p_l);
         arrow_p_r = view.findViewById(R.id.arrow_p_r);
+
+        reset = view.findViewById(R.id.reset);
+
+        filterCard.setVisibility(GONE);
 
         zero_search_results = view.findViewById(R.id.no_record_card);
     }
@@ -192,6 +209,232 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
         trendingVideosAdapter.setOnItemClicklistener(ExploreNew.this);
         freeCourseAdapter.setOnItemClicklistener(ExploreNew.this);
 
+        filter_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterCard.setVisibility(VISIBLE);
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exam_category = "";
+                filterCard.setVisibility(GONE);
+                zero_search_results.setVisibility(GONE);
+
+                cat.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                gk.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                upsc.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                cat.setTypeface(null, Typeface.NORMAL);
+                gk.setTypeface(null, Typeface.NORMAL);
+                upsc.setTypeface(null, Typeface.NORMAL);
+
+                if (trendingCard.getVisibility() == VISIBLE) {
+                    trendingVideos.clear();
+                    trendingVideos.addAll(tempVideos);
+                    trendingVideosAdapter.notifyDataSetChanged();
+                } else if (latestCard.getVisibility() == VISIBLE) {
+                    freeVideos.clear();
+                    freeVideos.addAll(tempLatestVideos);
+                    freeVideosAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        cat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                zero_search_results.setVisibility(GONE);
+                exam_category = "CAT";
+                cat.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+                gk.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                upsc.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                cat.setTypeface(null, Typeface.BOLD);
+                gk.setTypeface(null, Typeface.NORMAL);
+                upsc.setTypeface(null, Typeface.NORMAL);
+
+                if (trendingCard.getVisibility() == VISIBLE) {
+                    /*
+                    trendingVideos is the array list present in trendingCard view.
+                     */
+                    trendingVideos.clear();
+
+                    for (FreeVideos currentFreeVideo : tempVideos) {
+                        if (currentFreeVideo.getTags().trim().toLowerCase().contains("CAT".toLowerCase())||
+                                currentFreeVideo.getTags().trim().toLowerCase().contains("MBA".toLowerCase())) {
+                            trendingVideos.add(currentFreeVideo);
+                        }
+                    }
+
+                    trendingVideosAdapter.notifyDataSetChanged();
+
+
+                    if (trendingVideos != null) {
+                        if (trendingVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            trendingVideosRVP.scrollToPosition(0);
+                        }
+                    }
+                } else if (latestCard.getVisibility() == VISIBLE) {
+                    /*
+                    freeVideos is the arraylist that is present in the latestCard view.
+                     */
+                    freeVideos.clear();
+
+                    for (FreeVideos CurrentLatestVideo : tempLatestVideos) {
+                        if (CurrentLatestVideo.getTags().trim().toLowerCase().contains("CAT".toLowerCase())) {
+                            freeVideos.add(CurrentLatestVideo);
+                        }
+                    }
+
+                    freeVideosAdapter.notifyDataSetChanged();
+
+                    if (freeVideos != null) {
+                        if (freeVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            latestVideosRVP.scrollToPosition(0);
+                        }
+                    }
+
+                    filterCard.setVisibility(GONE);
+
+                }
+            }
+        });
+
+        upsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                zero_search_results.setVisibility(GONE);
+                exam_category = "UPSC";
+                upsc.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+                gk.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                cat.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                upsc.setTypeface(null, Typeface.BOLD);
+                gk.setTypeface(null, Typeface.NORMAL);
+                cat.setTypeface(null, Typeface.NORMAL);
+
+                if (trendingCard.getVisibility() == VISIBLE) {
+                    /*
+                    trendingVideos is the array list present in trendingCard view.
+                     */
+                    trendingVideos.clear();
+
+                    for (FreeVideos currentFreeVideo : tempVideos) {
+                        if (currentFreeVideo.getTags().trim().toLowerCase().contains("UPSC".toLowerCase())) {
+                            trendingVideos.add(currentFreeVideo);
+                        }
+                    }
+
+                    trendingVideosAdapter.notifyDataSetChanged();
+
+
+                    if (trendingVideos != null) {
+                        if (trendingVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            trendingVideosRVP.scrollToPosition(0);
+                        }
+                    }
+                } else if (latestCard.getVisibility() == VISIBLE) {
+                    /*
+                    freeVideos is the arraylist that is present in the latestCard view.
+                     */
+                    freeVideos.clear();
+
+                    for (FreeVideos CurrentLatestVideo : tempLatestVideos) {
+                        if (CurrentLatestVideo.getTags().trim().toLowerCase().contains("UPSC".toLowerCase())) {
+                            freeVideos.add(CurrentLatestVideo);
+                        }
+                    }
+
+                    freeVideosAdapter.notifyDataSetChanged();
+
+                    if (freeVideos != null) {
+                        if (freeVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            latestVideosRVP.scrollToPosition(0);
+                        }
+                    }
+
+                    filterCard.setVisibility(GONE);
+
+                }
+
+            }
+        });
+
+        gk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                zero_search_results.setVisibility(GONE);
+                exam_category = "GK";
+                gk.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+                cat.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                upsc.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                gk.setTypeface(null, Typeface.BOLD);
+                cat.setTypeface(null, Typeface.NORMAL);
+                upsc.setTypeface(null, Typeface.NORMAL);
+
+                if (trendingCard.getVisibility() == VISIBLE) {
+                    /*
+                    trendingVideos is the array list present in trendingCard view.
+                     */
+                    trendingVideos.clear();
+
+                    for (FreeVideos currentFreeVideo : tempVideos) {
+                        if (currentFreeVideo.getTags().trim().toLowerCase().contains("GK".toLowerCase())) {
+                            trendingVideos.add(currentFreeVideo);
+                        }
+                    }
+
+                    trendingVideosAdapter.notifyDataSetChanged();
+
+
+                    if (trendingVideos != null) {
+                        if (trendingVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            trendingVideosRVP.scrollToPosition(0);
+                        }
+                    }
+                }else if (latestCard.getVisibility() == VISIBLE) {
+                    /*
+                    freeVideos is the arraylist that is present in the latestCard view.
+                     */
+                    freeVideos.clear();
+
+
+                    for (FreeVideos CurrentLatestVideo : tempLatestVideos) {
+                        if (CurrentLatestVideo.getTags().trim().toLowerCase().contains("GK".toLowerCase())) {
+                            freeVideos.add(CurrentLatestVideo);
+                        }
+                    }
+
+                    freeVideosAdapter.notifyDataSetChanged();
+
+                    if (freeVideos != null) {
+                        if (freeVideos.size() == 0) {
+                            zero_search_results.setVisibility(View.VISIBLE);
+                        } else {
+                            latestVideosRVP.scrollToPosition(0);
+                        }
+                    }
+
+                    filterCard.setVisibility(GONE);
+
+                }
+                filterCard.setVisibility(GONE);
+            }
+        });
 
         return view;
     }
@@ -485,9 +728,10 @@ public class ExploreNew extends Fragment implements TrendingVideosAdapter.OnItem
                     if (newText.length() > 0) {
 
                         for (FreeVideos currentFreeVideo : tempVideos) {
-                            if (currentFreeVideo.getTitle().trim().toLowerCase().contains(newText.trim())) {
-                                trendingVideos.add(currentFreeVideo);
-                            }
+                                if (currentFreeVideo.getTitle().trim().toLowerCase().contains(newText.trim())&&
+                                        currentFreeVideo.getTags().trim().toLowerCase().contains(exam_category)) {
+                                    trendingVideos.add(currentFreeVideo);
+                                }
                         }
 
                         trendingVideosAdapter.notifyDataSetChanged();

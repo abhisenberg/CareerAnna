@@ -307,6 +307,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
     }
 
     private void signIn() {
+        mGoogleSignInClient.signOut();
         snackbar = Snackbar.make(relativeLayout, getString(R.string.please_wait), Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
 //        VISIBLING 3

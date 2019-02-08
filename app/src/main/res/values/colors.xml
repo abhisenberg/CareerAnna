@@ -6,6 +6,7 @@
     <color name="colorPrimaryDark">#29485A</color>
     <color name="colorAccent">#55BFFF</color>
     <color name="white">#fff</color>
+    <color name="watched">#03A9F4</color>
     <color name="black">#000</color>
     <color name="pink">#bebe</color>
     <color name="light_blue">#0d8bd7</color>

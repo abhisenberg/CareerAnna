@@ -2,12 +2,15 @@ package com.careeranna.careeranna.fragement.profile_fragements;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
 import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.adapter.CourseVideoAdapter;
 import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Topic;
 import com.careeranna.careeranna.data.Unit;
@@ -63,6 +67,10 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     CardView cardView;
 
+    Context context;
+
+    RecyclerView video_heading_rv;
+
     ExpandableListView listView;
     ExpandableList_Adapter listAdapter;
     ArrayList<Unit> mUnits;
@@ -80,7 +88,10 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tutorial, container, false);
 
+        context = inflater.getContext();
+
         playerView = view.findViewById(R.id.videoView);
+        video_heading_rv = view.findViewById(R.id.videos_rv);
         imageView = view.findViewById(R.id.image_view);
         if (getActivity() != null) {
             if (getActivity().getWindow() != null) {
@@ -93,13 +104,14 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         TODO: Play from the last moment where the user left.
          */
 
+
         cardView = view.findViewById(R.id.card);
 
         listView = view.findViewById(R.id.expandableunit);
         return view;
     }
 
-    public void addCourseUnits(ArrayList<String> course) {
+    public void addCourseUnits(ArrayList<String> course, ArrayList<String> watched) {
 
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
 
@@ -110,18 +122,45 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
             cardView.setVisibility(View.VISIBLE);
         } else {
 
+
+            String last_played_url = "";
             for (String unitsname : course) {
-                if(unitsname.length() > 0){
+                if (unitsname.length() > 0) {
                     char c = unitsname.charAt(0);
                     if (c != '$') {
                         Unit unit = new Unit(unitsname, check);
                         mUnits.add(unit);
                     } else {
                         String array[] = unitsname.split(",url");
-                        if (array.length == 1) {
-                            mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
+                        if (array.length == 3) {
+                            if(watched.size() > 0) {
+                                if(watched.get(watched.size()-1).equals(array[2])) {
+                                    last_played_url = array[1];
+                                }
+                            }
+                            Topic topic = new Topic(array[0].substring(1), array[1]);
+                            if (watched.contains(array[2])) {
+                                topic.setWatched(true);
+                            } else {
+                                topic.setWatched(false);
+                            }
+                            mUnits.get(mUnits.size() - 1).topics.add(topic);
+                        } else if (array.length == 2) {
+                            Topic topic = new Topic(array[0].substring(1), array[1]);
+                            if (watched.contains(array[2])) {
+                                topic.setWatched(true);
+                            } else {
+                                topic.setWatched(false);
+                            }
+                            mUnits.get(mUnits.size() - 1).topics.add(topic);
                         } else {
-                            mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), array[1]));
+                            Topic topic = new Topic(array[0].substring(1), "");
+                            if (watched.contains(array[2])) {
+                                topic.setWatched(true);
+                            } else {
+                                topic.setWatched(false);
+                            }
+                            mUnits.get(mUnits.size() - 1).topics.add(topic);
                         }
                     }
                 }
@@ -129,13 +168,23 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 /*
                 Play the first video of the course by default
                  */
-                if (!mUnits.isEmpty()) {
-                    if (!mUnits.get(0).topics.isEmpty()) {
-                        if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
-                            playVideo(mUnits.get(0).topics.get(0).getVideos());
+                if(!last_played_url.equals("")) {
+                    playVideo(last_played_url);
+                } else {
+                    if (!mUnits.isEmpty()) {
+                        if (!mUnits.get(0).topics.isEmpty()) {
+                            if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+                                playVideo(mUnits.get(0).topics.get(0).getVideos());
+                            }
                         }
                     }
+
                 }
+                video_heading_rv.setLayoutManager(new LinearLayoutManager(context));
+                video_heading_rv.setHasFixedSize(true);
+
+                CourseVideoAdapter courseVideoAdapter = new CourseVideoAdapter(mUnits, context, this);
+                video_heading_rv.setAdapter(courseVideoAdapter);
 
                 listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
                 listView.setAdapter(listAdapter);
@@ -150,7 +199,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         playVideo(mUnits.get(parent).topics.get(child).getVideos());
     }
 
-    private void playVideo(String videoUrl) {
+    public void playVideo(String videoUrl) {
         PlaylistItem playlistItem = new PlaylistItem.Builder()
                 .file(videoUrl)
                 .build();

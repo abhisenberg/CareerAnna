@@ -77,6 +77,7 @@ import com.careeranna.careeranna.fragement.ErrorOccurredFragment;
 import com.careeranna.careeranna.fragement.NoInternetFragment;
 
 import com.careeranna.careeranna.user.MyProfile_2;
+import com.careeranna.careeranna.user.SignUp;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -657,14 +658,25 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     public void onResponse(String response) {
                         try {
                             Log.i("url_response", response.toString());
-                            JSONArray coursesArray = new JSONArray(response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray coursesArray = jsonObject.getJSONArray("free");
                             for (int i = 0; i < coursesArray.length(); i++) {
                                 JSONObject Category = coursesArray.getJSONObject(i);
+                                names.add(new CourseWithLessData(Category.getString("course_name"),
+                                        Category.getString("course_id"),
+                                        "https://www.careeranna.com/"+Category.getString("course_image"),
+                                        "0",
+                                        "-"
+                                ));
+                            }
+                            JSONArray coursesArray1 = jsonObject.getJSONArray("paid");
+                            for (int i = 0; i < coursesArray1.length(); i++) {
+                                JSONObject Category = coursesArray1.getJSONObject(i);
                                 names.add(new CourseWithLessData(Category.getString("product_name"),
                                         Category.getString("product_id"),
-                                        Category.getString("product_image").replace("\\", ""),
+                                        Category.getString("product_image"),
                                         "0",
-                                        Category.getString("category_id")
+                                        "-"
                                 ));
                             }
                         } catch (JSONException e) {
@@ -1011,6 +1023,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         your_array_list.add(new MenuList(getResources().getString(R.string.explore), getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
         your_array_list.add(new MenuList(getResources().getString(R.string.articles), getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
         your_array_list.add(new MenuList(getResources().getString(R.string.our_mentors), getApplicationContext().getResources().getDrawable(R.drawable.ic_teacher_showing_curve_line_on_whiteboard)));
+        your_array_list.add(new MenuList("My PlayLists", getApplicationContext().getResources().getDrawable(R.drawable.ic_playlist)));
         your_array_list.add(new MenuList(getResources().getString(R.string.WishList), getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
         your_array_list.add(new MenuList(getResources().getString(R.string.settings), getApplicationContext().getResources().getDrawable(R.drawable.ic_settings)));
         your_array_list.add(new MenuList(getResources().getString(R.string.signout), getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1), "#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
@@ -1134,23 +1147,26 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 startActivity(new Intent(MyCourses.this, InstructorsListActivity.class));
                 break;
             case 6:
+                startActivity(new Intent(MyCourses.this, MyPlayList.class));
+                break;
+            case 7:
                 frameLayout.setVisibility(GONE);
                 fragmentManager.beginTransaction().replace(R.id.main_content, wishListFragment).commit();
                 if(getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(getResources().getString(R.string.WishList));
                 }
                 break;
-            case 7:
+            case 8:
                 startActivity(new Intent(MyCourses.this, MyProfile_2.class));
                 break;
-            case 8:
+            case 9:
                 mAuth = FirebaseAuth.getInstance();
                 if (mAuth != null) {
                     mAuth.signOut();
                     LoginManager.getInstance().logOut();
                 }
                 Paper.delete("user");
-                startActivity(new Intent(MyCourses.this, MainActivity.class));
+                startActivity(new Intent(MyCourses.this, SignUp.class));
                 finish();
                 break;
         }
