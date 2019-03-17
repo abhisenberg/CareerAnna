@@ -6,9 +6,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +20,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +39,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SlideAdapter slideAdapter;  // Slider Adapter For Lanfing Images
 
     private Button bt_explore;          // Button For Explore Without Sign Up
-    private Button bt_signin;           // Button To Go To Sign up
+    private Button bt_signin, privacy_policy;           // Button To Go To Sign up
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         introSlider.addOnPageChangeListener(viewListener);
         bt_explore = findViewById(R.id.bt_explore);
         bt_signin = findViewById(R.id.signIn);
+        privacy_policy  = findViewById(R.id.privacy_policy);
+
+        privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.careeranna.com/privacy_policy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
@@ -114,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bt_explore.setOnClickListener(this);
         bt_signin.setOnClickListener(this);
+
     }
 
 

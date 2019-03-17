@@ -630,7 +630,7 @@ public class InsideWithoutSignFragment extends Fragment implements TrendingVideo
 
             RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
             StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
-                    UrlConstants.FETCH_TRENDING_VIDEOS,
+                    UrlConstants.FETCH_TRENDING_VIDEOS+"1",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

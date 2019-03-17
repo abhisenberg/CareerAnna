@@ -272,11 +272,25 @@
         android:layout_below="@id/username_pw_fields"
         android:textColor="@color/dark_gray"
         android:textSize="12sp"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
         style="?android:attr/borderlessButtonStyle"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="35dp" />
+
+    <Button
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/username_pw_fields"
+        android:background="@android:color/transparent"
+        android:text="PRIVACY POLICY"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/login_screen_buttons_margin"
+        android:id="@+id/privacy_policy"
+        />
 
     <Button
         android:id="@+id/bt_create_account_3"

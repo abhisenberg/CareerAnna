@@ -78,7 +78,6 @@ import com.careeranna.careeranna.fragement.NoInternetFragment;
 
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.careeranna.careeranna.user.SignUp;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -1163,7 +1162,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 mAuth = FirebaseAuth.getInstance();
                 if (mAuth != null) {
                     mAuth.signOut();
-                    LoginManager.getInstance().logOut();
                 }
                 Paper.delete("user");
                 startActivity(new Intent(MyCourses.this, SignUp.class));

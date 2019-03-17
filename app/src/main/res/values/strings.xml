@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Career Anna</string>
-    <string name="facebook_app_id">341622293308668</string>
+    <string name="facebook_app_id">2353492718221066</string>
     <string name="fb_login_protocol_scheme">fb341622293308668</string>
     <string-array name="how_did">
         <item>How did you come to know about us ?</item>
