@@ -82,6 +82,8 @@ import com.careeranna.careeranna.fragement.NoInternetFragment;
 import com.careeranna.careeranna.helper.NewApi;
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.careeranna.careeranna.user.SignUp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

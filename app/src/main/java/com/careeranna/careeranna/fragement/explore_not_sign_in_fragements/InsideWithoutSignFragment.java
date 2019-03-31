@@ -237,7 +237,6 @@ public class InsideWithoutSignFragment extends Fragment implements FreeCourseAda
     }
 
 
-
     private void hidingRecylerView() {
 
         free_btn.setOnClickListener(new View.OnClickListener() {
