@@ -40,6 +40,7 @@ import com.longtailvideo.jwplayer.events.BeforePlayEvent;
 import com.longtailvideo.jwplayer.events.BufferChangeEvent;
 import com.longtailvideo.jwplayer.events.BufferEvent;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
+import com.longtailvideo.jwplayer.events.LevelsEvent;
 import com.longtailvideo.jwplayer.events.PlayEvent;
 import com.longtailvideo.jwplayer.events.listeners.AdvertisingEvents;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
@@ -131,6 +132,10 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                         Unit unit = new Unit(unitsname, check);
                         mUnits.add(unit);
                     } else {
+                        if(mUnits.size() == 0) {
+                            Unit unit = new Unit("Introduction", check);
+                            mUnits.add(unit);
+                        }
                         String array[] = unitsname.split(",url");
                         if (array.length == 3) {
                             if(watched.size() > 0) {
@@ -205,19 +210,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
                 .build();
         playerView.load(playlistItem);
         playerView.play();
-        playerView.addOnBeforePlayListener(new AdvertisingEvents.OnBeforePlayListener() {
-            @Override
-            public void onBeforePlay(BeforePlayEvent beforePlayEvent) {
-                Log.d("Loading_Videos", "Loading");
-            }
-        });
-        playerView.addOnPlayListener(new VideoPlayerEvents.OnPlayListener() {
-            @Override
-            public void onPlay(PlayEvent playEvent) {
-                Log.d("Playing_videos", "playing");
-                imageView.setVisibility(GONE);
-            }
-        });
+
     }
 
     @Override
@@ -228,13 +221,13 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     @Override
     public void onPause() {
-        playerView.onPause();
+        playerView.pause();
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        playerView.onResume();
+        playerView.play();
         super.onResume();
     }
 

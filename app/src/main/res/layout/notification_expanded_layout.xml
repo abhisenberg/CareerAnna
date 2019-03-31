@@ -32,7 +32,7 @@
 
     <ImageView
         android:id="@+id/notif_image"
-        android:src="@drawable/intro_pic_1"
+        android:src="@drawable/intro_pic_3_ques"
         android:layout_marginTop="5dp"
         android:scaleType="fitXY"
         android:layout_width="match_parent"

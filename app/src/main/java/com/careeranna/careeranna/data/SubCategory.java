@@ -13,6 +13,9 @@ public class SubCategory implements Serializable {
         this.ACTIVE_STATUS = ACTIVE_STATUS;
     }
 
+    public SubCategory() {
+    }
+
     public String getEXAM_NAME_ID() {
         return EXAM_NAME_ID;
     }
@@ -43,5 +46,10 @@ public class SubCategory implements Serializable {
 
     public void setACTIVE_STATUS(String ACTIVE_STATUS) {
         this.ACTIVE_STATUS = ACTIVE_STATUS;
+    }
+
+    @Override
+    public String toString() {
+        return EXAM_NAME.toString();
     }
 }

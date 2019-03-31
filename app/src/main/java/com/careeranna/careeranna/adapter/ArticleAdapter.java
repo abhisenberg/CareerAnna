@@ -23,10 +23,7 @@ import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.misc.TextViewEx;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
@@ -53,7 +50,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article_3, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, viewGroup, false);
         return new ArticleViewHolder(view);
     }
 
@@ -61,7 +58,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int i) {
 
         if(i == 0) {
-            articleViewHolder.articleContent_1.setVisibility(View.VISIBLE);
+            articleViewHolder.articleContent_1.setVisibility(View.GONE);
         }
 
         articleViewHolder.articleTitle.setText(mArticles.get(i).getName());
@@ -107,7 +104,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 .load(authorImagePath)
                 .into(articleViewHolder.authorImage_1);
 
-        Log.d(TAG, "Image url is "+mArticles.get(i).getImage_url());
 
     }
 
@@ -203,7 +199,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         img.setBounds(rightCompoundDrawable.getBounds());
                         // set new drawable
                         arrow.setCompoundDrawables(null, null, img, null);
-                        articleContent_1.setVisibility(View.VISIBLE);
+                        articleContent_1.setVisibility(View.GONE);
                     }
                 }
             });

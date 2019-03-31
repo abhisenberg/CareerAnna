@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
-    private String id, name, imageUrl, category_id, price, desc, demo_url, type, price_before_discount;
+    private String id, name, imageUrl, category_id, price, desc, demo_url, type, price_before_discount, ratings, total_ratings, learners_count;
 
     public String getPrice_before_discount() {
         return price_before_discount;
@@ -12,6 +12,59 @@ public class Course implements Serializable {
 
     public void setPrice_before_discount(String price_before_discount) {
         this.price_before_discount = price_before_discount;
+    }
+
+    public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url, String type, String price_before_discount, String ratings, String total_ratings, String learners_count) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.category_id = category_id;
+        this.price = price;
+        this.desc = desc;
+        this.demo_url = demo_url;
+        this.type = type;
+        this.price_before_discount = price_before_discount;
+        this.ratings = ratings;
+        this.total_ratings = total_ratings;
+        this.learners_count = learners_count;
+    }
+
+    public String getLearners_count() {
+        return learners_count;
+    }
+
+    public void setLearners_count(String learners_count) {
+        this.learners_count = learners_count;
+    }
+
+    public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url, String type, String price_before_discount, String ratings, String total_ratings) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.category_id = category_id;
+        this.price = price;
+        this.desc = desc;
+        this.demo_url = demo_url;
+        this.type = type;
+        this.price_before_discount = price_before_discount;
+        this.ratings = ratings;
+        this.total_ratings = total_ratings;
+    }
+
+    public String getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(String ratings) {
+        this.ratings = ratings;
+    }
+
+    public String getTotal_ratings() {
+        return total_ratings;
+    }
+
+    public void setTotal_ratings(String total_ratings) {
+        this.total_ratings = total_ratings;
     }
 
     public Course(String id, String name, String imageUrl, String category_id, String price, String desc, String demo_url, String type, String price_before_discount) {

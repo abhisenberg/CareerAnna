@@ -44,6 +44,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_userProf_language"
                 android:textColor="@color/userProf_options_textColor"
                 android:text="@string/change_content_language"

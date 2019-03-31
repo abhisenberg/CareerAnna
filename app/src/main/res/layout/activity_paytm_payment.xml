@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".activity.PaytmPayment">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/please_wait_tv"
+            android:layout_below="@id/progress"
+            android:text="Please Wait Adding Course ... "
+            />
+
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

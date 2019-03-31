@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.Payment;
+import com.careeranna.careeranna.activity.PaymentGateway;
 import com.careeranna.careeranna.activity.PaytmPayment;
 import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
@@ -119,7 +120,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -256,7 +257,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
         if (cache != null && !cache.isEmpty()) {
             user = new Gson().fromJson(cache, User.class);
 
-            String cart = Paper.book().read("cart");
+            String cart = Paper.book().read("cart1");
 
             orderedCourses = new ArrayList<>();
 
@@ -285,7 +286,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                     grand_total += Float.valueOf(course[1]);
 
-                    orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4]));
+                    orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4], course[1], course[6], course[7]));
                 }
                 price.setText(String.valueOf(grand_total));
 
@@ -300,44 +301,8 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                     if(getContext() != null) {
 
-                        dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.custom_payment_layout);
-                        dialog.setTitle(getString(R.string.pay_now));
+                        inflater.getContext().startActivity(new Intent(inflater.getContext(), PaymentGateway.class));
 
-                        Button paytm, payu;
-
-                        TextView price = dialog.findViewById(R.id.price);
-
-                        TextView email = dialog.findViewById(R.id.email);
-
-                        price.setText(String.valueOf(grand_total));
-
-                        email.setText(user.getUser_email());
-
-                        paytm = (Button) dialog.findViewById(R.id.paytm);
-                        payu = (Button) dialog.findViewById(R.id.payu);
-
-                        paytm.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                intent = new Intent(getContext(), PaytmPayment.class);
-                                intent.putExtra("price", grand_total);
-                                startActivity(intent);
-                            }
-                        });
-
-                        payu.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                intent = new Intent(getContext(), Payment.class);
-                                intent.putExtra("price", grand_total);
-                                startActivity(intent);
-                            }
-                        });
-
-                        dialog.show();
                     }
                 }
             });
@@ -393,7 +358,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                     myCourse = arrayList.get(pos);
                     arrayList.remove(pos);
 
-                    Paper.book().write("cart", new Gson().toJson(arrayList));
+                    Paper.book().write("cart1", new Gson().toJson(arrayList));
 
                     if (orderedCourses.size() == 0) {
                         cardNoCourseAdded.setVisibility(View.VISIBLE);
@@ -416,7 +381,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                             orderCourseAdapter.setOnItemClicklistener(CartFragment.this);
                             recyclerView.smoothScrollToPosition(0);
 
-                            Paper.book().write("cart", new Gson().toJson(arrayList));
+                            Paper.book().write("cart1", new Gson().toJson(arrayList));
 
                             if (orderedCourses.size() == 0) {
                                 cardNoCourseAdded.setVisibility(View.VISIBLE);
@@ -476,7 +441,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             myCourse = arrayList.get(position);
             arrayList.remove(position);
 
-            Paper.book().write("cart", new Gson().toJson(arrayList));
+            Paper.book().write("cart1", new Gson().toJson(arrayList));
 
             if (orderedCourses.size() == 0) {
                 cardNoCourseAdded.setVisibility(View.VISIBLE);
@@ -491,28 +456,19 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             }
             snackbar = Snackbar.make(linearLayout, getString(R.string.course_deleted), Snackbar.LENGTH_SHORT);
             snackbar.show();
-            snackbar.setAction("Undo", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    arrayList.add(myCourse);
-                    orderedCourses.add(orderedCourse);
-                    orderCourseAdapter = new OrderCourseAdapter(orderedCourses, getContext());
-                    recyclerView.setAdapter(orderCourseAdapter);
-                    recyclerView.smoothScrollToPosition(0);
 
-                    Paper.book().write("cart", new Gson().toJson(arrayList));
+            grand_total = 0;
 
-                    if (orderedCourses.size() == 0) {
-                        cardNoCourseAdded.setVisibility(View.VISIBLE);
-                        cardTotalPriceCheckout.setVisibility(View.INVISIBLE);
-                    } else {
+            for (String orderedCourse : arrayList) {
 
-                        cardNoCourseAdded.setVisibility(View.INVISIBLE);
-                        cardTotalPriceCheckout.setVisibility(View.VISIBLE);
+                String course[] = orderedCourse.split(",");
 
-                    }
-                }
-            });
+                grand_total += Float.valueOf(course[1]);
+
+            }
+            price.setText(String.valueOf(grand_total));
+
+
         } else if(type.equals("wish")) {
 
             String cart1 = Paper.book().read("wish");
@@ -527,7 +483,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                 ArrayList<String> arrayList = gson.fromJson(cart1, type1);
 
-                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id()+","+orderedCourses.get(position).getPrice()+","+orderedCourses.get(position).getTotal_rating()+","+orderedCourses.get(position).getAverage_rating();
 
                 arrayList.add(courseString);
 
@@ -535,7 +491,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
             } else {
 
-                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id()+","+orderedCourses.get(position).getPrice()+","+orderedCourses.get(position).getTotal_rating()+","+orderedCourses.get(position).getAverage_rating();
 
                 ArrayList<String> array = new ArrayList<>();
 
@@ -550,7 +506,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
             myCourse = arrayList.get(position);
             arrayList.remove(position);
 
-            Paper.book().write("cart", new Gson().toJson(arrayList));
+            Paper.book().write("cart1", new Gson().toJson(arrayList));
 
             if (orderedCourses.size() == 0) {
                 cardNoCourseAdded.setVisibility(View.VISIBLE);

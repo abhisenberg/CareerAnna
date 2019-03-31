@@ -26,11 +26,7 @@ import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.OnItemClickListener, View.OnClickListener
+public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.OnItemClickListener
         , RecyclerViewPager.OnPageChangedListener {
     public static final String TAG = "MyCourseFragment";
 
@@ -41,7 +37,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     SearchView search;
     private ArrayList<CourseWithLessData> course, tempCourse;
 
-    RecyclerViewPager mRecyclerView;
+    RecyclerView mRecyclerView;
     private int rv_currentPage;
 
     public MyCoursesFragment() {
@@ -60,91 +56,6 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
         mRecyclerView.setAdapter(myCoursesAdapterNew);
 
-        mRecyclerView.setFlingFactor(0.1f);
-        mRecyclerView.fling(1, 1);
-        mRecyclerView.setVerticalFadingEdgeEnabled(true);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
-                super.onScrollStateChanged(recyclerView, scrollState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-//                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
-
-
-                try {
-                    int childCount = mRecyclerView.getChildCount();
-                    int width = mRecyclerView.getChildAt(0).getWidth();
-                    int padding = (mRecyclerView.getWidth() - width) / 2;
-//                mCountText.setText("Count: " + childCount);
-
-                    for (int j = 0; j < childCount; j++) {
-                        View v = recyclerView.getChildAt(j);
-                        //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                        float rate = 0;
-                        if (v.getLeft() <= padding) {
-                            if (v.getLeft() >= padding - v.getWidth()) {
-                                rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                            } else {
-                                rate = 1;
-                            }
-                            v.setScaleY(1 - rate * 0.1f);
-                            v.setScaleX(1 - rate * 0.1f);
-
-                        } else {
-                            //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                            if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                                rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
-                            }
-                            v.setScaleY(0.9f + rate * 0.1f);
-                            v.setScaleX(0.9f + rate * 0.1f);
-                        }
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        });
-        mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
-            @Override
-            public void OnPageChanged(int oldPosition, int newPosition) {
-                Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
-            }
-        });
-
-        mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (mRecyclerView.getChildCount() < 3) {
-                    if (mRecyclerView.getChildAt(1) != null) {
-                        if (mRecyclerView.getCurrentPosition() == 0) {
-                            View v1 = mRecyclerView.getChildAt(1);
-                            v1.setScaleY(0.9f);
-                            v1.setScaleX(0.9f);
-                        } else {
-                            View v1 = mRecyclerView.getChildAt(0);
-                            v1.setScaleY(0.9f);
-                            v1.setScaleX(0.9f);
-                        }
-                    }
-                } else {
-                    if (mRecyclerView.getChildAt(0) != null) {
-                        View v0 = mRecyclerView.getChildAt(0);
-                        v0.setScaleY(0.9f);
-                        v0.setScaleX(0.9f);
-                    }
-                    if (mRecyclerView.getChildAt(2) != null) {
-                        View v2 = mRecyclerView.getChildAt(2);
-                        v2.setScaleY(0.9f);
-                        v2.setScaleX(0.9f);
-                    }
-                }
-
-            }
-        });
         myCoursesAdapterNew.setOnItemClicklistener(this);
     }
 
@@ -158,12 +69,9 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         mRecyclerView = view.findViewById(R.id.my_courses);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addOnPageChangedListener(this);
         cardView = view.findViewById(R.id.card);
-        view.findViewById(R.id.leftArrow_myCourses).setOnClickListener(this);
-        view.findViewById(R.id.rightArrow_myCourses).setOnClickListener(this);
 
         search = view.findViewById(R.id.search);
         rv_currentPage = 0;
@@ -226,35 +134,6 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
                 getContext().startActivity(intent);
 
             }
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.leftArrow_myCourses:
-                mRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(TAG, "run: left " + rv_currentPage);
-                        if (rv_currentPage != 0) {
-                            mRecyclerView.smoothScrollToPosition(rv_currentPage - 1);
-                        }
-                    }
-                });
-                break;
-
-            case R.id.rightArrow_myCourses:
-                mRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(TAG, "run: right " + rv_currentPage);
-                        if (rv_currentPage != tempCourse.size() - 1) {
-                            mRecyclerView.smoothScrollToPosition(rv_currentPage + 1);
-                        }
-                    }
-                });
-                break;
         }
     }
 

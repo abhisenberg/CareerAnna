@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/item_user_course_image"
-            android:src="@drawable/intro_pic_1"
+            android:src="@drawable/intro_pic_3_ques"
             android:padding="2dp"
             android:layout_gravity="center"
             android:layout_weight="1"

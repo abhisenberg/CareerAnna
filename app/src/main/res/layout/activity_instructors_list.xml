@@ -18,7 +18,7 @@
         android:id="@+id/rvp_left_bt"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_chevron_left_black_24dp"
-        android:backgroundTint="@color/cb_input_gray"
+        android:backgroundTint="@color/light_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -26,7 +26,7 @@
         android:id="@+id/rvp_right_bt"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_chevron_right_black_24dp"
-        android:backgroundTint="@color/cb_input_gray"
+        android:backgroundTint="@color/light_gray"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

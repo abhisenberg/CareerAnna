@@ -16,7 +16,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -24,6 +25,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -39,6 +41,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.adapter.CourseContentAdapter;
 import com.careeranna.careeranna.adapter.ExpandableListAdapterForNestedScroll;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.ExamPrep;
@@ -47,29 +50,29 @@ import com.careeranna.careeranna.data.OrderedList;
 import com.careeranna.careeranna.data.Topic;
 import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.dummy_data.CourseDummyData;
 import com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll;
 import com.careeranna.careeranna.user.SignUp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
-import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
 
-import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
+import static android.view.View.GONE;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlayerEvents.OnFullscreenListener {
@@ -81,7 +84,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     private static final Pattern REMOVE_TAGS1 = Pattern.compile("&.+;");
 
     TextView tv_courseName, tv_instructor_name, tv_star_rating, tv_user_ratings, tv_cost, tv_striked_cost,
-            tv_discount, tv_enrollments;
+            tv_discount, tv_enrollments, course_rating_number, course_number_of_ratings,course_enrollments;
 
     RatingBar ratingBar;
 //    TextView price,desc,name;
@@ -89,6 +92,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //    TextView description;
 
     FloatingActionButton addTocart;
+
+    Button enroll_now, add_to_cart;
+
+    RecyclerView course_content_rv;
 
 //    JWPlayerView playerView;
 
@@ -135,7 +142,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchase_course_detail_3);
+        setContentView(R.layout.activity_purchase_course_detail);
 
         Paper.init(this);
 
@@ -151,6 +158,12 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         webView = findViewById(R.id.wv_demoVideo);
         appBarLayout = findViewById(R.id.app_bar_layout);
         iv_demoCourseImage = findViewById(R.id.iv_demoCourseImage);
+        enroll_now = findViewById(R.id.enroll_now);
+        add_to_cart = findViewById(R.id.add_to_cart);
+        course_content_rv = findViewById(R.id.course_content_rv);
+        course_rating_number = findViewById(R.id.course_rating_number);
+        course_number_of_ratings = findViewById(R.id.course_number_of_ratings);
+        course_enrollments = findViewById(R.id.course_enrollments);
 
         expandableListView = findViewById(R.id.purchaseCourse_expandableUnit);
         progressBar = findViewById(R.id.progress_bar_course);
@@ -160,12 +173,12 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
 //        description = findViewById(R.id.course_description);
         addTocart = findViewById(R.id.btn_cart);
         wv_productDescription = findViewById(R.id.wv_productDesc);
-        wv_productDescription.setVisibility(View.GONE);
+        wv_productDescription.setVisibility(GONE);
 
         Intent intent = getIntent();
+        ratingBar.setRating(5f);
 
         course = (Course) intent.getSerializableExtra("Course");
-
         if (course == null) {
             /*
             DON'T FETCH UNITS HERE BECAUSE THIS IS EXAM_PREP COURSE
@@ -179,15 +192,21 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         } else {
             Log.d(TAG, "Course id =  " + course.getId());
             fetchUnit();
+            ratingBar.setRating(Float.valueOf(course.getRatings()));
+            course_rating_number.setText(course.getRatings());
+            course_number_of_ratings.setText("(" + NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(course.getTotal_ratings())) + " Ratings)");
+            if(course.getLearners_count() != null) {
+                course_enrollments.setText(NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(course.getLearners_count())));
+            }
 //            description.append("\n"+removeTags(course.getDesc()).replace("-", "\n"));
         }
 
         initializeWebView();
 
 //        playerView.addOnFullscreenListener(this);
-        String cart = Paper.book().read("cart");
+        String cart = Paper.book().read("cart1");
 
-        ratingBar.setRating(5f);
+
         /*
         TODO: Change the color of the stars
          */
@@ -267,6 +286,86 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
             }
         });
 
+        add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cart = Paper.book().read("cart1");
+
+                /*
+                If the cart is not null, we extract the already stored cart contents and add our new course
+                in the cart.
+                 */
+                if (cart != null && !cart.isEmpty()) {
+
+                    Log.i("details", cart);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<String>>() {
+                    }.getType();
+                    ArrayList<String> arrayList = gson.fromJson(cart, type);
+
+                    for (String orderedCourse : arrayList) {
+
+                        String coursear[] = orderedCourse.split(",");
+
+                        if (course.getId().equals(coursear[0])) {
+
+                            isAvailable = true;
+
+                        }
+                    }
+
+                    if (isAvailable) {
+
+                        Toast.makeText(PurchaseCourseDetail.this, "Course Is Already Present In The Cart", Toast.LENGTH_SHORT).show();
+
+                        return;
+                    }
+
+                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
+                    arrayList.add(courseString);
+                    Paper.book().write("cart1", new Gson().toJson(arrayList));
+                } else {
+
+                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
+                    ArrayList<String> array = new ArrayList<>();
+                    array.add(courseString);
+                    Paper.book().write("cart1", new Gson().toJson(array));
+                }
+                Toast.makeText(PurchaseCourseDetail.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        enroll_now.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cache = Paper.book().read("user");
+                if (cache != null && !cache.isEmpty()) {
+                } else {
+                    Toast.makeText(PurchaseCourseDetail.this, getString(R.string.please_register_to_continue), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(PurchaseCourseDetail.this, SignUp.class));
+                    finish();
+                }
+                /*
+                If course if free, directly go to freeCourseCheckout()
+                if it is paid, then go to buyCourse()
+                 */
+                if (course != null) {
+                    final String price;
+                    price = course.getPrice();
+                    if (course.getPrice().equals("0")) {
+                        freeCourseCheckout();
+                    } else
+                        paidCourseCheckout(price);
+                } else {
+                    final String price;
+                    price = examPrep.getPrice();
+                    if (examPrep.getPrice().equals("0")) {
+                        freeCourseCheckout();
+                    } else
+                        paidCourseCheckout(price);
+                }
+            }
+        });
 
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
@@ -401,7 +500,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         mBuilder.setNegativeButton("Add To Cart", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String cart = Paper.book().read("cart");
+                String cart = Paper.book().read("cart1");
 
                 /*
                 If the cart is not null, we extract the already stored cart contents and add our new course
@@ -414,19 +513,36 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                     Type type = new TypeToken<ArrayList<String>>() {
                     }.getType();
                     ArrayList<String> arrayList = gson.fromJson(cart, type);
-                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id();
+
+                    for (String orderedCourse : arrayList) {
+
+                        String coursear[] = orderedCourse.split(",");
+
+                        if (course.getId().equals(coursear[0])) {
+
+                            isAvailable = true;
+
+                        }
+                    }
+
+                    if (isAvailable) {
+
+                        Toast.makeText(PurchaseCourseDetail.this, "Course Is Already Present In The Cart", Toast.LENGTH_SHORT).show();
+
+                        return;
+                    }
+
+                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
                     arrayList.add(courseString);
-                    Paper.book().write("cart", new Gson().toJson(arrayList));
+                    Paper.book().write("cart1", new Gson().toJson(arrayList));
                 } else {
 
-                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id();
+                    String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
                     ArrayList<String> array = new ArrayList<>();
                     array.add(courseString);
-                    Paper.book().write("cart", new Gson().toJson(array));
+                    Paper.book().write("cart1", new Gson().toJson(array));
                 }
-
-                startActivity(new Intent(PurchaseCourseDetail.this, MyCourses.class));
-                finish();
+                Toast.makeText(PurchaseCourseDetail.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -498,6 +614,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 tv_cost.setText("Free");
                 tv_discount.setText("");
                 tv_striked_cost.setText("");
+                add_to_cart.setVisibility(GONE);
             } else {
                 String price = "₹" + course.getPrice();
                 tv_cost.setText(price);
@@ -505,9 +622,10 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 Float price_before_disc = Float.valueOf(course.getPrice_before_discount());
                 Float price_after_disc = Float.valueOf(course.getPrice());
                 Float discount = (price_before_disc - price_after_disc) * 100 / price_before_disc;
-                tv_discount.setText(String.format("%.2f", discount) + "% Off including taxes");
+                tv_discount.setText(String.format("%.1f", discount) + "% Off including taxes");
                 tv_striked_cost.setText("₹" + course.getPrice_before_discount());
                 tv_striked_cost.setPaintFlags(tv_striked_cost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
             }
             /*
             Setting striked through text of price before discount
@@ -549,7 +667,7 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                             table.
                              */
 
-                            expandableListView.setVisibility(View.GONE);
+                            expandableListView.setVisibility(GONE);
 
                             RequestQueue requestQueue1 = Volley.newRequestQueue(PurchaseCourseDetail.this);
                             String url = "https://careeranna.com/api/getProductDescription.php?id=" + id;
@@ -631,14 +749,14 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
         requestQueue.add(stringRequest);
     }
 
-    public void addCourseUnits(ArrayList<String> course) {
-        Log.d(TAG, "addCourseUnits: " + course.size());
+    public void addCourseUnits(ArrayList<String> course_list) {
+        Log.d(TAG, "addCourseUnits: " + course_list.size());
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
         Drawable unCheck = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black1_24dp);
         ArrayList<Unit> mUnits = new ArrayList<>();
 
         Log.d(TAG, "units size = " + mUnits.size());
-        for (String unitsname : course) {
+        for (String unitsname : course_list) {
             if (unitsname.length() > 0) {
                 char c = unitsname.charAt(0);
                 if (c != '$') {
@@ -646,6 +764,15 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                     mUnits.add(unit);
                 } else {
                     String array[] = unitsname.split(",url");
+                    if(mUnits.size() == 0) {
+                        if(course != null) {
+                            Unit unit = new Unit(course.getName(), check);
+                            mUnits.add(unit);
+                        } else {
+                            Unit unit = new Unit(examPrep.getName(), check);
+                            mUnits.add(unit);
+                        }
+                    }
                     if (array.length == 1) {
                         mUnits.get(mUnits.size() - 1).topics.add(new Topic(array[0].substring(1), ""));
                     } else {
@@ -662,6 +789,11 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
                 }
             }
      */
+                course_content_rv.setLayoutManager(new LinearLayoutManager(PurchaseCourseDetail.this, LinearLayoutManager.VERTICAL, false));
+
+                CourseContentAdapter courseContentAdapter = new CourseContentAdapter(mUnits, this);
+                course_content_rv.setAdapter(courseContentAdapter);
+
                 listAdapter = new ExpandableListAdapterForNestedScroll(getApplicationContext(), mUnits, expandableListView);
                 expandableListView.setAdapter(listAdapter);
             }
@@ -670,40 +802,48 @@ public class PurchaseCourseDetail extends AppCompatActivity implements VideoPlay
     }
 
     public void paidCourseCheckout(final String price) {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_payment_layout);
-        dialog.setTitle(getString(R.string.pay_now));
 
-        Button paytm, payu;
+        String cart = Paper.book().read("cart1");
 
-        TextView tv_price = dialog.findViewById(R.id.price);
-        TextView tv_email = dialog.findViewById(R.id.email);
+        if (cart != null && !cart.isEmpty()) {
 
-        tv_price.setText(price);
-        tv_email.setText(user.getUser_email());
+            Log.i("details", cart);
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            ArrayList<String> arrayList = gson.fromJson(cart, type);
 
-        paytm = (Button) dialog.findViewById(R.id.paytm);
-        payu = (Button) dialog.findViewById(R.id.payu);
+            for (String orderedCourse : arrayList) {
 
-        paytm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PurchaseCourseDetail.this, PaytmPayment.class);
-                intent.putExtra("price", price);
-                startActivity(intent);
+                String coursear[] = orderedCourse.split(",");
+
+                if (course.getId().equals(coursear[0])) {
+
+                    isAvailable = true;
+
+                }
             }
-        });
 
-        payu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PurchaseCourseDetail.this, Payment.class);
-                intent.putExtra("price", price);
+            if (isAvailable) {
+                Intent intent = new Intent(this, PaymentGateway.class);
                 startActivity(intent);
-            }
-        });
 
-        dialog.show();
+                return;
+            }
+
+            String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
+            arrayList.add(courseString);
+            Paper.book().write("cart1", new Gson().toJson(arrayList));
+        } else {
+
+            String courseString = course.getId() + "," + course.getPrice() + "," + course.getImageUrl() + "," + course.getName() + "," + course.getCategory_id() +","+course.getPrice() +","+course.getTotal_ratings()+","+course.getRatings();
+            ArrayList<String> array = new ArrayList<>();
+            array.add(courseString);
+            Paper.book().write("cart1", new Gson().toJson(array));
+        }
+
+        Intent intent = new Intent(this, PaymentGateway.class);
+        startActivity(intent);
 
     }
 

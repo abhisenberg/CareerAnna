@@ -169,7 +169,7 @@
         <Button
             android:id="@+id/tv_cancel"
             android:background="@drawable/intro_button"
-            android:text="@string/Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:layout_weight="1"

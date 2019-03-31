@@ -7,12 +7,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.payu.india.Model.PayuResponse;
 import com.payu.india.Payu.PayuConstants;
-import com.payu.payuui.Fragment.CashCardFragment;
 import com.payu.payuui.Fragment.CreditDebitFragment;
-import com.payu.payuui.Fragment.EmiFragment;
+import com.payu.payuui.Fragment.GenericUpiIntentFragment;
+import com.payu.payuui.Fragment.LazyPayFragment;
 import com.payu.payuui.Fragment.NetBankingFragment;
 import com.payu.payuui.Fragment.PayuMoneyFragment;
+import com.payu.payuui.Fragment.PhonePeFragment;
+import com.payu.payuui.Fragment.SamsungPayFragment;
 import com.payu.payuui.Fragment.SavedCardsFragment;
+import com.payu.payuui.Fragment.StandAlonePhonePeFragment;
+import com.payu.payuui.Fragment.TEZFragment;
 import com.payu.payuui.Fragment.UPIFragment;
 import com.payu.payuui.SdkuiUtil.SdkUIConstants;
 
@@ -79,11 +83,43 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 mPageReference.put(i, fragment);
                 return fragment;
 
+            case SdkUIConstants.TEZ:
+                fragment = new TEZFragment();
+                mPageReference.put(i, fragment);
+                return fragment;
+
+            case SdkUIConstants.GENERICINTENT:
+                fragment = new GenericUpiIntentFragment();
+                mPageReference.put(i, fragment);
+                return fragment;
+
             case SdkUIConstants.PAYU_MONEY:
                 fragment = new PayuMoneyFragment();
                 bundle.putParcelableArrayList(PayuConstants.PAYU_MONEY, payuResponse.getPaisaWallet());
                 mPageReference.put(i, fragment);
                 return fragment;
+
+            case SdkUIConstants.LAZY_PAY:
+                fragment = new LazyPayFragment();
+                bundle.putParcelableArrayList(PayuConstants.LAZYPAY, payuResponse.getLazyPay());
+                mPageReference.put(i, fragment);
+                return fragment;
+            case "SAMPAY":
+                fragment = new SamsungPayFragment();
+                mPageReference.put(i, fragment);
+                return fragment;
+
+            case SdkUIConstants.PHONEPE:
+                fragment = new StandAlonePhonePeFragment();
+                mPageReference.put(i,fragment);
+                return fragment;
+
+            case SdkUIConstants.CBPHONEPE:
+                fragment = new PhonePeFragment();
+                mPageReference.put(i,fragment);
+                return fragment;
+
+
 
             default:
                 return null;

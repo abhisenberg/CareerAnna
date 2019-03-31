@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragement.dashboard_fragements.PaidCoursesFragment">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="10dp"
+        android:id="@+id/progress"
+        />
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme">
+
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:tabTextAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="?android:actionBarSize"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:visibility="gone"
+            android:id="@+id/tab_layout"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="@color/light_blue"
+            android:background="@android:color/white"
+            app:tabIndicatorColor="@color/light_blue"
+            >
+
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/view_pager_courses"
+            android:background="#f1f0f0"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        </android.support.v4.view.ViewPager>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+</RelativeLayout>

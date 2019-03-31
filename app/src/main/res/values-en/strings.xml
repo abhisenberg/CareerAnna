@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Career Anna</string>
-    <string name="facebook_app_id">341622293308668</string>
+    <string name="facebook_app_id">2353492718221066</string>
     <string name="fb_login_protocol_scheme">fb341622293308668</string>
     <string-array name="how_did">
         <item>How did you come to know about us ?</item>
@@ -114,9 +114,9 @@
     <string name="explore">Explore</string>
     <string name="articles" >Articles</string>
     <string name="trending">Trending</string>
-    <string name="free">Free</string>
+    <string name="free">Free Courses</string>
     <string name="latest">Latest</string>
-    <string name="premium">Premium</string>
+    <string name="premium">Premium Courses</string>
     <string name="my_cart">My Cart</string>
     <string name="sign_in">Sign in</string>
     <string name="create_an_account">Create an account</string>

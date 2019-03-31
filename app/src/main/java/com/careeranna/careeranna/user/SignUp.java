@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -93,7 +94,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
     private CallbackManager mCallbackManager;
 
-    Button bt_google_login, bt_fb_login, bt_create_account, bt_manual_login;
+
+
+    Button bt_google_login, bt_fb_login, bt_create_account, bt_manual_login, privacy_policy;
 
     TextView tv_forgotPw;
 
@@ -122,7 +125,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
             getSupportActionBar().hide();
         }
 
-        setContentView(R.layout.activity_sign_up_3);
+        setContentView(R.layout.activity_sign_up);
 
         //************Drawing the center line and circle ************
         /*
@@ -157,6 +160,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
 
         fbLoginButton =  findViewById(R.id.fb_login_button_3);
 
+        privacy_policy  = findViewById(R.id.privacy_policy);
+
         bt_manual_login = findViewById(R.id.signInAccount_3);
 
 //        fragmentManager = getSupportFragmentManager();
@@ -179,6 +184,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, F
         bt_manual_login.setOnClickListener(this);
 
         tv_forgotPw.setOnClickListener(this);
+
+        privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.careeranna.com/privacy_policy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
         //Hide the circuler progress bar and only show when needed
         //INVISIBLING 2

@@ -1,1 +1,2 @@
-include ':app', ':sdkui'
+include ':app', ':sdkui1'
+project(':sdkui1').projectDir = new File('sdkui')

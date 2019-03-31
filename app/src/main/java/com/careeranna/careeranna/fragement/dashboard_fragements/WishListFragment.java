@@ -141,7 +141,7 @@ public class WishListFragment extends Fragment implements WishListAdapter.OnItem
 
                     grand_total += Float.valueOf(course[1]);
 
-                    orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4]));
+                    orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4], course[1], course[6], course[7]));
                 }
 
             } else {
@@ -295,7 +295,7 @@ public class WishListFragment extends Fragment implements WishListAdapter.OnItem
 
             arrayListWish = new ArrayList<>();
 
-            String cart = Paper.book().read("cart");
+            String cart = Paper.book().read("cart1");
 
             if(cart != null && !cart.isEmpty()) {
 
@@ -307,21 +307,21 @@ public class WishListFragment extends Fragment implements WishListAdapter.OnItem
 
                 ArrayList<String> arrayList = gson.fromJson(cart, type1);
 
-                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id()+","+orderedCourses.get(position).getPrice()+","+orderedCourses.get(position).getTotal_rating()+","+orderedCourses.get(position).getAverage_rating();
 
                 arrayList.add(courseString);
 
-                Paper.book().write("cart", new Gson().toJson(arrayList));
+                Paper.book().write("cart1", new Gson().toJson(arrayList));
 
             } else {
 
-                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id();
+                String courseString = orderedCourses.get(position).getCourse_id() + "," + orderedCourses.get(position).getPrice() + "," + orderedCourses.get(position).getImage() + "," + orderedCourses.get(position).getName() + ","+orderedCourses.get(position).getCategory_id()+","+orderedCourses.get(position).getPrice()+","+orderedCourses.get(position).getTotal_rating()+","+orderedCourses.get(position).getAverage_rating();
 
                 ArrayList<String> array = new ArrayList<>();
 
                 array.add(courseString);
 
-                Paper.book().write("cart", new Gson().toJson(array));
+                Paper.book().write("cart1", new Gson().toJson(array));
             }
 
             orderedCourse = orderedCourses.get(position);

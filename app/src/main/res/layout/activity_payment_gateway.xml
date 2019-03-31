@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f0f0"
+    tools:context=".activity.PaymentGateway">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_above="@+id/payment_method_rl"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/payment_gateway"
+        android:paddingTop="15dp"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Student Details"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:layout_marginBottom="15dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/error_message"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            />
+
+        <EditText
+            android:focusableInTouchMode="true"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_white_payment"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:hint="Email Id"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/name"
+            android:background="@drawable/border_white_payment"
+            android:padding="10dp"
+            android:inputType="text"
+            android:hint="Full Name"
+            />
+
+
+            <EditText
+                android:inputType="phone"
+                android:focusableInTouchMode="true"
+                android:id="@+id/mobile"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_payment"
+                android:padding="10dp"
+                android:hint="Enter Phone No"
+                />
+
+            <EditText
+                android:id="@+id/city"
+                android:focusableInTouchMode="true"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="text"
+                android:background="@drawable/border_white_payment"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter City"
+                />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="22dp"
+        android:layout_marginBottom="15dp"
+        android:paddingBottom="30dp"
+        android:background="#fff"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Courses"
+            android:textStyle="bold"
+            android:paddingBottom="22dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="18sp"
+            android:textColor="#000"
+            />
+
+        <RelativeLayout
+            android:paddingBottom="20dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/my_product_cart_rv"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="#f1f0f0"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price Details"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="18sp"
+            android:textColor="#000"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Sub Total"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:layout_toLeftOf="@id/sub_total_price"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/sub_total_price"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="999"
+                android:layout_alignParentRight="true"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="IGST (18% of payable fee )"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:layout_toLeftOf="@id/gst_price"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/gst_price"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="999"
+                android:layout_alignParentRight="true"
+                />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/total_price"
+                android:layout_marginRight="10dp"
+                android:text="Amount To Be Paid"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/total_price"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold"
+                android:text="999"
+                android:layout_alignParentRight="true"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/promo"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/apply"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/apply"
+                android:background="@drawable/border_bottom_for_promo"
+                android:hint="Enter Your Promo Code Here "
+                android:inputType="text"
+                android:textColor="#b4a9a9"
+                android:textColorHint="#b4a9a9"
+                android:textSize="14sp" />
+
+            <Button
+                android:layout_above="@id/checkout"
+                android:textSize="14sp"
+                android:layout_alignParentRight="true"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:textColor="@color/white"
+                android:id="@+id/apply"
+                android:text="Apply"
+                android:background="@drawable/border_curved_primary"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="15dp"
+            android:visibility="gone"
+            android:paddingBottom="22dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Optioins"
+                android:paddingBottom="22dp"
+                android:layout_gravity="center"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:id="@+id/error_message_1"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                />
+
+            <RelativeLayout
+                android:layout_marginRight="20dp"
+                android:id="@+id/paytm_linear_layout"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/border_white_payment"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/paytm_radio_btn"
+                    />
+
+                <TextView
+                    android:layout_toRightOf="@id/paytm_radio_btn"
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pay via "
+                    android:layout_centerVertical="true"
+                    android:id="@+id/payvia_paytm_lb"
+                    android:textColor="#000"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paytm"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:layout_toRightOf="@id/payvia_paytm_lb"
+                    android:textStyle="bold"
+                    />
+
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/paytm_wallet"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginRight="20dp"
+                android:id="@+id/payu_biz_linear_layout"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/border_white_payment"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/payu_radio_btn"
+                    />
+
+                <TextView
+                    android:layout_toRightOf="@id/payu_radio_btn"
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/payvia_payu_lb"
+                    android:text="Pay via "
+                    android:textColor="#000"
+                    />
+
+                <TextView
+                    android:layout_toRightOf="@id/payvia_payu_lb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PayU Biz"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    />
+
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/payubiz"
+                    />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/payment_method_rl"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/payment_method"
+            android:textColor="@color/white"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Proceed To Payment"
+            android:background="@drawable/border_curved_apply"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

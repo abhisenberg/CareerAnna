@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -90,67 +91,12 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                 break;
 
-            case Constants.NOTIF_TYPE_VIDEO:
-                openVideo(currentNotif.getId());
-                break;
 
             default: break;
         }
     }
 
-    private void openVideo(String id) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait");
-        progressDialog.setCancelable(true);
-        progressDialog.show();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://www.careeranna.com/api/fetchParticularVideo.php?id="+id;
-
-        Log.d("noti_url", url);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("response", response);
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject videos = new JSONObject(response);
-                            FreeVideos article = new FreeVideos(
-                                    videos.getString("id"),
-                                    videos.getString("video_url").replace("\\", ""),
-                                    "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
-                                    videos.getString("totalViews"),
-                                    videos.getString("tags"),
-                                    videos.getString("heading"),
-                                    "Free",
-                                    videos.getString("duration"),
-                                    videos.getString("likes"),
-                                    videos.getString("dislikes"));
-
-                            //Open this particular article
-                            Intent intent = new Intent(NotificationActivity.this, VideoWithComment.class);
-                            intent.putExtra("videos", article);
-                            startActivity(intent);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Log.d(TAG, "onErrorResponse: ");
-                        Toast.makeText(NotificationActivity.this, getResources().getText(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-        requestQueue.add(stringRequest);
-
-
-    }
 
     private void openArticle(String id) {
 
@@ -216,6 +162,18 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             ));
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // API 5+ solution
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }}
 
     private ArrayList<Notification> getNotificationList(){
         return Paper.book().read(Notification.NOTIF_LIST, new ArrayList<Notification>());

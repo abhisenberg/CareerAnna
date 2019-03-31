@@ -4,7 +4,34 @@ import java.io.Serializable;
 
 public class OrderedCourse implements Serializable {
 
-    String course_id, price, image, name, category_id, old_price;
+    String course_id, price, image, name, category_id, old_price, total_rating, average_rating;
+
+    public OrderedCourse(String course_id, String price, String image, String name, String category_id, String old_price, String total_rating, String average_rating) {
+        this.course_id = course_id;
+        this.price = price;
+        this.image = image;
+        this.name = name;
+        this.category_id = category_id;
+        this.old_price = old_price;
+        this.total_rating = total_rating;
+        this.average_rating = average_rating;
+    }
+
+    public String getTotal_rating() {
+        return total_rating;
+    }
+
+    public void setTotal_rating(String total_rating) {
+        this.total_rating = total_rating;
+    }
+
+    public String getAverage_rating() {
+        return average_rating;
+    }
+
+    public void setAverage_rating(String average_rating) {
+        this.average_rating = average_rating;
+    }
 
     public OrderedCourse(String course_id, String name, String price, String image) {
         this.course_id = course_id;

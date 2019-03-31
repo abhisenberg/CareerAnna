@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CAT 2019"
+        android:id="@+id/course_name"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/price"
+        android:layout_alignParentLeft="true"
+        android:textColor="#000"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/price"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="999"
+        android:layout_toLeftOf="@id/remove"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:id="@+id/remove"
+        android:src="@drawable/ic_clear_black_24dp"
+        />
+
+
+
+</RelativeLayout>

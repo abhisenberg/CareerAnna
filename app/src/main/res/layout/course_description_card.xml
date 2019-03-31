@@ -13,14 +13,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/course_name"
-            android:padding="2dp"
-            android:text="Course name course name "
-            android:textColor="@color/black"
-            android:textSize="17sp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                android:id="@+id/course_name"
+                android:padding="2dp"
+                android:text="Course name course name "
+                android:textColor="@color/black"
+                android:paddingRight="5dp"
+                android:layout_toLeftOf="@id/enroll_now"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/enroll_now"
+                android:background="@drawable/border_curved_primary"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:text="@string/enroll_now"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+            <Button
+                android:id="@+id/add_to_cart"
+                android:background="@drawable/border_curved_black"
+                android:textColor="@color/black"
+                android:paddingLeft="10dp"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/enroll_now"
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:text="Add To Cart"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+        </RelativeLayout>
 
 
         <TextView
@@ -60,7 +95,7 @@
             <TextView
                 android:id="@+id/course_number_of_ratings"
                 android:text="(450 Ratings)"
-                android:textColor="@color/payu_blue"
+                android:textColor="@color/light_blue"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
@@ -89,7 +124,7 @@
 
                 <TextView
                     android:id="@+id/course_enrollments"
-                    android:textColor="@color/payu_blue"
+                    android:textColor="@color/light_blue"
                     android:text="500"
                     android:drawableStart="@drawable/ic_people_black_24dp"
                     android:gravity="center|left"

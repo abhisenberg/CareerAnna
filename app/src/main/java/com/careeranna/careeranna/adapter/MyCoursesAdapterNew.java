@@ -47,7 +47,7 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_my_course_new, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_my_course_new_2, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -71,15 +71,6 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
         }viewHolder.textView.setText(course.get(position).getCourse_name());
         viewHolder.progressBar.setProgress(random);
         viewHolder.tv.setText(random+"%");
-        if(random <= 20) {
-            viewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(mContext, R.drawable.circular_red));
-        } else if(random <= 50){
-            viewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(mContext, R.drawable.circular_yellow));
-        } else if(random <=70) {
-            viewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(mContext, R.drawable.circular_dark_green));
-        } else {
-            viewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(mContext, R.drawable.circular));
-        }
 
     }
 

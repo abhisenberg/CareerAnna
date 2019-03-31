@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class FreeVideos implements Serializable {
 
-    String id, video_url, thumbnail, total_view, tags, title, type, duration, likes, dislikes;
+    String id, video_url, thumbnail, total_view, tags, title, type, duration, likes, dislikes, count_comments;
 
     public FreeVideos(String id, String video_url, String thumbnail, String total_view, String tags, String title, String type, String duration, String likes, String dislikes) {
         this.id = id;
@@ -17,6 +17,14 @@ public class FreeVideos implements Serializable {
         this.duration = duration;
         this.likes = likes;
         this.dislikes = dislikes;
+    }
+
+    public String getCount_comments() {
+        return count_comments;
+    }
+
+    public void setCount_comments(String count_comments) {
+        this.count_comments = count_comments;
     }
 
     public String getLikes() {

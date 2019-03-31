@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:id="@+id/layout_comment"
-    tools:context=".activity.VideoWithComment">
+    tools:context=".activity.activity_with_comment">
 
 
     <com.longtailvideo.jwplayer.JWPlayerView
