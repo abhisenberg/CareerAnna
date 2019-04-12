@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:text="CAT 2019"
         android:id="@+id/course_name"
-        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/price"
         android:layout_alignParentLeft="true"
@@ -27,6 +26,19 @@
         android:text="999"
         android:layout_toLeftOf="@id/remove"
         />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/discounted_price"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/price"
+        android:text="999"
+        android:layout_toLeftOf="@id/remove"
+        />
+
 
     <ImageView
         android:layout_width="wrap_content"

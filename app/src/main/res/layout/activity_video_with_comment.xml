@@ -43,13 +43,17 @@
             android:id="@+id/up"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_height="30dp"
             android:text="20"
             android:layout_toLeftOf="@id/thumbdown"
+            android:gravity="left|center_vertical"
+            android:drawablePadding="5dp"
             android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
             />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/thumbdown"
             android:background="@android:color/transparent"
             android:textColor="@color/black"
@@ -60,6 +64,7 @@
             />
 
         <TextView
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="30dp"

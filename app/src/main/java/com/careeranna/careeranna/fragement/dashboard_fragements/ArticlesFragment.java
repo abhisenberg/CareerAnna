@@ -44,8 +44,6 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
     RecyclerView recyclerView;
     ArticleAdapter articleAdapter;
 
-    int language = 1;
-
     Boolean isScrolling = false;
 
     ProgressBar progressBar;
@@ -62,13 +60,17 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     ArrayList<Article> articles;
 
+    private Context context;
+
     public ArticlesFragment() {
         // Required empty public constructor
     }
 
-    public void setmArticles(ArrayList<Article> articles, int language) {
-
-        this.language = language;
+    public void setmArticles(ArrayList<Article> articles) {
+        if(mArticles == null) {
+            mArticles = new ArrayList<>();
+            Log.d("article", "inside_null_1");
+        }
         mArticles.addAll(articles);
         populateArticles();
     }
@@ -85,18 +87,90 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
         mArticles = new ArrayList<>();
 
+        context = inflater.getContext();
+
         return view;
     }
 
     public void populateArticles() {
 
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        if(mArticles != null) {
+            if(!mArticles.isEmpty()) {
 
-        articleAdapter = new ArticleAdapter(mArticles, getApplicationContext());
-        recyclerView.setAdapter(articleAdapter);
+                linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
 
-        articleAdapter.setOnItemClicklistener(this);
+                articleAdapter = new ArticleAdapter(mArticles, getApplicationContext());
+                recyclerView.setAdapter(articleAdapter);
+
+                articleAdapter.setOnItemClicklistener(this);
+
+                recylerViewPopulationAgain();
+
+            } else {
+                page = 1;
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                String url = "https://careeranna.com/api/articlewithimage.php?pageno=" + page;
+                page += 1;
+                articles = new ArrayList<>();
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    Log.i("url_response", response.toString());
+                                    JSONArray ArticlesArray = new JSONArray(response.toString());
+                                    if(ArticlesArray.length() > 0) {
+                                        for (int i = 0; i < ArticlesArray.length(); i++) {
+                                            JSONObject Articles = ArticlesArray.getJSONObject(i);
+                                            articles.add(new Article(Articles.getString("ID"),
+                                                    Articles.getString("post_title"),
+                                                    "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
+                                                    Articles.getString("display_name"),
+                                                    "CAT",
+                                                    "",
+                                                    Articles.getString("post_date")));
+                                        }
+                                    }  else {
+                                        Log.d("Results", "results Ended");
+                                        isEnded = true;
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                isLoading = false;
+                                mArticles.addAll(articles);
+                                progressBar.setVisibility(View.GONE);
+                                linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                                recyclerView.setLayoutManager(linearLayoutManager);
+
+                                articleAdapter = new ArticleAdapter(mArticles, getApplicationContext());
+                                recyclerView.setAdapter(articleAdapter);
+
+                                articleAdapter.setOnItemClicklistener(ArticlesFragment.this);
+                                recylerViewPopulationAgain();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progressBar.setVisibility(View.GONE);
+                                isLoading = false;
+                                recylerViewPopulationAgain();
+                            }
+                        }
+                );
+
+                requestQueue.add(stringRequest);
+            }
+        } else {
+            Log.d("article", "inside_null_2");
+        }
+
+
+    }
+
+    private void recylerViewPopulationAgain() {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -124,36 +198,33 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                         }
                         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                         String url = "https://careeranna.com/api/articlewithimage.php?pageno=" + page;
-                        if (language == 2) {
-                            url = "https://www.careeranna.com/api/hindiarticleswithimage.php?pageno=" + page;
-                        }
                         page += 1;
                         articles = new ArrayList<>();
                         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                            try {
-                                                Log.i("url_response", response.toString());
-                                                    JSONArray ArticlesArray = new JSONArray(response.toString());
-                                                    if(ArticlesArray.length() > 0) {
-                                                    for (int i = 0; i < ArticlesArray.length(); i++) {
-                                                        JSONObject Articles = ArticlesArray.getJSONObject(i);
-                                                        articles.add(new Article(Articles.getString("ID"),
-                                                                Articles.getString("post_title"),
-                                                                "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
-                                                                Articles.getString("display_name"),
-                                                                "CAT",
-                                                                "",
-                                                                Articles.getString("post_date")));
-                                                    }
-                                                }  else {
-                                                    Log.d("Results", "results Ended");
-                                                    isEnded = true;
+                                        try {
+                                            Log.i("url_response", response.toString());
+                                            JSONArray ArticlesArray = new JSONArray(response.toString());
+                                            if(ArticlesArray.length() > 0) {
+                                                for (int i = 0; i < ArticlesArray.length(); i++) {
+                                                    JSONObject Articles = ArticlesArray.getJSONObject(i);
+                                                    articles.add(new Article(Articles.getString("ID"),
+                                                            Articles.getString("post_title"),
+                                                            "https://www.careeranna.com/articles/wp-content/uploads/" + Articles.getString("meta_value").replace("\\", ""),
+                                                            Articles.getString("display_name"),
+                                                            "CAT",
+                                                            "",
+                                                            Articles.getString("post_date")));
                                                 }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
+                                            }  else {
+                                                Log.d("Results", "results Ended");
+                                                isEnded = true;
                                             }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                         isLoading = false;
                                         articleAdapter.addArticles(articles);
                                         articleAdapter.notifyDataSetChanged();
@@ -179,6 +250,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                 }
             }
         });
+
     }
 
     @Override

@@ -66,8 +66,6 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
         notificationList = getNotificationList();
 
-        Log.d(TAG, "Notification list size = "+notificationList.size());
-
         adapter.updateData(notificationList);
         adapter.setOnNotifClickListener(this);
         adapter.notifyDataSetChanged();

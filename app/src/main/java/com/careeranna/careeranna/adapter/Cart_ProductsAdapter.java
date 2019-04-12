@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,6 +65,12 @@ public class Cart_ProductsAdapter extends RecyclerView.Adapter<Cart_ProductsAdap
             }
         });
 
+        if(!orderedCourses.get(i).getPrice().equals(orderedCourses.get(i).getOld_price())) {
+            viewHolder.discounted_price.setVisibility(View.VISIBLE);
+            viewHolder.discounted_price.setPaintFlags(viewHolder.discounted_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.discounted_price.setText("₹ "+orderedCourses.get(i).getOld_price());
+        }
+
     }
 
     public void changePrice(int pos, String Price) {
@@ -80,7 +87,7 @@ public class Cart_ProductsAdapter extends RecyclerView.Adapter<Cart_ProductsAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView course_name, price;
+        TextView course_name, price, discounted_price;
 
         ImageView remove;
 
@@ -90,6 +97,8 @@ public class Cart_ProductsAdapter extends RecyclerView.Adapter<Cart_ProductsAdap
 
             course_name = itemView.findViewById(R.id.course_name);
             price = itemView.findViewById(R.id.price);
+
+            discounted_price = itemView.findViewById(R.id.discounted_price);
 
             remove = itemView.findViewById(R.id.remove);
 

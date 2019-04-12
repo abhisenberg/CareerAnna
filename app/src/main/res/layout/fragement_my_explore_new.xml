@@ -1,193 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragement.dashboard_fragements.PaidCoursesFragment">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme">
 
-        <LinearLayout
+        <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="8">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:tabTextAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="?android:actionBarSize"
+            app:tabMaxWidth="0dp"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/tab_layout"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="@color/light_blue"
+            android:background="@android:color/white"
+            app:tabIndicatorColor="@color/light_blue"
+            >
 
+        </android.support.design.widget.TabLayout>
 
-            <Button
-                android:id="@+id/free"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:background="@drawable/border_explore_active"
-                android:paddingRight="12dp"
-                android:text="@string/free"
-                android:textColor="@color/colorPrimary"
-                android:textSize="11sp" />
-
-            <Button
-                android:id="@+id/premium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="4"
-                android:background="@drawable/border_explore_non_active"
-                android:paddingRight="4dp"
-                android:text="@string/premium"
-                android:textColor="@color/non_active_tab"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/relative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
-                android:id="@+id/choose_exam_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:id="@+id/search_layout"
-                android:background="#ffffff"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_height="wrap_content">
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchTrend"
-                android:layout_below="@id/choose_exam_rv"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/border_serach"
-                android:layout_marginTop="10dp"
-                app:queryBackground="@android:color/transparent"
-                android:layout_marginRight="10dp"
-                android:focusable="false"
-                android:gravity="center"
-                android:paddingRight="10dp"
-                android:textSize="14sp"
-                app:iconifiedByDefault="false"
-                app:queryHint="Search" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <LinearLayout
+        <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:id="@+id/view_pager_courses"
+            android:background="#f1f0f0"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/free_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardElevation="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+        </android.support.v4.view.ViewPager>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:weightSum="13"
-                        android:background="#f1f0f0"
-                        >
-
-                        <android.support.v7.widget.RecyclerView
-                            android:background="#f1f0f0"
-                            android:id="@+id/free_course_rv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/premium_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                app:cardElevation="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#f1f0f0"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:background="#f1f0f0"
-                        android:weightSum="13">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/paid_courses_rv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/no_record_card"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:elevation="20dp"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/no_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_no_video" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/no_search"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/no_record_found"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
+    </android.support.design.widget.AppBarLayout>
 
 </RelativeLayout>

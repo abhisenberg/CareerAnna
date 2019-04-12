@@ -128,7 +128,7 @@
                     android:id="@+id/checkout1"
                     android:drawableRight="@drawable/ic_send_black_24dp"
                     android:text="Proced To CheckOut"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/border_curved_apply"
                     />
 
             </RelativeLayout>

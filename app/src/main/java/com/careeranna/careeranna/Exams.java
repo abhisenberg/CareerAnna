@@ -4,12 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +36,12 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.activity.MyCourses;
+import com.careeranna.careeranna.data.Topic;
+import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.NoInternetFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.CoursesWithSearchFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreNew;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TestFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.TutorialFragment;
@@ -48,26 +58,37 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class Exams extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragment.OnFragemntClickListener {
+public class Exams extends AppCompatActivity implements NoInternetFragment.OnFragemntClickListener {
 
     public static final String TAG = "Exams";
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle mToggle;
+//    private DrawerLayout drawerLayout;
+//    private ActionBarDrawerToggle mToggle;
 
     CircleImageView imageView;
     TextView userName, userEmail;
     FirebaseAuth mAuth;
 
-    NavigationView navigationView;
+//    NavigationView navigationView;
     TutorialFragment tutorialFragment;
     NotesFragment notesFragment;
     TestFragment testFragment;
     NoInternetFragment noInternetFragment;
 
+    RelativeLayout relativeLayout;
+
+    Boolean isMock = false;
+
+
+    TabLayout tabLayout;
+
+    private Context context;
+
+    ViewPager viewPager;
+
     User user;
 
-    String id, name, urls;
+    String id, name, urls, type;
 
     int fragement_id;
 
@@ -84,60 +105,141 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
         Log.d(TAG, "onCreate: ");
 
-        navigationView = findViewById(R.id.nav_view1);
-        drawerLayout = findViewById(R.id.drawelayout1);
+//        navigationView = findViewById(R.id.nav_view1);
+//        drawerLayout = findViewById(R.id.drawelayout1);
+
+        relativeLayout = findViewById(R.id.relative_loading);
 
         mAuth = FirebaseAuth.getInstance();
 
-        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+//        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
-        drawerLayout.addDrawerListener(mToggle);
+//        drawerLayout.addDrawerListener(mToggle);
 
         fragement_id = R.id.tutorial;
 
-        mToggle.syncState();
+        initializeFragement();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(getSupportActionBar() != null) {
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.view_pager_courses);
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        Paper.init(this);
+        viewPager.setOffscreenPageLimit(3);
 
         id = getIntent().getStringExtra("course_ids");
         name = getIntent().getStringExtra("course_name");
         urls = getIntent().getStringExtra("course_image");
+        type = getIntent().getStringExtra("type");
 
         String cache = Paper.book().read("user");
-        if(cache != null && !cache.isEmpty()) {
-            user =  new Gson().fromJson(cache, User.class);
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
 
             profile_pic_url = user.getUser_photo().replace("\\", "");
             mUsername = user.getUser_username();
             mEmail = user.getUser_email();
         }
 
-        navigationView.setNavigationItemSelectedListener(this);
+        tabLayout.addTab(tabLayout.newTab().setText("Videos"));
 
-        setHeader();
-
-        getSupportActionBar().setTitle(getResources().getString(R.string.videos));
-        navigationView.setCheckedItem(R.id.tutorial);
-
-        initializeFragement();
-
-        fragmentManager = getSupportFragmentManager();
-
-        if(amIConnect()) {
-
-            fetchUnit();
-
-            fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
-        } else {
-            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(name);
         }
+
+        if(!type.equals("free")) {
+            tabLayout.addTab(tabLayout.newTab().setText("E-Books"));
+            tabLayout.addTab(tabLayout.newTab().setText("Test"));
         }
+
+        setViewPager();
+//        mToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        Paper.init(this);
+
+
+//
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        setHeader();
+
+//        navigationView.setCheckedItem(R.id.tutorial);
+
+
+//        fragmentManager = getSupportFragmentManager();
+
+    }
+
+
+    public class PagerAdapter extends FragmentStatePagerAdapter {
+        int mNumOfTabs;
+
+        public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+            super(fm);
+            this.mNumOfTabs = NumOfTabs;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position) {
+                case 0:
+                    if(isMock) {
+                        return "E-Books";
+                    }
+                    return "Videos";
+                case 1:
+                    if(isMock) {
+                        return "Test";
+                    }
+                    return "E-Books";
+                case 2:
+                    return "Test";
+                default:
+                    return  "";
+            }
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    if(isMock) {
+                        fetchPdf();
+                        return notesFragment;
+                    } else {
+                        fetchUnit();
+                        return tutorialFragment;
+                    }
+
+                case 1:
+                    if(isMock) {
+                        return testFragment;
+                    } else {
+                        fetchPdf();
+                        return notesFragment;
+                    }
+                case 2:
+                    return testFragment;
+
+            }
+
+            return noInternetFragment;
+        }
+
+        @Override
+        public int getCount() {
+            return mNumOfTabs;
+        }
+    }
 
 
     public TutorialFragment getTutorialFragment() {
@@ -152,147 +254,140 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         notesFragment = new NotesFragment();
         testFragment = new TestFragment();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.reset_course, menu);
-        return true;
-    }
 
-    private void setHeader() {
-
-        View headerView = navigationView.getHeaderView(0);
-
-        CircleImageView profile = headerView.findViewById(R.id.navImage);
-        userName = headerView.findViewById(R.id.navUsername);
-        userEmail = headerView.findViewById(R.id.navUseremail);
-
-        /*
-        If there is no image url provided, then write the initial letter of the username
-         */
-        TextView initialAlphabet = headerView.findViewById(R.id.nav_username_initial);
-        if (!profile_pic_url.isEmpty()) {
-            Glide.with(this).load(profile_pic_url).into(profile);
-            initialAlphabet.setVisibility(View.INVISIBLE);
-        } else {
-            initialAlphabet.setVisibility(View.VISIBLE);
-            initialAlphabet.setText(mUsername.substring(0, 1));
-        }
-        userName.setText(mUsername);
-        userEmail.setText(mEmail);
-    }
+//    private void setHeader() {
+//
+//        View headerView = navigationView.getHeaderView(0);
+//
+//        CircleImageView profile = headerView.findViewById(R.id.navImage);
+//        userName = headerView.findViewById(R.id.navUsername);
+//        userEmail = headerView.findViewById(R.id.navUseremail);
+//
+//        /*
+//        If there is no image url provided, then write the initial letter of the username
+//         */
+//        TextView initialAlphabet = headerView.findViewById(R.id.nav_username_initial);
+//        if (!profile_pic_url.isEmpty()) {
+//            Glide.with(this).load(profile_pic_url).into(profile);
+//            initialAlphabet.setVisibility(View.INVISIBLE);
+//        } else {
+//        }
+//        userName.setText(mUsername);
+//        userEmail.setText(mEmail);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
 
-        if(id == R.id.reset) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // API 5+ solution
+                onBackPressed();
+                return true;
 
-            Toast.makeText(this, "Reset Your Course", Toast.LENGTH_SHORT).show();
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-
-        if(mToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-        int id = menuItem.getItemId();
-
-        fragement_id = menuItem.getItemId();
-
-        if(amIConnect()) {
-
-            if (id == R.id.signout) {
-
-                mAuth.signOut();
-                LoginManager.getInstance().logOut();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-
-            } else if (id == R.id.tutorial) {
-
-                fetchUnit();
-                navigationView.setCheckedItem(R.id.tutorial);
-                fragmentManager.beginTransaction().replace(R.id.main_content, tutorialFragment).commit();
-                getSupportActionBar().setTitle(getResources().getString(R.string.videos));
-
-            } else if (id == R.id.notes) {
-
-                fetchPdf();
-
-                navigationView.setCheckedItem(R.id.notes);
-                fragmentManager.beginTransaction().replace(R.id.main_content, notesFragment).commit();
-                getSupportActionBar().setTitle(getResources().getString(R.string.ebooks));
-
-            } else if (id == R.id.test) {
-
-                navigationView.setCheckedItem(R.id.test);
-                fragmentManager.beginTransaction().replace(R.id.main_content, testFragment).commit();
-                getSupportActionBar().setTitle(getResources().getString(R.string.test));
-
-            } else if (id == R.id.goBackHome) {
-
-                startActivity(new Intent(Exams.this, MyCourses.class));
-                finish();
-            }
-        } else {
-            fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
-
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+//        if (mToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
 
     }
 
     private void fetchUnit() {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading Videos .. ");
-        progressDialog.show();
+        relativeLayout.setVisibility(View.VISIBLE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/getUserWatchedVideo.php?product_id="+id+"&user="+user.getUser_id();
+        String url = "https://careeranna.com/api/getCourseVideosOfUserApp.php?product_id=" + id + "&user=" + user.getUser_id();
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ArrayList<String> course = new ArrayList<>();
-                        ArrayList<String> watched = new ArrayList<>();
+                        ArrayList<Unit> mUnits = new ArrayList<>();
+                        String last_played_id = "";
+                        String shareUrl = "";
                         try {
-                            Log.i("pdf", response);
-                            if(!response.equals("No results")) {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("content");
-                                for(int i=0;i<jsonArray.length();i++) {
-                                    course.add((String)jsonArray.get(i));
+                            if (!response.equals("No results")) {
+//                                navigationView.setCheckedItem(R.id.tutorial);
+                                Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
+                                JSONObject obj = new JSONObject(response);
+                                JSONArray watched = obj.getJSONArray("watched");
+
+                                ArrayList<String> userWatched = new ArrayList<>();
+                                for (int i = 0; i < watched.length(); i++) {
+                                    JSONObject jsonObject = watched.getJSONObject(i);
+                                    userWatched.add(jsonObject.getString("video_id"));
                                 }
-                                JSONArray jsonArray1 = jsonObject.getJSONArray("watch_list");
-                                for(int i=0;i<jsonArray1.length();i++) {
-                                    JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
-                                    watched.add(jsonObject1.getString("video_id"));
+                                JSONArray videosArray = obj.getJSONArray("videos");
+                                for (int i = 0; i < videosArray.length(); i++) {
+                                    JSONObject jsonObject = videosArray.getJSONObject(i);
+                                    if (jsonObject.has("main")) {
+                                        mUnits.add(new Unit(jsonObject.getString("main"), check));
+                                    }
+                                    if (jsonObject.has("heading")) {
+                                        if (mUnits.size() == 0) {
+                                            Unit unit = new Unit(name, check);
+                                            mUnits.add(unit);
+                                        }
+                                        if(userWatched.contains(jsonObject.getString("id"))) {
+                                            mUnits.get(mUnits.size() - 1)
+                                                    .topics.add(new Topic(
+                                                    jsonObject.getString("id"),
+                                                    jsonObject.getString("heading"),
+                                                    jsonObject.getString("video_url"),
+                                                    true,
+                                                    jsonObject.getString("duration")
+
+                                            ));
+                                            last_played_id = jsonObject.getString("video_url");
+                                            shareUrl = jsonObject.getString("heading");
+                                        } else {
+                                            mUnits.get(mUnits.size() - 1)
+                                                    .topics.add(new Topic(
+                                                    jsonObject.getString("id"),
+                                                    jsonObject.getString("heading"),
+                                                    jsonObject.getString("video_url"),
+                                                    false,
+                                                    jsonObject.getString("duration")
+
+                                            ));
+                                        }
+
+                                    }
                                 }
+                                tutorialFragment.addCourseUnits(mUnits,last_played_id, shareUrl);
+                                tutorialFragment.addType(type);
+                                relativeLayout.setVisibility(View.GONE);
                             } else {
-                                course.add("No results");
+
+                                relativeLayout.setVisibility(View.GONE);
+                                tabLayout.removeAllTabs();
+
+                                isMock = true;
+                                tabLayout.addTab(tabLayout.newTab().setText("E-Books"));
+                                tabLayout.addTab(tabLayout.newTab().setText("Test"));
+
+                                setViewPager();
+
+//                                navigationView.setCheckedItem(R.id.notes);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        tutorialFragment.addCourseUnits(course, watched);
-                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Exams.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
+                if(progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                relativeLayout.setVisibility(View.GONE);
             }
         });
         requestQueue.add(stringRequest);
@@ -300,19 +395,16 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
     private void fetchPdf() {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading the PDF, please wait... ");
-        progressDialog.show();
-
+        relativeLayout.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://www.careeranna.com/api/getPdfWithHeading.php?id="+id;
+        String url = "https://www.careeranna.com/api/getPdfWithHeading.php?id=" + id;
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(!response.equals("No results")) {
+                        if (!response.equals("No results")) {
                             String status = "No pdf";
                             ArrayList<String[]> pdf_links_and_titles = new ArrayList<>();
 
@@ -322,9 +414,9 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                 JSONArray pdfs_links_json = jsonObject.getJSONArray("pdfs");
                                 JSONArray pdfs_title_json = jsonObject.getJSONArray("materials");
 
-                                Log.d(TAG, "onResponse: "+pdfs_links_json);
+                                Log.d(TAG, "onResponse: " + pdfs_links_json);
 
-                                for(int i=0; i<pdfs_links_json.length(); i++){
+                                for (int i = 0; i < pdfs_links_json.length(); i++) {
                                     /*
                                     The first element of the array link_and_title is the link of the pdf and the second element
                                     is the title of the pdf.
@@ -335,7 +427,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                     pdf_links_and_titles.add(link_and_title);
                                 }
 
-                                if(!pdf_links_and_titles.isEmpty()){
+                                if (!pdf_links_and_titles.isEmpty()) {
                                     status = "Select your notes from here:";
                                 }
 
@@ -344,7 +436,8 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                 e.printStackTrace();
                                 status = "No Pdf";
                             }
-                            progressDialog.dismiss();
+
+                            relativeLayout.setVisibility(View.GONE);
 
                             notesFragment.addPDFs(pdf_links_and_titles, status);
                         }
@@ -353,29 +446,29 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Exams.this, "Error Occurred", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
+                relativeLayout.setVisibility(View.GONE);
             }
         });
         requestQueue.add(stringRequest);
     }
 
-    public void removeActionBar(){
+    public void removeActionBar() {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null && actionBar.isShowing()){
+        if (actionBar != null && actionBar.isShowing()) {
             actionBar.hide();
         }
     }
 
-    public void showActionBar(){
+    public void showActionBar() {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null && !actionBar.isShowing()){
+        if (actionBar != null && !actionBar.isShowing()) {
             actionBar.show();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if(tutorialFragment.isPlayerFullscreen())
+        if (tutorialFragment.isPlayerFullscreen())
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
             super.onBackPressed();
@@ -392,41 +485,36 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onItemClick1() {
-        if(fragement_id == R.id.signout) {
+        recreate();
+    }
 
-            mAuth.signOut();
-            LoginManager.getInstance().logOut();
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+    public void setViewPager() {
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount()));
 
-        } else if(fragement_id == R.id.tutorial) {
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setVisibility(View.VISIBLE);
 
-            fetchUnit();
-            navigationView.setCheckedItem(R.id.tutorial);
-            fragmentManager.beginTransaction().replace(R.id.main_content,tutorialFragment).commit();
-            getSupportActionBar().setTitle(getResources().getString(R.string.videos));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-        } else if(fragement_id == R.id.notes) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
-            fetchPdf();
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-            navigationView.setCheckedItem(R.id.notes);
-            fragmentManager.beginTransaction().replace(R.id.main_content,notesFragment).commit();
-            getSupportActionBar().setTitle(getResources().getString(R.string.ebooks));
+            }
 
-        } else if(fragement_id == R.id.test) {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-            navigationView.setCheckedItem(R.id.test);
-            fragmentManager.beginTransaction().replace(R.id.main_content,testFragment).commit();
-            getSupportActionBar().setTitle(getResources().getString(R.string.test));
-
-        }  else if(fragement_id == R.id.goBackHome) {
-
-            startActivity(new Intent(Exams.this, MyCourses.class));
-            finish();
-        }
-
+            }
+        });
     }
 }
+
 
 

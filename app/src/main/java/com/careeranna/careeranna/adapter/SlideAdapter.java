@@ -28,27 +28,19 @@ public class SlideAdapter extends PagerAdapter {
         this.context = context;
 
         list_title = new String[] {
-                context.getResources().getString(R.string.intro_slide1_title),
-                context.getResources().getString(R.string.intro_slide2_title),
                 context.getResources().getString(R.string.intro_slide3_title)
         };
 
         list_desc = new String[] {
-                context.getResources().getString(R.string.intro_slide1_desc),
-                context.getResources().getString(R.string.intro_slide2_desc),
-                context.getResources().getString(R.string.intro_slide3_desc)
+                context.getResources().getString(R.string.intro_slide2_desc)
         };
 
         list_sub = new String[] {
-                context.getString(R.string.intro_subhead_1),
-                context.getString(R.string.intro_subhead_2),
-                context.getString(R.string.intro_subhead_3)
+                context.getString(R.string.intro_subhead_2)
         };
 
         list_images = new int[] {
-                R.drawable.intro_pic_1_indian_languages,
-                R.drawable.intro_pic_2_video,
-                R.drawable.intro_pic_3_ques
+                R.drawable.intro_pic_2_video
         };
 
     }

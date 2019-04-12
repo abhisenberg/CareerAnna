@@ -178,9 +178,7 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onTransactionResponse(Bundle inResponse) {
-
         courseCheckout();
-
     }
 
     @Override
@@ -224,6 +222,7 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
                     public void onResponse(String response) {
                         Toast.makeText(PaytmPayment.this, response, Toast.LENGTH_SHORT).show();
                         Paper.book().delete("cart1");
+                        startActivity(new Intent(PaytmPayment.this, MyCourses.class).putExtra("fragment_name", "my_course"));
                         progressBar.setVisibility(View.INVISIBLE);
                         please_wait_tv.setVisibility(View.GONE);
                     }
@@ -247,9 +246,9 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
                 params.put("ids", getIntent().getStringExtra("ids"));
                 params.put("prices", getIntent().getStringExtra("product_prices"));
                 params.put("discount_price", getIntent().getStringExtra("discount_prices"));
-                params.put("sub_total", price1+"");
-                params.put("amount", (price1 + Math.round(price1*0.18))+"");
-                params.put("gst", (Math.round(price1*0.18))+"");
+                params.put("sub_total", getIntent().getStringExtra("grand_total")+"");
+                params.put("amount", price1+"");
+                params.put("gst", getIntent().getStringExtra("gst_total")+"");
                 return params;
             }
 

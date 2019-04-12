@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -172,6 +173,8 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
         phone = findViewById(R.id.mobile);
         city = findViewById(R.id.city);
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         tv_email.setText(user.getUser_email());
 
         if(user.getUser_username() != null) {
@@ -251,6 +254,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
             public void onClick(View v) {
                 if(name.getText().toString().length() > 0 &&
                         phone.getText().toString().length() > 0 &&
+                        phone.getText().toString().length() > 9 &&
                         city.getText().toString().length() > 0
                 ) {
 
@@ -354,7 +358,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
                                              */
                                             if(orderedCourses.get(j).getCourse_id().equals(promoCode.getProduct_id())) {
                                                 promoCodes.add(promoCode);
-                                                Toast.makeText(PaymentGateway.this, getString(R.string.promocode_applied_on) + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(PaymentGateway.this, "Promocode applied to " + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
                                                 isApplied = true;
                                                 cart_productsAdapter.changePrice(j, promoCode.getDiscount_amount());
                                                 grand_total -= Double.valueOf(promoCode.getDiscount_amount());
@@ -425,11 +429,9 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
 
             grand_total = 0;
 
-            for (String orderedCourse : arrayList) {
+            for (OrderedCourse orderedCourse : cart_productsAdapter.getOrderedCourses()) {
 
-                String course[] = orderedCourse.split(",");
-
-                grand_total += Float.valueOf(course[1]);
+                grand_total += Float.valueOf(orderedCourse.getPrice());
 
             }
 

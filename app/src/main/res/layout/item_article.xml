@@ -66,13 +66,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View Artcile"
+                android:text="View Article"
                 android:textSize="11sp"
                 android:textColor="@color/light_blue"
                 android:paddingBottom="5dp"
                 />
 
             <TextView
+                android:id="@+id/create_at"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Posted 1 Days Ago"

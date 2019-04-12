@@ -12,7 +12,6 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#fff"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_percent="0.10" />
 
@@ -28,6 +27,7 @@
             android:id="@+id/intro_dots"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:visibility="gone"
             android:orientation="horizontal"
             app:layout_constraintHeight_percent="0.1"
             android:gravity="center_horizontal"

@@ -62,6 +62,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="scalingPercent" value="53" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -71,9 +72,11 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="$USER_HOME$/Downloads/logo_background.png" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/logo_foreground.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground_new" />
+                                      <entry key="backgroundImage" value="$USER_HOME$/Downloads/Rectangle.png" />
+                                      <entry key="backgroundLayerName" value="ic_launcher_background_bolo" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/logo-06 (1).png" />
+                                      <entry key="foregroundLayerName" value="ic_launcher_foreground_bolo_new" />
+                                      <entry key="outputName" value="ic_launcher_bolo" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -146,7 +149,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_clear_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_remove_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -157,9 +160,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="b6b6b6" />
-                            <entry key="outputName" value="ic_free" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/free.svg" />
+                            <entry key="color" value="0091ea" />
+                            <entry key="outputName" value="ic_pdf" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/pdf.svg" />
                           </map>
                         </option>
                       </PersistentState>

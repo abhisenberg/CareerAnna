@@ -1,6 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class CourseVideosAdapter extends RecyclerView.Adapter<CourseVideosAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
         Glide.with(mContext)
                 .load(freeVideos.get(i).getThumbnail())
@@ -68,6 +69,19 @@ public class CourseVideosAdapter extends RecyclerView.Adapter<CourseVideosAdapte
         }
         viewHolder.likes.setText(likes+" likes");
         viewHolder.count_comment.setText("view all " + freeVideos.get(i).getCount_comments()+" comments");
+
+        viewHolder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.careeranna.com/english/free/videos/mba/"+freeVideos.get(i).getTitle().replaceAll(" ", "-"));
+                sendIntent.setType("text/plain");
+                mContext.startActivity(sendIntent);
+            }
+        });
     }
 
     @Override
@@ -79,7 +93,7 @@ public class CourseVideosAdapter extends RecyclerView.Adapter<CourseVideosAdapte
 
         ImageView video_image;
 
-        TextView duration, views, title, likes, count_comment;
+        TextView duration, views, title, likes, count_comment, share;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +104,7 @@ public class CourseVideosAdapter extends RecyclerView.Adapter<CourseVideosAdapte
             views = itemView.findViewById(R.id.course_video_views);
             title = itemView.findViewById(R.id.course_video_title);
             likes = itemView.findViewById(R.id.course_videos_likes);
+            share = itemView.findViewById(R.id.share);
             count_comment = itemView.findViewById(R.id.total_comment);
 
 

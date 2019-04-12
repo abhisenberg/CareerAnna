@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <LinearLayout
-            android:weightSum="8"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
-
+            android:weightSum="8">
 
             <Button
-                android:paddingRight="12dp"
                 android:id="@+id/free"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:layout_weight="4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:text="Free Courses"
-                />
+                android:layout_weight="4"
+                android:background="@drawable/border_explore_active"
+                android:paddingRight="12dp"
+                android:text="@string/free"
+                android:textColor="@color/colorPrimary"
+                android:textSize="11sp" />
+
             <Button
-                android:layout_marginLeft="2dp"
                 android:id="@+id/premium"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:layout_weight="4"
-                android:paddingRight="4dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:text="Premium Courses"
-                />
+                android:layout_marginLeft="2dp"
+                android:layout_weight="4"
+                android:background="@drawable/border_explore_non_active"
+                android:paddingRight="4dp"
+                android:text="@string/premium"
+                android:textColor="@color/non_active_tab"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -49,68 +59,34 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
-                app:cardElevation="10dp"
                 android:id="@+id/free_card"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:cardElevation="10dp">
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/free_course_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:background="#f1f0f0" />
 
-
-
-                    <LinearLayout
-                        android:background="#f1f0f0"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:background="#f1f0f0"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/free_course_rv"
-                            />
-
-                    </LinearLayout>
-
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/premium_card"
-                android:visibility="invisible"
-                app:cardElevation="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:cardElevation="10dp">
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/paid_courses_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:background="#f1f0f0"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="wrap_content"
-                            android:background="#f1f0f0"
-                            android:id="@+id/paid_courses_rv"
-                            />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:background="#f1f0f0" />
 
             </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
     </LinearLayout>

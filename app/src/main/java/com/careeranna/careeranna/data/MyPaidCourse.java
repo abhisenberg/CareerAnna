@@ -1,6 +1,8 @@
 package com.careeranna.careeranna.data;
 
-public class MyPaidCourse {
+import java.io.Serializable;
+
+public class MyPaidCourse implements Serializable {
 
     private String product_id;
 

@@ -3,6 +3,7 @@ package com.careeranna.careeranna.fragement.profile_fragements;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -31,6 +33,8 @@ import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
 import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.PurchaseCourseDetail;
+import com.careeranna.careeranna.adapter.CourseContentAdapter;
 import com.careeranna.careeranna.adapter.CourseVideoAdapter;
 import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Topic;
@@ -78,13 +82,18 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     ImageView imageView;
 
+    Button share;
+
+    String type;
+
+    public String shareUrl;
 
     public TutorialFragment() {
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tutorial, container, false);
@@ -94,6 +103,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         playerView = view.findViewById(R.id.videoView);
         video_heading_rv = view.findViewById(R.id.videos_rv);
         imageView = view.findViewById(R.id.image_view);
+        share = view.findViewById(R.id.share);
         if (getActivity() != null) {
             if (getActivity().getWindow() != null) {
                 new KeepScreenOnHandler(playerView, getActivity().getWindow());
@@ -109,102 +119,81 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         cardView = view.findViewById(R.id.card);
 
         listView = view.findViewById(R.id.expandableunit);
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shareUrl != null) {
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.careeranna.com/english/free/videos/mba/"+shareUrl.replaceAll(" ", "-"));
+                    sendIntent.setType("text/plain");
+                    inflater.getContext().startActivity(sendIntent);
+
+                }}
+        });
+
         return view;
     }
 
-    public void addCourseUnits(ArrayList<String> course, ArrayList<String> watched) {
+    public void addCourseUnits(ArrayList<Unit> mUnits, String last_played_url, String shareUrl) {
 
         Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
 
-        mUnits = new ArrayList<>();
-
-        if (course.size() == 0 || course.get(0).equals("No results")) {
+        if (mUnits.size() == 0) {
             playerView.setVisibility(GONE);
             cardView.setVisibility(View.VISIBLE);
+            share.setVisibility(GONE);
         } else {
 
+            this.mUnits = new ArrayList<>();
+            this.mUnits.addAll(mUnits);
+            video_heading_rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-            String last_played_url = "";
-            for (String unitsname : course) {
-                if (unitsname.length() > 0) {
-                    char c = unitsname.charAt(0);
-                    if (c != '$') {
-                        Unit unit = new Unit(unitsname, check);
-                        mUnits.add(unit);
-                    } else {
-                        if(mUnits.size() == 0) {
-                            Unit unit = new Unit("Introduction", check);
-                            mUnits.add(unit);
-                        }
-                        String array[] = unitsname.split(",url");
-                        if (array.length == 3) {
-                            if(watched.size() > 0) {
-                                if(watched.get(watched.size()-1).equals(array[2])) {
-                                    last_played_url = array[1];
-                                }
-                            }
-                            Topic topic = new Topic(array[0].substring(1), array[1]);
-                            if (watched.contains(array[2])) {
-                                topic.setWatched(true);
-                            } else {
-                                topic.setWatched(false);
-                            }
-                            mUnits.get(mUnits.size() - 1).topics.add(topic);
-                        } else if (array.length == 2) {
-                            Topic topic = new Topic(array[0].substring(1), array[1]);
-                            if (watched.contains(array[2])) {
-                                topic.setWatched(true);
-                            } else {
-                                topic.setWatched(false);
-                            }
-                            mUnits.get(mUnits.size() - 1).topics.add(topic);
-                        } else {
-                            Topic topic = new Topic(array[0].substring(1), "");
-                            if (watched.contains(array[2])) {
-                                topic.setWatched(true);
-                            } else {
-                                topic.setWatched(false);
-                            }
-                            mUnits.get(mUnits.size() - 1).topics.add(topic);
-                        }
-                    }
-                }
+            CourseContentAdapter courseContentAdapter = new CourseContentAdapter(mUnits, context);
+            video_heading_rv.setAdapter(courseContentAdapter);
+            courseContentAdapter.addFragment(this);
+
 
                 /*
                 Play the first video of the course by default
                  */
-                if(!last_played_url.equals("")) {
-                    playVideo(last_played_url);
-                } else {
-                    if (!mUnits.isEmpty()) {
-                        if (!mUnits.get(0).topics.isEmpty()) {
-                            if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
-                                playVideo(mUnits.get(0).topics.get(0).getVideos());
-                            }
+            this.shareUrl = shareUrl;
+
+            if (!last_played_url.equals("")) {
+                playVideo(last_played_url, shareUrl);
+            } else {
+                if (!mUnits.isEmpty()) {
+                    if (!mUnits.get(0).topics.isEmpty()) {
+                        if (!mUnits.get(0).topics.get(0).getVideos().equals("")) {
+                            this.shareUrl = mUnits.get(0).topics.get(0).getName();
+                            playVideo(mUnits.get(0).topics.get(0).getVideos(), mUnits.get(0).topics.get(0).getName());
                         }
                     }
-
                 }
-                video_heading_rv.setLayoutManager(new LinearLayoutManager(context));
-                video_heading_rv.setHasFixedSize(true);
 
-                CourseVideoAdapter courseVideoAdapter = new CourseVideoAdapter(mUnits, context, this);
-                video_heading_rv.setAdapter(courseVideoAdapter);
-
-                listAdapter = new ExpandableList_Adapter(getApplicationContext(), mUnits, listView);
-                listView.setAdapter(listAdapter);
-                listAdapter.setOnItemClicklistener(this);
             }
+
         }
     }
 
+    public void addType(String type) {
+        this.type = type;
+        if(type.equals("paid")) {
+            share.setVisibility(GONE);
+        }
+    }
 
     @Override
     public void onItemClick1(int parent, int child) {
-        playVideo(mUnits.get(parent).topics.get(child).getVideos());
+        playVideo(mUnits.get(parent).topics.get(child).getVideos(), mUnits.get(parent).topics.get(child).getName());
     }
 
-    public void playVideo(String videoUrl) {
+    public void playVideo(String videoUrl, String heading) {
+
+        this.shareUrl = heading;
         PlaylistItem playlistItem = new PlaylistItem.Builder()
                 .file(videoUrl)
                 .build();

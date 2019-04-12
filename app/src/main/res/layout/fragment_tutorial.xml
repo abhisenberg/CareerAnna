@@ -37,6 +37,19 @@
         </com.longtailvideo.jwplayer.JWPlayerView>
 
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/videoView"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="Share"
+            android:drawablePadding="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_share"
+            android:id="@+id/share"
+            />
+
         <ExpandableListView
             android:visibility="gone"
             android:background="@color/white"
@@ -48,7 +61,7 @@
             android:orientation="horizontal"
             android:layout_marginRight="20dp"
             android:choiceMode="singleChoice"
-            android:layout_below="@+id/videoView"
+            android:layout_below="@+id/share"
             android:id="@+id/expandableunit" />
 
         <android.support.v7.widget.RecyclerView
@@ -57,7 +70,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
-            android:layout_below="@+id/videoView"
+            android:layout_below="@+id/share"
             android:id="@+id/videos_rv"
             />
 
@@ -66,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:visibility="gone"
-            android:layout_below="@id/videoView"
+            android:layout_below="@id/share"
             android:layout_centerInParent="true"
             android:elevation="10dp"
             android:id="@+id/card">

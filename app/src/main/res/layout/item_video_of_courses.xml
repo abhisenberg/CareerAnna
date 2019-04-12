@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:drawableLeft="@drawable/ic_heart"
+                android:drawableLeft="@drawable/ic_thumbs_up_hand_symbol"
                 android:layout_alignParentLeft="true"
                 android:textColor="@android:color/black"
                 />

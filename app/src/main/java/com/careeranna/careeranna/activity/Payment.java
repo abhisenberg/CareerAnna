@@ -384,8 +384,8 @@ public class Payment extends AppCompatActivity{
                     try {
                         JSONObject jsonObject = new JSONObject(data.getStringExtra("payu_response"));
 
-                        if(jsonObject.has("status")) {
-                            if(jsonObject.getString("status").equalsIgnoreCase("success")) {
+                        if (jsonObject.has("status")) {
+                            if (jsonObject.getString("status").equalsIgnoreCase("success")) {
                                 courseCheckout();
                             }
                         }
@@ -395,15 +395,6 @@ public class Payment extends AppCompatActivity{
                     }
 
                 }
-
-                new AlertDialog.Builder(this)
-                        .setCancelable(false)
-                        .setMessage("Payu's Data : " + data.getStringExtra("payu_response") + "\n\n\n Merchant's Data: " + data.getStringExtra("result"))
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }).show();
 
             } else {
                 Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
@@ -422,6 +413,7 @@ public class Payment extends AppCompatActivity{
                     public void onResponse(String response) {
                         Toast.makeText(Payment.this, response, Toast.LENGTH_SHORT).show();
                         Paper.book().delete("cart1");
+                        startActivity(new Intent(Payment.this, MyCourses.class).putExtra("fragment_name", "my_course"));
                         progressBar.setVisibility(View.INVISIBLE);
                         please_wait_tv.setVisibility(View.GONE);
                     }
@@ -446,9 +438,9 @@ public class Payment extends AppCompatActivity{
                 params.put("ids", getIntent().getStringExtra("ids"));
                 params.put("prices", getIntent().getStringExtra("product_prices"));
                 params.put("discount_price", getIntent().getStringExtra("discount_prices"));
-                params.put("sub_total", price+"");
-                params.put("amount", (price + Math.round(price*0.18))+"");
-                params.put("gst", (Math.round(price*0.18))+"");
+                params.put("sub_total", getIntent().getStringExtra("grand_total")+"");
+                params.put("amount", price+"");
+                params.put("gst", getIntent().getStringExtra("gst_total")+"");
                 return params;
             }
 

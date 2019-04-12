@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse"
             android:layout_width="match_parent"
@@ -21,6 +22,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="#0e0d0e"
             app:expandedTitleTextAppearance="@android:color/transparent">
+
             <WebView
                 android:id="@+id/wv_demoVideo"
                 android:layout_width="match_parent"
@@ -39,6 +41,12 @@
                 android:adjustViewBounds="true"
                 />
 
+            <com.longtailvideo.jwplayer.JWPlayerView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                />
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -49,20 +57,6 @@
         android:layout_gravity="center"
         android:visibility="invisible"
         android:id="@+id/progress_bar_course"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:id="@+id/btn_cart"
-        android:src="@drawable/ic_add_shopping_cart_black_24dp"
-        android:backgroundTint="@color/colorPrimary"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/description_card"
-        android:layout_marginRight="10dp"
-        app:layout_anchorGravity="right"
         />
 
     <android.support.v4.widget.NestedScrollView
@@ -82,17 +76,13 @@
                 android:id="@+id/description_card"
                 layout="@layout/course_description_card"/>
 
-            <com.careeranna.careeranna.misc.ExpandableListViewForNestedScroll
-                android:id="@+id/purchaseCourse_expandableUnit"
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/list_item_shadow"
-                android:orientation="vertical" />
+                android:layout_height="wrap_content"
+                android:id="@+id/course_content_rv"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                />
 
             <android.support.design.card.MaterialCardView
                 android:padding="5dp"
@@ -104,12 +94,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/course_content_rv"
-                    />
-
                 <WebView
                     android:id="@+id/wv_productDesc"
                     android:visibility="gone"
@@ -119,8 +103,6 @@
                 </WebView>
 
             </android.support.design.card.MaterialCardView>
-
-
 
         </LinearLayout>
 

@@ -1,85 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragement.dashboard_fragements.MyCoursesFragment">
+    tools:context=".fragement.dashboard_fragements.PaidCoursesFragment">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:visibility="invisible"
-            android:layout_centerInParent="true"
-            android:elevation="10dp"
-            android:id="@+id/card"
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:tabTextAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="?android:actionBarSize"
+            app:tabMaxWidth="0dp"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/tab_layout"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="@color/light_blue"
+            android:background="@android:color/white"
+            app:tabIndicatorColor="@color/light_blue"
             >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+        </android.support.design.widget.TabLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_course_added"
-                    />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_cart"
-                    android:layout_marginTop="10dp"
-                    />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <LinearLayout
+        <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
-            android:id="@+id/search_layout"
-            android:background="#ffffff"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:id="@+id/view_pager_courses"
+            android:background="#f1f0f0"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-            <android.support.v7.widget.SearchView
-                android:textSize="11sp"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/border_serach"
-                android:focusable="false"
-                app:iconifiedByDefault="false"
-                app:queryBackground="@android:color/transparent"
-                app:queryHint="@string/search_your_course"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:id="@+id/search"
-                android:layout_height="30dp" />
-
-        </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/search_layout"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/my_courses" />
+        </android.support.v4.view.ViewPager>
 
 
-    </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
 
-</FrameLayout>
+</RelativeLayout>

@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import static android.view.View.GONE;
 
-public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.ViewHolder> {
+public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHolder> {
 
     private ArrayList<Course> freeVideos;
     private Context mContext;
@@ -35,12 +35,12 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
         void onItemClick1(String type, int position);
     }
 
-    public void setOnItemClicklistener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
 
-    public FreeCourseAdapter(ArrayList<Course> freeVideos, Context mContext) {
+    public CoursesAdapter(ArrayList<Course> freeVideos, Context mContext) {
         this.freeVideos = freeVideos;
         this.mContext = mContext;
     }
@@ -48,7 +48,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_free_course_new, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_course_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -132,7 +132,6 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
                     if(mListener != null) {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
-                            Log.i("type", freeVideos.get(position).getType());
                             mListener.onItemClick1(freeVideos.get(position).getType(), position);
                         }
                     }

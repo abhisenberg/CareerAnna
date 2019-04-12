@@ -1,8 +1,6 @@
 package com.careeranna.careeranna.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,17 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.JW_Player_Files.KeepScreenOnHandler;
+import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.CommentAdapter;
 import com.careeranna.careeranna.adapter.PlaylistAdapter;
@@ -68,34 +64,26 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
     public static final String TAG = "VideoWithComment";
     RecyclerView recyclerView;
 
-    SearchView searchView;
-
     FreeVideos freeVideos;
 
-    RelativeLayout relativeLayout1, create_relative, add_relative;
+    RelativeLayout relativeLayout1;
 
     Snackbar snackbar;
-    PlaylistAdapter playlistAdapter;
-
-    ArrayList<String> playlist;
 
     private JWPlayerView playerView;
 
     CommentAdapter commentAdapter;
 
-    Button addToPlayList, createPlayList;
-
     private boolean is_liked, is_dislike;
 
     ArrayList<Comment> comments;
 
-    EditText comment_tv, play_list_item;
+    EditText comment_tv;
 
     String id = "";
 
-    ProgressBar progressBar;
 
-    TextView views, likes, unlikes;
+    TextView views, unlikes;
 
     Button up, thumbdown;
 
@@ -109,15 +97,11 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
 
     Button addComment, cancel;
 
-    RecyclerView playlist_rv;
-
     CircleImageView image;
 
     RequestQueue requestQueue1;
 
     boolean isUpdating = false;
-
-    ArrayList<PlayListItem> playlistItems, tempPlaylists;
 
     AlertDialog alert;
 
@@ -156,7 +140,7 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
                             img.setBounds(0, 0, 30, 30);
                             up.setCompoundDrawables(img, null, null, null);
                             int likes = Integer.valueOf(up.getText().toString()) - 1;
-                            up.setText(likes + "");
+                            up.setText(NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(likes)) + "");
                             up.setTextColor(getResources().getColor(R.color.dark_gray));
                             is_liked = false;
                             liked_once = false;
@@ -207,8 +191,8 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
                         Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_up_hand_symbol_blue);
                         img.setBounds(0, 0, 30, 30);
                         up.setCompoundDrawables(img, null, null, null);
-                        int likes = Integer.valueOf(up.getText().toString()) + 1;
-                        up.setText(likes + "");
+                        int likes = Integer.valueOf(up.getText().toString().replaceAll(",", "")) + 1;
+                        up.setText(NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(likes)) + "");
                         up.setTextColor(getResources().getColor(R.color.sign_in_button_color));
                         is_liked = true;
                         liked_once = true;
@@ -217,8 +201,8 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
                         Drawable img = getResources().getDrawable(R.drawable.ic_thumbs_up_hand_symbol);
                         img.setBounds(0, 0, 30, 30);
                         up.setCompoundDrawables(img, null, null, null);
-                        int likes = Integer.valueOf(up.getText().toString()) - 1;
-                        up.setText(likes + "");
+                        int likes = Integer.valueOf(up.getText().toString().replaceAll(",", "")) - 1;
+                        up.setText(NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(likes)) + "");
                         up.setTextColor(getResources().getColor(R.color.dark_gray));
                         is_liked = false;
                         liked_once = false;
@@ -303,7 +287,7 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
             id = freeVideos.getId();
             String viewsFormated = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(freeVideos.getTotal_view()));
             views.setText(viewsFormated + " Views");
-            up.setText(freeVideos.getLikes());
+            up.setText(NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(freeVideos.getLikes())));
             unlikes.setText(freeVideos.getDislikes());
         }
 
@@ -418,30 +402,21 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
                     @Override
                     public void onResponse(String response) {
                         Log.d("liked_response", response);
-                        snackbar.dismiss();
                         if(response.equals("updated")) {
                             isUpdating = false;
-                            snackbar = Snackbar.make(relativeLayout1, "Your Response is saved!", Snackbar.LENGTH_SHORT);
-                            snackbar.show();
                         } else {
                             isUpdating = false;
-                            snackbar = Snackbar.make(relativeLayout1, "Something Went Wrong Your Response is not saved!", Snackbar.LENGTH_SHORT);      }
-                        snackbar.show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        snackbar.dismiss();
-                        isUpdating = false;
-                        snackbar = Snackbar.make(relativeLayout1, "Something Went Wrong!", Snackbar.LENGTH_SHORT);
-                        snackbar.show();
 
+                        isUpdating = false;
                     }
                 });
         if(!isUpdating) {
-            snackbar = Snackbar.make(relativeLayout1, "Please Wait Saving Response", Snackbar.LENGTH_SHORT);
-            snackbar.show();
             requestQueue1.add(stringRequest);
         }
     }
@@ -526,24 +501,6 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
         super.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onFullscreen(FullscreenEvent fullscreenEvent) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            Log.d(TAG, "27+ onFullscreen: Went fullscreen "+fullscreenEvent.getFullscreen());
-        } else {
-            Log.d(TAG, "27- onFullscreen: Went fullscreen "+fullscreenEvent.getFullscreen());
-        }
-
-        if(fullscreenEvent.getFullscreen()){
-            //If fullscreen, remove the action bar
-            Log.d(TAG, "onFullscreen: trying to go fullscreen");
-
-        } else {
-            //If not fullscreen, show the action bar
-            Log.d(TAG, "onFullscreen: not in fullscreen");
-        }
-    }
-
     public boolean isPlayerFullscreen(){
         return playerView.getFullscreen();
     }
@@ -554,7 +511,6 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
                 "https://careeranna.com/api/addComment.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("url_response", "Register Response: " + response);
                 Toast.makeText(activity_with_comment.this, "Comment Created Successfully!", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
@@ -580,6 +536,32 @@ public class activity_with_comment extends AppCompatActivity implements VideoPla
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // API 5+ solution
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }}
+
+    @Override
+    public void onFullscreen(FullscreenEvent fullscreenEvent) {
+        if (fullscreenEvent.getFullscreen()) {
+            //If fullscreen, remove the action bar
+           if(getSupportActionBar() != null) {
+               getSupportActionBar().hide();
+           }
+        } else {
+            //If not fullscreen, show the action bar
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().show();
+            }
+        }
+    }
 
 
 }

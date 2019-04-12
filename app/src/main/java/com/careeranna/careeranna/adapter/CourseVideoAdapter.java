@@ -60,7 +60,7 @@ public class CourseVideoAdapter extends RecyclerView.Adapter<CourseVideoAdapter.
 
     @Override
     public void onVideoItemClick(Topic topic) {
-        tutorialFragment.playVideo(topic.getVideos());
+        tutorialFragment.playVideo(topic.getVideos(), "");
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {

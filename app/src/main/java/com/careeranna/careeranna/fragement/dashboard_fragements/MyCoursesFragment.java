@@ -4,7 +4,11 @@ package com.careeranna.careeranna.fragement.dashboard_fragements;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +23,14 @@ import com.careeranna.careeranna.Exams;
 import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
+import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.CourseWithLessData;
+import com.careeranna.careeranna.fragement.MyCourseTabFragment;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import java.util.ArrayList;
+
+import io.paperdb.Paper;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -40,6 +48,13 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     RecyclerView mRecyclerView;
     private int rv_currentPage;
 
+
+    TabLayout tabLayout;
+
+    private Context context;
+
+    ViewPager viewPager;
+
     public MyCoursesFragment() {
         // Required empty public constructor
     }
@@ -49,14 +64,54 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         this.course = course;
         this.tempCourse = course;
 
-        if (course.size() == 0) {
-            cardView.setVisibility(View.VISIBLE);
+        viewPager.setAdapter(new PagerAdapter(getFragmentManager(), tabLayout.getTabCount()));
+
+        Boolean paid = false;
+
+        for(CourseWithLessData courseWithLessData: course) {
+            if(courseWithLessData.getCategory_id().equals("paid")) {
+                paid = true;
+                break;
+            }
         }
 
-        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
-        mRecyclerView.setAdapter(myCoursesAdapterNew);
 
-        myCoursesAdapterNew.setOnItemClicklistener(this);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setVisibility(View.VISIBLE);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        if(!paid) {
+            viewPager.setCurrentItem(1);
+        }
+
+//        if (course.size() == 0) {
+//            cardView.setVisibility(View.VISIBLE);
+//        }
+//
+//        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
+//        mRecyclerView.setAdapter(myCoursesAdapterNew);
+//
+//        myCoursesAdapterNew.setOnItemClicklistener(this);
     }
 
     @Override
@@ -67,44 +122,114 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
 
         course = new ArrayList<>();
 
-        mRecyclerView = view.findViewById(R.id.my_courses);
+        this.context = inflater.getContext();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        cardView = view.findViewById(R.id.card);
+        Paper.init(context);
 
-        search = view.findViewById(R.id.search);
-        rv_currentPage = 0;
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager_courses);
 
-        search.setSuggestionsAdapter(null);
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                closeKeyboard();
-                return true;
-            }
+        viewPager.setOffscreenPageLimit(3);
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
+        context = inflater.getContext();
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-                tempCourse = new ArrayList<>();
-                for (CourseWithLessData courseWithLessData : course) {
-                    if (courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
-                        tempCourse.add(courseWithLessData);
-                    }
-                }
+        tabLayout.addTab(tabLayout.newTab().setText("Premium Course"));
+        tabLayout.addTab(tabLayout.newTab().setText("Free Course"));
 
-
-                myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
-                mRecyclerView.setAdapter(myCoursesAdapterNew);
-                myCoursesAdapterNew.setOnItemClicklistener(MyCoursesFragment.this);
-
-                return true;
-            }
-        });
+//        mRecyclerView = view.findViewById(R.id.my_courses);
+//
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+//        mRecyclerView.setLayoutManager(linearLayoutManager);
+//        cardView = view.findViewById(R.id.card);
+//
+//        search = view.findViewById(R.id.search);
+//        rv_currentPage = 0;
+//
+//        search.setSuggestionsAdapter(null);
+//        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                closeKeyboard();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                tempCourse = new ArrayList<>();
+//                for (CourseWithLessData courseWithLessData : course) {
+//                    if (courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
+//                        tempCourse.add(courseWithLessData);
+//                    }
+//                }
+//
+//
+//                myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
+//                mRecyclerView.setAdapter(myCoursesAdapterNew);
+//                myCoursesAdapterNew.setOnItemClicklistener(MyCoursesFragment.this);
+//
+//                return true;
+//            }
+//        });
 
         return view;
     }
+
+    public class PagerAdapter extends FragmentStatePagerAdapter {
+        int mNumOfTabs;
+
+        public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+            super(fm);
+            this.mNumOfTabs = NumOfTabs;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if(position == 0) {
+                return "Premium Course";
+            } else {
+                return "Free Course";
+            }
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            MyCourseTabFragment fragmentTab = new MyCourseTabFragment();
+
+            if(position == 0) {
+
+                ArrayList<CourseWithLessData> courses = new ArrayList<>();
+                for(CourseWithLessData courseWithLessData: course) {
+                    if(courseWithLessData.getCategory_id().equals("paid")) {
+                        courses.add(courseWithLessData);
+                    }
+                }
+
+                fragmentTab.addCourses(courses);
+                return fragmentTab;
+            } else {
+                ArrayList<CourseWithLessData> courses = new ArrayList<>();
+                for(CourseWithLessData courseWithLessData: course) {
+                    if(courseWithLessData.getCategory_id().equals("free")) {
+                        courses.add(courseWithLessData);
+                    }
+                }
+
+                fragmentTab.addCourses(courses);
+                return fragmentTab;
+            }
+
+        }
+
+        @Override
+        public int getCount() {
+            return mNumOfTabs;
+        }
+    }
+
 
     private void closeKeyboard() {
         if(getActivity() != null) {
@@ -125,12 +250,14 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
                 intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
                 intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
                 intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
+                intent.putExtra("type", tempCourse.get(position).getCategory_id());
                 getContext().startActivity(intent);
             } else {
                 Intent intent = new Intent(getApplicationContext(), Exams.class);
                 intent.putExtra("course_name", tempCourse.get(position).getCourse_name());
                 intent.putExtra("course_ids", tempCourse.get(position).getCourse_ID());
                 intent.putExtra("course_image", tempCourse.get(position).getCourse_imageURL());
+                intent.putExtra("type", tempCourse.get(position).getCategory_id());
                 getContext().startActivity(intent);
 
             }
