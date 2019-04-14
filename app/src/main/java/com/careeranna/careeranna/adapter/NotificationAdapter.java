@@ -13,11 +13,8 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Notification;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotifViewHolder> {

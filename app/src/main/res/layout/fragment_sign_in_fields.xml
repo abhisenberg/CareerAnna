@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragement.ui_fragments.signInFields">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -70,7 +69,6 @@
             android:layout_marginTop="10dp"
             style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/button_create_account"
-            android:layout_above="@id/signUp"
             />
 
         <!--<RelativeLayout-->

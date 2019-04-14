@@ -2,8 +2,8 @@ package com.careeranna.careeranna;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

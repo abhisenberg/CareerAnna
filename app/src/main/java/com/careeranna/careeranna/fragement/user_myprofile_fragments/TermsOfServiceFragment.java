@@ -13,12 +13,12 @@ import com.careeranna.careeranna.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserSuggestedFragment extends Fragment {
+public class TermsOfServiceFragment extends Fragment {
 
 
     WebView webView;
 
-    public UserSuggestedFragment() {
+    public TermsOfServiceFragment() {
         // Required empty public constructor
     }
 
@@ -27,7 +27,7 @@ public class UserSuggestedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view  = inflater.inflate(R.layout.fragment_user_suggested, container, false);
+        View view  = inflater.inflate(R.layout.fragment_terms_of_service, container, false);
 
         webView = view.findViewById(R.id.webview);
         webView.loadUrl("https://www.careeranna.com/terms-of-service");

@@ -5,20 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Handler;
-
-import java.util.List;
-import java.util.Locale;
-
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -33,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,39 +39,26 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-
-import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ListViewAdapter;
-import com.careeranna.careeranna.adapter.BannerViewPagerAdapter;
 import com.careeranna.careeranna.data.Article;
-import com.careeranna.careeranna.data.Banner;
-import com.careeranna.careeranna.data.Category;
 import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.CourseWithLessData;
-import com.careeranna.careeranna.data.ExamPrep;
+import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.MenuList;
 import com.careeranna.careeranna.data.MyPaidCourse;
-import com.careeranna.careeranna.data.PaidCourse;
-import com.careeranna.careeranna.data.SubCategory;
 import com.careeranna.careeranna.data.UrlConstants;
 import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.fragement.dashboard_fragements.FreeCoursesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.PaidCoursesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.VideosFragment;
-import com.careeranna.careeranna.helper.CountDrawable;
-
-import com.careeranna.careeranna.fragement.dashboard_fragements.WishListFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.CartFragment;
-import com.careeranna.careeranna.fragement.dashboard_fragements.ExploreNew;
-
 import com.careeranna.careeranna.fragement.ErrorOccurredFragment;
 import com.careeranna.careeranna.fragement.NoInternetFragment;
-
-import com.careeranna.careeranna.helper.NewApi;
+import com.careeranna.careeranna.fragement.dashboard_fragements.ArticlesFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.CartFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.FreeCoursesFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.PaidCoursesFragment;
+import com.careeranna.careeranna.fragement.dashboard_fragements.WishListFragment;
+import com.careeranna.careeranna.helper.CountDrawable;
 import com.careeranna.careeranna.user.MyProfile_2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
@@ -97,73 +75,71 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.view.View.GONE;
 
 public class MyCourses extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoInternetFragment.OnFragemntClickListener, ErrorOccurredFragment.OnErrorFragementClickListener {
 
-    public static final String TAG = "MyCoursesActivity";
+    private static final String TAG = "MyCoursesActivity";
 
     private DrawerLayout drawerLayout;
 
     private ActionBarDrawerToggle mToggle;
 
-    WishListFragment wishListFragment;
-    RelativeLayout relativeLayout;
+    private WishListFragment wishListFragment;
+    private RelativeLayout relativeLayout;
 
-    Menu menu;
+    private Menu menu;
 
-    int fragment_id = 2;
+    private int fragment_id = 2;
 
-    LinearLayout linearLayout;
+    private LinearLayout linearLayout;
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
-    String mUsername, profile_pic_url, mEmail;
+    private String mUsername;
+    private String profile_pic_url;
+    private String mEmail;
 
-    ArrayList<FreeVideos> freeVideosForExplore, trendingVideosForExplore;
+    private ArrayList<FreeVideos> freeVideosForExplore;
+    private ArrayList<FreeVideos> trendingVideosForExplore;
 
-    ArrayList<Course> coursesForExplore, freeCourseForExplore;
+    private ArrayList<Course> coursesForExplore;
+    private ArrayList<Course> freeCourseForExplore;
 
-    ExploreNew exploreNew;
-    MyCoursesFragment myCoursesFragment;
-    NoInternetFragment noInternetFragment;
-    ArticlesFragment myArticleFragment;
-    ErrorOccurredFragment errorOccurredFragment;
-    VideosFragment videosFragment;
-    FreeCoursesFragment freeCoursesFragment;
-    PaidCoursesFragment paidCoursesFragment;
+    private MyCoursesFragment myCoursesFragment;
+    private NoInternetFragment noInternetFragment;
+    private ArticlesFragment myArticleFragment;
+    private ErrorOccurredFragment errorOccurredFragment;
+    private FreeCoursesFragment freeCoursesFragment;
+    private PaidCoursesFragment paidCoursesFragment;
 
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
-    User user;
+    private User user;
 
-    CartFragment cartFragment;
-    ArrayList<Article> mArticles;
+    private CartFragment cartFragment;
+    private ArrayList<Article> mArticles;
 
     ArrayList<MyPaidCourse> purchasedPaidCourses;
 
-    FrameLayout frameLayout;
+    private FrameLayout frameLayout;
 
-    ArrayList<MenuList> your_array_list;
+    private ArrayList<MenuList> your_array_list;
 
     private long backPressed;
 
-    RequestQueue requestQueue;
+    private RequestQueue requestQueue;
 
-    NavigationView navigationView;
+    private NavigationView navigationView;
 
-    ArrayList<CourseWithLessData> names, urls, ids, category_ids;
+    private ArrayList<CourseWithLessData> myCourses;
 
-    ListView listView;
+    private ListView listView;
 
     private int menuToChoose = R.menu.add_cart;
 
@@ -178,7 +154,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
-    public void setCartItemCountOnMenu() {
+    private void setCartItemCountOnMenu() {
 
         String cartItemCount = Paper.book().read("cart1");
 
@@ -199,7 +175,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
-    public void setCount(Context context, String count) {
+    private void setCount(Context context, String count) {
 
         if (menuToChoose == R.menu.add_cart) {
             MenuItem menuItem = menu.findItem(R.id.add_to_cart);
@@ -243,8 +219,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         myArticleFragment = new ArticlesFragment();
         wishListFragment = new WishListFragment();
         cartFragment = new CartFragment();
-        exploreNew = new ExploreNew();
-        videosFragment = new VideosFragment();
         paidCoursesFragment = new PaidCoursesFragment();
 
         // Adding Listener For Retry Of No Internet And Error Occurred
@@ -321,9 +295,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         }
 
 
-        names = new ArrayList<>();
-        urls = new ArrayList<>();
-        ids = new ArrayList<>();
+        myCourses = new ArrayList<>();
 
 
         /*
@@ -352,15 +324,10 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).commit();
                     } else if(getIntent().getStringExtra("fragment_name").equals("my_course")) {
-                        frameLayout.setVisibility(GONE);
-                        myCourse();
-                        fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
-                        if(getSupportActionBar() != null) {
-                            getSupportActionBar().setTitle("My Dashboard");
-                        }
+                        changeFragmentToMyDashboard();
                     }
                 } else {
-                   checkForPaidOrUnPaidUser();
+                   changeFragmentToMyDashboard();
                 }
             }
         } else {
@@ -388,7 +355,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         listView.setAdapter(adapter);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getResources().getString(R.string.explore));
+            getSupportActionBar().setTitle("My Dashboard");
         }
     }
 
@@ -413,13 +380,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 }
                 break;
             case 2:
-                frameLayout.setVisibility(GONE);
-                myCourse();
-                myCoursesFragment = new MyCoursesFragment();
-                fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
-                if(getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("My Dashboard");
-                }
+                changeFragmentToMyDashboard();
                 break;
             case 3:
                 frameLayout.setVisibility(GONE);
@@ -450,7 +411,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
-    public void setNavigationView() {
+    private void setNavigationView() {
 
         // Initialize Views for navigation
         TextView username, useremail;
@@ -471,7 +432,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         if (!profile_pic_url.isEmpty()) {
             Glide.with(this).load(profile_pic_url).into(profile);
             initialAlphabet.setVisibility(View.INVISIBLE);
-        } else {
         }
 
         username.setText(mUsername);
@@ -554,129 +514,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
-    public void myCourse() {
-
-        names = new ArrayList<>();
-        urls = new ArrayList<>();
-        ids = new ArrayList<>();
-        category_ids = new ArrayList<>();
-
-        relativeLayout.setVisibility(View.VISIBLE);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(MyCourses.this);
-        final String myCourseUrl = UrlConstants.USER_COURSES_URL + user.getUser_id();
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
-                myCourseUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray coursesArray1 = jsonObject.getJSONArray("paid");
-                            for (int i = 0; i < coursesArray1.length(); i++) {
-                                JSONObject Category = coursesArray1.getJSONObject(i);
-                                names.add(new CourseWithLessData(Category.getString("product_name"),
-                                        Category.getString("product_id"),
-                                        Category.getString("product_image"),
-                                        Category.getInt("progress")+"",
-                                        "paid"
-                                ));
-                            }
-                            JSONArray coursesArray = jsonObject.getJSONArray("free");
-                            for (int i = 0; i < coursesArray.length(); i++) {
-                                JSONObject Category = coursesArray.getJSONObject(i);
-                                names.add(new CourseWithLessData(Category.getString("course_name"),
-                                        Category.getString("course_id"),
-                                        "https://www.careeranna.com/"+Category.getString("course_image"),
-                                        Category.getInt("progress")+"",
-                                        "free"
-                                ));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        myCoursesFragment.add(names);
-
-                        relativeLayout.setVisibility(GONE);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        relativeLayout.setVisibility(View.GONE);
-                        showErrorFragment();
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to login url
-                Map<String, String> params = new HashMap<>();
-                params.put("user", user.getUser_id());
-                return params;
-
-            }
-        };
-
-        if(amIConnect()) {
-            requestQueue.add(stringRequest1);
-        } else {
-            changeInternet();
-        }
-    }
-
-    public void initArticle() {
-
-        mArticles = new ArrayList<>();
-
-        relativeLayout.setVisibility(View.VISIBLE);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String img_url = "https://www.careeranna.com/articles/wp-content/uploads/";
-        String url = "https://careeranna.com/api/articlewithimage.php";
-
-        final String finalImg_url = img_url;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray ArticlesArray = new JSONArray(response.toString());
-                            for (int i = 0; i < ArticlesArray.length(); i++) {
-                                JSONObject Articles = ArticlesArray.getJSONObject(i);
-                                mArticles.add(new Article(Articles.getString("ID"),
-                                        Articles.getString("post_title"),
-                                        finalImg_url + Articles.getString("meta_value").replace("\\", ""),
-                                        Articles.getString("display_name"),
-                                        "CAT",
-                                        Articles.getString("post_content"),
-                                        Articles.getString("post_date")));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        relativeLayout.setVisibility(View.GONE);
-                        myArticleFragment.setmArticles(mArticles);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        relativeLayout.setVisibility(View.GONE);
-                        showErrorFragment();
-                    }
-                }
-        );
-
-
-        if(amIConnect()) {
-            requestQueue.add(stringRequest);
-        } else {
-            changeInternet();
-        }
-
-    }
-
     private void openMyCoursesFragment() {
         myCourse();
         fragmentManager = getSupportFragmentManager();
@@ -698,7 +535,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
     }
 
-    public void showErrorFragment() {
+    private void showErrorFragment() {
 
         errorOccurredFragment = new ErrorOccurredFragment();
         errorOccurredFragment.setOnFragementClicklistener(this);
@@ -787,7 +624,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     }
 
 
-    public void checkForPaidOrUnPaidUser() {
+    private void changeFragmentToMyDashboard() {
 
         frameLayout.setVisibility(GONE);
         myCourse();
@@ -795,7 +632,125 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle("My Dashboard");
         }
+    }
 
+    private void myCourse() {
+
+        myCourses = new ArrayList<>();
+
+        relativeLayout.setVisibility(View.VISIBLE);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(MyCourses.this);
+        final String myCourseUrl = UrlConstants.USER_COURSES_URL + user.getUser_id();
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
+                myCourseUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray coursesArray1 = jsonObject.getJSONArray("paid");
+                            for (int i = 0; i < coursesArray1.length(); i++) {
+                                JSONObject Category = coursesArray1.getJSONObject(i);
+                                myCourses.add(new CourseWithLessData(Category.getString("product_name"),
+                                        Category.getString("product_id"),
+                                        Category.getString("product_image"),
+                                        Category.getInt("progress")+"",
+                                        "paid"
+                                ));
+                            }
+                            JSONArray coursesArray = jsonObject.getJSONArray("free");
+                            for (int i = 0; i < coursesArray.length(); i++) {
+                                JSONObject Category = coursesArray.getJSONObject(i);
+                                myCourses.add(new CourseWithLessData(Category.getString("course_name"),
+                                        Category.getString("course_id"),
+                                        "https://www.careeranna.com/"+Category.getString("course_image"),
+                                        Category.getInt("progress")+"",
+                                        "free"
+                                ));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        myCoursesFragment.add(myCourses);
+
+                        relativeLayout.setVisibility(GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        relativeLayout.setVisibility(View.GONE);
+                        showErrorFragment();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to login url
+                Map<String, String> params = new HashMap<>();
+                params.put("user", user.getUser_id());
+                return params;
+
+            }
+        };
+
+        if(amIConnect()) {
+            requestQueue.add(stringRequest1);
+        } else {
+            changeInternet();
+        }
+    }
+
+    private void initArticle() {
+
+        mArticles = new ArrayList<>();
+
+        relativeLayout.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String img_url = "https://www.careeranna.com/articles/wp-content/uploads/";
+        String url = "https://careeranna.com/api/articlewithimage.php";
+
+        final String finalImg_url = img_url;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray ArticlesArray = new JSONArray(response);
+                            for (int i = 0; i < ArticlesArray.length(); i++) {
+                                JSONObject Articles = ArticlesArray.getJSONObject(i);
+                                mArticles.add(new Article(Articles.getString("ID"),
+                                        Articles.getString("post_title"),
+                                        finalImg_url + Articles.getString("meta_value").replace("\\", ""),
+                                        Articles.getString("display_name"),
+                                        "CAT",
+                                        Articles.getString("post_content"),
+                                        Articles.getString("post_date")));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        relativeLayout.setVisibility(View.GONE);
+                        myArticleFragment.setmArticles(mArticles);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        relativeLayout.setVisibility(View.GONE);
+                        showErrorFragment();
+                    }
+                }
+        );
+
+
+        if(amIConnect()) {
+            requestQueue.add(stringRequest);
+        } else {
+            changeInternet();
+        }
     }
 
 }

@@ -1,7 +1,5 @@
 package com.careeranna.careeranna.utilities;
 
-import com.careeranna.careeranna.data.MenuList;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

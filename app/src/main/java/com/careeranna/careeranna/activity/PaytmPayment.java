@@ -1,9 +1,8 @@
 package com.careeranna.careeranna.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,12 +22,10 @@ import com.careeranna.careeranna.helper.Api;
 import com.careeranna.careeranna.helper.CheckSum;
 import com.careeranna.careeranna.helper.Paytm;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

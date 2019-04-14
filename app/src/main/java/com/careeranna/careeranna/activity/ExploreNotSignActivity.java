@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
@@ -19,12 +19,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.MyPaidCourse;
 import com.careeranna.careeranna.data.PaidCourse;
 import com.careeranna.careeranna.fragement.NoInternetFragment;
 import com.careeranna.careeranna.fragement.explore_not_sign_in_fragements.InsideWithoutSignFragment;
-import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.helper.NewApi;
 
 import org.json.JSONArray;
@@ -44,17 +44,18 @@ import static android.view.View.GONE;
 
 public class ExploreNotSignActivity extends AppCompatActivity implements NoInternetFragment.OnFragemntClickListener{
 
-    public static int counter = 0;  // Counter For Counting User Opening The App
+    private static int counter = 0;  // Counter For Counting User Opening The App
 
-    InsideWithoutSignFragment insideWithoutSignFragment;    // Fragment Inside Explore to Show Details
+    private InsideWithoutSignFragment insideWithoutSignFragment;    // Fragment Inside Explore to Show Details
 
-    NoInternetFragment noInternetFragment;
+    private NoInternetFragment noInternetFragment;
 
-    FragmentManager fragmentManager;                        // Fragment Manager To Change Fragments
+    private FragmentManager fragmentManager;                        // Fragment Manager To Change Fragments
 
-    ArrayList<Course> coursesForExplore, freeCourseForExplore;
+    private ArrayList<Course> coursesForExplore;
+    private ArrayList<Course> freeCourseForExplore;
 
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,7 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
      * Function For Dialog For Send Him To Sign After 3rd Times He Enter Without Sign Up
      */
 
-    public void showPopUpForSignUp() {
+    private void showPopUpForSignUp() {
 
         int cache;
         try {
@@ -161,11 +162,6 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
             Paper.book().write("counter", counter);
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     /**
@@ -260,7 +256,7 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray CategoryArray = new JSONArray(response.toString());
+                            JSONArray CategoryArray = new JSONArray(response);
                             for (int i = 0; i < CategoryArray.length(); i++) {
                                 JSONObject Category = CategoryArray.getJSONObject(i);
                                 freeCourseForExplore.add(new Course(Category.getString("course_id"),

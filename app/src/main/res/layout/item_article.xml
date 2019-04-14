@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:id="@+id/article_image_1"
             android:layout_weight="2.5"
-            android:src="@drawable/intro_pic_3_ques"
+            android:src="@drawable/intro_pic_2_video"
             android:scaleType="fitXY"
             />
         <LinearLayout
@@ -186,7 +186,7 @@
             android:id="@+id/article_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/intro_pic_3_ques"
+            android:src="@drawable/intro_pic_2_video"
             android:background="@color/light_gray"
             android:padding="3dp"
             />

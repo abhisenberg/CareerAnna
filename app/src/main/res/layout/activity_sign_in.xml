@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/sign_in_and_up_layout"
     android:background="#FFFFFF"
-    tools:context=".user.SignUp">
+    tools:context=".activity.SignInActivity">
 
     <LinearLayout
         android:id="@+id/login_and_sign_up_tabs"

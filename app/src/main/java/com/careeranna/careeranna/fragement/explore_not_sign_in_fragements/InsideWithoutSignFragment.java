@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Course;

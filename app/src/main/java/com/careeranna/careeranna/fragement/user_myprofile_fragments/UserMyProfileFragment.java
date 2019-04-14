@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.MyCourses;
 import com.careeranna.careeranna.data.Constants;
 import com.careeranna.careeranna.helper.ChangeLanguageDialog;
 

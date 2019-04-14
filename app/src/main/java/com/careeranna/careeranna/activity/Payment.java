@@ -1,13 +1,10 @@
 package com.careeranna.careeranna.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +20,6 @@ import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.User;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.payu.india.Extras.PayUChecksum;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
@@ -37,7 +33,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;

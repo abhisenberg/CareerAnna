@@ -10,8 +10,6 @@ import android.preference.PreferenceManager;
 
 import java.util.Locale;
 
-import io.paperdb.Paper;
-
 public class LocaleHelper {
 
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";

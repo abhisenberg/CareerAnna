@@ -1,13 +1,10 @@
 package com.careeranna.careeranna.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,7 +21,6 @@ import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.NotificationAdapter;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Constants;
-import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.Notification;
 
 import org.json.JSONException;

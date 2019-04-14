@@ -1,7 +1,5 @@
 package com.careeranna.careeranna.data;
 
-import java.util.ArrayList;
-
 public class PlayListItem {
 
     String name, videoId;

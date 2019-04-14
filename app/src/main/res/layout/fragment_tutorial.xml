@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.profile_fragements.TutorialFragment">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/intro_pic_1_indian_languages"
+            android:src="@drawable/intro_pic_2_video"
             android:elevation="10dp"
             android:scaleType="fitXY"
             />

@@ -16,11 +16,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.careeranna.careeranna.Exams;
-import com.careeranna.careeranna.ParticularCourse;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.MyCoursesAdapterNew;
 import com.careeranna.careeranna.data.CourseWithLessData;
-import com.careeranna.careeranna.fragement.dashboard_fragements.MyCoursesFragment;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import java.util.ArrayList;

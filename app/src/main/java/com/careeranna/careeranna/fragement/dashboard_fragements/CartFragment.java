@@ -34,9 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.Payment;
 import com.careeranna.careeranna.activity.PaymentGateway;
-import com.careeranna.careeranna.activity.PaytmPayment;
 import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.PromoCode;
@@ -54,7 +52,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 

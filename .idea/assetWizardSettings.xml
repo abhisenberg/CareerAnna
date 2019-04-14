@@ -72,9 +72,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="$USER_HOME$/Downloads/Rectangle.png" />
+                                      <entry key="backgroundImage" value="$USER_HOME$/Downloads/web1.jpg" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background_bolo" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/logo-06 (1).png" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/web1.jpg" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground_bolo_new" />
                                       <entry key="outputName" value="ic_launcher_bolo" />
                                     </map>
@@ -119,11 +119,34 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                                <entry key="paddingPercent" value="-10" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground_new.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="NOTIFICATION" />
                           </map>
                         </option>
                       </PersistentState>

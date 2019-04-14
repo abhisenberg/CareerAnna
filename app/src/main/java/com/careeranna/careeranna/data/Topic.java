@@ -2,8 +2,6 @@ package com.careeranna.careeranna.data;
 
 import android.graphics.drawable.Drawable;
 
-import com.careeranna.careeranna.R;
-
 public class Topic {
 
     private String Name;

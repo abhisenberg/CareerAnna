@@ -1,23 +1,23 @@
 package com.careeranna.careeranna.service;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.widget.RemoteViews;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.activity.NotificationActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -67,12 +67,15 @@ public class MyMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                 intent, 0);
 
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder builder;
+            final NotificationCompat.Builder builder;
             Intent intent1 = new Intent(this, NotificationActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent1;
             int importance = NotificationManager.IMPORTANCE_HIGH;
+            notifManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             if (mChannel == null) {
                 mChannel = new NotificationChannel
                         ("0", "CareerAnna", importance);
@@ -93,8 +96,26 @@ public class MyMessagingService extends FirebaseMessagingService {
                     .setContentIntent(pendingIntent1)
                     .setSound(RingtoneManager.getDefaultUri
                             (RingtoneManager.TYPE_NOTIFICATION));
-            Notification notification = builder.build();
-            notifManager.notify(0, notification);
+
+            ImageRequest imageRequest = new ImageRequest(currentNotif.getImage_url(),
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap response) {
+                            builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(response));
+                            Notification notification = builder.build();
+                            notifManager.notify(0, notification);
+                        }
+                    }, 0, 0, null,Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(imageRequest);
+
+
         } else {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setColor(getResources().getColor(R.color.red))

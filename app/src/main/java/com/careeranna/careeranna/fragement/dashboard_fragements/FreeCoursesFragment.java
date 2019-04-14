@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.PurchaseCourseActivity;
-import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.adapter.CoursesAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeCourse;

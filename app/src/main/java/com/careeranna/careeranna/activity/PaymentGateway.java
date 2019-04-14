@@ -1,9 +1,9 @@
 package com.careeranna.careeranna.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,9 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.Cart_ProductsAdapter;
-import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.PromoCode;
 import com.careeranna.careeranna.data.UrlConstants;
@@ -39,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

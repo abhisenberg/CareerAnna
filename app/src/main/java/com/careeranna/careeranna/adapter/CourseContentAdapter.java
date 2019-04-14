@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.activity.PurchaseCourseActivity;
-import com.careeranna.careeranna.activity.PurchaseCourseDetail;
 import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.fragement.profile_fragements.TutorialFragment;
 
