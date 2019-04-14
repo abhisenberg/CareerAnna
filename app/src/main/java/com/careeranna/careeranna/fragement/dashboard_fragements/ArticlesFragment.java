@@ -10,10 +10,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
 
@@ -28,6 +30,7 @@ import com.careeranna.careeranna.activity.ParticularArticleActivity;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.ArticleAdapter;
 import com.careeranna.careeranna.data.Article;
+import com.careeranna.careeranna.data.Course;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,9 +59,11 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     Boolean isLoading = false;
 
+    android.support.v7.widget.SearchView searchView;
+
     Boolean isEnded = false;
 
-    ArrayList<Article> articles;
+    ArrayList<Article> articles, temparticles;
 
     private Context context;
 
@@ -68,10 +73,12 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
     public void setmArticles(ArrayList<Article> articles) {
         if(mArticles == null) {
+            temparticles = new ArrayList<>();
             mArticles = new ArrayList<>();
             Log.d("article", "inside_null_1");
         }
         mArticles.addAll(articles);
+        temparticles.addAll(articles);
         populateArticles();
     }
 
@@ -83,13 +90,52 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
 
         progressBar = view.findViewById(R.id.progress_bar_rv);
 
+        searchView = view.findViewById(R.id.search);
+
         recyclerView = view.findViewById(R.id.article_rv);
 
         mArticles = new ArrayList<>();
+        temparticles = new ArrayList<>();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                closeKeyboard();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                mArticles.clear();
+
+                for (Article article: temparticles) {
+                    if(article.getName().trim().toLowerCase().contains(newText.trim().toLowerCase())) {
+                        mArticles.add(article);
+                    }
+                }
+
+                articleAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+        });
 
         context = inflater.getContext();
 
         return view;
+    }
+
+
+    private void closeKeyboard() {
+        if (getActivity() != null) {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 
     public void populateArticles() {
@@ -140,6 +186,7 @@ public class ArticlesFragment extends Fragment implements ArticleAdapter.OnItemC
                                 }
                                 isLoading = false;
                                 mArticles.addAll(articles);
+                                temparticles.addAll(articles);
                                 progressBar.setVisibility(View.GONE);
                                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                                 recyclerView.setLayoutManager(linearLayoutManager);

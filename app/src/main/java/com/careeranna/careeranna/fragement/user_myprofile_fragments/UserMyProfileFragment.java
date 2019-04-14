@@ -25,7 +25,7 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
     public static final String TAG = "UserMyProfileFrag";
 //    Button bt_signout;
 
-    TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_tnc, tv_changeLanguage;
+    TextView tv_changeNotiPref, tv_referralCode, tv_support, tv_changeLanguage;
     CardView openMyCourses;
 
     public UserMyProfileFragment() {
@@ -40,7 +40,6 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
         tv_changeNotiPref = view.findViewById(R.id.tv_userProf_changeNotiPref);
         tv_referralCode = view.findViewById(R.id.tv_userProf_appReferralCode);
         tv_support = view.findViewById(R.id.tv_userProf_Support);
-        tv_tnc = view.findViewById(R.id.tv_userProf_tnc);
         openMyCourses = view.findViewById(R.id.bt_userProf_myCourses);
         tv_changeLanguage = view.findViewById(R.id.tv_userProf_language);
 
@@ -48,7 +47,6 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
         tv_changeNotiPref.setOnClickListener(this);
         tv_referralCode.setOnClickListener(this);
         tv_support.setOnClickListener(this);
-        tv_tnc.setOnClickListener(this);
         tv_changeLanguage.setOnClickListener(this);
         return view;
     }
@@ -67,11 +65,6 @@ public class UserMyProfileFragment extends Fragment implements View.OnClickListe
 
             case R.id.tv_userProf_Support:
                 url = "https://www.careeranna.com/contact";
-                openLink(url);
-                break;
-
-            case R.id.tv_userProf_tnc:
-                url = "https://www.careeranna.com/terms-of-service";
                 openLink(url);
                 break;
 

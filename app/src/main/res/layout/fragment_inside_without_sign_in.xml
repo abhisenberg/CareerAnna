@@ -1,94 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/relative_loading"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme">
 
-        <ProgressBar
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <LinearLayout
+        <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="8">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:tabTextAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="?android:actionBarSize"
+            app:tabMaxWidth="0dp"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/tab_layout"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="@color/light_blue"
+            android:background="@android:color/white"
+            app:tabIndicatorColor="@color/light_blue"
+            >
 
-            <Button
-                android:id="@+id/free"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:background="@drawable/border_explore_active"
-                android:paddingRight="12dp"
-                android:text="@string/free"
-                android:textColor="@color/colorPrimary"
-                android:textSize="11sp" />
+        </android.support.design.widget.TabLayout>
 
-            <Button
-                android:id="@+id/premium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="4"
-                android:background="@drawable/border_explore_non_active"
-                android:paddingRight="4dp"
-                android:text="@string/premium"
-                android:textColor="@color/non_active_tab"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:id="@+id/view_pager_courses"
+            android:background="#f1f0f0"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/free_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardElevation="10dp">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/free_course_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#f1f0f0" />
+        </android.support.v4.view.ViewPager>
 
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/premium_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                app:cardElevation="10dp">
+    </android.support.design.widget.AppBarLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/paid_courses_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#f1f0f0" />
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

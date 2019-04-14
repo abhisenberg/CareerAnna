@@ -117,7 +117,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     Menu menu;
 
-    int fragment_id = 3;
+    int fragment_id = 2;
 
     LinearLayout linearLayout;
 
@@ -356,7 +356,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                         myCourse();
                         fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
                         if(getSupportActionBar() != null) {
-                            getSupportActionBar().setTitle(getResources().getString(R.string.mycourses));
+                            getSupportActionBar().setTitle("My Dashboard");
                         }
                     }
                 } else {
@@ -377,13 +377,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
         your_array_list = new ArrayList<>();
         your_array_list.add(new MenuList(getResources().getString(R.string.premium_courses), getApplicationContext().getResources().getDrawable(R.drawable.ic_scholarship)));
-//        your_array_list.add(new MenuList(getResources().getString(R.string.DNA), getApplicationContext().getResources().getDrawable(R.drawable.ic_gears)));
-//        your_array_list.add(new MenuList(getResources().getString(R.string.vocabulary), getApplicationContext().getResources().getDrawable(R.drawable.ic_study)));
         your_array_list.add(new MenuList(getResources().getString(R.string.free_courses), getApplicationContext().getResources().getDrawable(R.drawable.ic_free)));
-        your_array_list.add(new MenuList(getResources().getString(R.string.mycourses), getApplicationContext().getResources().getDrawable(R.drawable.ic_noun_book)));
-    //    your_array_list.add(new MenuList(getResources().getString(R.string.explore), getApplicationContext().getResources().getDrawable(R.drawable.ic_book)));
+        your_array_list.add(new MenuList("My Dashboard", getApplicationContext().getResources().getDrawable(R.drawable.ic_noun_book)));
         your_array_list.add(new MenuList(getResources().getString(R.string.articles), getApplicationContext().getResources().getDrawable(R.drawable.ic_article_1)));
-        your_array_list.add(new MenuList(getResources().getString(R.string.WishList), getApplicationContext().getResources().getDrawable(R.drawable.ic_like)));
         your_array_list.add(new MenuList(getResources().getString(R.string.my_profile), getApplicationContext().getResources().getDrawable(R.drawable.ic_settings)));
         your_array_list.add(new MenuList(getResources().getString(R.string.signout), getApplicationContext().getResources().getDrawable(R.drawable.ic_logout_1), "#FFDA3C21", "#FFF5F3F3", Gravity.CENTER, View.INVISIBLE));
 
@@ -416,13 +412,13 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     getSupportActionBar().setTitle(getResources().getString(R.string.free_courses));
                 }
                 break;
-
             case 2:
                 frameLayout.setVisibility(GONE);
                 myCourse();
+                myCoursesFragment = new MyCoursesFragment();
                 fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
                 if(getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(getResources().getString(R.string.mycourses));
+                    getSupportActionBar().setTitle("My Dashboard");
                 }
                 break;
             case 3:
@@ -434,16 +430,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 }
                 break;
             case 4:
-                frameLayout.setVisibility(GONE);
-                fragmentManager.beginTransaction().replace(R.id.main_content, wishListFragment).commit();
-                if(getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(getResources().getString(R.string.WishList));
-                }
-                break;
-            case 5:
                 startActivity(new Intent(MyCourses.this, MyProfile_2.class));
                 break;
-            case 6:
+            case 5:
                 mAuth = FirebaseAuth.getInstance();
                 if (mAuth != null) {
                     mAuth.signOut();
@@ -583,16 +572,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONArray coursesArray = jsonObject.getJSONArray("free");
-                            for (int i = 0; i < coursesArray.length(); i++) {
-                                JSONObject Category = coursesArray.getJSONObject(i);
-                                names.add(new CourseWithLessData(Category.getString("course_name"),
-                                        Category.getString("course_id"),
-                                        "https://www.careeranna.com/"+Category.getString("course_image"),
-                                        Category.getInt("progress")+"",
-                                        "free"
-                                ));
-                            }
                             JSONArray coursesArray1 = jsonObject.getJSONArray("paid");
                             for (int i = 0; i < coursesArray1.length(); i++) {
                                 JSONObject Category = coursesArray1.getJSONObject(i);
@@ -601,6 +580,16 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                                         Category.getString("product_image"),
                                         Category.getInt("progress")+"",
                                         "paid"
+                                ));
+                            }
+                            JSONArray coursesArray = jsonObject.getJSONArray("free");
+                            for (int i = 0; i < coursesArray.length(); i++) {
+                                JSONObject Category = coursesArray.getJSONObject(i);
+                                names.add(new CourseWithLessData(Category.getString("course_name"),
+                                        Category.getString("course_id"),
+                                        "https://www.careeranna.com/"+Category.getString("course_image"),
+                                        Category.getInt("progress")+"",
+                                        "free"
                                 ));
                             }
                         } catch (JSONException e) {
@@ -639,7 +628,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     public void initArticle() {
 
         mArticles = new ArrayList<>();
-
 
         relativeLayout.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -697,104 +685,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             getSupportActionBar().setTitle(getResources().getString(R.string.mycourses));
     }
 
-    private void initializeVideo() {
-
-        trendingVideosForExplore = new ArrayList<>();
-        freeVideosForExplore = new ArrayList<>();
-
-        relativeLayout.setVisibility(View.VISIBLE);
-
-        RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-        String url1 = UrlConstants.FETCH_TRENDING_VIDEOS + "1";
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray VideosArray = new JSONArray(response);
-                            for (int i = 0; i < VideosArray.length(); i++) {
-                                JSONObject videos = VideosArray.getJSONObject(i);
-                                trendingVideosForExplore.add(new FreeVideos(
-                                        videos.getString("id"),
-                                        videos.getString("video_url").replace("\\", ""),
-                                        "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
-                                        videos.getString("totalViews"),
-                                        videos.getString("tags"),
-                                        videos.getString("heading"),
-                                        "Free",
-                                        videos.getString("duration"),
-                                        videos.getString("likes"),
-                                        videos.getString("dislikes")));
-                                trendingVideosForExplore.get(i).setType("Trending");
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        RequestQueue requestQueue1 = Volley.newRequestQueue(MyCourses.this);
-                        String url1 = "https://careeranna.com/api/getFreeVideos.php?id=" + "1";
-                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONArray VideosArray = new JSONArray(response);
-                                            for (int i = 0; i < VideosArray.length(); i++) {
-                                                JSONObject videos = VideosArray.getJSONObject(i);
-                                                freeVideosForExplore.add(new FreeVideos(
-                                                        videos.getString("id"),
-                                                        videos.getString("video_url").replace("\\", ""),
-                                                        "https://www.careeranna.com/thumbnail/" + videos.getString("thumbnail"),
-                                                        videos.getString("totalViews"),
-                                                        videos.getString("tags"),
-                                                        videos.getString("heading"),
-                                                        "Trending",
-                                                        videos.getString("duration"),
-                                                        videos.getString("likes"),
-                                                        videos.getString("dislikes")
-                                                ));
-                                                freeVideosForExplore.get(i).setType("Latest");
-                                            }
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        addPaidCourse();
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                        showErrorFragment();
-                                    }
-                                });
-
-                        if(amIConnect()) {
-                            requestQueue1.add(stringRequest1);
-                        } else {
-                            changeInternet();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        showErrorFragment();
-                    }
-                });
-        if(amIConnect()) {
-            requestQueue1.add(stringRequest1);
-        } else {
-            changeInternet();
-        }
-    }
-
-
     @Override
     public void onItemClick1() {
         changeFragmentWithNav();
@@ -823,132 +713,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         changeFragmentWithNav();
     }
 
-    private void addPaidCourse() {
-
-        coursesForExplore = new ArrayList<>();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(NewApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        NewApi api = retrofit.create(NewApi.class);
-
-        Call<List<PaidCourse>> call = api.getPaidCourses();
-
-        call.enqueue(new Callback<List<PaidCourse>>() {
-            @Override
-            public void onResponse(Call<List<PaidCourse>> call, retrofit2.Response<List<PaidCourse>> response) {
-
-                List<PaidCourse> paidCoursesList = response.body();
-
-                for(PaidCourse  paidCourse: paidCoursesList) {
-                    coursesForExplore.add(new Course(paidCourse.getProduct_id(),
-                            paidCourse.getCourse_name(),
-                            "https://www.careeranna.com/" + paidCourse.getProduct_image().replace("\\", ""),
-                            paidCourse.getExam_id(),
-                            paidCourse.getDiscount(),
-                            "",
-                            "",
-                            "Paid",
-                            paidCourse.getPrice(),
-                            paidCourse.getAverage_rating(),
-                            paidCourse.getTotal_rating(),
-                            paidCourse.getLearners_count()));
-                }
-
-                addFreeCoursesForExplore();
-            }
-
-            @Override
-            public void onFailure(Call<List<PaidCourse>> call, Throwable t) {
-                showErrorFragment();
-            }
-        });
-
-    }
-
-    private void addFreeCoursesForExplore() {
-
-        freeCourseForExplore = new ArrayList<>();
-
-        RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-        String url1 = "https://careeranna.com/api/getFreeCourse.php?id=" + "1";
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray CategoryArray = new JSONArray(response.toString());
-                            for (int i = 0; i < CategoryArray.length(); i++) {
-                                JSONObject Category = CategoryArray.getJSONObject(i);
-                                freeCourseForExplore.add(new Course(Category.getString("course_id"),
-                                        Category.getString("name"),
-                                        "https://www.careeranna.com/" + Category.getString("image").replace("\\", ""),
-                                        Category.getString("examIds"),
-                                        "0"
-                                        , "meta_description",
-                                        "",
-                                        "Free",
-                                        "0",
-                                        Category.getString("average_rating"),
-                                        Category.getString("total_rating"),
-                                        Category.getString("learner_count")));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        populateMyPaidCoursesId();
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        showErrorFragment();
-                    }
-                }
-        );
-
-        requestQueue1.add(stringRequest1);
-    }
-
-    private void populateMyPaidCoursesId() {
-
-        Map<String, String> data = new HashMap<>();
-        data.put("user_id", user.getUser_id());
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(NewApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        NewApi api = retrofit.create(NewApi.class);
-
-        Call<List<MyPaidCourse>> call = api.getMyPaidCourse(data);
-
-        call.enqueue(new Callback<List<MyPaidCourse>>() {
-            @Override
-            public void onResponse(Call<List<MyPaidCourse>> call, retrofit2.Response<List<MyPaidCourse>> response) {
-
-                purchasedPaidCourses = new ArrayList<>();
-
-                List<MyPaidCourse> myPaidCoursesList = response.body();
-
-                purchasedPaidCourses.addAll(myPaidCoursesList);
-
-                exploreNew.addFree(coursesForExplore, freeCourseForExplore, purchasedPaidCourses);
-
-                relativeLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<List<MyPaidCourse>> call, Throwable t) {
-                showErrorFragment();
-            }
-        });
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -1025,37 +789,12 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     public void checkForPaidOrUnPaidUser() {
 
-        String cache = Paper.book().read("user");
-        if (cache != null && !cache.isEmpty()) {
-            user = new Gson().fromJson(cache, User.class);
+        frameLayout.setVisibility(GONE);
+        myCourse();
+        fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("My Dashboard");
         }
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest str = new StringRequest(Request.Method.GET,
-                "https://www.careeranna.com/api/checkPaidOrUnPaidUser.php?user="+user.getUser_id(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(response.toString().equals("UnPaid User!")) {
-                            getSupportActionBar().setTitle(getResources().getString(R.string.explore));
-                            fragmentManager.beginTransaction().replace(R.id.main_content, exploreNew).commit();
-                            initializeVideo();
-                        } else {
-                            frameLayout.setVisibility(GONE);
-                            myCourse();
-                            fragmentManager.beginTransaction().replace(R.id.main_content, myCoursesFragment).commit();
-                            if(getSupportActionBar() != null) {
-                                getSupportActionBar().setTitle(getResources().getString(R.string.mycourses));
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showErrorFragment();
-            }
-        });
-        queue.add(str);
 
     }
 

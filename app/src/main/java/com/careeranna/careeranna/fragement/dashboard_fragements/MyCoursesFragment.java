@@ -135,8 +135,10 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Premium Course"));
-        tabLayout.addTab(tabLayout.newTab().setText("Free Course"));
+        tabLayout.addTab(tabLayout.newTab().setText("My Course"));
+        tabLayout.addTab(tabLayout.newTab().setText("Articles"));
+        tabLayout.addTab(tabLayout.newTab().setText("Premium Courses"));
+        tabLayout.addTab(tabLayout.newTab().setText("Free Courses"));
 
 //        mRecyclerView = view.findViewById(R.id.my_courses);
 //
@@ -188,9 +190,13 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         @Override
         public CharSequence getPageTitle(int position) {
             if(position == 0) {
-                return "Premium Course";
+                return "My Courses";
+            } else if(position == 1) {
+                return "Articles";
+            } else if(position == 2){
+                return "Premium Courses";
             } else {
-                return "Free Course";
+                return "Free Courses";
             }
         }
 
@@ -200,26 +206,18 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
             MyCourseTabFragment fragmentTab = new MyCourseTabFragment();
 
             if(position == 0) {
-
-                ArrayList<CourseWithLessData> courses = new ArrayList<>();
-                for(CourseWithLessData courseWithLessData: course) {
-                    if(courseWithLessData.getCategory_id().equals("paid")) {
-                        courses.add(courseWithLessData);
-                    }
-                }
-
-                fragmentTab.addCourses(courses);
+                fragmentTab.addCourses(course);
                 return fragmentTab;
-            } else {
-                ArrayList<CourseWithLessData> courses = new ArrayList<>();
-                for(CourseWithLessData courseWithLessData: course) {
-                    if(courseWithLessData.getCategory_id().equals("free")) {
-                        courses.add(courseWithLessData);
-                    }
-                }
-
-                fragmentTab.addCourses(courses);
-                return fragmentTab;
+            } else if (position == 1){
+                ArticlesFragment articlesFragment = new ArticlesFragment();
+                articlesFragment.setmArticles(new ArrayList<Article>());
+                return articlesFragment;
+            } else if (position == 2) {
+                PremiumFragment paidCoursesFragment = new PremiumFragment();
+                return paidCoursesFragment;
+            }  else {
+                FreeCoursesFragment freeCoursesFragment = new FreeCoursesFragment();
+                return freeCoursesFragment;
             }
 
         }

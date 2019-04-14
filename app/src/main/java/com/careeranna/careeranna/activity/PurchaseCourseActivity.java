@@ -336,7 +336,7 @@ public class PurchaseCourseActivity extends AppCompatActivity implements VideoPl
             Float price_before_disc = Float.valueOf(course.getPrice_before_discount());
             Float price_after_disc = Float.valueOf(course.getPrice());
             Float discount = (price_before_disc - price_after_disc) * 100 / price_before_disc;
-            tv_discount.setText(Math.round(discount) + "% Off including taxes");
+            tv_discount.setText(Math.round(discount) + "% Off");
             tv_striked_cost.setText("₹" + course.getPrice_before_discount());
             tv_striked_cost.setPaintFlags(tv_striked_cost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 

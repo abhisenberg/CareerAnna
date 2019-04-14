@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.dashboard_fragements.ArticlesFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/progress_bar_rv"
             android:orientation="vertical">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:id="@+id/search_layout"
+            android:background="#ffffff"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_height="wrap_content">
+
+
+            <android.support.v7.widget.SearchView
+                android:textSize="11sp"
+                android:focusableInTouchMode="true"
+                android:background="@drawable/border_serach"
+                android:focusable="false"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search Articles"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:id="@+id/search"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:layout_marginTop="5dp"

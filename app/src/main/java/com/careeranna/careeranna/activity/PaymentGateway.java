@@ -219,7 +219,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
 
                     Intent intent = new Intent(PaymentGateway.this, PaymentMethodActivity.class);
                     intent.putExtra("grand_total", grand_total+"");
-                    intent.putExtra("gst_total", Math.round(grand_total*0.18));
+                    intent.putExtra("gst_total", gst_price_tv.getText().toString().replace("₹ ", ""));
                     intent.putExtra("gst_price", gst_price+"");
                     intent.putExtra("ids", ids+"");
                     intent.putExtra("product_prices", price1+"");

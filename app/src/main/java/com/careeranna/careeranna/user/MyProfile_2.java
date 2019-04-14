@@ -138,13 +138,7 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                 loadUserProfileFragment();
                 return true;
 
-            case R.id.navigation_certificates:
-                fragment = new UserCertificatesFragment();
-                loadFragment(fragment);
-                bt_signOut.setVisibility(View.INVISIBLE);
-                return true;
-
-            case R.id.navigation_suggested:
+            case R.id.navigation_terms:
                 fragment = new UserSuggestedFragment();
                 loadFragment(fragment);
                 bt_signOut.setVisibility(View.INVISIBLE);

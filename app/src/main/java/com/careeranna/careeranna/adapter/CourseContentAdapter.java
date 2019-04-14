@@ -51,6 +51,11 @@ public class CourseContentAdapter extends RecyclerView.Adapter<CourseContentAdap
 
         viewHolder.video_inside_heading_rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         viewHolder.video_inside_heading_rv.setAdapter(courseContentInside);
+
+        if(i == 0) {
+            viewHolder.video_inside_heading_rv.setVisibility(View.VISIBLE);
+            viewHolder.dropdown_arrow.setImageResource(R.drawable.ic_remove_blue_24dp);
+        }
         if(this.tutorialFragment != null) {
             courseContentInside.setOnItemClicklistener(this);
         }

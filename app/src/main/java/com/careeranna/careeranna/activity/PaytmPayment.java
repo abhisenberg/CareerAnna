@@ -215,7 +215,7 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
         progressBar.setVisibility(View.VISIBLE);
         please_wait_tv.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(PaytmPayment.this);
-        String url = "https://careeranna.com/api/addPaidCoursesApp.php";
+        String url = "https://careeranna.com/websiteapi/pdfCheck";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override

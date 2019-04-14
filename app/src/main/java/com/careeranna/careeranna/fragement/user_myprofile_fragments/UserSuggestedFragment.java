@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.careeranna.careeranna.R;
 
@@ -14,6 +15,8 @@ import com.careeranna.careeranna.R;
  */
 public class UserSuggestedFragment extends Fragment {
 
+
+    WebView webView;
 
     public UserSuggestedFragment() {
         // Required empty public constructor
@@ -24,7 +27,12 @@ public class UserSuggestedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_suggested, container, false);
+        View view  = inflater.inflate(R.layout.fragment_user_suggested, container, false);
+
+        webView = view.findViewById(R.id.webview);
+        webView.loadUrl("https://www.careeranna.com/terms-of-service");
+
+        return  view;
     }
 
 }
