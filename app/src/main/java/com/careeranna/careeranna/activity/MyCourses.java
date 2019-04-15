@@ -380,9 +380,11 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 }
                 break;
             case 2:
+                myCoursesFragment = new MyCoursesFragment();
                 changeFragmentToMyDashboard();
                 break;
             case 3:
+                myArticleFragment = new ArticlesFragment();
                 frameLayout.setVisibility(GONE);
                 initArticle();
                 fragmentManager.beginTransaction().replace(R.id.main_content, myArticleFragment).commit();

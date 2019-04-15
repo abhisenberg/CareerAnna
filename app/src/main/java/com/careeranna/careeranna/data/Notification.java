@@ -1,25 +1,25 @@
 package com.careeranna.careeranna.data;
 
 public class Notification {
-    public static final String NOTIF_LIST = "NotifList";
+    public static final String NOTIF_LIST = "NotifyList";
 
-    String title, description, image_url, type, id, date;
+    String title, description, image_url, date, redirectURl;
 
-    public Notification(String title, String description, String image_url, String type, String id) {
+
+    public Notification(String title, String description, String image_url, String date, String redirectURl) {
         this.title = title;
         this.description = description;
         this.image_url = image_url;
-        this.type = type;
-        this.id = id;
+        this.date = date;
+        this.redirectURl = redirectURl;
     }
 
-    public Notification(String title, String description, String image_url, String type, String id, String date) {
-        this.title = title;
-        this.description = description;
-        this.image_url = image_url;
-        this.type = type;
-        this.id = id;
-        this.date = date;
+    public String getRedirectURl() {
+        return redirectURl;
+    }
+
+    public void setRedirectURl(String redirectURl) {
+        this.redirectURl = redirectURl;
     }
 
     public static String getNotifList() {
@@ -56,21 +56,5 @@ public class Notification {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

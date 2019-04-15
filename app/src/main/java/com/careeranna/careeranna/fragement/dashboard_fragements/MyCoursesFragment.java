@@ -37,16 +37,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         , RecyclerViewPager.OnPageChangedListener {
     public static final String TAG = "MyCourseFragment";
 
-    MyCoursesAdapterNew myCoursesAdapterNew;
-
-    CardView cardView;
-
-    SearchView search;
     private ArrayList<CourseWithLessData> course, tempCourse;
-
-    RecyclerView mRecyclerView;
-    private int rv_currentPage;
-
 
     TabLayout tabLayout;
 
@@ -103,14 +94,7 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
             viewPager.setCurrentItem(1);
         }
 
-//        if (course.size() == 0) {
-//            cardView.setVisibility(View.VISIBLE);
-//        }
-//
-//        myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
-//        mRecyclerView.setAdapter(myCoursesAdapterNew);
-//
-//        myCoursesAdapterNew.setOnItemClicklistener(this);
+
     }
 
     @Override
@@ -138,42 +122,6 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
         tabLayout.addTab(tabLayout.newTab().setText("Articles"));
         tabLayout.addTab(tabLayout.newTab().setText("Premium Courses"));
         tabLayout.addTab(tabLayout.newTab().setText("Free Courses"));
-
-//        mRecyclerView = view.findViewById(R.id.my_courses);
-//
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-//        mRecyclerView.setLayoutManager(linearLayoutManager);
-//        cardView = view.findViewById(R.id.card);
-//
-//        search = view.findViewById(R.id.search);
-//        rv_currentPage = 0;
-//
-//        search.setSuggestionsAdapter(null);
-//        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                closeKeyboard();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                tempCourse = new ArrayList<>();
-//                for (CourseWithLessData courseWithLessData : course) {
-//                    if (courseWithLessData.getCourse_name().toLowerCase().contains(newText)) {
-//                        tempCourse.add(courseWithLessData);
-//                    }
-//                }
-//
-//
-//                myCoursesAdapterNew = new MyCoursesAdapterNew(getApplicationContext(), tempCourse);
-//                mRecyclerView.setAdapter(myCoursesAdapterNew);
-//                myCoursesAdapterNew.setOnItemClicklistener(MyCoursesFragment.this);
-//
-//                return true;
-//            }
-//        });
 
         return view;
     }
@@ -228,16 +176,6 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     }
 
 
-    private void closeKeyboard() {
-        if(getActivity() != null) {
-            View view = getActivity().getCurrentFocus();
-            if (view != null) {
-                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
-    }
-
     @Override
     public void onItemClick(int position) {
 
@@ -265,6 +203,5 @@ public class MyCoursesFragment extends Fragment implements MyCoursesAdapterNew.O
     @Override
     public void OnPageChanged(int i, int i1) {
         Log.d(TAG, "OnPageChanged: oldPage = " + i + ", newPage = " + i1);
-        rv_currentPage = i1;
-    }
+       }
 }

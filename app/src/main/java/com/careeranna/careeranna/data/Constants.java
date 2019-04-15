@@ -20,10 +20,5 @@ public class Constants {
     public static final String OPEN_MY_COURSES_INTENT = "openMyCourseIntent";
 
     public static final String LANGUAGE = "LANGUAGE";
-    public static final String VERSION_NAME = "1.2.9";
-    public static final String NOTIF_TYPE_ARTICLE = "article_notif";
-    public static final String NOTIF_TYPE_VIDEO = "video_notif";
-    public static final String NOTIF_TYPE_COURSE = "course_notif";
-    public static final String NOTIF_TYPE_NONE = "no_link_notif";
-
+    public static final String VERSION_NAME = "1.3.0";
 }
