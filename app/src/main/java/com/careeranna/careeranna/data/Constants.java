@@ -20,5 +20,5 @@ public class Constants {
     public static final String OPEN_MY_COURSES_INTENT = "openMyCourseIntent";
 
     public static final String LANGUAGE = "LANGUAGE";
-    public static final String VERSION_NAME = "1.3.0";
+    public static final String VERSION_NAME = "1.3.1";
 }

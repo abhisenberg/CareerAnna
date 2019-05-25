@@ -137,6 +137,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
         testFragment = new TestFragment();
         certificateFragment = new CertificateFragment();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reset_course, menu);

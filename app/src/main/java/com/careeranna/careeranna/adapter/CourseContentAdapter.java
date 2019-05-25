@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.NotificationCourseActivity;
 import com.careeranna.careeranna.activity.PurchaseCourseActivity;
 import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.fragement.profile_fragements.TutorialFragment;
@@ -24,6 +25,7 @@ public class CourseContentAdapter extends RecyclerView.Adapter<CourseContentAdap
     private String url;
     private TutorialFragment tutorialFragment;
     private PurchaseCourseActivity purchaseCourseDetail;
+    private NotificationCourseActivity notificationCourseActivity;
 
     public CourseContentAdapter(ArrayList<Unit> mUnits, Context context) {
         this.mUnits = mUnits;
@@ -61,6 +63,9 @@ public class CourseContentAdapter extends RecyclerView.Adapter<CourseContentAdap
         if(this.purchaseCourseDetail != null) {
             courseContentInside.setOnItemClicklistener(this);
         }
+        if(this.notificationCourseActivity != null) {
+            courseContentInside.setOnItemClicklistener(this);
+        }
 
     }
 
@@ -71,6 +76,10 @@ public class CourseContentAdapter extends RecyclerView.Adapter<CourseContentAdap
 
     public void addPurchaseCourse(PurchaseCourseActivity purchaseCourseDetail) {
         this.purchaseCourseDetail = purchaseCourseDetail;
+    }
+
+    public void addNotificationCourse(NotificationCourseActivity notificationCourseActivity) {
+        this.notificationCourseActivity = notificationCourseActivity;
     }
 
     @Override
@@ -87,6 +96,19 @@ public class CourseContentAdapter extends RecyclerView.Adapter<CourseContentAdap
                 purchaseCourseDetail.playVideo(url);
             }
         }
+
+        if(notificationCourseActivity != null) {
+
+            url = video_url;
+
+            if(url.equals("Checkout")) {
+                notificationCourseActivity.freeCourseCheckout();
+            } else {
+                notificationCourseActivity.playVideo(url);
+            }
+
+        }
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

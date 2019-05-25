@@ -12,6 +12,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/noti_image"
         android:layout_width="0dp"
         android:scaleType="fitXY"

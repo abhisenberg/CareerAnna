@@ -1,5 +1,6 @@
 package com.careeranna.careeranna.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -20,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.NotificationArticleActivity;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Constants;
@@ -88,6 +91,15 @@ public class ParticularArticleActivity extends AppCompatActivity {
         articleCategory = findViewById(R.id.particle_category);
         articleImage = findViewById(R.id.particle_image);
         webview = findViewById(R.id.webview);
+
+        webview.setWebViewClient(new WebViewClient(){
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.contains("https://www.careeranna.com/articles/")) {
+                    sendToAnotherArticle(url);   
+                }
+                return true;
+            }
+        });
 
         webSettings = webview.getSettings();
 
@@ -221,6 +233,32 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void sendToAnotherArticle(String url) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                "https://careeranna.com/api/getNotificationId.php?url=" + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response", response);
+                        Intent intent;
+                        intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
+                        intent.putExtra("article_id", response);
+                        startActivity(intent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
     }
 
     public void hidden() {
