@@ -62,6 +62,8 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore_not_sign);
 
+        Paper.init(this);
+
         progressBar = findViewById(R.id.progress_bar);
 
         /*

@@ -78,6 +78,8 @@ public class Payment extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        Paper.init(this);
+
         price = Integer.valueOf(getIntent().getStringExtra("gst_price"));
 
         progressBar = findViewById(R.id.progress);
@@ -93,9 +95,6 @@ public class Payment extends AppCompatActivity{
             price1 += orderedCourse.getOld_price() + ",";
             discounted_price += orderedCourse.getPrice() + ",";
         }
-
-
-        Paper.init(this);
 
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
@@ -383,7 +382,7 @@ public class Payment extends AppCompatActivity{
 
                         if (jsonObject.has("status")) {
                             if (jsonObject.getString("status").equalsIgnoreCase("success")) {
-                                courseCheckout();
+                                courseCheckout(jsonObject);
                             }
                         }
 
@@ -399,11 +398,11 @@ public class Payment extends AppCompatActivity{
         }
     }
 
-    private void courseCheckout() {
+    private void courseCheckout(final JSONObject jsonObject) {
         progressBar.setVisibility(View.VISIBLE);
         please_wait_tv.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(Payment.this);
-        String url = "https://careeranna.com/websiteapi/pdfCheck";
+        String url = "https://careeranna.com/websiteapi/pdfCheckCareer";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
@@ -432,6 +431,9 @@ public class Payment extends AppCompatActivity{
                 params.put("name", getIntent().getStringExtra("name"));
                 params.put("city", getIntent().getStringExtra("city"));
                 params.put("email", getIntent().getStringExtra("email"));
+                params.put("phone", getIntent().getStringExtra("phone"));
+                params.put("promocodes", getIntent().getStringExtra("promocodes"));
+                params.put("payment_response", jsonObject.toString());
                 params.put("ids", getIntent().getStringExtra("ids"));
                 params.put("prices", getIntent().getStringExtra("product_prices"));
                 params.put("discount_price", getIntent().getStringExtra("discount_prices"));

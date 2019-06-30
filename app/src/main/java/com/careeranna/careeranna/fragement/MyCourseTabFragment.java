@@ -41,10 +41,8 @@ public class MyCourseTabFragment extends Fragment implements MyCoursesAdapterNew
     private Context context;
 
     public void addCourses(ArrayList<CourseWithLessData> course){
-
         this.course = course;
         this.tempCourse = course;
-
     }
 
     public MyCourseTabFragment() {
@@ -73,8 +71,10 @@ public class MyCourseTabFragment extends Fragment implements MyCoursesAdapterNew
 
         context = inflater.getContext();
 
-        if (course.size() == 0) {
-            cardView.setVisibility(View.VISIBLE);
+        if(course != null) {
+            if (course.size() == 0) {
+                cardView.setVisibility(View.VISIBLE);
+            }
         }
 
         search.setSuggestionsAdapter(null);

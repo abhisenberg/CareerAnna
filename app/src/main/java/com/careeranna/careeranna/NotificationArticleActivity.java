@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.careeranna.careeranna.activity.NotificationCourseActivity;
 import com.careeranna.careeranna.data.Article;
 
 import org.json.JSONException;
@@ -45,6 +46,8 @@ public class NotificationArticleActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if(url.contains("https://www.careeranna.com/articles/")) {
                     sendToAnotherArticle(url);
+                } else if(url.contains("https://www.careeranna.com/")) {
+                    sendToCoursePage(url);
                 }
                 return true;
             }
@@ -145,6 +148,36 @@ public class NotificationArticleActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void sendToCoursePage(String url) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                "https://careeranna.com/api/getCourseIdFromSlug.php?url=" + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("No Result")) {
+
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationCourseActivity.class);
+                            intent.putExtra("course_id", response);
+                            intent.putExtra("type", "premium_course");
+                            startActivity(intent);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
+    }
+
     private void sendToAnotherArticle(String url) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -155,11 +188,14 @@ public class NotificationArticleActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("response", response);
-                        Intent intent;
-                        intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
-                        intent.putExtra("article_id", response);
-                        startActivity(intent);
+                        if(response.equals("No Result")) {
+
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
+                            intent.putExtra("article_id", response);
+                            startActivity(intent);
+                        }
                     }
                 },
                 new Response.ErrorListener() {

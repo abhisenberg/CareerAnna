@@ -90,6 +90,8 @@ public class Exams extends AppCompatActivity implements NoInternetFragment.OnFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exams);
 
+        Paper.init(this);
+
         Log.d(TAG, "onCreate: ");
 
 //        navigationView = findViewById(R.id.nav_view1);
@@ -148,8 +150,6 @@ public class Exams extends AppCompatActivity implements NoInternetFragment.OnFra
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        Paper.init(this);
 
 
 //
@@ -300,6 +300,7 @@ public class Exams extends AppCompatActivity implements NoInternetFragment.OnFra
                         String shareUrl = "";
                         try {
                             if (!response.equals("No results")) {
+                                Log.d("response", response);
 //                                navigationView.setCheckedItem(R.id.tutorial);
                                 Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
                                 JSONObject obj = new JSONObject(response);

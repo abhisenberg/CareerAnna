@@ -108,6 +108,8 @@ public class PurchaseCourseActivity extends AppCompatActivity implements VideoPl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_course);
 
+        Paper.init(this);
+
         Intent intent = getIntent();
 
         progressBar = findViewById(R.id.progress_bar_course);
@@ -129,7 +131,6 @@ public class PurchaseCourseActivity extends AppCompatActivity implements VideoPl
 
         relativeLayout = findViewById(R.id.relative_loading);
 
-
         wv_productDescription = findViewById(R.id.wv_productDesc);
         wv_productDescription.setVisibility(GONE);
 
@@ -137,7 +138,6 @@ public class PurchaseCourseActivity extends AppCompatActivity implements VideoPl
 
         if(getIntent().hasExtra("my_paid_course")) {
             purchasedPaidCourses = (ArrayList<MyPaidCourse>) getIntent().getSerializableExtra("my_paid_course");
-
             for(MyPaidCourse myPaidCourse: purchasedPaidCourses) {
                 if(myPaidCourse.getProduct_id().equalsIgnoreCase(course.getId())){
                     add_to_cart.setVisibility(GONE);
@@ -628,6 +628,5 @@ public class PurchaseCourseActivity extends AppCompatActivity implements VideoPl
             }
         }
     }
-
 
 }

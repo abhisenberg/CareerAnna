@@ -98,7 +98,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         Paper.init(this);
 
-
         signInLayout = findViewById(R.id.sign_in_and_up_layout);
 
         log_in_tab = findViewById(R.id.log_in_tab);

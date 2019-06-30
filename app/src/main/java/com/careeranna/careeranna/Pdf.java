@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,8 +74,12 @@ public class Pdf extends AppCompatActivity {
         @Override
         protected void onPostExecute(InputStream inputStream) {
 
-            progressDialog.dismiss();
-            pdfViewer.fromStream(inputStream).load();
+            pdfViewer.fromStream(inputStream).onLoad(new OnLoadCompleteListener() {
+                @Override
+                public void loadComplete(int nbPages) {
+                    progressDialog.dismiss();
+                }
+            }).load();
         }
     }
 }

@@ -58,6 +58,8 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
             getSupportActionBar().setTitle("Account");
         }
 
+        Paper.init(this);
+
         bt_signOut = findViewById(R.id.bt_userp_profile_signout_3);
         user_image = findViewById(R.id.iv_profileImage_3);
         user_name = findViewById(R.id.tv_profileName_3);

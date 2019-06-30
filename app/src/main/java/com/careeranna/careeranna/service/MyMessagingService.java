@@ -64,7 +64,7 @@ public class MyMessagingService extends FirebaseMessagingService {
         if(currentNotif.getType().equals("premium_course")) {
              intent =  new Intent(getApplicationContext(), NotificationCourseActivity.class);
              intent.putExtra("course_id", currentNotif.getRedirectURlId());
-            intent.putExtra("type", "premium_course");
+             intent.putExtra("type", "premium_course");
         } else if(currentNotif.getType().equals("article")) {
             intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
             intent.putExtra("article_id", currentNotif.getRedirectURlId());

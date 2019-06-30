@@ -3,6 +3,7 @@ package com.careeranna.careeranna.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +85,9 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
         please_wait_tv = findViewById(R.id.please_wait_tv);
 
         generateCheckSum();
+
+     //   courseCheckout(new Bundle());
+
     }
 
     private void generateCheckSum() {
@@ -139,6 +144,7 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
 
             }
         });
+
     }
 
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
@@ -175,7 +181,15 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onTransactionResponse(Bundle inResponse) {
-        courseCheckout();
+        String response = "Bundle[{STATUS=TXN_SUCCESS, CHECKSUMHASH=W1qF7coHHR61tZxvtXaBUAsUbKeHiNX3L/M9Z7gSQd957/kRYWlqI4zxCAs0SIMsAMSBKB2qh03s+biJzCQfICPbHfgHY2W1lMJnYN9kuIs=, BANKNAME=WALLET, ORDERID=b47598b8d2fa493e8b453471846e46d1, TXNAMOUNT=1.00, TXNDATE=2019-06-02 19:11:40.0, MID=tweSrj29619213274989, TXNID=20190602111212800110168393272572844, RESPCODE=01, PAYMENTMODE=PPI, BANKTXNID=114240516328, CURRENCY=INR, GATEWAYNAME=WALLET, RESPMSG=Txn Success}]";
+        if(inResponse.containsKey("STATUS")) {
+            if(inResponse.getString("STATUS").equals("TXN_SUCCESS")) {
+                courseCheckout(inResponse, inResponse.getString("TXNID"));
+            } else {
+                Toast.makeText(this, "Transaction Error", Toast.LENGTH_LONG).show();
+                onBackPressed();
+            }
+        }
     }
 
     @Override
@@ -208,15 +222,16 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
         Toast.makeText(this, "Cancel" + inErrorMessage + inResponse.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void courseCheckout() {
+    private void courseCheckout(final Bundle inResponse, final String orderid) {
         progressBar.setVisibility(View.VISIBLE);
         please_wait_tv.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(PaytmPayment.this);
-        String url = "https://careeranna.com/websiteapi/pdfCheck";
+        String url = "https://careeranna.com/websiteapi/pdfCheckCareer";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("response", response);
                         Toast.makeText(PaytmPayment.this, response, Toast.LENGTH_SHORT).show();
                         Paper.book().delete("cart1");
                         startActivity(new Intent(PaytmPayment.this, MyCourses.class).putExtra("fragment_name", "my_course"));
@@ -229,18 +244,32 @@ public class PaytmPayment extends AppCompatActivity implements PaytmPaymentTrans
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.INVISIBLE);
                         please_wait_tv.setVisibility(View.GONE);
+                        if (error == null || error.networkResponse == null) {
+                            return;
+                        }
+                        String body;
+                        final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                        try {
+                            body = new String(error.networkResponse.data, "UTF-8");
+                            Log.e("error_message", body);
+                        } catch (UnsupportedEncodingException e) {
+                        }
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 // Posting params to login url
                 Map<String, String> params = new HashMap<String, String>();
+
                 params.put("user", user.getUser_id());
                 params.put("product_ids", ids);
                 params.put("name", getIntent().getStringExtra("name"));
                 params.put("city", getIntent().getStringExtra("city"));
                 params.put("email", getIntent().getStringExtra("email"));
+                params.put("phone", getIntent().getStringExtra("phone"));
                 params.put("ids", getIntent().getStringExtra("ids"));
+                params.put("payment_response", inResponse.toString());
+                params.put("order_id", orderid+"");
                 params.put("prices", getIntent().getStringExtra("product_prices"));
                 params.put("discount_price", getIntent().getStringExtra("discount_prices"));
                 params.put("sub_total", getIntent().getStringExtra("grand_total")+"");

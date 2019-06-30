@@ -2,11 +2,15 @@ package com.careeranna.careeranna.activity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -26,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * Initializing Layout Variables
          */
 
+        Paper.init(this);
+
         privacy_policy = findViewById(R.id.privacy_policy);
         Button bt_explore = findViewById(R.id.bt_explore);
         Button signIn = findViewById(R.id.signIn);
@@ -85,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
 
         mAuth = FirebaseAuth.getInstance();
-        Paper.init(this);
 
         /*
          *  Hiding Action Bar
@@ -152,6 +158,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_explore.setOnClickListener(this);
         signIn.setOnClickListener(this);
 
+        String permission = Paper.book().read("permission");
+
+        if (permission != null && !permission.isEmpty()) {
+        } else {
+            try {
+                Intent intent = new Intent();
+                String manufacturer = android.os.Build.MANUFACTURER.toLowerCase();
+                Log.d("manu", manufacturer);
+                String model = Build.MODEL;
+
+                switch (manufacturer) {
+                    case "xiaomi":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+                        break;
+                    case "oppo":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+                        break;
+                    case "vivo":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+                        break;
+                    case "Letv":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+                        break;
+                    case "Honor":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+                        break;
+                    case "oneplus":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
+                        break;
+                    default:
+                        Paper.book().write("permission", "yes");
+                        break;
+                }
+
+                List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                if (list.size() > 0) {
+                    startActivityForResult(intent, 20);
+                }
+            } catch (Exception e) {
+                Log.e("exc", String.valueOf(e));
+            }
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 20) {
+            Paper.book().write("permission", "yes");
+        }
     }
 
 
@@ -167,12 +229,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, SignInActivity.class);
                 startActivity(intent);
                 break;
-
             case R.id.bt_explore:
                 Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
                 startActivity(openExplorePage);
                 break;
-
             case R.id.privacy_policy:
                 String url = "https://www.careeranna.com/privacy_policy";
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -185,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("my_notifications_3").addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseMessaging.getInstance().subscribeToTopic("my_notifications").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 

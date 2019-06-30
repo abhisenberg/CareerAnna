@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,27 @@ import com.careeranna.careeranna.adapter.CourseContentAdapter;
 import com.careeranna.careeranna.adapter.ExpandableList_Adapter;
 import com.careeranna.careeranna.data.Unit;
 import com.longtailvideo.jwplayer.JWPlayerView;
+import com.longtailvideo.jwplayer.events.AdPlayEvent;
+import com.longtailvideo.jwplayer.events.BeforePlayEvent;
+import com.longtailvideo.jwplayer.events.ErrorEvent;
 import com.longtailvideo.jwplayer.events.FullscreenEvent;
+import com.longtailvideo.jwplayer.events.PlayEvent;
+import com.longtailvideo.jwplayer.events.PlaylistCompleteEvent;
+import com.longtailvideo.jwplayer.events.PlaylistEvent;
+import com.longtailvideo.jwplayer.events.ReadyEvent;
+import com.longtailvideo.jwplayer.events.SetupErrorEvent;
+import com.longtailvideo.jwplayer.events.listeners.AdvertisingEvents;
 import com.longtailvideo.jwplayer.events.listeners.VideoPlayerEvents;
+import com.longtailvideo.jwplayer.media.playlists.MediaSource;
 import com.longtailvideo.jwplayer.media.playlists.PlaylistItem;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
+
+import io.paperdb.Paper;
+import retrofit2.http.Url;
 
 import static android.view.View.GONE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -72,6 +90,8 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
         context = inflater.getContext();
 
+        Paper.init(context);
+
         playerView = view.findViewById(R.id.videoView);
         video_heading_rv = view.findViewById(R.id.videos_rv);
         imageView = view.findViewById(R.id.image_view);
@@ -95,16 +115,17 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(shareUrl != null) {
+                if (shareUrl != null) {
 
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
                     sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.careeranna.com/english/free/videos/mba/"+shareUrl.replaceAll(" ", "-"));
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.careeranna.com/english/free/videos/mba/" + shareUrl.replaceAll(" ", "-"));
                     sendIntent.setType("text/plain");
                     inflater.getContext().startActivity(sendIntent);
 
-                }}
+                }
+            }
         });
 
         return view;
@@ -153,7 +174,7 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
 
     public void addType(String type) {
         this.type = type;
-        if(type.equals("paid")) {
+        if (type.equals("paid")) {
             share.setVisibility(GONE);
         }
     }
@@ -164,13 +185,25 @@ public class TutorialFragment extends Fragment implements ExpandableList_Adapter
     }
 
     public void playVideo(String videoUrl, String heading) {
+        Log.d("url_from_video", videoUrl);
+//
+//        try {
+//            videoUrl = URLEncoder.encode(videoUrl, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
-        this.shareUrl = heading;
-        PlaylistItem playlistItem = new PlaylistItem.Builder()
-                .file(videoUrl)
-                .build();
-        playerView.load(playlistItem);
-        playerView.play();
+        PlaylistItem playlistItem1 = new PlaylistItem.Builder()
+                        .file(videoUrl)
+                        .build();
+                playerView.load(playlistItem1);
+                playerView.play();
+
+        playerView.addOnErrorListener(new VideoPlayerEvents.OnErrorListener() {
+            @Override
+            public void onError(ErrorEvent errorEvent) {
+            }
+        });
 
     }
 

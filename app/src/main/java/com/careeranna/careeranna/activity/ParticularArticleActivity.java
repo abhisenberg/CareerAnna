@@ -96,6 +96,8 @@ public class ParticularArticleActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if(url.contains("https://www.careeranna.com/articles/")) {
                     sendToAnotherArticle(url);   
+                } else if(url.contains("https://www.careeranna.com/")) {
+                    sendToCoursePage(url);
                 }
                 return true;
             }
@@ -127,7 +129,6 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("url_response", response.toString());
                             response = response.replace("<img ", "<img class=\"img-thumbnail\" ");
                             response = response.replaceAll("<table .*>", "<table class=\"table table-responsive\"  >");
                             response = response.replaceAll("\\s+", " ");
@@ -235,8 +236,42 @@ public class ParticularArticleActivity extends AppCompatActivity {
         });
     }
 
+    private void sendToCoursePage(String url) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                "https://careeranna.com/api/getCourseIdFromSlug.php?url=" + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.contains("No Result")) {
+                            Log.d("response", response);
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationCourseActivity.class);
+                            intent.putExtra("course_id", response);
+                            intent.putExtra("type", "premium_course");
+                            startActivity(intent);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
+    }
+
     private void sendToAnotherArticle(String url) {
 
+        progressBar.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(
@@ -245,16 +280,21 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("response", response);
-                        Intent intent;
-                        intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
-                        intent.putExtra("article_id", response);
-                        startActivity(intent);
+                        if(response.contains("No Result")) {
+
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
+                            intent.putExtra("article_id", response);
+                            startActivity(intent);
+                        }
+                        progressBar.setVisibility(View.GONE);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
         );

@@ -67,7 +67,11 @@ public class CoursesWithSearchFragment extends Fragment implements CoursesAdapte
 
             @Override
             public boolean onQueryTextChange(String s) {
-                courses.clear();
+                if(courses != null) {
+                    courses.clear();
+                } else {
+                    courses = new ArrayList<>();
+                }
                 if(s.length() > 0) {
                     for(Course currentCourse: tempCourses){
                             if(currentCourse.getName().trim().toLowerCase().contains(s.trim().toLowerCase())){

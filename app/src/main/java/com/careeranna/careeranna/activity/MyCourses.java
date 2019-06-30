@@ -84,6 +84,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
     private DrawerLayout drawerLayout;
 
+    AlertDialog alert;
+
     private ActionBarDrawerToggle mToggle;
 
     private WishListFragment wishListFragment;
@@ -209,9 +211,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
         // Initializing Paper.db for getting cache data of user
         Paper.init(this);
 
-        // Checking App Version For playStore Apk And User Installed Apk
-        checkAppUpdatesOnPlayStore();
-
         // Initializing Fragments For this Activity
         errorOccurredFragment = new ErrorOccurredFragment();
         noInternetFragment = new NoInternetFragment();
@@ -296,12 +295,9 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
 
 
         myCourses = new ArrayList<>();
-
-
         /*
         LAUNCH EXPLORE FRAGMENT BY DEFAULT
          */
-
 
         if (amIConnect()) {
             Bundle extras = getIntent().getExtras();
@@ -474,6 +470,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     protected void onResume() {
         super.onResume();
 
+        Paper.init(this);
+
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
             User user = new Gson().fromJson(cache, User.class);
@@ -482,6 +480,8 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             mUsername = user.getUser_username();
             mEmail = user.getUser_email();
         }
+
+        checkAppUpdatesOnPlayStore();
 
     }
 
@@ -575,7 +575,6 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
     }
 
     private void checkAppUpdatesOnPlayStore() {
-
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest str = new StringRequest(Request.Method.GET,
                 UrlConstants.FETCH_APP_VERSION,
@@ -584,8 +583,15 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                     public void onResponse(String response) {
                         try {
                             JSONObject spo = new JSONObject(response);
+                            Log.d("response", response);
+
+                            String title = spo.getString("title");
+                            String changes = spo.getString("changes");
+
+                            String is_hard = spo.getString("is_hard");
+
                             if (!spo.getString("version_name").equals(Constants.VERSION_NAME)) {
-                                alertDialogForUpdate();
+                                alertDialogForUpdate(title, changes, is_hard);
                             }
                         } catch (JSONException e) {
                             Log.e("error_code", e.getMessage());
@@ -597,18 +603,28 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
             }
         });
         queue.add(str);
-
     }
 
-    private void alertDialogForUpdate() {
+    private void alertDialogForUpdate(String title, String changes, String is_hard) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Update Available");
-        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setCancelable(false);
 
-        builder.setMessage(getString(R.string.update_your_app))
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+        builder.setMessage(changes);
+
+        if(is_hard.equals("0")) {
+            builder.setCancelable(true);
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alert.dismiss();
+                }
+            });
+        }
+
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(
@@ -621,7 +637,7 @@ public class MyCourses extends AppCompatActivity implements NavigationView.OnNav
                 });
 
 
-        AlertDialog alert = builder.create();
+        alert = builder.create();
         alert.show();
     }
 
