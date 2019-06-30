@@ -5,10 +5,15 @@ package com.payu.payuui.SdkuiUtil;
  */
 public interface SdkUIConstants {
 
+    String LAZY_PAY="Lazy Pay";
     String SAVED_CARDS = "Saved Cards";
     String CREDIT_DEBIT_CARDS = "Credit/Debit Cards";
     String NET_BANKING = "Net Banking";
     String UPI = "UPI";
+    String GENERICINTENT="GENERICINTENT";
+    String TEZ = "TEZ";
+    String PHONEPE = "PHONEPE";
+    String CBPHONEPE = "CBPHONEPE";
     String CASH_CARDS = "Cash Cards";
     String EMI = "EMI";
     String PAYU_MONEY = "PayU Money";

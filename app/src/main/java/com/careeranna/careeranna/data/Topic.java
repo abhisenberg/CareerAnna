@@ -9,11 +9,27 @@ public class Topic {
     private String Name;
     private Drawable icon;
     private String videos;
+    private Boolean isWatched;
 
     public Topic(String name, String videos) {
         Name = name;
         this.icon = icon;
         this.videos = videos;
+    }
+
+    public Topic(String name, Drawable icon, String videos, Boolean isWatched) {
+        Name = name;
+        this.icon = icon;
+        this.videos = videos;
+        this.isWatched = isWatched;
+    }
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
     }
 
     public String getVideos() {

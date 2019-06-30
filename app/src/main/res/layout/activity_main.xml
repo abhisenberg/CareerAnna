@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent">
 
-            <android.support.v4.view.ViewPager
-                app:layout_constraintTop_toBottomOf="@id/view"
-                android:layout_height="0dp"
-                android:id="@+id/intro_viewpager"
-                app:layout_constraintHeight_percent="0.7"
-                android:layout_width="match_parent"
-                />
-
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#fff"
-        android:id="@+id/view"
-        app:layout_constraintHeight_percent="0.15"
-        />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintTop_toBottomOf="@id/intro_viewpager"
-        android:id="@+id/intro_dots"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="30dp">
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#fff"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_percent="0.10" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:weightSum="10"
-        app:layout_constraintBottom_toBottomOf="parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/intro_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.7"
+            app:layout_constraintTop_toBottomOf="@id/view" />
 
+
+        <LinearLayout
+            android:id="@+id/intro_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintHeight_percent="0.1"
+            android:gravity="center_horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intro_viewpager" />
 
         <Button
-            android:text="@string/explore"
-            android:letterSpacing="0.05"
-            android:textSize="14sp"
-            android:layout_weight="5"
-            android:layout_marginRight="1dp"
-            android:id="@+id/bt_explore"
-            android:textColor="@color/white"
-            android:background="@drawable/intro_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:id="@+id/privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intro_dots" />
 
-        <Button
-            android:text="@string/sign_in"
-            android:id="@+id/signIn"
-            android:textColor="#FFF"
-            android:background="@drawable/intro_button"
-            android:textSize="14sp"
-            android:layout_weight="5"
-            android:layout_marginLeft="1dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:weightSum="10"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/bt_explore"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1dp"
+                android:layout_weight="5"
+                android:background="@drawable/intro_button"
+                android:letterSpacing="0.05"
+                android:text="@string/explore"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/signIn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="5"
+                android:background="@drawable/intro_button"
+                android:text="@string/sign_in"
+                android:textColor="#FFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

@@ -3,7 +3,7 @@ package com.careeranna.careeranna.data;
 public class Notification {
     public static final String NOTIF_LIST = "NotifList";
 
-    String title, description, image_url, type, id;
+    String title, description, image_url, type, id, date;
 
     public Notification(String title, String description, String image_url, String type, String id) {
         this.title = title;
@@ -11,6 +11,27 @@ public class Notification {
         this.image_url = image_url;
         this.type = type;
         this.id = id;
+    }
+
+    public Notification(String title, String description, String image_url, String type, String id, String date) {
+        this.title = title;
+        this.description = description;
+        this.image_url = image_url;
+        this.type = type;
+        this.id = id;
+        this.date = date;
+    }
+
+    public static String getNotifList() {
+        return NOTIF_LIST;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {

@@ -57,48 +57,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_marginTop="3dp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:id="@+id/star1"
-                        android:src="@drawable/ic_star_colour_full" />
-                    <ImageView
-                        android:layout_marginTop="3dp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:id="@+id/star2"
-                        android:layout_toRightOf="@id/star1"
-                        android:src="@drawable/ic_star_colour_full"/>
-                    <ImageView
-                        android:layout_marginTop="3dp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:id="@+id/star3"
-                        android:layout_toRightOf="@id/star2"
-                        android:src="@drawable/ic_star_colour_full" />
-                    <ImageView
-                        android:layout_marginTop="3dp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:id="@+id/star4"
-                        android:layout_toRightOf="@id/star3"
-                        android:src="@drawable/ic_star_colour_full"/>
-                    <ImageView
-                        android:layout_marginTop="2dp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:id="@+id/star5"
-                        android:layout_toRightOf="@id/star4"
-                        android:src="@drawable/ic_star_colour"/>
+                    <RatingBar
+                        android:id="@+id/course_rating_bar"
+                        style="@style/RatingBarCustom"
+                        android:progressTint="@color/golden"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
 
                     <TextView
                         android:gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/star5"
+                        android:layout_toRightOf="@id/course_rating_bar"
                         android:layout_marginLeft="10dp"
                         android:text="4.00 (4,000)"
+                        android:id="@+id/total_rating"
                         android:textSize="13sp"
                         android:textColor="@color/black"
                         />

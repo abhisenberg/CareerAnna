@@ -71,7 +71,7 @@
     <string name="vpa_text">yourname@bankname</string>
     <string name="learn_upi">Learn how UPI works</string>
 
-   <!-- <string name="error_vpa_length">Please enter a valid VPA Maximum length allowed is 50 characters</string>-->
+    <!-- <string name="error_vpa_length">Please enter a valid VPA Maximum length allowed is 50 characters</string>-->
     <string name="error_invalid_vpa">Invalid VPA</string>
     <string name="error_fill_vpa">Please fill VPA</string>
 

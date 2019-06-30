@@ -1,7 +1,7 @@
 package com.careeranna.careeranna.adapter;
 
 import android.content.Context;
-import android.media.Rating;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -18,7 +17,11 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Course;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import static android.view.View.GONE;
 
 public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.ViewHolder> {
 
@@ -45,7 +48,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_free_course_new_2, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_free_course_new, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -54,10 +57,6 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
 
         viewHolder.name.setText(freeVideos.get(i).getName());
 
-//        TODO: Change the dummy thumbnails
-        /*
-        Setting the thumbnails of the courses according to their names.
-         */
         String[] thumbnail_URLs = {
                 "https://www.careeranna.com/uploads/thumbnail_images/CAT01.jpg",
                 "https://www.careeranna.com/uploads/thumbnail_images/XAT_02.jpg",
@@ -70,6 +69,14 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
         String courseName = freeVideos.get(i).getName();
         String courseThumbnailURL = freeVideos.get(i).getImageUrl();
 
+        if(freeVideos.get(i).getPrice()!= null && freeVideos.get(i).getPrice().equals("0")) {
+            viewHolder.discounted_price.setVisibility(GONE);
+            viewHolder.original_price.setText("Free");
+        } else {
+            viewHolder.discounted_price.setText("₹ "+freeVideos.get(i).getPrice());
+            viewHolder.original_price.setPaintFlags(viewHolder.original_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.original_price.setText("₹ "+freeVideos.get(i).getPrice_before_discount());
+        }
         if(courseName.contains("CAT")){
             courseThumbnailURL = thumbnail_URLs[0];
         } else if (courseName.contains("XAT")){
@@ -89,7 +96,10 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
                 .load(Uri.parse(courseThumbnailURL))
                 .into(viewHolder.imageView);
 
-        viewHolder.ratingBar.setRating(4f);
+        viewHolder.ratingBar.setRating(Float.valueOf(freeVideos.get(i).getRatings()));
+        if(freeVideos.get(i).getRatings() != null) {
+            viewHolder.ratings.setText(freeVideos.get(i).getRatings()+" ( "+ NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(freeVideos.get(i).getTotal_ratings()))+" Ratings)");
+        }
     }
 
     @Override
@@ -101,7 +111,7 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
 
         ImageView imageView;
 
-        TextView name;
+        TextView name, original_price, discounted_price, ratings;
 
         RatingBar ratingBar;
 
@@ -112,6 +122,9 @@ public class FreeCourseAdapter extends RecyclerView.Adapter<FreeCourseAdapter.Vi
             imageView = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
             ratingBar = itemView.findViewById(R.id.ratingBar_freeCourse);
+            original_price = itemView.findViewById(R.id.original_price);
+            discounted_price = itemView.findViewById(R.id.discounted_price);
+            ratings = itemView.findViewById(R.id.ratings);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

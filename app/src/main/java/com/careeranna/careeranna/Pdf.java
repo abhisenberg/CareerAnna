@@ -33,8 +33,6 @@ public class Pdf extends AppCompatActivity {
             pdf = getIntent().getStringExtra("pdf");
         //    pdfViewer.fromUri(Uri.parse("https://www.careeranna.com/uploads/lesson_related_files/"+getIntent().getStringExtra("pdf"))).load();
             new RetrievePdfStream().execute("https://www.careeranna.com/uploads/lesson_related_files/"+getIntent().getStringExtra("pdf").replaceAll("\\s", "%20"));
-        } else {
-            pdfViewer.fromAsset("pdfview.pdf").load();
         }
 
     }

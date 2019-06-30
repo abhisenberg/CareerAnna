@@ -110,6 +110,7 @@
                         android:layout_toRightOf="@id/course_rating_bar"
                         android:layout_marginLeft="10dp"
                         android:text="4.00 (4,000)"
+                        android:id="@+id/total_rating"
                         android:textSize="13sp"
                         android:textColor="@color/black"
                         />

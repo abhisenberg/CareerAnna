@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#29485A</color>
+    <color name="colorPrimary">#273544</color>
 
     <color name="colorPrimaryLight">#1989cd</color>
-    <color name="colorPrimaryDark">#29485A</color>
+    <color name="colorPrimaryDark">#273544</color>
     <color name="colorAccent">#55BFFF</color>
     <color name="white">#fff</color>
+    <color name="watched">#03A9F4</color>
     <color name="black">#000</color>
     <color name="pink">#bebe</color>
     <color name="light_blue">#0d8bd7</color>
@@ -30,5 +31,14 @@
     <color name="dark_gray">#8d8d8d</color>
     <color name="userProf_options_textColor">#000</color>
     <color name="golden">#FFC300</color>
+
+    <color name="dividerColor">#80CBC4</color>
+    <color name="list_item_title">#AAAAAA</color>
+    <color name="list_group_title">#808080</color>
+
+    <color name="non_active_tab">#B9777575</color>
+    <color name="ink_color">#005EFF</color>
+
+    <color name="call_to_action">#1989cd</color>
 
 </resources>

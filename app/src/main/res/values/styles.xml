@@ -42,7 +42,7 @@
     </style>
 
     <style name="RatingBarCustom" parent="Base.Widget.AppCompat.RatingBar.Small">
-        <item name="android:colorControlNormal" app:ignore="NewApi">@color/golden</item>
+        <item name="android:colorControlNormal" app:ignore="NewApi">@color/light_blue</item>
     </style>
     
 </resources>

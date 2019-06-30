@@ -13,11 +13,18 @@
         android:layout_marginBottom="7dp"
         android:layout_height="60dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:gravity="center"
         android:weightSum="10"
         android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play_button_not_watched"
+            android:layout_marginRight="5dp"
+            android:id="@+id/play_button"
+            />
 
         <TextView
             android:id="@+id/tv_unit_title"
@@ -38,6 +45,13 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/video_inside_heading_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        />
 
 </LinearLayout>
 

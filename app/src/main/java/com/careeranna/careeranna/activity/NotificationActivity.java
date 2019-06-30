@@ -1,5 +1,6 @@
 package com.careeranna.careeranna.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.NotificationAdapter;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Constants;
+import com.careeranna.careeranna.data.FreeVideos;
 import com.careeranna.careeranna.data.Notification;
 
 import org.json.JSONException;
@@ -66,6 +69,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         Log.d(TAG, "Notification list size = "+notificationList.size());
 
         adapter.updateData(notificationList);
+        adapter.setOnNotifClickListener(this);
         adapter.notifyDataSetChanged();
     }
 
@@ -76,6 +80,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
          */
         Notification currentNotif = notificationList.get(position);
 
+        Log.d("noti_type", currentNotif.getType());
+
         switch (currentNotif.getType()){
             case Constants.NOTIF_TYPE_ARTICLE:
                 openArticle(currentNotif.getId());
@@ -85,22 +91,31 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                 break;
 
-            case Constants.NOTIF_TYPE_VIDEO:
-
-                break;
 
             default: break;
         }
     }
 
-    private void openArticle(String id) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://www.careeranna.com/api/fetchParticularArticle.php?id="+id;
 
+
+    private void openArticle(String id) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait");
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = "https://www.careeranna.com/api/fetchParticularVideo.php?id="+id;
+
+
+        Log.d("noti_url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("response", response);
+                        progressDialog.dismiss();
                         try {
                             JSONObject articleJSON = new JSONObject(response);
                             Article article = new Article(
@@ -108,7 +123,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                                  articleJSON.getString("post_title"),
                                  "https://www.careeranna.com/articles/wp-content/uploads/" + articleJSON.getString("meta_value").replace("\\", ""),
                                  articleJSON.getString("display_name"),
-                                 articleJSON.getString("CAT"),
+                                 "",
                                  "",
                                  articleJSON.getString("post_date")
                             );
@@ -126,11 +141,13 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
                         Log.d(TAG, "onErrorResponse: ");
                         Toast.makeText(NotificationActivity.this, getResources().getText(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 }
         );
+        requestQueue.add(stringRequest);
     }
 
     public void populateDummyDate (){
@@ -145,6 +162,18 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             ));
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // API 5+ solution
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }}
 
     private ArrayList<Notification> getNotificationList(){
         return Paper.book().read(Notification.NOTIF_LIST, new ArrayList<Notification>());

@@ -7,9 +7,22 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.data.Course;
+import com.careeranna.careeranna.data.OrderedCourse;
+import com.careeranna.careeranna.data.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.payu.india.Extras.PayUChecksum;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
@@ -23,13 +36,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-public class Payment extends AppCompatActivity {
+import io.paperdb.Paper;
+
+public class Payment extends AppCompatActivity{
 
     private String merchantKey, userCredentials;
 
@@ -39,41 +58,81 @@ public class Payment extends AppCompatActivity {
 
     private PayUChecksum checksum;
 
-    private float price;
+    int price;
+
+    User user;
+
+    ProgressBar progressBar;
+
+    TextView please_wait_tv;
+
+    ArrayList<String> arrayList;
+    private ArrayList<OrderedCourse> orderedCourses;
+
+    String ids = "";
+    String price1 = "";
+    String discounted_price = "";
+
+
+    Course course;
+    float grand_total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        price = getIntent().getFloatExtra("price", 0);
+        price = Integer.valueOf(getIntent().getStringExtra("gst_price"));
+
+        progressBar = findViewById(R.id.progress);
+        please_wait_tv = findViewById(R.id.please_wait_tv);
 
         Payu.setInstance(this);
 
+
+        ArrayList<OrderedCourse> object = (ArrayList<OrderedCourse>) getIntent().getSerializableExtra("OrderedCourses");
+
+        for(OrderedCourse orderedCourse: object) {
+            ids += orderedCourse.getCourse_id() + ",";
+            price1 += orderedCourse.getOld_price() + ",";
+            discounted_price += orderedCourse.getPrice() + ",";
+        }
+
+        Paper.init(this);
+
+        String cache = Paper.book().read("user");
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
+        }
+
+       // courseCheckout();
+
         navigationToBaseActivity();
+
     }
 
     public void navigationToBaseActivity() {
 
-        merchantKey = "gtKFFx";
-        int environment = PayuConstants.STAGING_ENV;
-        String amount = String.valueOf(price);
-        String email = "giteshshastri96@gmail.com";
+        merchantKey = "livGOt";
+        int environment = PayuConstants.PRODUCTION_ENV;
+        String amount = String.valueOf(getIntent().getStringExtra("gst_price"));
+        String email = getIntent().getStringExtra("email");
         userCredentials = merchantKey + ":" + email;
 
         paymentParams = new PaymentParams();
 
         paymentParams.setKey(merchantKey);
         paymentParams.setAmount(amount);
-        paymentParams.setProductInfo("course");
-        paymentParams.setFirstName("Gitesh");
+        paymentParams.setProductInfo("courses");
+        String name = getIntent().getStringExtra("name");
+        paymentParams.setFirstName(name);
         paymentParams.setEmail(email);
 
 
         paymentParams.setTxnId(""+System.currentTimeMillis());
 
         paymentParams.setSurl("https://payu.herokuapp.com/success");
-        paymentParams.setSurl("https://payu.herokuapp.com/failure");
+        paymentParams.setFurl("https://payu.herokuapp.com/failure");
 
         paymentParams.setUdf1("ufid1");
         paymentParams.setUdf2("ufid2");
@@ -140,7 +199,7 @@ public class Payment extends AppCompatActivity {
 
                 //TODO Below url is just for testing purpose, merchant needs to replace this with their server side hash generation url
                 //   URL url = new URL("https://tsd.payu.in/GetHash");
-                URL url = new URL("https://payu.herokuapp.com/get_hash");
+                URL url = new URL("https://careeranna.com/api/payu_money/get_hash.php");
 
                 // get the payuConfig first
                 String postParam = postParams[0];
@@ -319,6 +378,24 @@ public class Payment extends AppCompatActivity {
                  * PayU sends the same response to merchant server and in app. In response check the value of key "status"
                  * for identifying status of transaction. There are two possible status like, success or failure
                  * */
+
+                if(data.hasExtra("payu_response")) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(data.getStringExtra("payu_response"));
+
+                        if(jsonObject.has("status")) {
+                            if(jsonObject.getString("status").equalsIgnoreCase("success")) {
+                                courseCheckout();
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "json_error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
                 new AlertDialog.Builder(this)
                         .setCancelable(false)
                         .setMessage("Payu's Data : " + data.getStringExtra("payu_response") + "\n\n\n Merchant's Data: " + data.getStringExtra("result"))
@@ -332,6 +409,52 @@ public class Payment extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void courseCheckout() {
+        progressBar.setVisibility(View.VISIBLE);
+        please_wait_tv.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(Payment.this);
+        String url = "https://careeranna.com/websiteapi/pdfCheck";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(Payment.this, response, Toast.LENGTH_SHORT).show();
+                        Paper.book().delete("cart1");
+                        progressBar.setVisibility(View.INVISIBLE);
+                        please_wait_tv.setVisibility(View.GONE);
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        please_wait_tv.setVisibility(View.GONE);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to login url
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user", user.getUser_id());
+                params.put("product_ids", ids);
+                params.put("name", getIntent().getStringExtra("name"));
+                params.put("city", getIntent().getStringExtra("city"));
+                params.put("email", getIntent().getStringExtra("email"));
+                params.put("ids", getIntent().getStringExtra("ids"));
+                params.put("prices", getIntent().getStringExtra("product_prices"));
+                params.put("discount_price", getIntent().getStringExtra("discount_prices"));
+                params.put("sub_total", price+"");
+                params.put("amount", (price + Math.round(price*0.18))+"");
+                params.put("gst", (Math.round(price*0.18))+"");
+                return params;
+            }
+
+        };
+        requestQueue.add(stringRequest);
+
     }
 
 

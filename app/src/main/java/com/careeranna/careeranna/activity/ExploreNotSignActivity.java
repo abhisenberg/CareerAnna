@@ -107,12 +107,10 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
          */
 
         if(amIConnect()) {
-            frameLayout.setVisibility(View.VISIBLE);
-        fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_content, insideWithoutSignFragment).commit();
 
-        getBanner();
+            getBanner();
         } else {
-            frameLayout.setVisibility(View.GONE);
             fragmentManager.beginTransaction().replace(R.id.main_content, noInternetFragment).commit();
         }
 
@@ -254,7 +252,7 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
         switch (item.getItemId()) {
 
             case R.id.menu_signin:
-                Intent signInActivity = new Intent(this, SignUp.class);
+                Intent signInActivity = new Intent(this, SignInActivity.class);
                 startActivity(signInActivity);
                 return true;
 
@@ -356,13 +354,13 @@ public class ExploreNotSignActivity extends AppCompatActivity implements NoInter
                 .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(ExploreNotSignActivity.this, Register.class));
+                        startActivity(new Intent(ExploreNotSignActivity.this, SignInActivity.class));
                     }
                 })
                 .setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(ExploreNotSignActivity.this, SignUp.class));
+                        startActivity(new Intent(ExploreNotSignActivity.this, SignInActivity.class));
                     }
                 });
 

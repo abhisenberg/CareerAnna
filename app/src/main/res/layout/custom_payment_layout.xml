@@ -47,6 +47,14 @@
 
      </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/error_message"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            />
+
 
         <EditText
             android:layout_width="match_parent"
@@ -108,39 +116,6 @@
                 android:layout_gravity="center"
                 />
 
-
-            <Button
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="left"
-                android:padding="5dp"
-                android:text="Pay By Debit/Credit Card"
-                android:id="@+id/debit"
-                android:textColor="@color/white"
-                />
-
-
-            <Button
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="left"
-                android:padding="5dp"
-                android:text="Net Banking"
-                android:id="@+id/net"
-                android:textColor="@color/white"
-                />
 
             <Button
                 android:layout_marginRight="10dp"

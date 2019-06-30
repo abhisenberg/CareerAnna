@@ -14,7 +14,7 @@
     <Button
         android:layout_width="15dp"
         android:id="@+id/close"
-        android:background="@drawable/close"
+        android:background="@drawable/com_facebook_close"
         android:layout_height="15dp"
         android:elevation="10dp"
             />

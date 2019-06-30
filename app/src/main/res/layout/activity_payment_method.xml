@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.PaymentMethodActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingTop="15dp"
+        android:paddingBottom="22dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Optioins"
+            android:paddingBottom="22dp"
+            android:layout_gravity="center"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/error_message_1"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            />
+
+        <RelativeLayout
+            android:layout_marginRight="20dp"
+            android:id="@+id/paytm_linear_layout"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/border_white_payment"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/paytm_radio_btn"
+                />
+
+            <TextView
+                android:layout_toRightOf="@id/paytm_radio_btn"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pay via "
+                android:layout_centerVertical="true"
+                android:id="@+id/payvia_paytm_lb"
+                android:textColor="#000"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paytm"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+                android:layout_toRightOf="@id/payvia_paytm_lb"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/paytm_wallet"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginRight="20dp"
+            android:id="@+id/payu_biz_linear_layout"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/border_white_payment"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/payu_radio_btn"
+                />
+
+            <TextView
+                android:layout_toRightOf="@id/payu_radio_btn"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/payvia_payu_lb"
+                android:text="Pay via "
+                android:textColor="#000"
+                />
+
+            <TextView
+                android:layout_toRightOf="@id/payvia_payu_lb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PayU Biz"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/payubiz"
+                />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

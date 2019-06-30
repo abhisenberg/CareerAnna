@@ -254,7 +254,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        tutorialFragment.addCourseUnits(course);
+                        tutorialFragment.addCourseUnits(course, course);
                         progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {

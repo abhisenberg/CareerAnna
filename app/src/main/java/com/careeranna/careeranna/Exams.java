@@ -140,6 +140,10 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         }
 
 
+    public TutorialFragment getTutorialFragment() {
+        return tutorialFragment;
+    }
+
     private void initializeFragement() {
 
         noInternetFragment = new NoInternetFragment();
@@ -253,7 +257,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
+        String url = "https://careeranna.com/api/getUserWatchedVideo.php?product_id="+id+"&user="+user.getUser_id();
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
@@ -261,6 +265,7 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                     @Override
                     public void onResponse(String response) {
                         ArrayList<String> course = new ArrayList<>();
+                        ArrayList<String> watched = new ArrayList<>();
                         try {
                             Log.i("pdf", response);
                             if(!response.equals("No results")) {
@@ -269,13 +274,18 @@ public class Exams extends AppCompatActivity implements NavigationView.OnNavigat
                                 for(int i=0;i<jsonArray.length();i++) {
                                     course.add((String)jsonArray.get(i));
                                 }
+                                JSONArray jsonArray1 = jsonObject.getJSONArray("watch_list");
+                                for(int i=0;i<jsonArray1.length();i++) {
+                                    JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
+                                    watched.add(jsonObject1.getString("video_id"));
+                                }
                             } else {
                                 course.add("No results");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        tutorialFragment.addCourseUnits(course);
+                        tutorialFragment.addCourseUnits(course, watched);
                         progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
