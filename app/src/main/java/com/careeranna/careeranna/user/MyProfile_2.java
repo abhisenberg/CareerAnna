@@ -1,48 +1,34 @@
 package com.careeranna.careeranna.user;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.R;
+import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.data.CourseWithLessData;
 import com.careeranna.careeranna.data.User;
-import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCertificatesFragment;
-import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserCoursesFragment;
+import com.careeranna.careeranna.fragement.user_myprofile_fragments.TermsOfServiceFragment;
 import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserMyProfileFragment;
-import com.careeranna.careeranna.fragement.user_myprofile_fragments.UserSuggestedFragment;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import io.paperdb.Paper;
 
@@ -71,6 +57,8 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle("Account");
         }
+
+        Paper.init(this);
 
         bt_signOut = findViewById(R.id.bt_userp_profile_signout_3);
         user_image = findViewById(R.id.iv_profileImage_3);
@@ -117,12 +105,6 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
 
     }
 
-    public void loadUserCoursesFragment(){
-        fragment = new UserCoursesFragment();
-        fetchUserCourses();
-        loadFragment(fragment);
-    }
-
     public void loadUserProfileFragment(){
         fragment = new UserMyProfileFragment();
         loadFragment(fragment);
@@ -138,14 +120,8 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
                 loadUserProfileFragment();
                 return true;
 
-            case R.id.navigation_certificates:
-                fragment = new UserCertificatesFragment();
-                loadFragment(fragment);
-                bt_signOut.setVisibility(View.INVISIBLE);
-                return true;
-
-            case R.id.navigation_suggested:
-                fragment = new UserSuggestedFragment();
+            case R.id.navigation_terms:
+                fragment = new TermsOfServiceFragment();
                 loadFragment(fragment);
                 bt_signOut.setVisibility(View.INVISIBLE);
                 return true;
@@ -162,69 +138,6 @@ public class MyProfile_2 extends AppCompatActivity implements BottomNavigationVi
 //            progressBar.setVisibility(View.INVISIBLE);
     }
 
-    public void fetchUserCourses(){
-        Log.d(TAG, "FetchingUserCourses ");
-        final String courses_url = "https://careeranna.com/api/getMyCourse.php?user="+user.getUser_id()+"&category=15";
-        StringRequest coursesRequest = new StringRequest(Request.Method.GET, courses_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            coursesList = new ArrayList<>();
-                            JSONArray coursesArray = new JSONArray(response);
-                            for(int i=0; i<coursesArray.length(); i++){
-                                JSONObject courseJSON = coursesArray.getJSONObject(i);
-                                CourseWithLessData course = new CourseWithLessData(
-                                        courseJSON.getString("product_name"),
-                                        courseJSON.getString("product_id"),
-                                        courseJSON.getString("product_image")
-                                );
-                                coursesList.add(course);
-                            }
-                            Log.d(TAG, "fetchedCourses = "+coursesList.size());
-
-                            if(fragment instanceof UserCoursesFragment)
-                                ((UserCoursesFragment)fragment).setCourses(coursesList);
-
-//                            progressBar.setVisibility(View.INVISIBLE);
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "CourseFetchError: "+error.networkResponse);
-//                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(MyProfile_2.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", user.getUser_id());
-                params.put("category", "15");
-                return params;
-            }
-        };
-
-        requestQueue.add(coursesRequest);
-    }
-
-    public void fetchUserCertificates(){
-        /*
-        TODO: fetch certificates
-         */
-    }
-
-    public void fetchSuggestedCourses(){
-        /*
-        TODO: fetch suggested
-         */
-    }
 
     @Override
     public void onClick(View view) {

@@ -97,7 +97,7 @@
                     <RatingBar
                         android:id="@+id/course_rating_bar"
                         style="@style/RatingBarCustom"
-                        android:progressTint="@color/golden"
+                        android:progressTint="@color/light_blue"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,11 +108,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/course_rating_bar"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:text="4.00 (4,000)"
+                        android:textColor="#7e7171"
                         android:id="@+id/total_rating"
                         android:textSize="13sp"
-                        android:textColor="@color/black"
                         />
 
                 </RelativeLayout>
@@ -161,15 +161,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:orientation="horizontal">
 
             <Button
                 android:background="@drawable/border_grey"
                 android:layout_gravity="end"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:textSize="14sp"
-                android:layout_weight="5"
                 android:layout_height="33dp"
                 android:text="Remove"
                 android:id="@+id/remove"
@@ -178,6 +176,7 @@
                 />
 
             <Button
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:background="@drawable/border_grey"
                 android:layout_marginLeft="2dp"

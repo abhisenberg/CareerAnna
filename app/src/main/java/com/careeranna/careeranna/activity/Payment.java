@@ -1,12 +1,10 @@
 package com.careeranna.careeranna.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.User;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.payu.india.Extras.PayUChecksum;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
@@ -36,7 +33,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -82,6 +78,8 @@ public class Payment extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        Paper.init(this);
+
         price = Integer.valueOf(getIntent().getStringExtra("gst_price"));
 
         progressBar = findViewById(R.id.progress);
@@ -97,8 +95,6 @@ public class Payment extends AppCompatActivity{
             price1 += orderedCourse.getOld_price() + ",";
             discounted_price += orderedCourse.getPrice() + ",";
         }
-
-        Paper.init(this);
 
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
@@ -384,9 +380,9 @@ public class Payment extends AppCompatActivity{
                     try {
                         JSONObject jsonObject = new JSONObject(data.getStringExtra("payu_response"));
 
-                        if(jsonObject.has("status")) {
-                            if(jsonObject.getString("status").equalsIgnoreCase("success")) {
-                                courseCheckout();
+                        if (jsonObject.has("status")) {
+                            if (jsonObject.getString("status").equalsIgnoreCase("success")) {
+                                courseCheckout(jsonObject);
                             }
                         }
 
@@ -396,32 +392,24 @@ public class Payment extends AppCompatActivity{
 
                 }
 
-                new AlertDialog.Builder(this)
-                        .setCancelable(false)
-                        .setMessage("Payu's Data : " + data.getStringExtra("payu_response") + "\n\n\n Merchant's Data: " + data.getStringExtra("result"))
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-
             } else {
                 Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void courseCheckout() {
+    private void courseCheckout(final JSONObject jsonObject) {
         progressBar.setVisibility(View.VISIBLE);
         please_wait_tv.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(Payment.this);
-        String url = "https://careeranna.com/websiteapi/pdfCheck";
+        String url = "https://careeranna.com/websiteapi/pdfCheckCareer";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(Payment.this, response, Toast.LENGTH_SHORT).show();
                         Paper.book().delete("cart1");
+                        startActivity(new Intent(Payment.this, MyCourses.class).putExtra("fragment_name", "my_course"));
                         progressBar.setVisibility(View.INVISIBLE);
                         please_wait_tv.setVisibility(View.GONE);
                     }
@@ -443,12 +431,15 @@ public class Payment extends AppCompatActivity{
                 params.put("name", getIntent().getStringExtra("name"));
                 params.put("city", getIntent().getStringExtra("city"));
                 params.put("email", getIntent().getStringExtra("email"));
+                params.put("phone", getIntent().getStringExtra("phone"));
+                params.put("promocodes", getIntent().getStringExtra("promocodes"));
+                params.put("payment_response", jsonObject.toString());
                 params.put("ids", getIntent().getStringExtra("ids"));
                 params.put("prices", getIntent().getStringExtra("product_prices"));
                 params.put("discount_price", getIntent().getStringExtra("discount_prices"));
-                params.put("sub_total", price+"");
-                params.put("amount", (price + Math.round(price*0.18))+"");
-                params.put("gst", (Math.round(price*0.18))+"");
+                params.put("sub_total", getIntent().getStringExtra("grand_total")+"");
+                params.put("amount", price+"");
+                params.put("gst", getIntent().getStringExtra("gst_total")+"");
                 return params;
             }
 

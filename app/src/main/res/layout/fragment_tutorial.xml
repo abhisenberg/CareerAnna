@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragement.profile_fragements.TutorialFragment">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,8 +13,7 @@
         <!--android:layout_height="200dp"-->
         <!--android:layout_marginLeft="20dp"-->
         <!--android:layout_marginRight="20dp"-->
-        <!--android:id="@+id/videoView"-->
-        <!--android:layout_below="@id/unitText"-->
+        <!--android:id="@+id/videoView1"-->
         <!--android:layout_marginTop="10dp"-->
         <!--/>-->
 
@@ -24,7 +22,7 @@
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/intro_pic_1_indian_languages"
+            android:src="@drawable/intro_pic_2_video"
             android:elevation="10dp"
             android:scaleType="fitXY"
             />
@@ -37,6 +35,19 @@
         </com.longtailvideo.jwplayer.JWPlayerView>
 
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/videoView"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="Share"
+            android:drawablePadding="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_share"
+            android:id="@+id/share"
+            />
+
         <ExpandableListView
             android:visibility="gone"
             android:background="@color/white"
@@ -48,7 +59,7 @@
             android:orientation="horizontal"
             android:layout_marginRight="20dp"
             android:choiceMode="singleChoice"
-            android:layout_below="@+id/videoView"
+            android:layout_below="@+id/share"
             android:id="@+id/expandableunit" />
 
         <android.support.v7.widget.RecyclerView
@@ -57,7 +68,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
-            android:layout_below="@+id/videoView"
+            android:layout_below="@+id/share"
             android:id="@+id/videos_rv"
             />
 
@@ -66,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:visibility="gone"
-            android:layout_below="@id/videoView"
+            android:layout_below="@id/share"
             android:layout_centerInParent="true"
             android:elevation="10dp"
             android:id="@+id/card">

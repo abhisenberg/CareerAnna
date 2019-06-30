@@ -106,7 +106,6 @@ public class WishListFragment extends Fragment implements WishListAdapter.OnItem
             Paper.init(getContext());
         }
 
-        checkout = view.findViewById(R.id.checkout);
 
         promo = view.findViewById(R.id.promo);
 

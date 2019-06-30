@@ -79,14 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_userProf_tnc"
-                android:textColor="@color/userProf_options_textColor"
-                android:text="@string/tnc"
-                android:textSize="16sp"
-                android:layout_marginTop="@dimen/userProf_options_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -10,24 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.PurchaseCourseDetail;
-import com.careeranna.careeranna.adapter.FreeCourseAdapter;
+import com.careeranna.careeranna.activity.PurchaseCourseActivity;
+import com.careeranna.careeranna.adapter.CoursesAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.MyPaidCourse;
-import com.careeranna.careeranna.fragement.dashboard_fragements.PaidCoursesFragment;
 
 import java.util.ArrayList;
 
-public class FragmentTab extends Fragment implements FreeCourseAdapter.OnItemClickListener{
+public class FragmentTab extends Fragment implements CoursesAdapter.OnItemClickListener{
 
     RecyclerView mRecyclerView;
 
     private ArrayList<Course> courses;
 
-    FreeCourseAdapter freeCourseAdapter;
+    CoursesAdapter coursesAdapter;
 
     android.app.AlertDialog.Builder builder;
 
@@ -62,25 +60,19 @@ public class FragmentTab extends Fragment implements FreeCourseAdapter.OnItemCli
 
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        freeCourseAdapter = new FreeCourseAdapter(courses, inflater.getContext());
-        freeCourseAdapter.setOnItemClicklistener(this);
-        mRecyclerView.setAdapter(freeCourseAdapter);
+        coursesAdapter = new CoursesAdapter(courses, inflater.getContext());
+        coursesAdapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(coursesAdapter);
         return view;
     }
 
     @Override
     public void onItemClick1(String type, int position) {
 
-
-        if(myPaidCourses.size() > 0) {
-            for (MyPaidCourse paidCourse: myPaidCourses) {
-                if(paidCourse.getProduct_id().equalsIgnoreCase(courses.get(position).getId())) {
-                    Toast.makeText(context, "You Have Already Purchased This Course", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        }
-        startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", courses.get(position)));
+        Intent intent = new Intent(context, PurchaseCourseActivity.class);
+        intent.putExtra("Course", courses.get(position));
+        intent.putExtra("my_paid_course", myPaidCourses);
+        startActivity(intent);
 
     }
 

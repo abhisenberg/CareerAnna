@@ -27,7 +27,6 @@
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search_free_course"
-            android:layout_below="@id/choose_exam_rv"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"

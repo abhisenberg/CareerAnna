@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/nav_view1"
     android:background="#dad4d4"
-    android:layout_height="160dp">
+    android:layout_height="120dp">
 
     <RelativeLayout
         android:layout_gravity="center"
@@ -15,20 +15,21 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/navImage"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:src="@drawable/circle_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_man_profile"
             />
 
         <!--This layout is required to display initial alphabet of name-->
         <!--if no image is provided from the database.-->
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/nav_username_initial"
             android:text="A"
-            android:textSize="65sp"
+            android:textSize="45sp"
             android:textColor="@color/white"
             android:layout_centerInParent="true"
             android:gravity="center"

@@ -8,7 +8,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
+import com.careeranna.careeranna.helper.Utils;
 import com.careeranna.careeranna.misc.TextViewEx;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
@@ -82,7 +82,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         String authorName = mArticles.get(i).getAuthor();
         articleViewHolder.articleAuthor.setText(authorName.substring(0,8) + "...");
-        articleViewHolder.articleCreated.setText(mArticles.get(i).getCreated_at().substring(0, 10));
+        articleViewHolder.articleCreated.setText("Posted "+ Utils.formatDate(mArticles.get(i).getCreated_at()));
 
         String authorName1 = mArticles.get(i).getAuthor();
         articleViewHolder.articleAuthor_1.setText(authorName1.substring(0,8) + "...");
@@ -151,8 +151,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
-        TextView articleTitle, articleAuthor, articleAuthor_1 ,articleTitle_1;
-        RelativeTimeTextView articleCreated, articleCreated_1;
+        TextView articleTitle, articleAuthor, articleAuthor_1 ,articleTitle_1, articleCreated;
+        RelativeTimeTextView articleCreated_1;
         TextViewEx articleContent, articleContent_1;
         ImageView articleImage, authorImage, articleImage_1, authorImage_1;
         LinearLayout linearLayout;
@@ -166,7 +166,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             articleTitle = itemView.findViewById(R.id.article_name);
             articleTitle_1 = itemView.findViewById(R.id.article_name_1);
             articleAuthor = itemView.findViewById(R.id.article_author_name);
-            articleCreated = itemView.findViewById(R.id.article_created_date);
+            articleCreated = itemView.findViewById(R.id.create_at);
             articleContent = itemView.findViewById(R.id.article_content);
             authorImage = itemView.findViewById(R.id.article_author_image);
             articleAuthor_1 = itemView.findViewById(R.id.article_author_name_1);

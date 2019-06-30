@@ -3,7 +3,6 @@ package com.careeranna.careeranna.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.CourseWithLessData;
-import com.careeranna.careeranna.helper.RecyclerViewCoursesAdapter;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNew.ViewHolder>{
 
@@ -56,8 +53,6 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         //set view to INVISIBLE before animate
-        Random rand = new Random();
-        int random  = rand.nextInt(100);
         if(course.get(position).getCourse_imageURL() != null && !course.get(position).getCourse_imageURL().isEmpty()) {
             if(!course.get(position).getCourse_imageURL().contains("https")) {
                 Glide.with(mContext)
@@ -69,8 +64,8 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
                         .into(viewHolder.imageView);
             }
         }viewHolder.textView.setText(course.get(position).getCourse_name());
-        viewHolder.progressBar.setProgress(random);
-        viewHolder.tv.setText(random+"%");
+        viewHolder.progressBar.setProgress(Integer.valueOf(course.get(position).getProgress()));
+        viewHolder.tv.setText(course.get(position).getProgress()+"%");
 
     }
 
@@ -111,6 +106,18 @@ public class MyCoursesAdapterNew extends RecyclerView.Adapter<MyCoursesAdapterNe
             tv = itemView.findViewById(R.id.tv);
 
             go_inside = itemView.findViewById(R.id.continu);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
             go_inside.setOnClickListener(new View.OnClickListener() {
                 @Override

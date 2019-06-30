@@ -18,15 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.PurchaseCourseDetail;
-import com.careeranna.careeranna.adapter.FreeCourseAdapter;
+import com.careeranna.careeranna.activity.PurchaseCourseActivity;
+import com.careeranna.careeranna.adapter.CoursesAdapter;
 import com.careeranna.careeranna.data.Course;
 import com.careeranna.careeranna.data.FreeCourse;
+import com.careeranna.careeranna.data.MyPaidCourse;
+import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.helper.NewApi;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,9 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.OnItemClickListener {
+public class FreeCoursesFragment extends Fragment implements CoursesAdapter.OnItemClickListener {
 
-    FreeCourseAdapter freeCourseAdapter;
+    CoursesAdapter coursesAdapter;
 
     RecyclerView courses_rv;
 
@@ -52,6 +58,10 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
     TextView no_course_tv;
 
     Context context;
+
+    User user;
+
+    ArrayList<MyPaidCourse> purchasedPaidCourses;
 
     public FreeCoursesFragment() {
         // Required empty public constructor
@@ -78,6 +88,13 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
         freeCourses = new ArrayList<>();
 
         context = inflater.getContext();
+
+        Paper.init(inflater.getContext());
+
+        String cache = Paper.book().read("user");
+        if (cache != null && !cache.isEmpty()) {
+            user = new Gson().fromJson(cache, User.class);
+        }
 
         populateCourses(inflater.getContext());
 
@@ -107,7 +124,7 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
                     no_course_card.setVisibility(View.GONE);
                 }
 
-                freeCourseAdapter.notifyDataSetChanged();
+                coursesAdapter.notifyDataSetChanged();
 
                 return true;
             }
@@ -120,7 +137,10 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
     @Override
     public void onItemClick1(String type, int position) {
 
-        startActivity(new Intent(context, PurchaseCourseDetail.class).putExtra("Course", freeCourses.get(position)));
+        Intent intent = new Intent(context, PurchaseCourseActivity.class);
+        intent.putExtra("Course", freeCourses.get(position));
+        intent.putExtra("my_paid_course", purchasedPaidCourses);
+        startActivity(intent);
 
     }
 
@@ -148,7 +168,7 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
                             "0"
                             , "",
                             "",
-                            "Paid",
+                            "Free",
                             "0",
                             course.getAverage_rating(),
                             course.getTotal_rating(),
@@ -159,19 +179,13 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
 
                 tempCourses.addAll(freeCourses);
 
-                freeCourseAdapter = new FreeCourseAdapter(freeCourses, getApplicationContext());
-
-                courses_rv.setAdapter(freeCourseAdapter);
-
-                freeCourseAdapter.setOnItemClicklistener(FreeCoursesFragment.this);
-
-                progressBar.setVisibility(View.GONE);
-
+               populateMyPaidCoursesId();
             }
 
             @Override
             public void onFailure(Call<List<FreeCourse>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -185,5 +199,53 @@ public class FreeCoursesFragment extends Fragment implements FreeCourseAdapter.O
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    private void populateMyPaidCoursesId() {
+
+        Map<String, String> data = new HashMap<>();
+        data.put("user_id", user.getUser_id());
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(NewApi.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        NewApi api = retrofit.create(NewApi.class);
+
+        Call<List<MyPaidCourse>> call = api.getMyPaidCourse(data);
+
+        call.enqueue(new Callback<List<MyPaidCourse>>() {
+            @Override
+            public void onResponse(Call<List<MyPaidCourse>> call, retrofit2.Response<List<MyPaidCourse>> response) {
+
+                purchasedPaidCourses = new ArrayList<>();
+
+                List<MyPaidCourse> myPaidCoursesList = response.body();
+
+                purchasedPaidCourses.addAll(myPaidCoursesList);
+
+                coursesAdapter = new CoursesAdapter(freeCourses, getApplicationContext());
+
+                courses_rv.setAdapter(coursesAdapter);
+
+                coursesAdapter.setOnItemClickListener(FreeCoursesFragment.this);
+
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<List<MyPaidCourse>> call, Throwable t) {
+
+                coursesAdapter = new CoursesAdapter(freeCourses, getApplicationContext());
+
+                courses_rv.setAdapter(coursesAdapter);
+
+                coursesAdapter.setOnItemClickListener(FreeCoursesFragment.this);
+
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/sign_in_and_up_layout"
     android:background="#FFFFFF"
-    tools:context=".user.SignUp">
+    tools:context=".activity.SignInActivity">
 
     <LinearLayout
         android:id="@+id/login_and_sign_up_tabs"
@@ -147,6 +147,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_curved_google_login"
             android:minHeight="40dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/log_in_with_google"
             android:textColor="@android:color/white"
             android:textSize="12sp" />

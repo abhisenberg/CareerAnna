@@ -1,13 +1,14 @@
 package com.careeranna.careeranna.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.adapter.Cart_ProductsAdapter;
-import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.ExamPrep;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.PromoCode;
 import com.careeranna.careeranna.data.UrlConstants;
@@ -38,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,11 +92,14 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
     String ids = "";
     String price1 = "";
     String discount = "";
+    String promocodes = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_gateway);
+
+        Paper.init(this);
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle("CheckOut");
@@ -115,8 +116,6 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
         recyclerView = findViewById(R.id.my_product_cart_rv);
 
         gst_price_tv = findViewById(R.id.gst_price);
-
-        Paper.init(this);
 
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
@@ -161,7 +160,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
 
             recyclerView.setAdapter(cart_productsAdapter);
 
-
+            addTransaction();
         }
         tv_email = findViewById(R.id.email);
 
@@ -171,6 +170,8 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
         name = findViewById(R.id.name);
         phone = findViewById(R.id.mobile);
         city = findViewById(R.id.city);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         tv_email.setText(user.getUser_email());
 
@@ -201,26 +202,43 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
                     ids = "";
                     price1 = "";
                     discount = "";
+                    promocodes = "";
 
                     for(OrderedCourse orderedCourse: cart_productsAdapter.getOrderedCourses()) {
                         ids += orderedCourse.getCourse_id() + ",";
-
                         price1 += orderedCourse.getOld_price() + ",";
-
                         if(orderedCourse.getPrice().equals(orderedCourse.getOld_price())) {
                             discount += 0 + ",";
                         } else {
                             discount += orderedCourse.getPrice() + ",";
                         }
+                        boolean isapplied = false;
+                        if(promoCodes != null) {
+                            if(promoCodes.size() > 0) {
+                                for(PromoCode promoCode1: promoCodes) {
+                                    if(promoCode1.getProduct_id().equals(orderedCourse.getCourse_id())) {
+                                        promocodes += promoCode1.getCode_name()+",";
+                                        isapplied = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(isapplied) {
+
+                        } else {
+                            promocodes += ",";
+                        }
                     }
 
                     Intent intent = new Intent(PaymentGateway.this, PaymentMethodActivity.class);
                     intent.putExtra("grand_total", grand_total+"");
-                    intent.putExtra("gst_total", Math.round(grand_total*0.18));
+                    intent.putExtra("gst_total", gst_price_tv.getText().toString().replace("₹ ", ""));
                     intent.putExtra("gst_price", gst_price+"");
                     intent.putExtra("ids", ids+"");
                     intent.putExtra("product_prices", price1+"");
                     intent.putExtra("discount_prices", discount+"");
+                    intent.putExtra("promocodes", promocodes);
                     intent.putExtra("name", name.getText().toString());
                     intent.putExtra("phone", phone.getText().toString());
                     intent.putExtra("city", city.getText().toString());
@@ -251,6 +269,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
             public void onClick(View v) {
                 if(name.getText().toString().length() > 0 &&
                         phone.getText().toString().length() > 0 &&
+                        phone.getText().toString().length() > 9 &&
                         city.getText().toString().length() > 0
                 ) {
 
@@ -354,7 +373,7 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
                                              */
                                             if(orderedCourses.get(j).getCourse_id().equals(promoCode.getProduct_id())) {
                                                 promoCodes.add(promoCode);
-                                                Toast.makeText(PaymentGateway.this, getString(R.string.promocode_applied_on) + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(PaymentGateway.this, "Promocode applied to " + orderedCourses.get(j).getName(), Toast.LENGTH_SHORT).show();
                                                 isApplied = true;
                                                 cart_productsAdapter.changePrice(j, promoCode.getDiscount_amount());
                                                 grand_total -= Double.valueOf(promoCode.getDiscount_amount());
@@ -425,11 +444,9 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
 
             grand_total = 0;
 
-            for (String orderedCourse : arrayList) {
+            for (OrderedCourse orderedCourse : cart_productsAdapter.getOrderedCourses()) {
 
-                String course[] = orderedCourse.split(",");
-
-                grand_total += Float.valueOf(course[1]);
+                grand_total += Float.valueOf(orderedCourse.getPrice());
 
             }
 
@@ -502,6 +519,49 @@ public class PaymentGateway extends AppCompatActivity implements Cart_ProductsAd
 
         };
         requestQueue.add(stringRequest);
+    }
 
+    private void addTransaction() {
+        String product_ids = "";
+        if(user != null) {
+            if(cart_productsAdapter != null) {
+                for(OrderedCourse orderedCourse: cart_productsAdapter.getOrderedCourses()) {
+                    product_ids += orderedCourse.getCourse_id() + " ";
+                }
+                product_ids = product_ids.replaceAll(" ", ",");
+                if(product_ids.length() > 0) {
+                    product_ids = product_ids.substring(0, product_ids.length()-1);
+                }
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                final String finalProduct_ids = product_ids;
+                StringRequest stringRequest = new StringRequest(
+                        Request.Method.POST,
+                        "https://careeranna.com/api/generateTransactionId.php",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                            }
+                        }
+                ) {
+
+                    @Override
+                    protected Map<String, String> getParams() {
+                        // Posting params to login url
+
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("user_id", user.getUser_id());
+                        params.put("product_id", finalProduct_ids);
+                        return params;
+                    }
+
+                };
+                requestQueue.add(stringRequest);
+            }
+        }
     }
 }

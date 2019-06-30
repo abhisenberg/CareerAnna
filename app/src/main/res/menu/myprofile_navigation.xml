@@ -8,15 +8,10 @@
         />
 
     <item
-        android:title="Suggested"
-        android:id="@+id/navigation_suggested"
+        android:title="Terms And Condition"
+        android:id="@+id/navigation_terms"
         android:icon="@drawable/ic_plus"
         />
 
-    <item
-        android:title="Certificates"
-        android:id="@+id/navigation_certificates"
-        android:icon="@drawable/ic_certificate"
-        />
 
 </menu>

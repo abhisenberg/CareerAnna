@@ -1,13 +1,15 @@
 package com.careeranna.careeranna.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -20,12 +22,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.careeranna.careeranna.NotificationArticleActivity;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Article;
 import com.careeranna.careeranna.data.Constants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import io.paperdb.Paper;
 
@@ -92,6 +92,17 @@ public class ParticularArticleActivity extends AppCompatActivity {
         articleImage = findViewById(R.id.particle_image);
         webview = findViewById(R.id.webview);
 
+        webview.setWebViewClient(new WebViewClient(){
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.contains("https://www.careeranna.com/articles/")) {
+                    sendToAnotherArticle(url);   
+                } else if(url.contains("https://www.careeranna.com/")) {
+                    sendToCoursePage(url);
+                }
+                return true;
+            }
+        });
+
         webSettings = webview.getSettings();
 
         webSettings.setJavaScriptEnabled(true);
@@ -118,7 +129,6 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("url_response", response.toString());
                             response = response.replace("<img ", "<img class=\"img-thumbnail\" ");
                             response = response.replaceAll("<table .*>", "<table class=\"table table-responsive\"  >");
                             response = response.replaceAll("\\s+", " ");
@@ -224,6 +234,71 @@ public class ParticularArticleActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void sendToCoursePage(String url) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                "https://careeranna.com/api/getCourseIdFromSlug.php?url=" + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.contains("No Result")) {
+                            Log.d("response", response);
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationCourseActivity.class);
+                            intent.putExtra("course_id", response);
+                            intent.putExtra("type", "premium_course");
+                            startActivity(intent);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
+    }
+
+    private void sendToAnotherArticle(String url) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                "https://careeranna.com/api/getNotificationId.php?url=" + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.contains("No Result")) {
+
+                        } else {
+                            Intent intent;
+                            intent =  new Intent(getApplicationContext(), NotificationArticleActivity.class);
+                            intent.putExtra("article_id", response);
+                            startActivity(intent);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
     }
 
     public void hidden() {

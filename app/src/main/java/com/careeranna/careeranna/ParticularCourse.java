@@ -3,6 +3,8 @@ package com.careeranna.careeranna;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.activity.MainActivity;
 import com.careeranna.careeranna.activity.MyCourses;
+import com.careeranna.careeranna.data.Topic;
+import com.careeranna.careeranna.data.Unit;
 import com.careeranna.careeranna.data.User;
 import com.careeranna.careeranna.fragement.profile_fragements.CertificateFragment;
 import com.careeranna.careeranna.fragement.profile_fragements.NotesFragment;
@@ -134,6 +137,7 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
         testFragment = new TestFragment();
         certificateFragment = new CertificateFragment();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reset_course, menu);
@@ -234,27 +238,43 @@ public class ParticularCourse extends AppCompatActivity implements NavigationVie
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "https://careeranna.com/api/getVideosWithNames.php?product_id="+id;
+        String url = "https://careeranna.com/api/getCourseVideosOfUserApp.php?product_id="+id;
         Log.i("url", url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ArrayList<String> course = new ArrayList<>();
+                        ArrayList<Unit> mUnits = new ArrayList<>();
                         try {
-                            Log.i("pdf", response);
                             if(!response.equals("No results")) {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("content");
-                                for(int i=0;i<jsonArray.length();i++) {
-                                    course.add((String)jsonArray.get(i));
-                                }
+                                Drawable check = getApplicationContext().getResources().getDrawable(R.drawable.ic_check_circle_black_24dp);
+                                    JSONArray jsonArray = new JSONArray(response);
+                                    for(int i=0;i<jsonArray.length();i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        if(jsonObject.has("main")) {
+                                            mUnits.add(new Unit(jsonObject.getString("main"), check));
+                                        }
+                                        if(jsonObject.has("heading")) {
+                                            if (mUnits.size() == 0) {
+                                                Unit unit = new Unit(name, check);
+                                                mUnits.add(unit);
+                                            }
+                                            mUnits.get(mUnits.size()-1)
+                                                    .topics.add(new Topic(
+                                                            "",
+                                                    jsonObject.getString("heading"),
+                                                    jsonObject.getString("video_url"),
+                                                    jsonObject.getString("duration")
+
+                                            ));
+                                        }
+                                    }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        tutorialFragment.addCourseUnits(course, course);
+                        tutorialFragment.addCourseUnits(mUnits, "", "");
                         progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {

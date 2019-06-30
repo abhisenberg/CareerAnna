@@ -2,8 +2,6 @@ package com.careeranna.careeranna.data;
 
 import android.graphics.drawable.Drawable;
 
-import com.careeranna.careeranna.R;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

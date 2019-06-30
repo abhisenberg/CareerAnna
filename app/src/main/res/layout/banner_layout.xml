@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:id="@+id/bannerImage"
-        android:src="@drawable/intro_pic_3_ques"
+        android:src="@drawable/intro_pic_2_video"
         />
 
 </LinearLayout>

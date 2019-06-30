@@ -13,12 +13,11 @@ import com.bumptech.glide.Glide;
 import com.careeranna.careeranna.R;
 import com.careeranna.careeranna.data.Notification;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+
+import static android.view.View.GONE;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotifViewHolder> {
 
@@ -56,34 +55,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotifViewHolder notifViewHolder, int i) {
         Notification notification = notificationsList.get(i);
 
-        notifViewHolder.tv_noti_desc.setText(notification.getDescription());
+        notifViewHolder.tv_noti_desc.setText(notification.getTitle());
         notifViewHolder.tv_noti_title.setText(notification.getTitle());
-        if(notification.getDescription()!= null) {
-            if(notification.getDescription().length() >= 120) {
-                notifViewHolder.tv_noti_desc.setText(notification.getDescription().substring(0, 120));
+        if(notification.getTitle()!= null) {
+            if(notification.getTitle().length() >= 120) {
+                notifViewHolder.tv_noti_desc.setText(notification.getTitle().substring(0, 120));
             }
         }
         if(notification.getDate() != null) {
             notifViewHolder.tv_noti_date.setText(
                     notification.getDate());
-        } else {
-            SimpleDateFormat format = new SimpleDateFormat("d");
-            String date = format.format(new Date());
-
-            if(date.endsWith("1") && !date.endsWith("11"))
-                format = new SimpleDateFormat("EE MMM d'st', yyyy");
-            else if(date.endsWith("2") && !date.endsWith("12"))
-                format = new SimpleDateFormat("EE MMM d'nd', yyyy");
-            else if(date.endsWith("3") && !date.endsWith("13"))
-                format = new SimpleDateFormat("EE MMM d'rd', yyyy");
-            else
-                format = new SimpleDateFormat("EE MMM d'th', yyyy");
-
-            String yourDate = format.format(new Date());
-            notifViewHolder.tv_noti_date.setText(
-                    yourDate
-            );
         }
+        notifViewHolder.noti_image.setVisibility(GONE);
         Glide.with(context)
                 .load(notification.getImage_url())
                 .into(notifViewHolder.noti_image);

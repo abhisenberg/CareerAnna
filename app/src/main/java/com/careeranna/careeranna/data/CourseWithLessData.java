@@ -1,7 +1,5 @@
 package com.careeranna.careeranna.data;
 
-import java.util.Random;
-
 public class CourseWithLessData {
     String course_name, course_ID, course_imageURL, progress, category_id;
 

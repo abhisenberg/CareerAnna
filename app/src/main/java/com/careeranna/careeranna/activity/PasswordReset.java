@@ -1,10 +1,10 @@
 package com.careeranna.careeranna.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.user.SignUp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -138,7 +137,7 @@ public class PasswordReset extends AppCompatActivity {
                             snackbar.dismiss();
                             snackbar = Snackbar.make(relativeLayout, response, Snackbar.LENGTH_SHORT);
                             snackbar.show();
-                            Intent intent = new Intent(PasswordReset.this, SignUp.class);
+                            Intent intent = new Intent(PasswordReset.this, SignInActivity.class);
                             finish();
                             startActivity(intent);
                         }

@@ -1,47 +1,38 @@
 package com.careeranna.careeranna.activity;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
-import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.data.Constants;
-import com.careeranna.careeranna.user.SignUp;
 import com.careeranna.careeranna.adapter.SlideAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.paperdb.Paper;
 
@@ -51,22 +42,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Declaring Variables for firebase authentication
      */
 
-    private static final int NOTIFICATION_PERMISSION_CODE = 123;
-
-    PopupWindow popupWindow;
-    int language;
-
     FirebaseAuth mAuth;
+
+    TextView think_careeranna,
+            think_mba;
+
+    LinearLayout sign_up_and_login;
+
+    RelativeLayout think_layout, think_mba_layout;
+
     public static final String TAG = "MainAct";
 
-    public static int counter = 0;  // Counter For Counting User Opening The App
-
     private LinearLayout dotsLayout;    // Layout For the dots below landing page images
-    private ViewPager introSlider;      // Slider ViewPager For Images
-    private SlideAdapter slideAdapter;  // Slider Adapter For Lanfing Images
-
-    private Button bt_explore;          // Button For Explore Without Sign Up
-    private Button bt_signin, privacy_policy;           // Button To Go To Sign up
+    Button privacy_policy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,22 +65,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * Initializing Layout Variables
          */
 
-        dotsLayout = findViewById(R.id.intro_dots);
-        introSlider = findViewById(R.id.intro_viewpager);
-        introSlider.addOnPageChangeListener(viewListener);
-        bt_explore = findViewById(R.id.bt_explore);
-        bt_signin = findViewById(R.id.signIn);
-        privacy_policy  = findViewById(R.id.privacy_policy);
+        Paper.init(this);
 
-        privacy_policy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://www.careeranna.com/privacy_policy";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
+        privacy_policy = findViewById(R.id.privacy_policy);
+        Button bt_explore = findViewById(R.id.bt_explore);
+        Button signIn = findViewById(R.id.signIn);
+        sign_up_and_login = findViewById(R.id.sign_up_and_login);
+
+        think_careeranna = findViewById(R.id.think_careeranna);
+        think_mba = findViewById(R.id.think_mba);
+        think_mba_layout = findViewById(R.id.think_mba_layout);
+
+        think_layout = findViewById(R.id.think_layout);
+
+        privacy_policy.setOnClickListener(this);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
@@ -102,11 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         /*
-         * Initializing Paper db and retrieving firebase user
+         * Initializing Paper db and retrieving fireBase user
          */
 
         mAuth = FirebaseAuth.getInstance();
-        Paper.init(this);
 
         /*
          *  Hiding Action Bar
@@ -115,13 +100,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
 
-        /*
-         *  Slider For App Landing Page Images
-         */
 
-        slideAdapter = new SlideAdapter(this);
-        introSlider.setAdapter(slideAdapter);
-        addDots(0);
+        final Animation aniSlide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in_animation_text);
+        think_mba_layout.startAnimation(aniSlide);
+
+        think_layout.setAlpha(0f);
+        privacy_policy.setAlpha(0f);
+        sign_up_and_login.setAlpha(0f);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+
+                think_layout.setAlpha(1f);
+                final Animation aniSlide1 = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in_animation_careeranna);
+                think_layout.startAnimation(aniSlide1);
+            }
+        }, 1000);
+
+
+
+        final Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+
+
+                privacy_policy.setAlpha(1f);
+                final Animation aniSlide1 = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in_animation_privacy);
+                privacy_policy.startAnimation(aniSlide1);
+            }
+        }, 1500);
+
+        final Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+
+
+                sign_up_and_login.setAlpha(1f);
+                final Animation aniSlide1 = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in_animation_sign_up);
+                sign_up_and_login.startAnimation(aniSlide1);
+            }
+        }, 2000);
+
 
         /*
          *  Button Listener For Explore And Sign up Button
@@ -130,52 +156,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //  requestNotificationPermission();
 
         bt_explore.setOnClickListener(this);
-        bt_signin.setOnClickListener(this);
+        signIn.setOnClickListener(this);
+
+        String permission = Paper.book().read("permission");
+
+        if (permission != null && !permission.isEmpty()) {
+        } else {
+            try {
+                Intent intent = new Intent();
+                String manufacturer = android.os.Build.MANUFACTURER.toLowerCase();
+                Log.d("manu", manufacturer);
+                String model = Build.MODEL;
+
+                switch (manufacturer) {
+                    case "xiaomi":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+                        break;
+                    case "oppo":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+                        break;
+                    case "vivo":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+                        break;
+                    case "Letv":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+                        break;
+                    case "Honor":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+                        break;
+                    case "oneplus":
+                        Paper.book().write("permission", "yes");
+                        intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
+                        break;
+                    default:
+                        Paper.book().write("permission", "yes");
+                        break;
+                }
+
+                List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                if (list.size() > 0) {
+                    startActivityForResult(intent, 20);
+                }
+            } catch (Exception e) {
+                Log.e("exc", String.valueOf(e));
+            }
+        }
 
     }
 
-
-    /**
-     * Slider Listener For changing of active dots as per the position of the image visible
-     */
-
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i1) {
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 20) {
+            Paper.book().write("permission", "yes");
         }
-
-        @Override
-        public void onPageSelected(int i) {
-            addDots(i);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    };
-
-    /**
-     * Add Changing Dots Active State Accoring To Position
-     *
-     * @param i ->  refers to the postion of dots according to image which is visible to user
-     */
-    private void addDots(int i) {
-        dotsLayout.removeAllViews();
-        TextView[] dots = new TextView[3];
-
-        for (int x = 0; x < dots.length; x++) {
-            dots[x] = new TextView(this);
-            dots[x].setText(String.valueOf(Html.fromHtml("&#8226")));
-            dots[x].setTextSize(30);
-            dots[x].setTextColor(getResources().getColor(R.color.light_gray));
-
-            Log.d(TAG, "addDots: " + x);
-            dotsLayout.addView(dots[x]);
-        }
-
-        dots[i].setTextColor(getResources().getColor(R.color.black));
     }
 
 
@@ -191,129 +229,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, SignInActivity.class);
                 startActivity(intent);
                 break;
-
             case R.id.bt_explore:
-
-//                startService(new Intent(this, VideoService.class));
                 Intent openExplorePage = new Intent(this, ExploreNotSignActivity.class);
                 startActivity(openExplorePage);
                 break;
+            case R.id.privacy_policy:
+                String url = "https://www.careeranna.com/privacy_policy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
         }
     }
-
-    /**
-     * Checking user count of open the app without sign up
-     * and also checking if the user is login before and not sign out then redirect to dashboard if login
-     * Also Checking Version Update
-     */
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("test").addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseMessaging.getInstance().subscribeToTopic("my_notifications").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+
             }
         });
 
-        try {
-            language = Paper.book().read(Constants.LANGUAGE);
-            if (language == 2) {
-                setLocale("hi");
-            } else if (language == 1) {
-                setLocale("en");
-            }
-            Log.d("in_try", language + " ");
-        } catch (Exception e) {
-            language = 1;
-            Log.d("in_catch", language + " ");
-            Paper.book().write(Constants.LANGUAGE, language);
-        }
-
-//        startActivity(new Intent(this, SignUp.class));
-
-        //TODO: Uncomment this line when publishing updates to play store
         String cache = Paper.book().read("user");
         if (cache != null && !cache.isEmpty()) {
             startActivity(new Intent(this, MyCourses.class));
             finish();
         }
 
-    }
-
-    /*
-     * Checking the version of the app with the playstore version
-     * if the version is same no dialog if the version is older giving update dialog and redirect to playstore
-     */
-    /*
-     * Alert Dialog For Update Which Will Send Him to Playstore Page
-     */
-
-    private void setLocale(String lang) {
-
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        onConfigurationChanged(conf);
-    }
-
-    private void requestNotificationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED)
-            return;
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed for the notification of the latest articles and videos")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, NOTIFICATION_PERMISSION_CODE );
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-        }
-
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, NOTIFICATION_PERMISSION_CODE );
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        //Checking the request code of our request
-        if (requestCode == NOTIFICATION_PERMISSION_CODE ) {
-
-            //If permission is granted
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Displaying a toast
-                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
-            } else {
-                //Displaying another toast if permission is not granted
-                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-
-
-        slideAdapter = new SlideAdapter(this);
-        introSlider.setAdapter(slideAdapter);
-        addDots(0);
-
-        bt_signin.setText(getResources().getString(R.string.sign_in));
-        bt_explore.setText(getResources().getString(R.string.explore));
-        super.onConfigurationChanged(newConfig);
     }
 
 }

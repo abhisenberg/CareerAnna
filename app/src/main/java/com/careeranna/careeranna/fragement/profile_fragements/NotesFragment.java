@@ -80,7 +80,7 @@ public class NotesFragment extends Fragment implements PdfAdapter.OnItemClickLis
 //
 //            PdfAdapter pdfAdapter = new PdfAdapter(getApplicationContext(), pdfs);
 //            recyclerView.setAdapter(pdfAdapter);
-//            pdfAdapter.setOnItemClicklistener(this);
+//            pdfAdapter.setOnItemClickListener(this);
 //            no_pdfs_present.setVisibility(View.GONE);
 //        } else {
 //            no_pdfs_present.setVisibility(View.VISIBLE);

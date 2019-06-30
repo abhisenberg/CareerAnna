@@ -34,9 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.Payment;
 import com.careeranna.careeranna.activity.PaymentGateway;
-import com.careeranna.careeranna.activity.PaytmPayment;
 import com.careeranna.careeranna.adapter.OrderCourseAdapter;
 import com.careeranna.careeranna.data.OrderedCourse;
 import com.careeranna.careeranna.data.PromoCode;
@@ -50,11 +48,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import io.paperdb.Paper;
 
@@ -227,7 +226,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                                                 orderCourseAdapter.changePrice(j, promoCode.getDiscount_amount());
                                                 Float price_value = Float.valueOf(price.getText().toString());
                                                 price_value -= Float.valueOf(promoCode.getDiscount_amount());
-                                                price.setText(String.valueOf(price_value));
+                                                price.setText(String.valueOf(NumberFormat.getNumberInstance(Locale.US).format(Math.round(price_value))));
                                                 break;
                                             }
                                         }
@@ -288,7 +287,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
 
                     orderedCourses.add(new OrderedCourse(course[0], course[1], course[2], course[3], course[4], course[1], course[6], course[7]));
                 }
-                price.setText(String.valueOf(grand_total));
+                price.setText(String.valueOf(NumberFormat.getNumberInstance(Locale.US).format(Math.round(grand_total))));
 
             } else {
                 cardNoCourseAdded.setVisibility(View.VISIBLE);
@@ -466,7 +465,7 @@ public class CartFragment extends Fragment implements OrderCourseAdapter.OnItemC
                 grand_total += Float.valueOf(course[1]);
 
             }
-            price.setText(String.valueOf(grand_total));
+            price.setText(String.valueOf(NumberFormat.getNumberInstance(Locale.US).format(Math.round(grand_total))));
 
 
         } else if(type.equals("wish")) {

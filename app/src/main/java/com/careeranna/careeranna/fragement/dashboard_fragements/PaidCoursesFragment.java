@@ -1,15 +1,12 @@
 package com.careeranna.careeranna.fragement.dashboard_fragements;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.careeranna.careeranna.R;
-import com.careeranna.careeranna.activity.PurchaseCourseDetail;
-import com.careeranna.careeranna.adapter.FreeCourseAdapter;
 import com.careeranna.careeranna.data.Course;
-import com.careeranna.careeranna.data.FreeCourse;
 import com.careeranna.careeranna.data.MyPaidCourse;
 import com.careeranna.careeranna.data.PaidCourse;
 import com.careeranna.careeranna.data.SubCategory;
@@ -40,8 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PaidCoursesFragment extends Fragment  {
 
@@ -260,10 +252,23 @@ public class PaidCoursesFragment extends Fragment  {
 
             for(Course course: tempPaidCourses) {
 
+                if(course.getId().equals("62")) {
+                    if(subCategories.get(position).getEXAM_NAME_ID().equals("2")
+                    ||subCategories.get(position).getEXAM_NAME_ID().equals("20")
+                    ||subCategories.get(position).getEXAM_NAME_ID().equals("16")
+                    ||subCategories.get(position).getEXAM_NAME_ID().equals("3")
+                    ||subCategories.get(position).getEXAM_NAME_ID().equals("8")) {
+                        paidCourses.add(course);
+
+                        continue;
+                    }
+                }
+
                 if(course.getCategory_id().equals(subCategories.get(position).getEXAM_NAME_ID())) {
 
                     paidCourses.add(course);
                 }
+
             }
 
             fragmentTab.addList(paidCourses, purchasedPaidCourses);
